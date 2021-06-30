@@ -1,6 +1,6 @@
 ---
 layout: home
-permalink: index.html
+
 
 # Please update this with your repository name and title
 repository-name: e17-3yp-remote-proctoring-system
@@ -68,8 +68,8 @@ What was achieved, future developments, commercialization plans
 
 - [Project Repository](https://github.com/cepdnaclk/e17-3yp-remote-proctoring-system){:target="_blank"}
 - [Project Page](https://cepdnaclk.github.io/e17-3yp-remote-proctoring-system){:target="_blank"}
-- [Department of Computer Engineering](http://www.ce.pdn.ac.lk/)
-- [University of Peradeniya](https://eng.pdn.ac.lk/)
+- [Department of Computer Engineering](http://www.ce.pdn.ac.lk/){:target="_blank"}
+- [University of Peradeniya](https://eng.pdn.ac.lk/){:target="_blank"}
 
 
 [//]: # (Please refer this to learn more about Markdown syntax)
