@@ -25,9 +25,9 @@ title: Remote Proctoring System
 2. [SOLUTION](#solution )
 3. [SYSTEM OVERVIEW](#system-overview)
 4. [LINKS](#links)
-<!---4. [Testing](#testing)
-5. [Detailed budget](#detailed-budget)
-6. [Conclusion](#conclusion)--->
+[comment]: # ( [Testing](#testing))
+[comment]: # ( [Detailed budget](#detailed-budget))
+[comment]: # ([Conclusion](#conclusion))
 
 
 ---
@@ -52,23 +52,27 @@ We have come up with a single device which integrates the hardware and software 
 
 #### ***PROCTOR'S UI***
 
-Get video/audio feed from multiple students |  Detect power failures from student’s side | Notify students about examinations
-:-------------------------:|:-------------------------:|:-------------------------:
-<img src="./images/videoconference.png" width="200"/> | <img src="./images/disconnetion.jpg" width="225" /> |<img src="./images/notification.png" width="200" />
+|Get video/audio feed from multiple students |  Detect power failures from student’s side | Notify students about examinations|
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img src="./images/videoconference.png" width="200"/> | <img src="./images/disconnetion.jpg" width="225" /> |<img src="./images/notification.png" width="200" />|
 
-One-on-one interaction with students |   Unauthorized activity detection
-:-------------------------:|:-------------------------:
+
+
+|One-on-one interaction with students |   Unauthorized activity detection|
+|:-------------------------:|:-------------------------:|
 |<img src="./images/video-chat.png" width="200" />| <img src="./images/unauthorized.png" width="200" />|
 
 #### ***REMOTE DEVICE***
 
-Capture the video stream of the candidate’s environment |  Mountable on a table | Can directly talk only with the proctor
-:-------------------------:|:-------------------------:|:-------------------------:
-<img src="./images/streaming.png" width="200"/> | <img src="./images/tripod.png" width="225" /> |<img src="./images/call-forwarding.png" width="200" />
+|Capture the video stream of the candidate’s environment |  Mountable on a table | Can directly talk only with the proctor|
+|:-------------------------:|:-------------------------:|:-------------------------:
+|<img src="./images/streaming.png" width="200"/> | <img src="./images/tripod.png" width="225" /> |<img src="./images/call-forwarding.png" width="200" />
 
-See the remaining time of the exam |Locally record the video stream locally incase of connection issues and upload later | Separate power supply unit to supply power incase of a power failure.
-:-------------------------:|:-------------------------:|:-------------------------:
-|<img src="./images/chronometer.png" width="200" />| <img src="./images/cloud-database.png" width="200" />| <img src="./images/power-bank.png" width="200" />
+
+
+|See the remaining time of the exam |Locally record the video stream locally incase of connection issues and upload later | Separate power supply unit to supply power incase of a power failure|
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img src="./images/chronometer.png" width="200" />| <img src="./images/cloud-database.png" width="200" />| <img src="./images/power-bank.png" width="200" />|
 
 ## SYSTEM OVERVIEW
 
