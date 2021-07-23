@@ -1,4 +1,4 @@
-<!--
+
 ---
 layout: home
  permalink: index.html 
@@ -7,7 +7,7 @@ layout: home
 repository-name: e17-3yp-remote-proctoring-system
 title: Remote Proctoring System
 ---
--->
+
 [comment]: # "This is the standard layout for the project, but you can clean this and use your own template"
 
 # Remote Proctoring System
