@@ -31,13 +31,16 @@ title: Remote Proctoring System
 
 ---
 
-## Introduction
+## PROBLEM STATEMENT
 
-Description of the real world problem and solution, impact
+When conducting examinations where the skills of the students in a limited timeframe, it's crucial to manage the external factors affecting the performance of the students at a satisfactory level. 
+However it could be challenging to manage these factors in an online environment.
 
-This is a sample image, to show how to add images to your page. To learn more options, please refer [this](https://projects.ce.pdn.ac.lk/docs/faq/how-to-add-an-image/)
+## SOLUTION
 
-![Sample Image](./images/sample.png)
+We have come up with a single device which integrates the hardware and software components needed to conduct an examination in the currently implemented system, which will provide a seamless process for the proctors and students involved in an examination.
+
+![Sample Image](./images/oursystem.PNG)
 
 
 ## Solution Architecture
