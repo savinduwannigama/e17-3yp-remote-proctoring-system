@@ -18,11 +18,11 @@ title: Remote Proctoring System
 -  E/17/190, LIYANAGE S.N, [e17190@eng.pdn.ac.lk](mailto:name@email.com)
 -  E/17/369, WANNIGAMA S.B, [e17369@eng.pdn.ac.lk](mailto:name@email.com)
 
-## [Image of the final hardware]
-
-## Table of Contents
-1. [Introduction](#introduction)
-2. [Solution Architecture](#solution-architecture )
+[//]: # (## [Image of the final hardware]) 
+![Prototype](./images/prototype.gif)
+## CONTENT
+1. [PROBLEM STATEMENT](#problem-statement)
+2. [SOLUTION](#solution )
 3. [Hardware & Software Designs](#hardware-and-software-designs)
 4. [Testing](#testing)
 5. [Detailed budget](#detailed-budget)
@@ -42,10 +42,12 @@ We have come up with a single device which integrates the hardware and software 
 
 ![Sample Image](./images/oursystem.PNG)
 
+<dl>
+  <dt>REMOTE PROCTORING DEVICE</dt>
+  <dd>A single device which can be used to capture the video and audio stream from students continuously even incase of a power failure.</dd>
+</dl>
 
-## Solution Architecture
-
-High level diagram + description
+[//]: # (## Solution Architecture High level diagram + description)
 
 ## Hardware and Software Designs
 
