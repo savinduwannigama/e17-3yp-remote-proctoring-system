@@ -8,7 +8,9 @@ title: Remote Proctoring System
 ---
 
 [comment]: # "This is the standard layout for the project, but you can clean this and use your own template"
-
+[comment]: # ( [Testing](#testing))
+[comment]: # ( [Detailed budget](#detailed-budget))
+[comment]: # ([Conclusion](#conclusion))
 # REMOTE PROCTORING SYSTEM
 
 ---
@@ -25,9 +27,7 @@ title: Remote Proctoring System
 2. [SOLUTION](#solution )
 3. [SYSTEM OVERVIEW](#system-overview)
 4. [LINKS](#links)
-[comment]: # ( [Testing](#testing))
-[comment]: # ( [Detailed budget](#detailed-budget))
-[comment]: # ([Conclusion](#conclusion))
+
 
 
 ---
@@ -81,22 +81,7 @@ We have come up with a single device which integrates the hardware and software 
 
 #### ***TECHNOLOGY STACK***
 ![technology](./images/technology.PNG)
-<!---## Testing
 
-Testing done on hardware and software, detailed + summarized results
-
-## Detailed budget
-
-All items and costs
-
-| Item          | Quantity  | Unit Cost  | Total  |
-| ------------- |:---------:|:----------:|-------:|
-| Sample item   | 5         | 10 LKR     | 50 LKR |
-
-## Conclusion
-
-What was achieved, future developments, commercialization plans
---->
 ## LINKS
 
 - [Project Repository](https://github.com/cepdnaclk/e17-3yp-remote-proctoring-system){:target="_blank"}
