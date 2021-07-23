@@ -44,7 +44,7 @@ We have come up with a single device which integrates the hardware and software 
 
 <dl>
   <dt>REMOTE PROCTORING DEVICE</dt>
-  <dd>A single device which can be used to capture the video and audio stream from students continuously even incase of a power failure.</dd>
+   <dd>A single device which can be used to capture the video and audio stream from students continuously even incase of a power failure.
 </dl>
 
 [//]: # (## Solution Architecture High level diagram + description)
