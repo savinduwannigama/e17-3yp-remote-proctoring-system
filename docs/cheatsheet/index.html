@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="author" content="Savindu Wannigama, Isuri Devindi, Sashini Liyanage">
     <meta name="generator" content="Hugo 0.84.0">
-    <title>Cheatsheet · Bootstrap v5.0</title>
+    <title>Remote Proctoring System</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cheatsheet/">
 
@@ -43,23 +43,36 @@
 <header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
   <div class="container-fluid d-flex align-items-center">
     <h1 class="d-flex align-items-center fs-4 text-white mb-0">
-      <img src="../assets/brand/bootstrap-logo-white.svg" width="38" height="30" class="me-3" alt="Bootstrap">
-      Cheatsheet
+      <img src="../images/universityLogo.png" width="80" height="80" class="me-3" alt="UoP logo">
+      Projects - Department of Computer Engineering, University of Peradeniya, Sri Lanka
+      <br>
+      Remote Proctoring System
     </h1>
     <!--<a href="../examples/cheatsheet-rtl/" class="ms-auto link-light" hreflang="ar">RTL cheatsheet</a>-->
   </div>
-</header>
+</header> 
 <!-- code relevant to the right hand side panel which gives the context of the page -->
 <aside class="bd-aside sticky-xl-top text-muted align-self-start mb-3 mb-xl-5 px-2">
+  <br><br>
   <h2 class="h6 pt-4 pb-3 mb-4 border-bottom">On this page</h2>
   <nav class="small" id="toc">
     <ul class="list-unstyled">
-      <li class="my-2">
+      <li class="my-2"> <!-- ABOUT  drop down list-->
         <button class="btn d-inline-flex align-items-center collapsed" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#contents-collapse" aria-controls="contents-collapse">About</button>
         <ul class="list-unstyled ps-3 collapse" id="contents-collapse">
           <li><a class="d-inline-flex align-items-center rounded" href="#problem_statement">Problem Statement</a></li>
           <li><a class="d-inline-flex align-items-center rounded" href="#solution">Solution</a></li>
           <li><a class="d-inline-flex align-items-center rounded" href="#system_overview">System Overview</a></li>
+          <!-- <li><a class="d-inline-flex align-items-center rounded" href="#figures">Figures</a></li> -->
+        </ul>
+      </li>
+
+      <li class="my-2"> <!-- CONTACT US  drop down list-->
+        <button class="btn d-inline-flex align-items-center collapsed" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#contents-collapse" aria-controls="contents-collapse">Contact Us</button>
+        <ul class="list-unstyled ps-3 collapse" id="contents-collapse">
+          <li><a class="d-inline-flex align-items-center rounded" href="#team">Team</a></li>
+          <li><a class="d-inline-flex align-items-center rounded" href="#supervisors">Supervisors</a></li>
+          <li><a class="d-inline-flex align-items-center rounded" href="#links">Links</a></li>
           <!-- <li><a class="d-inline-flex align-items-center rounded" href="#figures">Figures</a></li> -->
         </ul>
       </li>
@@ -105,11 +118,10 @@
 
 
 
-
-
-
 <div class="bd-cheatsheet container-fluid bg-body">   <!-- this div wraps the entire body -->
+  
   <section id="about">  <!-- this section wraps the ABOUT section -->
+    
     <h2 class="sticky-xl-top fw-bold pt-3 pt-xl-5 pb-2 pb-xl-3">About</h2>
 
     <article class="my-3" id="problem_statement"> <!-- this article wraps the first part of ABOUT >> PROBLEM STATEMENT -->
@@ -148,6 +160,7 @@
           <br>
           <br>
           <h4>REMOTE PROCTORING DEVICE</h4>
+          <img src="../images/prototype.gif" alt="prototype" style="width:1000px;height:600px;" class="responsive">
           <p>
             A single device which can be used to capture the video and audio stream from students continuously even incase of a power failure.
           </p>
@@ -238,6 +251,110 @@
           <h4>TECHNOLOGY STACK</h4>
           <img src="../images/technology.PNG" alt="System Overview" class="responsive">
         </div>
+      </div>
+    </article>
+    
+  </section>
+
+
+
+
+
+
+
+
+
+  <section id="contact_us">  <!-- this section wraps CONTACT US section -->
+    
+    <h2 class="sticky-xl-top fw-bold pt-3 pt-xl-5 pb-2 pb-xl-3">Contact Us</h2>
+
+    <article class="my-3" id="team"> <!-- this article wraps the first part of CONTACT US >> TEAM -->
+      <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
+        <h3>Team</h3>
+        <!-- <a class="d-flex align-items-center" href="../content/typography/">Documentation</a> -->
+      </div>
+        <div class="bd-example">
+          <div class="container remoteDataTeam">
+            <h3>Team</h3>
+            <ul id="teamList">
+                <li class="mb-4">
+                    <span>E/17/058, DEVINDI G.A.I</span>
+                    <br>
+                    <span class="mx-2"><a class="text-dark" href="mailto:e17058@eng.pdn.ac.lk"><i class="fa fa-envelope mx-2" aria-hidden="true"></i>e17058@eng.pdn.ac.lk</a></span>
+                    &emsp;<span class="mx-2"><i class="fa fa-github mx-2" aria-hidden="true"></i><a class="text-dark" target="_blank" href="https://github.com/isuridevindi">GitHub</a></span>
+                    &emsp;<span class="mx-2"><i class="fa fa-linkedin mx-2" aria-hidden="true"></i><a class="text-dark" target="_blank" href="linkedin.com/in/isuri-devindi-b8602a206">Linkedin</a></span>
+                </li>
+
+                <li class="mb-4">
+                    <span>E/17/190, LIYANAGE S.N</span>
+                    <br>
+                    <span class="mx-2"><a class="text-dark" href="mailto:e17190@eng.pdn.ac.lk"><i class="fa fa-envelope mx-2" aria-hidden="true"></i>e17190@eng.pdn.ac.lk</a></span>
+                    &emsp;<span class="mx-2"><i class="fa fa-github mx-2" aria-hidden="true"></i><a class="text-dark" target="_blank" href="https://github.com/SashiniLiyanage">GitHub</a></span>
+                </li>
+
+                <li class="mb-4">
+                    <span>E/17/369, WANNIGAMA S.B</span>
+                    <br>
+                    <span class="mx-2"><a class="text-dark" href="mailto:e17369@eng.pdn.ac.lk"><i class="fa fa-envelope mx-2" aria-hidden="true"></i>e17369@eng.pdn.ac.lk</a></span>
+                    &emsp;<span class="mx-2"><i class="fa fa-github mx-2" aria-hidden="true"></i><a class="text-dark" target="_blank" href="https://github.com/savinduwannigama">GitHub</a></span>
+                    &emsp;<span class="mx-2"><i class="fa fa-linkedin mx-2" aria-hidden="true"></i><a class="text-dark" target="_blank" href="https://www.linkedin.com/in/savindu-wannigama-a62141216">Linkedin</a></span>
+                    &emsp;<span class="mx-2"><i class="fa fa-globe mx-2" aria-hidden="true"></i><a class="text-dark" target="_blank" href="https://savinduwannigama.github.io/">Website</a></span>
+                </li>
+            </ul>
+          </div>
+        </div>
+    </article>
+
+
+    <article class="my-3" id="supervisors"> <!-- this article wraps the SECOND part of CONTACT US >> SUPERVISORS -->
+      <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
+        <h3>Supervisors</h3>
+        <!-- <a class="d-flex align-items-center" href="../content/images/">Documentation</a> -->
+      </div>
+
+      <div>
+        <div class="bd-example">
+          <div class="container remoteDataSupervisors">
+            <h3>Supervisors</h3>
+            <ul id="supervisorList">
+            <li class="mb-4">
+                <span>Dr. Isuru Nawinne</span>
+                <br>
+                <span class="mx-2"><a class="text-dark" href="mailto:isurunawinne@eng.pdn.ac.lk"><i class="fa fa-envelope mx-2" aria-hidden="true"></i>isurunawinne@eng.pdn.ac.lk</a></span>
+                &emsp;<span class="mx-2"><i class="fa fa-linkedin mx-2" aria-hidden="true"></i><a class="text-dark" target="_blank" href="https://lk.linkedin.com/in/isuru-nawinne-73302833">Linkedin</a></span>
+                &emsp;<span class="mx-2"><i class="fab fa-researchgate&quot;></i mx-2" aria-hidden="true"></i><a class="text-dark" target="_blank" href="https://www.researchgate.net/profile/Isuru-Nawinne">Researchgate</a></span>
+            </li>
+            <li class="mb-4"><span>Dr. Mahanama Wickramasinghe</span>
+                <br>
+                <span class="mx-2"><a class="text-dark" href="mailto:mahanamaw@eng.pdn.ac.lk"><i class="fa fa-envelope mx-2" aria-hidden="true"></i>mahanamaw@eng.pdn.ac.lk</a></span>
+                &emsp;<span class="mx-2"><i class="fa fa-linkedin mx-2" aria-hidden="true"></i><a class="text-dark" target="_blank" href="https://www.linkedin.com/in/mahanama">Linkedin</a></span>
+            </li>
+            </ul>
+        </div>
+        </div>
+
+        
+      </div>
+    </article>
+    
+    <article class="my-3" id="links"> <!-- this article wraps the THIRD part of CONTACT US >> LINKS -->
+      <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
+        <h3>Links</h3>
+        <!-- <a class="d-flex align-items-center" href="../content/images/">Documentation</a> -->
+      </div>
+
+      <div>
+        <div class="bd-example">
+          <button type="button" class="btn btn-outline-info" onclick=" window.open('https://github.com/cepdnaclk/e17-3yp-remote-proctoring-system')">Project Repository</button>
+          <button type="button" class="btn btn-outline-info" onclick=" window.open('https://cepdnaclk.github.io/e17-3yp-remote-proctoring-system')">Project Page</button>
+          <button type="button" class="btn btn-outline-info" onclick=" window.open('http://www.ce.pdn.ac.lk/')">Department of Computer Engineering</button>
+          <button type="button" class="btn btn-outline-info" onclick=" window.open('https://eng.pdn.ac.lk/')">University of Peradeniya</button>
+          <!-- <a href="https://github.com/cepdnaclk/e17-3yp-remote-proctoring-system">Project Repository</a> <br>
+          <a href="https://cepdnaclk.github.io/e17-3yp-remote-proctoring-system">Project Page</a> <br>
+          <a href="http://www.ce.pdn.ac.lk/">Department of Computer Engineering</a> <br>
+          <a href="https://eng.pdn.ac.lk/">University of Peradeniya</a> <br> -->
+        </div>
+
       </div>
     </article>
     
