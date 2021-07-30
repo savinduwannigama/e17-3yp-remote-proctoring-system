@@ -15,6 +15,8 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/text.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="css/slide.css">
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -46,10 +48,19 @@
                 <a class="btn btn-primary btn-xl " href="https://github.com/cepdnaclk/e17-3yp-remote-proctoring-system"><img src = "assets/img/github.png" style="width: 25px;"/> Project repository</a>
             </div>-->
         </header>
-        <!--About-->
+        <!--About-->  
+
         <section class="page-section" id="about">
             <div class="container">
-                <div class="text-center">
+                <!--<div class="text-center">
+                    <div class="wrapper">
+                        <div class="typing-demo">
+                            <div class="conatainer">
+                            <h2>Hassle-Free Online Examinations with a remote proctoring device!</h2>
+                        </div>
+                        </div>
+                    </div>-->
+                    
                     <h2 class="section-heading text-white">Hassle-Free Online Examinations with a remote proctoring device!</h2>
                     <!--<h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>-->
                 </div>
@@ -177,6 +188,7 @@
                     </p>
                    
                 </div>
+                <hr class="divide">
                 <div class="row ">
                     <div class="col-md-5">
                         <h2 class="section-heading text-dark">High-level system overview</h2>
@@ -190,7 +202,7 @@
                         <p class="text-danger">
                         Method used to ensure secure video/audio streaming: 
                         </p>
-                        <p class="text-dark text-center">
+                        <p class="text-dark text-justify">
                         HTTPS protects the user from so-called “man-in-the-middle” attacks where hackers can use vulnerabilities in these public networks to steal data as it’s being transmitted to the viewer.
                         using HLS encryption to mask a users’ connection with the website and prevents this sort of attack.
                         </p>
@@ -201,7 +213,7 @@
                     </div>
                 </div>
 
-                
+                <hr class="divide">
                 <div class="text-center">
                         <h2 class="section-heading text-dark">Technology stack</h2>
                                    
@@ -220,7 +232,65 @@
                 <div class="text-center">
                     <h2 class="section-heading text-white">Approximate budget</h2>
                     <!--<h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>-->
-                    <img src = "assets/img/budget.PNG" style="width: 60%;"/>
+                    <!--<img src = "assets/img/budget.PNG" style="width: 60%;"/>-->
+                    <table>
+                        <tr>
+                            <th>COMPONENT</th>
+                            <th>PRICE (Rs.)</th>
+                            <th>PLACE</th>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Rasberry pi board 3B+</td>
+                            <td>9500</td>
+                            <td>senith</td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Rasberry pi power cable and adapter</td>
+                            <td>500</td>
+                            <td>senith</td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Touch screen 5' with integrated speacker</td>
+                            <td>6500</td>
+                            <td>senith</td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Cooling Fan</td>
+                            <td>200</td>
+                            <td>senith</td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Camera module</td>
+                            <td>4600</td>
+                            <td>senith</td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">USB Microphone</td>
+                            <td>485</td>
+                            <td>tronic.lk</td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">Flash drive (SD card) 32gb</td>
+                            <td>560</td>
+                            <td>daraz.lk</td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">12V 200mAh reachageable LithiumPolymar Battery</td>
+                            <td>1750</td>
+                            <td>microchip.lk</td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">wires,resistors</td>
+                            <td>500</td>
+                            <td>tronic.lk</td>
+                        </tr>
+                        <tr>
+                            <th class="text-left">Total</th>
+                            <th>24595</th>
+                            <td class="hidden"></td>
+                        </tr>
+                        
+                    </table><br>
                 </div>
                 
                                       
@@ -397,6 +467,56 @@
             </div>
         </section>
 
+        <!--Progress-->
+        <hr class="divide">
+        
+        
+        <section class="page-section bg-light">
+            <div class="text-center">
+                <h2>Progress</h2>
+            </div>
+            <div class="container slide-display-container" style="max-width:800px">
+                <iframe class="mySlides" src="assets\progress\task1.htm"></iframe>
+                <iframe class="mySlides" src="assets\progress\task2.htm" ></iframe>
+                <iframe class="mySlides" src="assets\progress\task3.htm" ></iframe>
+                <div class="slide-center slide-container slide-section slide-large slide-text-white slide-display-bottommiddle" style="width:100%">
+                <div class="slide-left slide-hover-text-khaki" onclick="plusDivs(-1)">&#10094;</div>
+                <div class="slide-right slide-hover-text-khaki" onclick="plusDivs(1)">&#10095;</div>
+                <span class="slide-badge demo slide-border slide-transparent slide-hover-white" onclick="currentDiv(1)"></span>
+                <span class="slide-badge demo slide-border slide-transparent slide-hover-white" onclick="currentDiv(2)"></span>
+                <span class="slide-badge demo slide-border slide-transparent slide-hover-white" onclick="currentDiv(3)"></span>
+
+                </div>
+              </div>
+              <script>
+                var slideIndex = 1;
+                showDivs(slideIndex);
+                
+                function plusDivs(n) {
+                  showDivs(slideIndex += n);
+                }
+                
+                function currentDiv(n) {
+                  showDivs(slideIndex = n);
+                }
+                
+                function showDivs(n) {
+                  var i;
+                  var x = document.getElementsByClassName("mySlides");
+                  var dots = document.getElementsByClassName("demo");
+                  if (n > x.length) {slideIndex = 1}
+                  if (n < 1) {slideIndex = x.length}
+                  for (i = 0; i < x.length; i++) {
+                    x[i].style.display = "none";  
+                  }
+                  for (i = 0; i < dots.length; i++) {
+                    dots[i].className = dots[i].className.replace(" slide-white", "");
+                  }
+                  x[slideIndex-1].style.display = "block";  
+                  dots[slideIndex-1].className += " slide-white";
+                }
+                </script><br>
+       </section>
        
         <!-- Team-->
         <section class="page-section " id="team">

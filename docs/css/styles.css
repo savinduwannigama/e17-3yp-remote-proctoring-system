@@ -69,6 +69,14 @@ hr {
   opacity: 0.25;
 }
 
+hr.divide {
+    border: 5px solid rgb(2, 26, 63);blue;
+    opacity: 0.90;
+    width: 100%;
+}
+
+
+
 hr:not([size]) {
   height: 1px;
 }
@@ -275,31 +283,29 @@ svg {
 }
 
 table {
-  caption-side: bottom;
   border-collapse: collapse;
+  color: black;
+  margin-left: auto;
+  margin-right: auto;
 }
+.hidden{
+  padding: 5px;
+  border: 0px solid white;
+ 
+}
+td, th{
+  padding: 5px;
+  color: white;
+  border: 1px solid white;;
+}
+
+
 
 caption {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   color:  rgb(2, 26, 63);
   text-align: left;
-}
-
-th {
-  text-align: inherit;
-  text-align: -webkit-match-parent;
-}
-
-thead,
-tbody,
-tfoot,
-tr,
-td,
-th {
-  border-color: inherit;
-  border-style: solid;
-  border-width: 0;
 }
 
 label {
@@ -7312,7 +7318,13 @@ textarea.form-control-lg {
 .text-center {
   text-align: center !important;
 }
+.text-left {
+  text-align: left !important;
+}
 
+.text-justify{
+  text-align: justify;;
+}
 .text-decoration-none {
   text-decoration: none !important;
 }
@@ -10874,6 +10886,7 @@ p {
   font-size: 2rem;
   margin-top: 1rem;
   margin-bottom: 2rem;
+  font-family:Arial, Helvetica, sans-serif;
 }
 .page-section h3.section-subheading, .page-section .section-subheading.h3 {
   font-size: 1rem;
