@@ -1,0 +1,32 @@
+html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}
+html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}
+/* End extract */
+html,body{font-family:Verdana,sans-serif;font-size:15px;line-height:1.5}html{overflow-x:hidden}
+.slide-image{max-width:100%;height:auto}img{vertical-align:middle}a{color:inherit}
+.slide-badge,.slide-tag{background-color:#000;color:#fff;display:inline-block;padding-left:8px;padding-right:8px;text-align:center}.slide-badge{border-radius:50%}
+.slide-tooltip,.slide-display-container{position:relative}.slide-tooltip .slide-text{display:none}.slide-tooltip:hover .slide-text{display:inline-block}
+.slide-responsive{display:block;overflow-x:auto}
+.slide-top,.slide-bottom{position:fixed;width:100%;z-index:1}.slide-top{top:0}.slide-bottom{bottom:0}
+.slide-display-bottommiddle{position:absolute;left:50%;bottom:0;transform:translate(-50%,0%);-ms-transform:translate(-50%,0%)}
+.slide-display-container:hover .slide-display-hover{display:block}.slide-display-container:hover span.slide-display-hover{display:inline-block}.slide-display-hover{display:none}
+.slide-display-position{position:absolute}
+.slide-circle{border-radius:50%}
+.slide-container,.slide-panel{padding:0.01em 16px}.slide-panel{margin-top:16px;margin-bottom:16px}
+.slide-left-align{text-align:left!important}.slide-right-align{text-align:right!important}.slide-justify{text-align:justify!important}.slide-center{text-align:center!important}
+.slide-border-0{border:0!important}.slide-border{border:1px solid #ccc!important}
+.slide-border-top{border-top:1px solid #ccc!important}.slide-border-bottom{border-bottom:1px solid #ccc!important}
+.slide-border-left{border-left:1px solid #ccc!important}.slide-border-right{border-right:1px solid #ccc!important}
+.slide-left{float:left!important}.slide-right{float:right!important}
+.slide-button:hover{color:#000!important;background-color:#ccc!important}
+.slide-transparent,.slide-hover-none:hover{background-color:transparent!important}
+.slide-hover-none:hover{box-shadow:none!important}
+.mySlides {display:none; width:100%; height: 400px; }
+.slide-left, .slide-right, .slide-badge {cursor:pointer}
+.slide-badge {height:13px;width:13px;padding:0}
+/* Colors */
+.slide-khaki,.slide-hover-khaki:hover{color:#000!important;background-color:#f0e68c!important}
+.slide-white,.slide-hover-white:hover{color:#000!important;background-color:#fff!important}
+.slide-black,.slide-hover-black:hover{color:#fff!important;background-color:#000!important}
+.slide-text-khaki,.slide-hover-text-khaki:hover{color:#b4aa50!important}
+.slide-text-white,.slide-hover-text-white:hover{color:#fff!important}
+.slide-text-black,.slide-hover-text-black:hover{color:#000!important}
