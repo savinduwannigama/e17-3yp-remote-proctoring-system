@@ -643,6 +643,7 @@ h6 {
 @media (max-width: 992px) {
     #hero {
         background: url("../img/hero-bg_small.png") bottom right;
+        height: 70vh;
     }
     #hero .play-btn {
         margin-top: 30px;
@@ -652,6 +653,7 @@ h6 {
 @media (max-height: 500px) {
     #hero {
         background: url("../img/hero-bg_small.png") bottom right;
+        height: 70vh;
     }
     #hero {
         height: auto;
@@ -665,6 +667,7 @@ h6 {
 @media (max-width: 768px) {
     #hero {
         background: url("../img/hero-bg_small.png") bottom right;
+        height: 70vh;
     }
     #hero h1 {
         font-size: 28px;
