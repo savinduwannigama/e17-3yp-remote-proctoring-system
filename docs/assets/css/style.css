@@ -196,12 +196,16 @@ h6 {
 --------------------------------------------------------------*/
 
 #header {
-    background: rgba(12, 11, 9, 0.6);
-    border-bottom: 1px solid rgba(12, 11, 9, 0.6);
+
+    background: rgb(2, 26, 63);
+    background-image: linear-gradient(to right, rgb(52, 38, 128), rgb(1, 19, 46));
+    border-bottom: 0.5px solid rgba(2, 26, 63, 0.6);
     transition: all 0.5s;
     z-index: 997;
-    padding: 15px 0;
-    top: 40px;
+    padding: 10px 0;
+    top: 0px;
+    text-transform: uppercase !important;
+
 }
 
 #header.header-scrolled {
@@ -506,6 +510,7 @@ h6 {
     top: 0;
     left: 0;
     right: 0;
+
 }
 
 #hero .container {
@@ -523,17 +528,25 @@ h6 {
     font-size: 48px;
     font-weight: 700;
     line-height: 56px;
-    color: #fff;
+
+    color: rgb(2, 17, 39);
+
     font-family: "Poppins", sans-serif;
 }
 
 #hero h1 span {
-    color: rgb(2, 26, 63);
-    text-shadow: 0 0 5px white;
+
+    color: rgb(2, 17, 39);
+    text-shadow: 0 0 5px rgb(2, 26, 63);
+}
+
+#hero h2 {
+    color: rgb(51, 116, 212);
 }
 
 #hero h2 {
     color: #eee;
+
     margin-bottom: 10px 0 0 0;
     font-size: 22px;
 }
@@ -572,7 +585,9 @@ h6 {
 #hero .play-btn {
     width: 94px;
     height: 94px;
-    background: radial-gradient(rgb(2, 17, 39) 50%, rgb(2, 26, 63) 52%);
+
+    background: radial-gradient(rgb(2, 17, 39) 50%, white 52%);
+
     border-radius: 50%;
     display: block;
     position: relative;
@@ -648,6 +663,12 @@ h6 {
 }
 
 @media (max-width: 992px) {
+
+    #hero {
+        background: url("../img/hero-bg_small.png") bottom right;
+        height: 70vh;
+    }
+
     #hero .play-btn {
         margin-top: 30px;
     }
@@ -655,6 +676,12 @@ h6 {
 
 @media (max-height: 500px) {
     #hero {
+
+        background: url("../img/hero-bg_small.png") bottom right;
+        height: 70vh;
+    }
+    #hero {
+
         height: auto;
     }
     #hero .container {
@@ -664,6 +691,12 @@ h6 {
 }
 
 @media (max-width: 768px) {
+
+    #hero {
+        background: url("../img/hero-bg_small.png") bottom right;
+        height: 70vh;
+    }
+
     #hero h1 {
         font-size: 28px;
         line-height: 36px;
@@ -919,6 +952,10 @@ section {
     padding: 80px 0;
 }
 
+.tech img {
+    border-radius: 20px;
+}
+
 .tech:before {
     content: "";
     background: rgba(0, 0, 0, 0.8);
@@ -940,7 +977,11 @@ section {
     display: block;
     font-size: 28px;
     font-weight: 700;
-    color: white;
+
+    color: #b2cee6;
+    padding: 10px;
+    text-transform: uppercase;
+    line-height: 2;
     ;
 }
 
@@ -957,7 +998,9 @@ section {
 }
 
 .tech .box p {
-    color: #aaaaaa;
+
+    color: #b2cee6;
+
     font-size: 15px;
     margin: 0;
     padding: 0;
@@ -972,8 +1015,11 @@ section {
 
 .tech .box:hover span,
 .tech .box:hover h4,
-.tech .box:hover p {
-    color: rgb(2, 17, 39);
+
+.tech .box:hover p,
+.tech .box:hover ul {
+    color: rgb(139, 168, 211);
+
 }
 
 @media (min-width: 1024px) {
@@ -1079,7 +1125,9 @@ section {
     font-style: italic;
     font-size: 14px;
     font-family: "Poppins", sans-serif;
-    color: lightblue;
+
+    color: #aaaaaa;
+
 }
 
 
@@ -1129,6 +1177,13 @@ th {
 
 .phasess {
     overflow: hidden;
+}
+
+.phasess img {
+    width: 14rem;
+    height: 14rem;
+    border: 0.5rem solid rgba(0, 0, 0, 0.1);
+    border-radius: 100% !important;
 }
 
 .phasess .nav-tabs {
@@ -1516,7 +1571,6 @@ th {
     background-size: cover;
     position: relative;
     padding: 80px 0;
-    
 }
 
 .team:before {
@@ -1535,6 +1589,12 @@ th {
     background: rgb(2, 17, 39);
     position: relative;
     overflow: hidden;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    height: inherit;
+    border: 0.5rem solid rgba(0, 0, 0, 0.1);
+    border-radius: 100% !important;
 }
 
 .team .member .member-info {
@@ -1588,7 +1648,6 @@ th {
 
 .team .member .social a:hover {
     color: rgb(2, 26, 63);
-    ;
 }
 
 .team .member .social i {
@@ -1612,11 +1671,13 @@ th {
     transition: bottom ease-in-out 0.4s;
 }
 
+
+/*
 @media (min-width: 1024px) {
     .team {
         background-attachment: fixed;
     }
-}
+}*/
 
 
 /*--------------------------------------------------------------
