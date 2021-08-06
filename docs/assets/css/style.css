@@ -196,7 +196,6 @@ h6 {
 --------------------------------------------------------------*/
 
 #header {
-
     background: rgb(2, 26, 63);
     background-image: linear-gradient(to right, rgb(52, 38, 128), rgb(1, 19, 46));
     border-bottom: 0.5px solid rgba(2, 26, 63, 0.6);
@@ -205,7 +204,6 @@ h6 {
     padding: 10px 0;
     top: 0px;
     text-transform: uppercase !important;
-
 }
 
 #header.header-scrolled {
@@ -496,21 +494,11 @@ h6 {
 #hero {
     width: 100%;
     height: 100vh;
-    background: url("../img/hero-bg.jpg") top center;
+    background: url("../img/hero-bg.jpg") top right;
+    background-repeat: no-repeat;
     background-size: cover;
     position: relative;
-    padding: 0;
-}
-
-#hero:before {
-    content: "";
-    background: rgba(0, 0, 0, 0.5);
-    position: absolute;
-    bottom: 0;
-    top: 0;
-    left: 0;
-    right: 0;
-
+    padding: 0px;
 }
 
 #hero .container {
@@ -528,25 +516,17 @@ h6 {
     font-size: 48px;
     font-weight: 700;
     line-height: 56px;
-
     color: rgb(2, 17, 39);
-
     font-family: "Poppins", sans-serif;
 }
 
 #hero h1 span {
-
     color: rgb(2, 17, 39);
     text-shadow: 0 0 5px rgb(2, 26, 63);
 }
 
 #hero h2 {
     color: rgb(51, 116, 212);
-}
-
-#hero h2 {
-    color: #eee;
-
     margin-bottom: 10px 0 0 0;
     font-size: 22px;
 }
@@ -585,9 +565,7 @@ h6 {
 #hero .play-btn {
     width: 94px;
     height: 94px;
-
     background: radial-gradient(rgb(2, 17, 39) 50%, white 52%);
-
     border-radius: 50%;
     display: block;
     position: relative;
@@ -663,12 +641,10 @@ h6 {
 }
 
 @media (max-width: 992px) {
-
     #hero {
         background: url("../img/hero-bg_small.png") bottom right;
         height: 70vh;
     }
-
     #hero .play-btn {
         margin-top: 30px;
     }
@@ -676,12 +652,10 @@ h6 {
 
 @media (max-height: 500px) {
     #hero {
-
         background: url("../img/hero-bg_small.png") bottom right;
         height: 70vh;
     }
     #hero {
-
         height: auto;
     }
     #hero .container {
@@ -691,12 +665,10 @@ h6 {
 }
 
 @media (max-width: 768px) {
-
     #hero {
         background: url("../img/hero-bg_small.png") bottom right;
         height: 70vh;
     }
-
     #hero h1 {
         font-size: 28px;
         line-height: 36px;
@@ -975,9 +947,8 @@ section {
 
 .tech .box span {
     display: block;
-    font-size: 28px;
+    font-size: 15px;
     font-weight: 700;
-
     color: #b2cee6;
     padding: 10px;
     text-transform: uppercase;
@@ -986,7 +957,7 @@ section {
 }
 
 .tech .box ul {
-    color: rgba(255, 255, 255, 0.8);
+    color: #b2cee6;
 }
 
 .tech .box h4 {
@@ -994,13 +965,11 @@ section {
     font-weight: 600;
     padding: 0;
     margin: 20px 0;
-    color: rgba(255, 255, 255, 0.8);
+    color: #b2cee6;
 }
 
 .tech .box p {
-
     color: #b2cee6;
-
     font-size: 15px;
     margin: 0;
     padding: 0;
@@ -1015,11 +984,9 @@ section {
 
 .tech .box:hover span,
 .tech .box:hover h4,
-
 .tech .box:hover p,
 .tech .box:hover ul {
     color: rgb(139, 168, 211);
-
 }
 
 @media (min-width: 1024px) {
@@ -1125,9 +1092,7 @@ section {
     font-style: italic;
     font-size: 14px;
     font-family: "Poppins", sans-serif;
-
     color: #aaaaaa;
-
 }
 
 
@@ -1196,27 +1161,27 @@ th {
     transition: 0.3s;
     color: #fff;
     border-radius: 0;
-    border-right: 2px solid #c96507;
+    border-right: 2px solid rgb(51, 116, 212);
     ;
     font-weight: 600;
     font-size: 15px;
 }
 
 .phasess .nav-link:hover {
-    color: #c96507;
+    color: rgb(51, 116, 212);
     ;
 }
 
 .phasess .nav-link.active {
     color: white;
-    background: #c96507;
+    background: rgb(51, 116, 212);
     ;
-    border-color: #c96507;
+    border-color: rgb(51, 116, 212);
     ;
 }
 
 .phasess .nav-link:hover {
-    border-color: #c96507;
+    border-color: rgb(51, 116, 212);
     ;
 }
 
