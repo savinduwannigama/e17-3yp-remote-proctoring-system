@@ -27,6 +27,7 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/info.css" rel="stylesheet">
 
 </head>
 
@@ -37,8 +38,6 @@
         <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
 
             <h1 class="logo me-auto me-lg-0"><a href="index.html">Remote Proctoring Device</a></h1>
-            <!-- Uncomment below if you prefer to use an image logo -->
-            <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
             <nav id="navbar" class="navbar order-last order-lg-0">
                 <ul>
@@ -53,17 +52,16 @@
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav>
-            <!-- .navbar 
-            <a href="#book-a-table" class="book-a-table-btn scrollto d-none d-lg-flex">Book a table</a>
-            -->
         </div>
     </header>
-    <!-- End Header -->
+    <!--======== End Header ==========-->
 
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex align-items-center">
         <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
-            <h1>PHASE 1 : <span>Determine the design architecture and connections of overall infrastructure</span></h1>
+            <h1>PHASE 1 : <span>Determine the design architecture and connections of overall infrastructure
+                
+            </span></h1>
 
         </div>
     </section>
@@ -72,25 +70,154 @@
     <main id="main">
 
         <!--=================Add The Sections Here==========================-->
-        <section>
+        <section id="events" class="events">
             <div class="container" data-aos="fade-up">
 
                 <div class="section-title">
-                    <h2>why</h2>
-                    <p>Why do we need a seperate device?</p>
+                    <h2>System Overview</h2>
+                    <p>What Are The Technology We Use</p>
                 </div>
 
-                <p>When conducting examinations where the skills of the students should be evaluated in a limited timeframe, it's crucial to manage the external factors affecting the performance of the students at a satisfactory level. However it could be
-                    challenging to manage these factors in an online environment. Currently, multiple hardware devices and software tools are used to conduct online examinations while ensuring the quality of the examinations. We have noticed that this
-                    method can cause a lot of distractions and unnecessary burdens to students as well as proctors.The system consists:</p>
-                <ul style="list-style: none">
-                    <li><i class="bi bi-check-circle"></i> Web browser in Proctor's end</li>
-                    <li><i class="bi bi-check-circle"></i> Desktop application in Student's end</li>
-                    <li><i class="bi bi-check-circle"></i> Database and server application hosted on the Cloud</li>
-                </ul>
+                <div class="events-slider swiper-container" data-aos="fade-up" data-aos-delay="100">
+                    <div class="swiper-wrapper">
+
+                        <div class="swiper-slide">
+                            <div class="row event-item">
+                                <div class="col-lg-6">
+                                    <a href="assets/img/system/oursystem.PNG" class="gallery-lightbox" data-gall="gallery-item">
+                                        <img src="assets/img/system/oursystem.PNG" alt="" class="img-fluid">
+                                    </a>
+                                </div>
+                                <div class="col-lg-6 pt-4 pt-lg-0 content">
+                                    <h3>SYSTEM</h3>
+                                    <p>
+                                        The device on the student's side is capable of capturing the video and audio stream from students continuously even incase of a power failure. The proctor will be able to monitor the video and audio streams captured from all the students facing an examination
+                                        through the browser application in the proctor's side.</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="swiper-slide">
+                            <div class="row event-item">
+                                <div class="col-lg-6">
+                                    <a href="assets/img/system/system.PNG" class="gallery-lightbox" data-gall="gallery-item">
+                                        <img src="assets/img/system/system.PNG" alt="" class="img-fluid">
+                                    </a>
+                                </div>
+                                <div class="col-lg-6 pt-4 pt-lg-0 content">
+                                    <h3>High-Level System Overview</h3>
+                                    <p>
+                                        Method used to ensure secure video/audio streaming:<br><br>HTTPS protects the user from “Man-in-the-Middle” attacks where hackers can use vulnerabilities in public networks to steal data transmitted to the viewer.
+                                        Using HLS encryption to mask a user's connection with the website can prevent this sort of attack.</p>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="swiper-slide">
+                            <div class="row event-item">
+                                <div class="col-lg-6">
+                                    <a href="assets/img/system/technology.PNG" class="gallery-lightbox" data-gall="gallery-item">
+                                        <img src="assets/img/system/technology.PNG" alt="" class="img-fluid">
+                                    </a>
+                                </div>
+                                <div class="col-lg-6 pt-4 pt-lg-0 content">
+                                    <h3>Technology Stack</h3>
+
+                                    <p>The system consists of three main endpoints<br><br></p>
+                                    <ul>
+                                        <li>Web browser in Proctor's end</li>
+                                        <li>Desktop application in Student's end</li>
+                                        <li>Database and server application hosted on the Cloud</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
 
             </div>
         </section>
+        <!-- ======= Budget Section ======= -->
+
+        <section id="budget" class="budget">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>Budget</h2>
+                    <p>Approximate Budget</p>
+                </div>
+
+                <table>
+                    <tr>
+                        <th>COMPONENT</th>
+                        <th>PRICE (Rs.)</th>
+                        <th>PLACE</th>
+                    </tr>
+                    <tr>
+                        <td class="text-left ">Rasberry pi board 3B+</td>
+                        <td>9500</td>
+                        <td>senith</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left ">Rasberry pi power cable and adapter</td>
+                        <td>500</td>
+                        <td>senith</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left ">Touch screen 5' with integrated speacker</td>
+                        <td>6500</td>
+                        <td>senith</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left ">Cooling Fan</td>
+                        <td>200</td>
+                        <td>senith</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left ">Camera module</td>
+                        <td>4600</td>
+                        <td>senith</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left ">USB Microphone</td>
+                        <td>485</td>
+                        <td>tronic.lk</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left ">Flash drive (SD card) 32gb</td>
+                        <td>560</td>
+                        <td>daraz.lk</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left ">12V 200mAh reachageable LithiumPolymar Battery</td>
+                        <td>1750</td>
+                        <td>microchip.lk</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left ">wires,resistors</td>
+                        <td>500</td>
+                        <td>tronic.lk</td>
+                    </tr>
+                    <tr>
+                        <th class="text-left ">Total</th>
+                        <th>24595</th>
+                        <td class="hidden "></td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+        </section>
+
+        <!-- End of Budget -->
+
         <!--=================End Of The Sections ==========================-->
 
         <div id="preloader"></div>
