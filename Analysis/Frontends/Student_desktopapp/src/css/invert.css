@@ -1,0 +1,32 @@
+:root {
+    --colorBackground: white;
+    --colorForeground: darkslategray;
+    --colorLink: royalblue;
+    --colorCode: crimson;
+    --header: rgb(125, 125, 236);
+}
+
+.dark {
+    --colorBackground: black;
+    --colorForeground: lightgray;
+    --colorLink: cornflowerblue;
+    --colorCode: lightpink;
+    --header: darkblue;
+}
+
+body {
+    background-color: var(--colorBackground);
+    color: var(--colorForeground);
+}
+
+header {
+    background-color: var(--header);
+}
+
+a {
+    color: var(--colorLink);
+}
+
+code {
+    color: var(--colorCode);
+}
