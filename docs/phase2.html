@@ -52,7 +52,12 @@
                         <ul>
                           <li><a href="phase1.html">Designing overall system</a></li>
                           
-                          <li><a href="phase2.html">Frontends Implementations</a></li>
+                          <li class="dropdown"><a href="phase2.html">Frontends Implementations</a>
+                            <ul>
+                                <li><a href="#student">Students' UI</a></li>
+                                <li><a href="#proctor">Proctors' UI</a></li>
+                            </ul>
+                          </li>
                           <li><a href="phase3.html">Backend Implementation</a></li>
                           <li><a href="phase4.html">Hardware Implementation</a></li>
                           <li><a href="phase5.html">Testing and Integration</a></li>
@@ -79,11 +84,68 @@
     </section>
     <!-- End Hero -->
 
-    <main id="main">
+     <!--=================Student UI==========================-->
+    <section id="student" class="gallery">
+
+        <div class="container" data-aos="fade-up">
+            <div class="section-title">
+                <h2>User Interfaces</h2>
+                <p>Students' Desktop App</p>
+            </div>
+        </div>
+        <section id="student-ui-des" class="about">
+            <div class="container" data-aos="fade-up">
+
+                <div class="row">
+                    <div class="col-lg-6 order-1 order-lg-2 align-self-lg-center" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="gallery-item" style="border-radius: 30px">
+                            <a href="assets/img/students_desktopapp/student.gif" class="gallery-lightbox" data-gall="gallery-item">
+                                <img src="assets/img/students_desktopapp/student.gif" alt="" class="img-fluid">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 pt-4  " style="margin: auto;">
+                        <p class="fst-italic">
+                            The student can create an account in the platform by registering to the service.
+                            <ul>
+                                <li>The registering process will go through a verification step where an email will be sent with a verification code to the user</li>
+                                <li>Once the student verifies the account by entering the 6 digit code, he/she can log into the system where it will be directed to the home page. </li>
+                                <li>Within the desktop application, the student can do the following tasks,</li>
+                                <br>
+                                <ul>
+                                    <li>See the remaining time for the next exam</li>
+                                    <li>Test the camera, microphone and speaker before an exam</li>
+                                    <li>Connect to an examination room </li>
+                                    <li>In the examination room, student can see the proctor/(s), see warning messages and chat/talk with the proctor </li>
+                                    <li>See the examination schedule</li>
+                                    <li>See the courses the student is currently registered to</li>
+                                </ul>
+                                <br>
+                            </ul>
+                        </p>
 
 
-        <!--=================Add The Sections Here==========================-->
-        <section id="gallery" class="gallery">
+                    </div>
+                </div>
+
+            </div>
+        
+            <div class="col-lg-6 " data-aos="zoom-in"  style="display:block;margin-left: auto;margin-right: auto;">
+               <h3 style="text-align: center;">Want to try out our demonstration yourself?</h3>
+               <p class="fst-italic" style="text-align: center;"> Note : Since the backend is not implemented yet, you can enter any verification code for demonstration purposes.</p>
+                <div class="iframe-container">
+                    
+                    <iframe class="responsive-iframe" src="https://framer.com/embed/Student-s-UI--euRdAekmYiS6NILvvT0B/Ah33nNjeB?highlights=0" allowfullscreen></iframe>
+                
+                </div>
+            </div>
+        </section>
+        
+        
+    </section>
+
+        <!--=================Proctor UI==========================-->
+        <section id="proctor" class="gallery">
 
             <div class="container" data-aos="fade-up">
                 <div class="section-title">
@@ -91,7 +153,7 @@
                     <p>Proctors' Browser App</p>
                 </div>
             </div>
-            <section id="about" class="about">
+            <section id="proctor-ui-des" class="about">
                 <div class="container" data-aos="fade-up">
     
                     <div class="row">
@@ -106,9 +168,9 @@
                             <p class="fst-italic">
                                 The proctor can create an account in the platform by registering to the service.
                                 <ul>
-                                    <li>The registering process will go through a verification step where an email will be sent the user to verify the account</li>
+                                    <li>The registering process will go through a verification step where an email will be sent with a verification code to the user</li>
                                     <li>Once the proctor verifies the account, he/she can log into the system where it will be directed to the home page. </li>
-                                    <li>Within the browser application, the procto can do the following tasks,</li>
+                                    <li>Within the browser application, the proctor can do the following tasks,</li>
                                     <br>
                                     <ul>
                                         <li>Schedule examinations with appropriate meeting link</li>
@@ -127,57 +189,25 @@
                     </div>
     
                 </div>
+            
+                <div class="col-lg-8 " data-aos="zoom-in"  style="display:block;margin-left: auto;margin-right: auto;">
+                   <h3 style="text-align: center;">Want to try out our demonstration yourself?</h3>
+                   <p class="fst-italic" > Note : Since the backend is not implemented yet, you can enter any verification code for demonstration purposes.</p>
+                    <div class="iframe-container">
+                    
+                        <iframe class="responsive-iframe" src="https://framer.com/embed/Proctor-s-UI--lbKYx9z8XOeXTbqX18aI/hNyVUPG7y?highlights=0" allowfullscreen></iframe>
+                    
+                    </div>
+                </div>
             </section>
             
-
-            <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
-                
-
-                <div class="row g-0">
-
-                    <div class="col-lg-3 col-md-4">
-                        <div class="gallery-item">
-                            <a href="assets/img/proctors_browserapp/Log_in.PNG" class="gallery-lightbox" data-gall="gallery-item">
-                                <img src="assets/img/proctors_browserapp/Log_in.PNG" alt="" class="img-fluid">
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="col-lg-3 col-md-4">
-                        <div class="gallery-item">
-                            <a href="assets/img/proctors_browserapp/Register.PNG" class="gallery-lightbox" data-gall="gallery-item">
-                                <img src="assets/img/proctors_browserapp/Register.PNG" alt="" class="img-fluid">
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-4">
-                        <div class="gallery-item">
-                            <a href="assets/img/proctors_browserapp/Meeting_room.PNG" class="gallery-lightbox" data-gall="gallery-item">
-                                <img src="assets/img/proctors_browserapp/Meeting_room.PNG" alt="" class="img-fluid">
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-4">
-                        <div class="gallery-item">
-                            <a href="assets/img/proctors_browserapp/dashboard.PNG" class="gallery-lightbox" data-gall="gallery-item">
-                                <img src="assets/img/proctors_browserapp/dashboard.PNG" alt="" class="img-fluid">
-                            </a>
-                        </div>
-                    </div>
-
-
-
-                </div>
-
-            </div>
+            
         </section>
 
         <!--=================End Of The Sections ==========================-->
 
 
-        <div id="preloader"></div>
+        <!--<div id="preloader"></div>-->
         <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
         <!-- Vendor JS Files -->
