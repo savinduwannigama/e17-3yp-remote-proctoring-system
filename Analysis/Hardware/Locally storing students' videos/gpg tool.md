@@ -1,0 +1,1 @@
+> [click here](https://www.howtogeek.com/427982/how-to-encrypt-and-decrypt-files-with-gpg-on-linux/) for information about the GnuPrivacy Guard (GPG) tool.

@@ -13,4 +13,5 @@ supports authentication via username/password and multi-factor authentication. C
 
 For the MongoDB Atlas Web UI, user credentials are stored using industry-standard and audited one-way hashing mechanisms. Additionally, customers can choose to optionally utilize multi-factor authentication, or require all of the users in their Atlas Organization to use multi-factor authentication. Multi-factor authentication options include SMS, voice call, a multi-factor app, or a multi-factor device (such as a YubiKey). Customer sensitive data provided within the GUI, such as passwords, keys, and credentials which must be used as part of the service are stored encrypted. 
 
-[Reference:](https://webassets.mongodb.com/_com_assets/cms/MongoDB_Atlas_Security_Controls-v7k3rbhi3p.pdf)
+[Reference 1:](https://webassets.mongodb.com/_com_assets/cms/MongoDB_Atlas_Security_Controls-v7k3rbhi3p.pdf)
+[Reference 2:](https://www.mongodb.com/technical-and-organizational-security-measures)
