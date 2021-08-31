@@ -15,8 +15,9 @@ MenuBtn.addEventListener('click', () => {
 
 function display_c() {
     var refresh = 1000; // Refresh rate in milli seconds
-    mytime = setTimeout('display_ct()', refresh)
-    mybattery = setTimeout('battery()', refresh)
+    mytime = setTimeout('display_ct()', refresh);
+    mybattery = setTimeout('battery()', refresh);
+    addExams();
 
 }
 
@@ -35,6 +36,7 @@ function display_ct() {
 
 /************* battery percentage***************/
 function battery() {
+    
     const batteryLevelOutput = document.getElementById('batteryLevelOutput');
     const batteryIndicator = document.getElementById('indicator');
     navigator.getBattery().then(battery => {
@@ -44,7 +46,7 @@ function battery() {
             updateBattery()
         });
         battery.addEventListener('levelchange', () => {
-            udateBattery()
+            updateBattery()
         });
 
         function updateBattery() {
@@ -66,4 +68,15 @@ function battery() {
         }
     });
 
+}
+
+/*
+function addHeader(){
+    document.getElementById("sample").innerHTML='<object type="text/html" data="hamburger.html" ></object>';}
+*/
+
+function addExams(){
+    var li=document.getElementById("examlist").getElementsByTagName("li")
+    document.getElementById("badge").innerHTML= li.length
+    
 }
