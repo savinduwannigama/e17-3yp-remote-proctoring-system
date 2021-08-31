@@ -21,13 +21,13 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
-            devTools: true,
+            devTools: false,
             preload: path.join(__dirname, 'preload.js')
         }
     })
 
     mainWindow.on('close', function(e) {
-        const choice = require('electron').dialog.showMessageBoxSync(this, {
+        /*const choice = require('electron').dialog.showMessageBoxSync(this, {
             type: 'question',
             buttons: ['Yes', 'No'],
             noLink: true,
@@ -36,7 +36,8 @@ function createWindow() {
         });
         if (choice === 1) {
             e.preventDefault();
-        }
+        }*/
+        app.quit;
     });
 
 

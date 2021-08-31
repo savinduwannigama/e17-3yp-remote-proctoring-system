@@ -141,6 +141,7 @@ button:focus {
     border: 0;
     color: white;
     font-weight: bold;
+    cursor: pointer;
 }
 
 
