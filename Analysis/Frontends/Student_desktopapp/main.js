@@ -21,7 +21,7 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
-            devTools: false,
+            devTools: true,
             preload: path.join(__dirname, 'preload.js')
         }
     })
@@ -48,25 +48,18 @@ function createWindow() {
     // Open the DevTools.
     mainWindow.webContents.openDevTools()
 
-    ipc.on('Register', () => {
-        mainWindow.loadFile('src/registerpage.html')
-    })
+    ipc.on('Register', () => { mainWindow.loadFile('src/registerpage.html') })
+    ipc.on('Login', () => { mainWindow.loadFile('src/loginpage.html') })
+    ipc.on('Authentication', () => { mainWindow.loadFile('src/authentication.html') })
+    ipc.on('verify', () => { mainWindow.loadFile('src/loginpage.html') })
 
-    ipc.on('Login', () => {
-        mainWindow.loadFile('src/loginpage.html')
-    })
-
-    ipc.on('App', () => {
-        mainWindow.loadFile('src/home.html')
-    })
-
-    ipc.on('Authentication', () => {
-        mainWindow.loadFile('src/authentication.html')
-    })
-
-    ipc.on('verify', () => {
-        mainWindow.loadFile('src/loginpage.html')
-    })
+    ipc.on('home', () => { mainWindow.loadFile('src/home.html') })
+    ipc.on('dashboard', () => { mainWindow.loadFile('src/dashboard.html') })
+    ipc.on('course', () => { mainWindow.loadFile('src/course.html') })
+    ipc.on('schedule', () => { mainWindow.loadFile('src/schedule.html') })
+    ipc.on('notification', () => { mainWindow.loadFile('src/notification.html') })
+    ipc.on('settings', () => { mainWindow.loadFile('src/settings.html') })
+    ipc.on('help', () => { mainWindow.loadFile('src/videoRecording.html') })
 
 
     const menu = new Menu()

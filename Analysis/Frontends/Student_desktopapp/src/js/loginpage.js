@@ -76,7 +76,7 @@ login.addEventListener('click', function(e) {
 
 
     if (OK == "true") {
-        ipc.send('App')
+        ipc.send('home')
     }
 
 })
