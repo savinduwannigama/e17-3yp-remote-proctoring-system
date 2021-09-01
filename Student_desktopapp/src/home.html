@@ -4,8 +4,8 @@
 <head>
     <title> </title>
     <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/dashboard.css">
-    <script defer src="js/dashboard.js"></script>
+    <link rel="stylesheet" href="css/home.css">
+    <script defer src="js/home.js"></script>
     <script defer src="js/header.js"></script>
 </head>
 
@@ -42,9 +42,11 @@
         </div>
     </div>
     <div class="title">
-        <img src="img/icons/dashboard (1).png" />
-        <span>Dashboard</span>
+        <img src="img/icons/home (2).png" />
+        <span>Home</span>
+        <div class="status" id=>YOU ARE OFFLINE</div>
     </div>
+
     <div class="timestamp">
         <p>TIME TO HIT THE BOOKS! YOUR NEXT EXAM BEGINS IN:</p>
     </div>
@@ -57,7 +59,7 @@
     <nav class="menu" tabindex="0">
         <div class="smartphone-menu-trigger"></div>
         <header class="avatar">
-            <img src="img/isuri.jpg" />
+            <img id="avatar" class="online" src="img/isuri.jpg" />
             <h2>Devindi G.A.I</h2>
         </header>
         <ul id="list">
@@ -72,31 +74,32 @@
     </nav>
     <!--body starts here-->
     <div class="separator2"></div>
-    <div class="cards-bg">
-        <p class="sec-title">Recently accessed courses</p>
-        <hr>
-        <div class="cards">
-            <div class="card">
-                <p>CO323</p>
-            </div>
-            <div class="card">
-                <p>CO322</p>
-            </div>
-            <div class="card">
-                <p>Co327</p>
-            </div>
-            <div class="card">
-                <p>CO325</p>
-            </div>
-            <div class="card">
-                <p>CO321</p>
-            </div>
-            <div class="card">
-                <p>EE386</p>
-            </div>
+    <div class="mainInner">
+        <div class="test">
+            <img src="img/icons/video-camera (1).png">
+            <img src="img/icons/headphones (1).png">
+            <p>Test Your Equipments</p>
+        </div>
+        <div class="test">
+            <img src="img/icons/calendar.png">
+            <p>See Your Exam Schedule</p>
         </div>
     </div>
+    <div class="mainInner">
+        <div class="exams">
+            <p class=sec-title>up coming exams</p>
+            <hr>
+            <ul id="examlist">
+                <li>Wendsday: Apr 3, 2021 8.00 a.m - CO323</li>
+                <li>Thursday: Apr 4, 2021 8.00 a.m - CO322</li>
+                <li>Friday: Apr 5, 2021 8.00 a.m - CO227</li>
+                <li>Monday: Apr 8, 2021 8.00 a.m - CO325</li>
+                <li>Thursday: Apr 11, 2021 8.00 a.m - CO321</li>
+                <li>Friday: Apr 12, 2021 8.00 a.m - COEE386</li>
+            </ul>
+        </div>
 
+    </div>
 </body>
 
 </html>
