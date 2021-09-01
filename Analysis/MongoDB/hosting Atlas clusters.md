@@ -1,7 +1,8 @@
 # Data Storage and Access Controls
 ## DATA CENTERS AND PHYSICAL STORAGE
 
-MongoDB Atlas is built atop of Amazon Web Services (AWS), Microsoft Azure, and Google Cloud Platform (GCP).
+MongoDB Atlas is a fully-managed cloud database developed by the same people that build MongoDB.
+MongoDB Atlas is built on top of Amazon Web Services (AWS), Microsoft Azure, and Google Cloud Platform (GCP).
 
 ## Amazon Web Services
 

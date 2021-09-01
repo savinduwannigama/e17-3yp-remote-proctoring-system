@@ -494,11 +494,21 @@ h6 {
 #hero {
     width: 100%;
     height: 100vh;
-    background: url("../img/hero_test_2.jpg") top right;
+    background: url("../img/hero_test.jpg") center center no-repeat;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
     padding: 0px;
+}
+
+#hero:before {
+    content: "";
+    background: rgba(0, 0, 0, 0.8);
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
 #hero .container {
@@ -516,13 +526,16 @@ h6 {
     font-size: 48px;
     font-weight: 700;
     line-height: 56px;
-    color: rgb(2, 17, 39);
+    /*color: rgb(2, 17, 39);*/
+    color: while;
     font-family: "Poppins", sans-serif;
 }
 
 #hero h1 span {
-    color: rgb(2, 17, 39);
-    text-shadow: 0 0 5px rgb(2, 26, 63);
+    /* color: rgb(2, 17, 39);
+    text-shadow: 0 0 5px rgb(2, 26, 63);*/
+    color: rgb(168, 27, 211);
+    text-shadow: 0 0 5px rgb(1, 19, 46);
 }
 
 #hero h2 {
@@ -642,7 +655,7 @@ h6 {
 
 @media (max-width: 992px) {
     #hero {
-        background: url("../img/hero_test_2.jpg") bottom right;
+        background: url("../img/hero_test.jpg") center center no-repeat;
         height: 70vh;
     }
     #hero .play-btn {
@@ -652,7 +665,7 @@ h6 {
 
 @media (max-height: 500px) {
     #hero {
-        background: url("../img/hero_test_2.jpg") bottom right;
+        background: url("../img/hero_test.jpg") center center no-repeat;
         height: 70vh;
     }
     #hero {
@@ -666,7 +679,7 @@ h6 {
 
 @media (max-width: 768px) {
     #hero {
-        background: url("../img/hero_test_2.jpg") bottom right;
+        background: url("../img/hero_test.jpg") center center no-repeat;
         height: 70vh;
     }
     #hero h1 {
@@ -1101,7 +1114,7 @@ section {
 --------------------------------------------------------------*/
 
 .budget {
-    background: url("../img/header_3_flip.png") center center;
+    background: url("../img/test.png") center center;
     background-size: cover;
     position: relative;
     padding: 80px 0;
@@ -1142,6 +1155,20 @@ th {
 
 .phasess {
     overflow: hidden;
+    background: url("../img/hero_test.jpg") center center;
+    background-size: cover;
+    position: relative;
+    padding: 80px 0;
+}
+
+.phasess:before {
+    content: "";
+    background: rgba(0, 0, 0, 0.8);
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
 .phasess img {
@@ -1225,7 +1252,7 @@ th {
 --------------------------------------------------------------*/
 
 .events {
-    background: url(../img/events-bg.jpg) center center no-repeat;
+    background: url("../img/events-bg.jpg") center center no-repeat;
     background-size: cover;
     position: relative;
 }
@@ -1279,7 +1306,11 @@ th {
 
 .events .event-item .price span {
     border-bottom: 2px solid rgb(2, 26, 63);
-    ;
+}
+
+.price a {
+    font-size: 15px;
+    cursor: pointer;
 }
 
 .events .event-item ul {
@@ -1539,7 +1570,7 @@ th {
 --------------------------------------------------------------*/
 
 .team {
-    background: url("../img/header_3.png") center center;
+    background: url("../img/hero_test_1.jpg") center center;
     background-size: cover;
     position: relative;
     padding: 80px 0;
@@ -1979,17 +2010,22 @@ th {
     font-size: 13px;
     color: #fff;
 }
+
+
 /*IFRAME STYLE*/
+
 .iframe-container {
     position: relative;
     overflow: hidden;
     width: 90%;
-   
-    padding-top: 80%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
-  }
-  
-  /* Then style the iframe to fit in the container div with full height and width */
-  .responsive-iframe {
+    padding-top: 80%;
+    /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+}
+
+
+/* Then style the iframe to fit in the container div with full height and width */
+
+.responsive-iframe {
     position: absolute;
     top: 0;
     left: 0;
@@ -1997,4 +2033,4 @@ th {
     right: 0;
     width: 100%;
     height: 100%;
-  }
+}

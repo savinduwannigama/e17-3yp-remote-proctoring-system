@@ -3,24 +3,33 @@ const ipc = ipcRenderer
 
 const contextMenuBtn = document.getElementById("show_notifications")
 contextMenuBtn.addEventListener('click', () => {
-    ipc.send('show-context-menu')
+    ipc.send('notification')
 })
 
 const MenuBtn = document.getElementById("badge")
 MenuBtn.addEventListener('click', () => {
-    ipc.send('show-context-menu')
+    ipc.send('notification')
 })
+
+var btn = document.getElementById("list").getElementsByTagName('li')
+var btncount = btn.length;
+for (var i = 0; i < btncount; i += 1) {
+    btn[i].onclick = function() {
+        ipc.send(this.id);
+    }
+}
+
+
 
 
 
 function display_c() {
     var refresh = 1000; // Refresh rate in milli seconds
-    mytime = setTimeout('display_ct()', refresh)
-    mybattery = setTimeout('battery()', refresh)
+    mytime = setTimeout('display_ct()', refresh);
+    mybattery = setTimeout('battery()', refresh);
+    addExams();
 
 }
-
-
 
 /***************** current time ******************/
 
@@ -33,8 +42,11 @@ function display_ct() {
     display_c();
 }
 
+
+
 /************* battery percentage***************/
 function battery() {
+
     const batteryLevelOutput = document.getElementById('batteryLevelOutput');
     const batteryIndicator = document.getElementById('indicator');
     navigator.getBattery().then(battery => {
@@ -44,7 +56,7 @@ function battery() {
             updateBattery()
         });
         battery.addEventListener('levelchange', () => {
-            udateBattery()
+            updateBattery()
         });
 
         function updateBattery() {
@@ -66,4 +78,14 @@ function battery() {
         }
     });
 
+}
+
+
+/* online/offline */
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+
+function updateOnlineStatus(event) {
+    var condition = navigator.onLine ? "online" : "offline";
+    document.getElementById("avatar").className = condition;
 }
