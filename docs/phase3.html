@@ -88,23 +88,35 @@
 
 
         <!--=================Add The Sections Here==========================-->
-        <section>
-            <div class="container" data-aos="fade-up">
+        <section id="er-diagram" class="about">
+            <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
+                
 
-                <div class="section-title">
-                    <h2></h2>
-                    <p></p>
+                <div class="row g-0">
+
+                    <div class="col-lg-6 " style="display:block;margin-left: auto;margin-right: auto;">
+                        <div class="gallery-item">
+                            <a href="assets/img/backend/ERDiagram.png" class="gallery-lightbox mx-auto" data-gall="gallery-item" >
+                                <img src="assets/img/backend/ERDiagram.png" alt="" class="img-fluid ">
+                            </a>
+                            <p style="text-align: center;">The ER-diagram of the database</p>
+                            <p>
+                                <ul>
+                                    <li> The two types of users proctor & student are defined using a disjoint specialization.</li>
+                                    <li> Exam, Course, Device, and Recording are taken as strong entities with relevant primary keys. </li>
+                                    <li> Since there can be multiple Chats, Warnings and joined times in an examination for a particular student, they are taken as multivalued.</li>
+                                    <li> To keep track of the device a particular student is using the Device entity is used.</li>
+                                    <li> Schedules is a ternary relationship connecting the entities Proctor, Course and Exam.</li>
+                               
+                                </ul>
+                            
+                            </p>
+                        </div>
+                    </div>
                 </div>
-
-                <p></p>
-                <ul style="list-style: none">
-                    <!--<li><i class="bi bi-check-circle"></i> </li>
-                    <li><i class="bi bi-check-circle"></i> </li>
-                    <li><i class="bi bi-check-circle"></i> </li>-->
-                </ul>
-
+                
             </div>
-        </section>
+            </section>
         <!--=================End Of The Sections ==========================-->
 
 
