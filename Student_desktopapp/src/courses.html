@@ -4,8 +4,8 @@
 <head>
     <title> </title>
     <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/home.css">
-    <script defer src="js/home.js"></script>
+    <link rel="stylesheet" href="css/courses.css">
+    <script defer src="js/courses.js"></script>
     <script defer src="js/header.js"></script>
 </head>
 
@@ -42,11 +42,10 @@
         </div>
     </div>
     <div class="title">
-        <img src="img/icons/home (2).png" />
-        <span>Home</span>
-        <div class="status" id="status"></div>
+        <img src="img/icons/graduation-cap.png" />
+        <span>Courses</span>
+        <div class="status" id=>YOU ARE OFFLINE</div>
     </div>
-
     <div class="timestamp">
         <p>TIME TO HIT THE BOOKS! YOUR NEXT EXAM BEGINS IN:</p>
     </div>
@@ -74,32 +73,46 @@
     </nav>
     <!--body starts here-->
     <div class="separator2"></div>
-    <div class="mainInner">
-        <div class="test">
-            <img src="img/icons/video-camera (1).png">
-            <img src="img/icons/headphones (1).png">
-            <p>Test Your Equipments</p>
-        </div>
-        <div class="test">
-            <img src="img/icons/calendar.png">
-            <p>See Your Exam Schedule</p>
-        </div>
-    </div>
-    <div class="mainInner">
-        <div class="exams">
-            <p class=sec-title>up coming exams</p>
-            <hr>
-            <ul id="examlist">
-                <li>Wendsday: Apr 3, 2021 8.00 a.m - CO323</li>
-                <li>Thursday: Apr 4, 2021 8.00 a.m - CO322</li>
-                <li>Friday: Apr 5, 2021 8.00 a.m - CO227</li>
-                <li>Monday: Apr 8, 2021 8.00 a.m - CO325</li>
-                <li>Thursday: Apr 11, 2021 8.00 a.m - CO321</li>
-                <li>Friday: Apr 12, 2021 8.00 a.m - COEE386</li>
-            </ul>
-        </div>
+    <button class="sortBtn" onclick="sortListDir()">Sort by Course Code</button>
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for a course name...">
+    <div class="cards-bg">
+        <!--<p class="sec-title">Recently accessed courses</p>
+        <hr>-->
 
-    </div>
+
+        <ul class="cards" id="cards">
+            <li class="card">
+                <p>CO227</p>
+                <p>Computer Enginerring Project</p>
+            </li>
+            <li class="card">
+                <p>CO321</p>
+                <p>Embedded System</p>
+            </li>
+            <li class="card">
+                <p>Co322</p>
+                <p>Data Structure and Algorithm</p>
+            </li>
+            <li class="card">
+                <p>CO323</p>
+                <p>Computer Communication</p>
+            </li>
+            <li class="card">
+                <p>CO324</p>
+                <p>Network and Web Application</p>
+            </li>
+            <li class="card">
+                <p>CO325</p>
+                <p>Computer and Network Security</p>
+            </li>
+            <li class="card">
+                <p>EE386</p>
+                <p>Ellectronic II</p>
+            </li>
+        </ul>
+
+    </div>
+
 </body>
 
 </html>

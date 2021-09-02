@@ -55,7 +55,7 @@ function createWindow() {
 
     ipc.on('home', () => { mainWindow.loadFile('src/home.html') })
     ipc.on('dashboard', () => { mainWindow.loadFile('src/dashboard.html') })
-    ipc.on('course', () => { mainWindow.loadFile('src/course.html') })
+    ipc.on('course', () => { mainWindow.loadFile('src/courses.html') })
     ipc.on('schedule', () => { mainWindow.loadFile('src/schedule.html') })
     ipc.on('notification', () => { mainWindow.loadFile('src/notification.html') })
     ipc.on('settings', () => { mainWindow.loadFile('src/settings.html') })
