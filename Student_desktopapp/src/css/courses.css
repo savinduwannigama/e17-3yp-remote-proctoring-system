@@ -1,0 +1,77 @@
+.cards {
+    max-width: 1200px;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0;
+}
+
+.card {
+    list-style: none;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    padding: 2rem;
+    min-height: 4rem;
+    height: fit-content;
+    border-radius: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.cards-bg {
+    background-color: rgba(38, 168, 170, 0.21);
+    border-radius: 20px;
+    margin: 20px;
+    padding: 20px;
+}
+
+.sortBtn {
+    background: #26a8aa;
+    margin-left: 20px;
+    padding: 5px;
+    cursor: pointer;
+    border: 2px solid #26a8aa;
+    color: white;
+    border-radius: 5px;
+}
+
+.sortBtn:hover:not(.header) {
+    border: 2px solid white;
+}
+
+.cards li:nth-child(4n+0) {
+    background-color: rgba(107, 210, 219, 0.67);
+}
+
+.cards li:nth-child(4n+1) {
+    background-color: rgba(85, 158, 221, 0.74);
+}
+
+.cards li:nth-child(4n+2) {
+    background-color: rgba(116, 109, 217, 0.58);
+}
+
+.cards li:nth-child(4n+3) {
+    background-color: rgba(156, 72, 177, 0.54);
+}
+
+#cards li p {
+    display: block;
+    /* Make it into a block element to fill the whole list */
+}
+
+#cards li:hover:not(.header) {
+    border: 3px solid white;
+    /* Add a hover effect to all links, except for headers */
+}
+
+#myInput {
+    width: 200px;
+    border: 2px solid #26a8aa;
+    padding: 5px;
+    height: 15px;
+    border-radius: 5px;
+    outline: none;
+    color: #26a8aa;
+}

@@ -1,4 +1,5 @@
 const { ipcRenderer } = require('electron')
+const { stat } = require('original-fs')
 const ipc = ipcRenderer
 
 const contextMenuBtn = document.getElementById("show_notifications")
@@ -27,7 +28,6 @@ function display_c() {
     var refresh = 1000; // Refresh rate in milli seconds
     mytime = setTimeout('display_ct()', refresh);
     mybattery = setTimeout('battery()', refresh);
-    addExams();
 
 }
 
@@ -82,10 +82,33 @@ function battery() {
 
 
 /* online/offline */
-window.addEventListener('online', updateOnlineStatus);
 window.addEventListener('offline', updateOnlineStatus);
+window.addEventListener('online', updateOnlineStatus);
+
 
 function updateOnlineStatus(event) {
     var condition = navigator.onLine ? "online" : "offline";
     document.getElementById("avatar").className = condition;
+    var status = document.getElementById("status");
+    if (condition == "offline") {
+        status.style.background = "linear-gradient(to right, rgba(255, 0, 0, 0) 20%, red 80%)";
+        status.innerHTML = "YOU ARE OFFLINE !";
+    } else {
+        status.style.background = "linear-gradient(to right, rgba(255, 0, 0, 0) 20%, green 80%)";
+        status.innerHTML = "YOU ARE ONLINE !";
+        setTimeout(function() {
+            status.style.background = "transparent";
+        }, 3000)
+
+    }
 }
+
+window.addEventListener("load", function() {
+    var condition = navigator.onLine ? "online" : "offline";
+    document.getElementById("avatar").className = condition;
+    var status = document.getElementById("status");
+    if (condition == "offline") {
+        status.style.background = "linear-gradient(to right, rgba(255, 0, 0, 0) 20%, red 80%)";
+        status.innerHTML = "YOU ARE OFFLINE";
+    }
+})
