@@ -88,22 +88,145 @@
 
 
         <!--=================Add The Sections Here==========================-->
-        <section>
+        <section id="testing">
             <div class="container" data-aos="fade-up">
 
                 <div class="section-title">
-                    <h2></h2>
+                    <h2>Software Testing plan</h2>
                     <p></p>
                 </div>
 
-                <p></p>
+                <p class="fst-italic"> Functional requirements will be tested under three main stages</p>
                 <ul style="list-style: none">
-                    <!--<li><i class="bi bi-check-circle"></i> </li>
-                    <li><i class="bi bi-check-circle"></i> </li>
-                    <li><i class="bi bi-check-circle"></i> </li>-->
+                    <li><i class="bi bi-check-circle"></i> Unit testing </li>
+                    <li><i class="bi bi-check-circle"></i> Integration testing </li>
+                    <li><i class="bi bi-check-circle"></i> End-to-end testing</li>
                 </ul>
 
             </div>
+            <section id="components" class="phasess">
+                <div class="container" data-aos="fade-up">
+    
+                   
+                    <div class="row" data-aos="fade-up" data-aos-delay="100">
+                        <div class="col-lg-3">
+                            <ul class="nav nav-tabs flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link active show" data-bs-toggle="tab" href="#tab-1">Unit testing</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#tab-2">Integration testing</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#tab-3">End-to-end testing</a>
+                                </li>
+                                
+                              
+                            </ul>
+                        </div>
+                        <div class="col-lg-9 mt-4 mt-lg-0">
+                            <div class="tab-content">
+                                <div class="tab-pane active show" id="tab-1">
+                                    <div class="row">
+                                        <div class="col-lg-5 details order-2 order-lg-1">
+                                            <h3>Unit testing</h3>
+                                            <ul>
+                                               
+                                                <li><i class="bi bi-check-circle"></i> Login/sign up user input validation</li>
+                                                <li><i class="bi bi-check-circle"></i> Video capturing and encryption</li>
+                                                
+                                            </ul>
+                                            <br>
+                                        </div>
+                                        <div class="col-lg-7 order-1 order-lg-2">
+                                            <p>Technology used</p>
+                                            <img src="assets/img/Testing/jest.png" alt="" class="img-fluid">
+                                            <img src="assets/img/Testing/spectron.png" alt="" class="img-fluid">
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                                <div class="tab-pane" id="tab-2">
+                                    <div class="row">
+                                        <div class="col-lg-7 details order-2 order-lg-1">
+                                            <h3>Integration testing</h3>
+                                           <ul>
+                                                <li><i class="bi bi-check-circle"></i> Updating the database after scheduling an exam </li>
+                                                <li><i class="bi bi-check-circle"></i> Retrieving a URL from database </li>
+                                                <li><i class="bi bi-check-circle"></i> Store encrypted video in the database </li>
+                                                
+                                            </ul>
+                                            <br>
+                                        </div>
+                                        <div class="col-lg-3 text-center order-1 order-lg-2">
+                                            <p>Technology used</p>
+                                            <img src="assets/img/Testing/postman.png" alt="" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="tab-3">
+                                    <div class="row">
+                                        <div class="col-lg-7 details order-2 order-lg-1">
+                                            <h3>End-to-end testing</h3>
+                                           <ul>
+                                                <li><i class="bi bi-check-circle"></i> Schedule an exam and start the exam
+                                                </li>
+                                                
+                                            </ul>
+                                            <br>
+                                        </div>
+                                        <div class="col-lg-4 text-center order-1 order-lg-2">
+                                            <p>Technology used</p>
+                                            <img src="assets/img/Testing/selenium.png" alt="" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+            </section>
+        </section>
+
+        <section id="testing">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>Hardware Testing plan</h2>
+                    <p></p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-10">
+                        <p class="fst-italic"> The functionality of the sensors will be tested before connecting them to the circuit.</p>
+                        <ul style="list-style: none">
+                            <li><i class="bi bi-check-circle"></i> Test the resolution of the camera and power consumption when video streaming.</li>
+                            <br>
+                            <li><i class="bi bi-check-circle"></i> Test the audio quality of the microphone and speaker.<br></li>
+                            <br>
+                            <li><i class="bi bi-check-circle"></i> Test the resolution and touch control of the LCD display.<br></li>
+                       
+                        </ul>
+                        <p class="fst-italic"> The power supply unit will be tested thoroughly under the following conditions.</p>
+                        <ul style="list-style: none">
+                            <li><i class="bi bi-check-circle"></i> Life time, current and power consumption of a fully charged power unit without direct supply when the device is idle.<br></li>
+                            <br>
+                            <li><i class="bi bi-check-circle"></i> Life time, current and power consumption of a fully charged power unit without direct supply when the device is streaming audio and video.<br></li>
+                            <br>
+                            <li><i class="bi bi-check-circle"></i> Life time, current and power consumption of a fully charged power unit without direct supply with the backlight control of the LCD display switched on (Low power mode).<br></li>
+                       
+                        </ul>
+                        
+                    </div>
+                </div>
+            </div>
+            
         </section>
         <!--=================End Of The Sections ==========================-->
 
