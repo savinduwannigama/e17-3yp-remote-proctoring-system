@@ -63,6 +63,7 @@ body {
 }
 
 .status {
+    display: initial;
     text-align: right;
     width: 500px;
     height: 30px;
