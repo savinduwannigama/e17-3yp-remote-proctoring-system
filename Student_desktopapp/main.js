@@ -24,6 +24,8 @@ function createWindow() {
             devTools: true,
             preload: path.join(__dirname, 'preload.js')
         }
+
+
     })
 
     mainWindow.on('close', function(e) {
@@ -57,7 +59,7 @@ function createWindow() {
     ipc.on('dashboard', () => { mainWindow.loadFile('src/dashboard.html') })
     ipc.on('course', () => { mainWindow.loadFile('src/courses.html') })
     ipc.on('schedule', () => { mainWindow.loadFile('src/schedule.html') })
-    ipc.on('notification', () => { mainWindow.loadFile('src/notification.html') })
+    ipc.on('notification', () => { mainWindow.loadFile('src/test.html') })
     ipc.on('settings', () => { mainWindow.loadFile('src/settings.html') })
     ipc.on('help', () => { mainWindow.loadFile('src/videoRecording.html') })
 
@@ -92,6 +94,8 @@ app.whenReady().then(() => {
         // dock icon is clicked and there are no other windows open.
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
+
+
 })
 
 
