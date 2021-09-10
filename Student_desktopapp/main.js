@@ -59,9 +59,9 @@ function createWindow() {
     ipc.on('dashboard', () => { mainWindow.loadFile('src/dashboard.html') })
     ipc.on('course', () => { mainWindow.loadFile('src/courses.html') })
     ipc.on('schedule', () => { mainWindow.loadFile('src/schedule.html') })
-    ipc.on('notification', () => { mainWindow.loadFile('src/test.html') })
+    ipc.on('notification', () => { mainWindow.loadFile('src/notifications.html') })
     ipc.on('settings', () => { mainWindow.loadFile('src/settings.html') })
-    ipc.on('help', () => { mainWindow.loadFile('src/videoRecording.html') })
+    ipc.on('help', () => { mainWindow.loadFile('src/help.html') })
 
 
     const menu = new Menu()

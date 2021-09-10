@@ -112,3 +112,11 @@ window.addEventListener("load", function() {
         status.innerHTML = "YOU ARE OFFLINE";
     }
 })
+
+
+
+/* update user details */
+fetch("json/user_details.json").then(response => response.json()).then(data => {
+    document.getElementById("user_name").innerHTML = data[0].name
+    document.getElementById("avatar").src = data[0].avatar
+})

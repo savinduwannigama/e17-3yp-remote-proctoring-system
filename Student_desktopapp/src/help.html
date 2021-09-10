@@ -1,0 +1,176 @@
+<html>
+
+<head>
+    <script src='https://meet.jit.si/external_api.js'></script>
+    <style>
+        #gum {
+            width: 400;
+            height: 300;
+        }
+        
+        #status {
+            height: 20px;
+            position: absolute;
+            width: 100%;
+            background: transparent;
+        }
+        
+        #container {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="status"></div>
+    <div id="meet"></div>
+    <div id="container">
+        <video id="gum" playsinline autoplay muted></video>
+
+        <div>
+            <p>
+                Echo cancellation: <input type="checkbox" id="echoCancellation" />
+            </p>
+        </div>
+
+    </div>
+    <script>
+        const domain = 'meet.jit.si';
+        const options = {
+            roomName: 'CO227-test',
+            width: 800,
+            height: 400,
+            userInfo: {
+                displayName: 'sasini'
+            },
+            interfaceConfigOverwrite: {
+                TILE_VIEW_MAX_COLUMNS: 2,
+                DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
+                startWithAudioMuted: false,
+                startWithVideoMuted: false,
+            },
+
+            parentNode: document.querySelector('#meet')
+        };
+        const api = new JitsiMeetExternalAPI(domain, options);
+
+
+
+        /*****************************************************/
+
+
+        /* 'use strict';globals MediaRecorder */
+
+        let mediaRecorder;
+        let recordedBlobs;
+
+        const status = document.getElementById('status')
+        const video = document.getElementById('gum')
+
+
+
+
+
+
+        function handleDataAvailable(event) {
+            console.log('handleDataAvailable', event);
+            if (event.data && event.data.size > 0) {
+                recordedBlobs.push(event.data);
+            }
+        }
+
+        function startRecording() {
+            recordedBlobs = [];
+            let options = {
+                mimeType: 'video/webm;codecs=vp9,opus'
+            };
+            try {
+                mediaRecorder = new MediaRecorder(window.stream, options);
+            } catch (e) {
+                console.error('Exception while creating MediaRecorder:', e);
+                return;
+            }
+
+            console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
+
+
+            mediaRecorder.onstop = (event) => {
+                console.log('Recorder stopped: ', event);
+                console.log('Recorded Blobs: ', recordedBlobs);
+            };
+            mediaRecorder.ondataavailable = handleDataAvailable;
+            mediaRecorder.start();
+            console.log('MediaRecorder started', mediaRecorder);
+        }
+
+        function stopRecording() {
+            mediaRecorder.stop();
+        }
+
+        function handleSuccess(stream) {
+            console.log('getUserMedia() got stream:', stream);
+            window.stream = stream;
+
+            const gumVideo = document.querySelector('video#gum');
+            gumVideo.srcObject = stream;
+            startRecording();
+        }
+
+        async function init(constraints) {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                handleSuccess(stream);
+            } catch (e) {
+                console.error('navigator.getUserMedia error:', e);
+
+            }
+        }
+
+        window.addEventListener('offline', async() => {
+            status.innerHTML = "You are offline. Don't worry we keep recording you :)"
+            status.style.background = "linear-gradient(to left, rgba(255, 0, 0, 0) 20%, red 80%)";
+            const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
+            const constraints = {
+                audio: {
+                    echoCancellation: {
+                        exact: hasEchoCancellation
+                    }
+                },
+                video: {
+                    width: 1280,
+                    height: 720
+                }
+            };
+            console.log('Using media constraints:', constraints);
+            await init(constraints);
+
+        });
+
+        window.addEventListener('online', () => {
+
+            status.innerHTML = "You are back online. we will connect you with your exam room :)"
+            status.style.background = "linear-gradient(to left, rgba(255, 0, 0, 0) 20%, green 80%)";
+            video.srcObject = null;
+            stopRecording();
+
+            const blob = new Blob(recordedBlobs, {
+                type: 'video/mp4'
+            });
+            var time = new Date();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = time + '.mp4';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }, 100);
+
+        });
+    </script>
+</body>
+
+</html>
