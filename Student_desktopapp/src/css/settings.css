@@ -90,3 +90,56 @@
     max-height: 30%;
     overflow: auto;
 }
+
+
+/* avatar*/
+
+
+/* HIDE RADIO */
+
+[type=radio] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+
+/* IMAGE STYLES */
+
+[type=radio]+img {
+    cursor: pointer;
+}
+
+
+/* CHECKED STYLES */
+
+[type=radio]:checked+img {
+    outline: 2px solid #f00;
+}
+
+
+/*avatr grid*/
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    padding: 0;
+}
+
+.card {
+    list-style: none;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+}
+
+#btn {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#default {
+    text-align: center;
+}

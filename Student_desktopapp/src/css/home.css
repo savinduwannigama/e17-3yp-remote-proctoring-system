@@ -3,6 +3,7 @@
 .test {
     vertical-align: middle;
     width: 50%;
+    cursor: pointer;
 }
 
 .test img {
@@ -39,6 +40,7 @@
     margin: 3px;
     border-radius: 20px;
     font-size: 20px;
+    cursor: pointer;
 }
 
 .exams li:nth-child(4n+0) {
@@ -59,4 +61,8 @@
 .exams li:nth-child(4n+3) {
     background-color: rgba(156, 72, 177, 0.54);
     ;
+}
+
+.exams li:hover {
+    box-shadow: 5px 5px 2px white;
 }
