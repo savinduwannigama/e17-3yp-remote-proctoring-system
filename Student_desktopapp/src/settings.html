@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> </title>
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/settings.css">
+    <script defer src="js/settings.js"></script>
+    <script defer src="js/header.js"></script>
+</head>
+
+<body onload="display_ct();">
+    <div class="header">
+        <div class="wrap">
+            <div class="cont1">
+                <div class="search">
+                    <input type="text" class="searchTerm" placeholder="search">
+                    <button type="submit" id="searchbtn" class="searchButton">
+                     <i class="fa fa-search"></i>
+                  </button>
+                </div>
+            </div>
+            <div class="cont2">
+                <div class="battery">
+                    <div class="container">
+                        <div id="batBody">
+                            <div id="indicator"></div>
+                        </div>
+                        <div class="batEnd">
+                            <div></div>
+                        </div>
+                    </div>
+                    <p id="batteryLevelOutput"></p>
+                </div>
+            </div>
+            <div class="cont3">
+                <div class="notification">
+                    <img id="show_notifications" src="img/icons/notification.png">
+                    <span id="badge" class="badge">9</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="title">
+        <img src="img/icons/settingsblack.png" />
+        <span>Settings</span>
+        <div class="status" id="status"></div>
+    </div>
+
+    <div class="timestamp">
+        <p>TIME TO HIT THE BOOKS! YOUR NEXT EXAM BEGINS IN:</p>
+    </div>
+    <div class="timeindicator">
+        <p class="time">2 :<span id="currenttime"></span></p>
+        <p>DAYS : HOURS : MINUTES : SECONDS</p>
+    </div>
+
+    <!--hamburger menu-->
+    <nav class="menu" tabindex="0">
+        <div class="smartphone-menu-trigger"></div>
+        <header class="avatar">
+            <img id="avatar" class="online" src="img/isuri.jpg" />
+            <h2 id="user_name">Devindi G.A.I</h2>
+        </header>
+        <ul id="list">
+            <li tabindex="0" id="home" class="icon-home"><span>Home</span></li>
+            <li tabindex="0" id="dashboard" class="icon-dashboard"><span>Dashboard</span></li>
+            <li tabindex="0" id="course" class="icon-courses"><span>Courses</span></li>
+            <li tabindex="0" id="schedule" class="icon-schedule"><span>Exam Schedule</span></li>
+            <li tabindex="0" id="notification" class="icon-notifications"><span>Notifications</span></li>
+            <li tabindex="0" id="settings" class="icon-settings"><span>Settings</span></li>
+            <li tabindex="0" id="help" class="icon-help"><span>Help</span></li>
+        </ul>
+    </nav>
+    <div class="separator3"></div>
+    <!--body starts here-->
+    <span>change your name >></span>
+    <input type="text" id="setname">
+    <div class="box">
+        <span>Test your camera >></span>
+        <a class="button" id="start" href="#popup1">Test</a>
+    </div>
+
+    <div id="popup1" class="overlay">
+        <div class="popup">
+            <a class="close" id="close" href="#">&times;</a>
+            <br><br>
+            <!--body starts here-->
+            <div id="container">
+                <video id="gum" playsinline autoplay muted></video>
+                <video id="recorded" playsinline loop></video>
+
+                <div>
+                    <!--<button id="start">Start camera</button>-->
+                    <button id="record" disabled>Record</button>
+                    <button id="play" disabled>Play</button>
+                </div>
+
+                <div>
+                    <h4>Media Stream Constraints options</h4>
+                    <p>
+                        Echo cancellation: <input type="checkbox" id="echoCancellation" />
+                    </p>
+                </div>
+
+                <div>
+                    <span id="errorMsg"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <span>change your profile picture>></span>
+        <a class="button" id="profpic" href="#popup2">change</a>
+    </div>
+    <div id="popup2" class="overlay">
+        <div class="popup">
+            <a class="close" id="close" href="#">&times;</a>
+
+            <div id=profpic>
+                <div id="default"><img id="defavatar" src="img/avatar/user.png" /></div>
+                <div id="btn"><button id=" changeavtr ">change</button></div>
+            </div>
+            <div class="cards" id="cards">
+                <img class="card" src="img/avatar/man (1).png ">
+                <img class="card" src="img/avatar/man (2).png ">
+                <img class="card" src="img/avatar/man (3).png ">
+                <img class="card" src="img/avatar/man (4).png ">
+                <img class="card" src="img/avatar/man (5).png ">
+                <img class="card" src="img/avatar/man (6).png ">
+                <img class="card" src="img/avatar/man (7).png ">
+                <img class="card" src="img/avatar/man (8).png ">
+                <img class="card" src="img/avatar/woman (1).png ">
+                <img class="card" src="img/avatar/woman (2).png ">
+                <img class="card" src="img/avatar/woman (3).png ">
+                <img class="card" src="img/avatar/woman (4).png ">
+                <img class="card" src="img/avatar/woman (5).png ">
+                <img class="card" src="img/avatar/woman (6).png ">
+                <img class="card" src="img/avatar/woman (7).png ">
+                <img class="card" src="img/avatar/woman (8).png ">
+                <img class="card" src="img/avatar/woman (9).png ">
+                <img class="card" src="img/avatar/woman (10).png ">
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+</body>
+<script>
+</script>
+</body>
+
+</html>

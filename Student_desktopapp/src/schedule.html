@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> </title>
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/schedule.css">
+    <script defer src="js/schedule.js"></script>
+    <script defer src="js/header.js"></script>
+</head>
+
+<body onload="display_ct();">
+    <div class="header">
+        <div class="wrap">
+            <div class="cont1">
+                <div class="search">
+                    <input type="text" class="searchTerm" placeholder="search">
+                    <button type="submit" id="searchbtn" class="searchButton">
+                     <i class="fa fa-search"></i>
+                  </button>
+                </div>
+            </div>
+            <div class="cont2">
+                <div class="battery">
+                    <div class="container">
+                        <div id="batBody">
+                            <div id="indicator"></div>
+                        </div>
+                        <div class="batEnd">
+                            <div></div>
+                        </div>
+                    </div>
+                    <p id="batteryLevelOutput"></p>
+                </div>
+            </div>
+            <div class="cont3">
+                <div class="notification">
+                    <img id="show_notifications" src="img/icons/notification.png">
+                    <span id="badge" class="badge">9</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="title">
+        <img src="img/icons/home (2).png" />
+        <span>Exam Schedule</span>
+        <div class="status" id="status"></div>
+    </div>
+
+    <div class="timestamp">
+        <p>TIME TO HIT THE BOOKS! YOUR NEXT EXAM BEGINS IN:</p>
+    </div>
+    <div class="timeindicator">
+        <p class="time">2 : <span id="currenttime"></span></p>
+        <p>DAYS : HOURS : MINUTES : SECONDS</p>
+    </div>
+
+    <!--hamburger menu-->
+    <nav class="menu" tabindex="0">
+        <div class="smartphone-menu-trigger"></div>
+        <header class="avatar">
+            <img id="avatar" class="online" src="img/isuri.jpg" />
+            <h2 id="user_name">Devindi G.A.I</h2>
+        </header>
+        <ul id="list">
+            <li tabindex="0" id="home" class="icon-home"><span>Home</span></li>
+            <li tabindex="0" id="dashboard" class="icon-dashboard"><span>Dashboard</span></li>
+            <li tabindex="0" id="course" class="icon-courses"><span>Courses</span></li>
+            <li tabindex="0" id="schedule" class="icon-schedule"><span>Exam Schedule</span></li>
+            <li tabindex="0" id="notification" class="icon-notifications"><span>Notifications</span></li>
+            <li tabindex="0" id="settings" class="icon-settings"><span>Settings</span></li>
+            <li tabindex="0" id="help" class="icon-help"><span>Help</span></li>
+        </ul>
+    </nav>
+    <!--body starts here-->
+    <div class="separator2"></div>
+
+</body>
+
+</html>

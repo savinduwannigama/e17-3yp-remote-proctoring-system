@@ -88,23 +88,190 @@
 
 
         <!--=================Add The Sections Here==========================-->
-        <section>
+        <section id="testing">
             <div class="container" data-aos="fade-up">
 
                 <div class="section-title">
-                    <h2></h2>
+                    <h2>Software Testing plan</h2>
                     <p></p>
                 </div>
 
-                <p></p>
+                <p class="fst-italic"> Functional requirements will be tested under three main stages</p>
                 <ul style="list-style: none">
-                    <!--<li><i class="bi bi-check-circle"></i> </li>
-                    <li><i class="bi bi-check-circle"></i> </li>
-                    <li><i class="bi bi-check-circle"></i> </li>-->
+                    <li><i class="bi bi-check-circle"></i> Unit testing </li>
+                    <li><i class="bi bi-check-circle"></i> Integration testing </li>
+                    <li><i class="bi bi-check-circle"></i> End-to-end testing</li>
                 </ul>
 
             </div>
+            
+        <section id="testing">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>Hardware Testing plan</h2>
+                    <p></p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-10">
+                        <p class="fst-italic"> The functionality of the sensors will be tested before connecting them to the circuit.</p>
+                        <ul style="list-style: none">
+                            <li><i class="bi bi-check-circle"></i> Test the resolution of the camera and power consumption when video streaming.</li>
+                            <br>
+                            <li><i class="bi bi-check-circle"></i> Test the audio quality of the microphone and speaker.<br></li>
+                            <br>
+                            <li><i class="bi bi-check-circle"></i> Test the resolution and touch control of the LCD display.<br></li>
+                       
+                        </ul>
+                        <p class="fst-italic"> The power supply unit will be tested thoroughly under the following conditions.</p>
+                        <ul style="list-style: none">
+                            <li><i class="bi bi-check-circle"></i> Life time, current and power consumption of a fully charged power unit without direct supply when the device is idle.<br></li>
+                            <br>
+                            <li><i class="bi bi-check-circle"></i> Life time, current and power consumption of a fully charged power unit without direct supply when the device is streaming audio and video.<br></li>
+                            <br>
+                            <li><i class="bi bi-check-circle"></i> Life time, current and power consumption of a fully charged power unit without direct supply with the backlight control of the LCD display switched on (Low power mode).<br></li>
+                       
+                        </ul>
+                        
+                    </div>
+                </div>
+            </div>
+            
         </section>
+
+        <section class="about" style="background: url(./assets/img/hero_test.jpg) center center;">
+            <div class="container" data-aos="fade-up">
+                <div class="section-title">
+                    <h2>Overall system testing</h2>
+                    <p>Unit testing</p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-11 order-1 order-lg-2" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="about-img">
+                            <img src="assets/img/Testing/unit.png" alt="">
+                        </div>
+                    </div>
+                    
+                </div>
+                <br><br>
+
+                <div class="section-title">
+                   <p>Integration testing</p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-11 order-1 order-lg-2" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="about-img">
+                            <img src="assets/img/Testing/Integration.png" alt="">
+                        </div>
+                    </div>
+                    
+                </div>
+                <br><br>
+                <div class="section-title">
+                   
+                    <p>End-to-end testing</p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-11 order-1 order-lg-2" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="about-img">
+                            <img src="assets/img/Testing/end.png" alt="">
+                        </div>
+                    </div>
+                    
+                </div>
+                <br><br>
+               
+            </div>
+        </section>
+
+        <section id="components" class="phasess">
+            <div class="container" data-aos="fade-up">
+                <div class="section-title">
+                    <h2>Technologies used for testing</h2>
+                    
+                </div>
+               
+                <div class="row" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-lg-3">
+                        <ul class="nav nav-tabs flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active show" data-bs-toggle="tab" href="#tab-1">Frontend testing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#tab-2">API testing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#tab-3">End-to-end testing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#tab-4">Security testing</a>
+                            </li>
+                            
+                          
+                        </ul>
+                    </div>
+                    <div class="col-lg-9 mt-4 mt-lg-0">
+                        <div class="tab-content">
+                            <div class="tab-pane active show" id="tab-1">
+                                <div class="row">
+                                    <h3>Frontend testing</h3>
+                                    <div class="col-lg-4 order-2 order-lg-1">
+                                        
+                                        <img src="assets/img/Testing/jest.png" alt="" class="img-fluid">
+                                    </div>
+                                    <div class="col-lg-4 order-1 order-lg-2">
+                                       
+                                        <img src="assets/img/Testing/spectron.png" alt="" class="img-fluid">
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="tab-pane" id="tab-2">
+                                <div class="row">
+                                    <h3>API testing</h3>
+                                    <div class="col-lg-4 details order-2 order-lg-1">
+                                        
+                                        <img src="assets/img/Testing/postman.png" alt="" class="img-fluid">
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="tab-3">
+                                <div class="row">
+                                    <h3>End-to-end testing</h3>
+                                    <div class="col-lg-7 details order-2 order-lg-1">
+                                        
+                                        <img src="assets/img/Testing/selenium.png" alt="" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="tab-4">
+                                <div class="row">
+                                    <h3>Security testing</h3>
+                                    <div class="col-lg-5 details order-2 order-lg-1">
+                                        
+                                        <img src="assets/img/Testing/netsparker.jpg" alt="" class="img-fluid">
+                                    </div>
+                                    <div class="col-lg-5 details order-2 order-lg-1">
+                                        
+                                        <img src="assets/img/Testing/NoGotofail.jpg" alt="" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </section>
         <!--=================End Of The Sections ==========================-->
 
 
