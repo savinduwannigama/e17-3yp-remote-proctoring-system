@@ -6,47 +6,24 @@
     <style>
         @import url(https://fonts.googleapis.com/css?family=Quicksand:300,400,700);
         @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css);
-        *,
-        *:before,
-        *:after {
+        #box,
+        #box:before,
+        #box:after {
             -moz-box-sizing: border-box;
             -webkit-box-sizing: border-box;
             box-sizing: border-box;
         }
         /******************************************/
         /******************************************/
-        
-        .notification-num {
-            border-radius: 10px 10px 15px 20px;
-            background: #222;
-            text-align: center;
-            color: white;
-            position: relative;
-            left: 105%;
-            width: 20px;
-            height: 25px;
-            text-align: center;
-        }
-        
-        div.notification-num:hover {
-            background: #363636;
-            cursor: pointer;
-            -webkit-transition: background 0.3s ease-in-out;
-            -moz-transition: background 0.3s ease-in-out;
-            -ms-transition: background 0.3s ease-in-out;
-            transition: background 0.3s ease-in-out;
-        }
         /******************************************/
         /******************************************/
-        
-        body {
-            background: #666;
-            font-family: 'quicksand', sans-serif;
-        }
         
         .master {
             position: relative;
             width: 80%;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
         }
         
         input[type='checkbox'] {
@@ -61,29 +38,9 @@
             left: 0;
             color: #FFF;
             width: 100%;
-        }
-        
-        ul {
-            width: 100%;
-            padding: 0;
-            margin: 0;
-            list-style: none;
-        }
-        
-        ul li {
-            padding: 5px;
-            font-size: 13px;
-            margin-left: 15px;
-        }
-        
-        .reg li:hover {
-            cursor: pointer;
-            color: #3d85c6;
-        }
-        
-        .err li:hover {
-            cursor: pointer;
-            color: #E82C0C;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
         }
         
         .notification-panel .sub-notification input[type='checkbox']:checked+label {
@@ -95,6 +52,9 @@
             position: absolute;
             height: 100%;
             left: 0;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
         }
         
         .notification-panel .sub-notification input[id='reg_notifications']:checked+label:before {
@@ -131,6 +91,9 @@
             -ms-user-select: none;
             -o-user-select: none;
             user-select: none;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
         }
         /*Panel positioning + top border */
         
@@ -232,48 +195,50 @@
         </ul>
     </nav>
     <div class="separator2"></div>
-    <div class="master">
-        <div class="notification-panel">
+    <div id='box'>
+        <div class="master">
+            <div class="notification-panel">
 
-            <div class="sub-notification">
-                <input type="checkbox" name="reg-notifications" id="reg_notifications" />
-                <label for="reg_notifications">Notifications</label>
-                <div class="content reg">
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, cupiditate!</p>
+                <div class="sub-notification">
+                    <input type="checkbox" name="reg-notifications" id="reg_notifications" />
+                    <label for="reg_notifications">Notifications</label>
+                    <div class="content reg">
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, cupiditate!</p>
+                    </div>
                 </div>
+
+                <div class="sub-notification err">
+                    <input type="checkbox" name="err-notifications" id="err_notifications" />
+                    <label for="err_notifications">Errors</label>
+                    <div class="content err">
+                        <ul>
+                            <li class="notification-item">This is an error
+                            </li>
+                            <li class="notification-item">This is an error
+                            </li>
+                            <li class="notification-item">This is an error
+                            </li>
+                            <li class="notification-item">This is an error
+                            </li>
+                            <li class="notification-item">This is an error
+                            </li>
+                            <li class="notification-item">This is an error
+                            </li>
+                            <li class="notification-item">This is an error
+                            </li>
+                            <li class="notification-item">This is an error
+                            </li>
+                            <li class="notification-item">This is an error
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+
             </div>
 
-            <div class="sub-notification err">
-                <input type="checkbox" name="err-notifications" id="err_notifications" />
-                <label for="err_notifications">Errors</label>
-                <div class="content err">
-                    <ul>
-                        <li class="notification-item">This is an error
-                        </li>
-                        <li class="notification-item">This is an error
-                        </li>
-                        <li class="notification-item">This is an error
-                        </li>
-                        <li class="notification-item">This is an error
-                        </li>
-                        <li class="notification-item">This is an error
-                        </li>
-                        <li class="notification-item">This is an error
-                        </li>
-                        <li class="notification-item">This is an error
-                        </li>
-                        <li class="notification-item">This is an error
-                        </li>
-                        <li class="notification-item">This is an error
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
 
         </div>
-
-        <div id="notificationNumId" class="notification-num">20</div>
     </div>
 
 
