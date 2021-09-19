@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Sansita&display=swap');
+.App {
+  text-align: center;
+  background-image: url("../desktop2.jpeg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  
+  font-size: calc(10px + 2vmin);
+  font-family: 'Sansita';
+  color: white;
+}
+.login-reg{
+  height: 70vh;
+  width: 50vw;
+  background-image: url("../isuri.jpeg");
+  background-size: cover;
+  border-radius: 22px;
+}
+.nav-buttons{
+  width: 100%;
+  height: 10px;
+  text-align: right;
+  opacity:1;
+  margin-bottom: 3em;
+}
+.titlearea{
+  float: left;
+  font-size: 40px;
+  height: 100%;
+  padding-top: 50px;
+  text-align: left;
+  color: black;
+ 
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 40% 60% ;
+  grid-template-rows: 55vh ;
+  padding: 0px 50px ;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.26);
+  border-radius: 22px;
+  grid-column-start: 2;
+  font-size: 20px;
+  padding-left: 20px;
+  text-align: left;
+  color: black;
+}
+

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import '../App.css';
+import '../css/reg.css';
 import { useHistory } from 'react-router-dom';
 const Button = (props) => {
     const history = useHistory();

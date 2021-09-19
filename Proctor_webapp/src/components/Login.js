@@ -1,10 +1,11 @@
 import React from 'react'
-import '../App.css';
+import '../css/App.css';
 import Loginbtn from './Loginbtn';
 const Login = () => {
     return (
+      
         <div className="login-reg">
-        <Loginbtn ></Loginbtn>
+        <Loginbtn property={'/register'}></Loginbtn>
       
         <div class="grid-container">
           <div className="titlearea"><p>WELCOME PROCTOR!</p></div>
@@ -15,7 +16,7 @@ const Login = () => {
         </div>
         
         
-      </div>
+        </div>
     )
 }
 
