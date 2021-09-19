@@ -1,0 +1,252 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="css/header.css">
+    <script defer src="js/header.js"></script>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Quicksand:300,400,700);
+        @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css);
+        #box,
+        #box:before,
+        #box:after {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        /******************************************/
+        /******************************************/
+        /******************************************/
+        /******************************************/
+        
+        .master {
+            position: relative;
+            width: 80%;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        
+        input[type='checkbox'] {
+            display: none;
+        }
+        
+        .notification-panel {
+            background: #222;
+            font-size: 15px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #FFF;
+            width: 100%;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        
+        .notification-panel .sub-notification input[type='checkbox']:checked+label {
+            background: #363636;
+        }
+        
+        .notification-panel .sub-notification input:checked+label:before {
+            content: " ";
+            position: absolute;
+            height: 100%;
+            left: 0;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        
+        .notification-panel .sub-notification input[id='reg_notifications']:checked+label:before {
+            border-left: 3px solid #3d85c6;
+            border-right: 3px solid #3d85c6;
+        }
+        
+        .notification-panel .sub-notification input[id='err_notifications']:checked+label:before {
+            border-left: 3px solid #E82C0C;
+            border-right: 3px solid #E82C0C;
+        }
+        
+        .notification-panel .sub-notification input[type='checkbox']:checked~.content {
+            padding: 10px 55px;
+            max-height: 200px;
+            opacity: 1;
+            overflow-y: auto;
+        }
+        /* Where the magic happens */
+        
+        .sub-notification label {
+            position: relative;
+            cursor: pointer;
+            padding: 10px 20px;
+            display: table;
+            background: #222222;
+            width: 100%;
+            -webkit-transition: background 0.3s ease-in-out;
+            -moz-transition: background 0.3s ease-in-out;
+            -ms-transition: background 0.3s ease-in-out;
+            transition: background 0.3s ease-in-out;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        /*Panel positioning + top border */
+        
+        .notification-panel .sub-notification label:before {
+            content: " ";
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 1px;
+            border-top: 1px solid #363636;
+        }
+        /* Border below the last notification similar to the top border */
+        
+        .notification-panel .sub-notification:last-of-type {
+            border-bottom: 1px solid #363636;
+        }
+        /* transition when hovering over the notification label*/
+        
+        .notification-panel .sub-notification label:hover {
+            background: #363636;
+        }
+        /* Formating the notification items transition and scrolling*/
+        
+        .notification-panel .sub-notification .content {
+            max-height: 0;
+            /* -webkit-transition: all 0.4s;
+            -moz-transition: all 0.4s;
+            -ms-transition: all 0.4s;
+            transition: all 0.4s;*/
+            opacity: 0;
+            position: relative;
+            overflow-y: hidden;
+        }
+    </style>
+</head>
+
+<body onload="display_ct();">
+    <div class="header">
+        <div class="wrap">
+            <div class="cont1">
+                <div class="search">
+                    <input type="text" class="searchTerm" placeholder="search">
+                    <button type="submit" id="searchbtn" class="searchButton">
+                     <i class="fa fa-search"></i>
+                  </button>
+                </div>
+            </div>
+            <div class="cont2">
+                <div class="battery">
+                    <div class="container">
+                        <div id="batBody">
+                            <div id="indicator"></div>
+                        </div>
+                        <div class="batEnd">
+                            <div></div>
+                        </div>
+                    </div>
+                    <p id="batteryLevelOutput"></p>
+                </div>
+            </div>
+            <div class="cont3">
+                <div class="notification">
+                    <img id="show_notifications" src="img/icons/notification.png">
+                    <span id="badge" class="badge">9</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="title">
+        <img src="img/icons/home (2).png" />
+        <span>Home</span>
+        <div class="status" id="status"></div>
+    </div>
+
+    <div class="timestamp">
+        <p>TIME TO HIT THE BOOKS! YOUR NEXT EXAM BEGINS IN:</p>
+    </div>
+    <div class="timeindicator">
+        <p class="time">2 :<span id="currenttime"></span></p>
+        <p>DAYS : HOURS : MINUTES : SECONDS</p>
+    </div>
+
+    <!--hamburger menu-->
+    <nav class="menu" tabindex="0">
+        <div class="smartphone-menu-trigger"></div>
+        <header class="avatar">
+            <img id="avatar" class="online" src="img/isuri.jpg" />
+            <h2 id="user_name">Devindi G.A.I</h2>
+        </header>
+        <ul id="list">
+            <li tabindex="0" id="home" class="icon-home"><span>Home</span></li>
+            <li tabindex="0" id="dashboard" class="icon-dashboard"><span>Dashboard</span></li>
+            <li tabindex="0" id="course" class="icon-courses"><span>Courses</span></li>
+            <li tabindex="0" id="schedule" class="icon-schedule"><span>Exam Schedule</span></li>
+            <li tabindex="0" id="notification" class="icon-notifications"><span>Notifications</span></li>
+            <li tabindex="0" id="settings" class="icon-settings"><span>Settings</span></li>
+            <li tabindex="0" id="help" class="icon-help"><span>Help</span></li>
+        </ul>
+    </nav>
+    <div class="separator2"></div>
+    <div id='box'>
+        <div class="master">
+            <div class="notification-panel">
+
+                <div class="sub-notification">
+                    <input type="checkbox" name="reg-notifications" id="reg_notifications" />
+                    <label for="reg_notifications">Notifications</label>
+                    <div class="content reg">
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, cupiditate!</p>
+                    </div>
+                </div>
+
+                <div class="sub-notification err">
+                    <input type="checkbox" name="err-notifications" id="err_notifications" />
+                    <label for="err_notifications">Errors</label>
+                    <div class="content err">
+                        <ul>
+                            <li class="notification-item">This is an error
+                            </li>
+                            <li class="notification-item">This is an error
+                            </li>
+                            <li class="notification-item">This is an error
+                            </li>
+                            <li class="notification-item">This is an error
+                            </li>
+                            <li class="notification-item">This is an error
+                            </li>
+                            <li class="notification-item">This is an error
+                            </li>
+                            <li class="notification-item">This is an error
+                            </li>
+                            <li class="notification-item">This is an error
+                            </li>
+                            <li class="notification-item">This is an error
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <script>
+        //This is where the magic doesn't happen
+        var currentNotification = 0;
+        document.getElementById().style.display = 'block';
+    </script>
+</body>
+
+</html>
