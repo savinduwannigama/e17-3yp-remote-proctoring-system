@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from './Button';
-import '../App.css';
+import '../css/App.css';
 const Register = () => {
     return (
         <div className="login-reg">
