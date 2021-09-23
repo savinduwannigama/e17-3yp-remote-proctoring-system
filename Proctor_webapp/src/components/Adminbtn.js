@@ -50,10 +50,11 @@ export default class Adminbtn extends React.Component {
   fileUploadHandler = ()=>{
     const fd = new FormData();
     fd.append(this.value, this.state.selectedFile,this.state.selectedFile.name);
-    axios.post('url',fd)
-      .then(res=>{
-        console.log(res);
-      });
+    axios.post('https://moodle-51262-0.cloudclusters.net/', fd, {
+      onUploadProgress: progressEvent => {
+        console.log(progressEvent.loaded / progressEvent.total)
+      }
+    })
   }
 
 
@@ -84,7 +85,7 @@ export default class Adminbtn extends React.Component {
           <ThemeProvider theme={theme}>
           <Button color="neutral" variant="contained" component="span" size="small" onClick = {this.fileUploadHandler}>
                            
-          <p> {this.state.FileName}</p>
+          <p className="btnp"> {this.state.FileName}</p>
           </Button>
           </ThemeProvider>
       </label>

@@ -25,6 +25,7 @@ function adminhome() {
             <Adminbtn btnname="Add Proctors" value="proctor"/>
             </ButtonGroup>
             </Box>
+            
         </div>
         
     )
