@@ -4,9 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost//*specify the database used HERE*/')
+mongoose.connect('mongodb://localhost:27017/remote_proctoring_system');
 
 // importing the modules containing the routers  (can also straight awa require as the second argument of app.use())
 var indexRouter = require('./routes/index');
