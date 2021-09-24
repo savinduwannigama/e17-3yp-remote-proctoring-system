@@ -1,0 +1,92 @@
+.login-reg{
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  
+}
+/*LOGIN BUTTON (temporary- have to find a solution which works for routing!)*/
+body span.switcher-login {
+    padding-top: 25px;
+    position: relative;
+    width: 60px;
+    height: 30px;
+    border-radius: 25px;
+    margin: 0px 0px;
+    font-size: 20px;
+    text-align: center;
+  }
+  body span.switcher-login input {
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    
+    width: 135px;
+    height: 37px;
+    border-radius: 25px;
+    background-color: #35A78C;
+    outline: none;
+    font-family: "Sansita";
+    text-align: center;
+  }
+  body span.switcher-login input:before, body span.switcher-login input:after {
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #FFFFFF;
+  }
+  body span.switcher-login input:before {
+    content: "Log In";
+    
+    left: 20px;
+  }
+  body span.switcher-login input:after {
+    content: "Register";
+    right: 20px;
+  }
+  body span.switcher-login label {
+    z-index: 1;
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    border-radius: 20px;
+  }
+  body span.switcher-login.switcher-l1 input {
+    transition: 0.25s -0.1s;
+  }
+  body span.switcher-login.switcher-l1 input:not(:checked) {
+    background-color: #FFFFFF;
+  }
+  body span.switcher-login.switcher-l1 input:not(:checked):before {
+    color: #FFFFFF;
+    transition: color 0.5s 0.2s;
+  }
+  body span.switcher-login.switcher-l1 input:not(:checked):after {
+    color: #4e4b4b;
+    transition: color 0.5s;
+  }
+  body span.switcher-login.switcher-l1 input:not(:checked) + label {
+    left: 10px;
+    right: 70px;
+    background: #35A78C;
+    transition: left 0.5s, right 0.4s 0.2s;
+  }
+  body span.switcher-login.switcher-l1 input:checked {
+    background: #f3f3f3;
+    transition: background 0.5s -0.1s;
+  }
+  body span.switcher-login.switcher-l1 input:checked:before {
+    color: #4e4b4b;
+    transition: color 0.5s;
+  }
+  body span.switcher-login.switcher-l1 input:checked:after {
+    color: #ffffff;
+    transition: color 0.5s 0.2s;
+  }
+  body span.switcher-login.switcher-l1 input:checked + label {
+    left: 70px;
+    right: 10px;
+    background: #35A78C;
+    transition: left 0.4s 0.2s, right 0.5s, background 0.35s -0.1s;
+  }
+  /*END OF STUPID WEIRD BUTTON login*/
