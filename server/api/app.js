@@ -4,9 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const mongoose = require('mongoose')
+
+mongoose.connect('mongodb://localhost//*specify the database used HERE*/')
+
 // importing the modules containing the routers  (can also straight awa require as the second argument of app.use())
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var proctorsRouter = require('./routes/api/proctor');
+var studentsRouter = require('./routes/api/student');
 
 var app = express();
 
@@ -31,9 +37,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 /////////////////////////////////////////////////////////////////////////////////
 // insert the routes here
 app.use('/', indexRouter);
-//app.use('/users', usersRouter);
-app.use('/api/proctor', /**import the module */);  // APIs used by the proctor's side UI
-app.use('/api/student', /**import the module */);  // APIs used by the students' side UI
+app.use('/users', usersRouter);
+app.use('/api/proctor', proctorsRouter);  // APIs used by the proctor's side UI
+app.use('/api/student', studentsRouter);  // APIs used by the students' side UI
 /////////////////////////////////////////////////////////////////////////////////
 
 // catch 404 and forward to error handler
