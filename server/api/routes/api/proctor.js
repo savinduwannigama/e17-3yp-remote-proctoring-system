@@ -1,4 +1,13 @@
 const express = require('express');
+const mongoose = require('mongoose');
+
+// importing the mongoose models ///////////////////////////////////////////////////////////////////////////////
+const proctors = require('../../models/proctors');  // importing the mongoose model for the collection 'proctors'
+const students = require('../../models/students');  // importing the mongoose model for the collection 'students'
+const recordings = require('../../models/recordings');  // importing the mongoose model for the collection 'recordings'
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const router = express.Router();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -93,3 +102,5 @@ router.get('/recentexams', (req, res) => {
      */
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+module.exports = router;
