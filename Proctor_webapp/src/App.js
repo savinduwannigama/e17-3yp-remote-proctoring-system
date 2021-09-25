@@ -6,6 +6,7 @@ import Register from './components/Register';
 import Portal from './components/Portal';
 import Adminlogin from './components/Adminlogin';
 import Adminhome from './components/Adminhome';
+import Home from './components/Home';
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
           <Route path="/" exact>
             <Portal/>
           </Route>
-          <Route path="/adminlogin" exact>
+          <Route path="/adminsignin" exact>
             <Adminlogin/>
           </Route>
           <Route path="/adminhome" exact>
@@ -27,8 +28,11 @@ function App() {
             <Register />
           </Route>
 
-          <Route path="/login" exact>
+          <Route path="/signin" exact>
             <Login />
+          </Route>
+          <Route path="/home" exact>
+            <Home/>
           </Route>
         </Switch>
       </Router>

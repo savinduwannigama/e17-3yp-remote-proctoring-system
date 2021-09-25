@@ -18,6 +18,9 @@ const theme = createTheme({
         main: '#006666',
         contrastText: '#fff',
       },
+      other:{
+        main: 'white'
+      }
     },
 });
 
@@ -83,9 +86,9 @@ export default class Adminbtn extends React.Component {
       <Stack direction= 'column' alignItems="center">
       <label>
           <ThemeProvider theme={theme}>
-          <Button color="neutral" variant="contained" component="span" size="small" onClick = {this.fileUploadHandler}>
+          <Button color="other" variant="contained" component="span" size="small" onClick = {this.fileUploadHandler}>
                            
-          <p className="btnp"> {this.state.FileName}</p>
+          <p className="btnp" style={{color:"#0408A0"}}> {this.state.FileName}</p>
           </Button>
           </ThemeProvider>
       </label>

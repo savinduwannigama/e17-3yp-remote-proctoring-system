@@ -12,7 +12,7 @@ const theme = createTheme({
         darker: '#053e85',
       },
       neutral: {
-        main: '#006666',
+        main: '#35A78C',
         contrastText: '#fff',
       },
     },
@@ -21,7 +21,7 @@ const Portalbtn = (props) => {
     const history = useHistory();
     return (
         <ThemeProvider theme={theme}>
-                <Button color="neutral" variant="contained" type="submit" size="large" onClick={() => history.push(props.property)}>
+                <Button color="neutral" variant="contained" type="submit" size={props.size} onClick={() => history.push(props.property)}>
                     {props.btname}
                 </Button>
         </ThemeProvider>

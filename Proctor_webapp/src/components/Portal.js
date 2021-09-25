@@ -8,12 +8,12 @@ const Portal = () => {
         <div className="Portal">
             <h1>THE REMOTE PROCTORING SYSTEM PORTAL</h1>
             <div className="main">
-                <h2> Sign Up/ Login </h2>
+                <h2> Sign in / Register </h2>
                 <div className="options">
-                <Portalbtn property={'/adminlogin'} btname = {'ADMIN'}/>
+                <Portalbtn property={'/adminsignin'} btname = {'ADMIN'} size= {'large'}/>
                 </div>
                 <div className="options">
-                <Portalbtn property={'/login'} btname = {'PROCTOR'}/>
+                <Portalbtn property={'/signin'} btname = {'PROCTOR'}/>
                 </div>
                
               

@@ -8,7 +8,9 @@ const Button = (props) => {
             <span class="switcher-login switcher-l1">
                 <input type="checkbox" id="switcher-l1" onChange={() => history.push(props.property)}></input>
                 <label for="switcher-l1"></label>
+                
             </span>
+            
         </div>
     )
 }
