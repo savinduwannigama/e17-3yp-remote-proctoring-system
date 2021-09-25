@@ -1,10 +1,20 @@
-.login-reg{
+.login{
     align-items: center;
     justify-content: center;
     margin: auto;
+    color: rgb(15, 15, 15);
+    height: 70vh;
+    width: 30%;
+    background-image: url("../isuri.jpeg");
+    background-size: cover;
+    border-radius: 22px;
+
     
 }
-
+.login h2{
+    font-size: 30px;
+    padding-top: 50px;
+}
 
 .Main {
     
@@ -29,15 +39,22 @@
     padding: 50px 50px ;
     font-size: calc(10px + 2vmin);
   }
-  .grid-item {
-    background-color: rgba(255, 255, 255, 0.26);
-    border-radius: 22px;
-    grid-column-start: 2;
-    font-size: 20px;
-    padding-left: 20px;
-    text-align: left;
+.item {
+    
+    align-items: center;
+    font-size: 15px;
+    padding-top: 20px;
+    text-align: center;
     color: black;
   }
-.titlearea{
+.titlear{
+    
+    width: 70vw;
     text-align: center;
+    font-size: 10px;
+}
+.item p{
+   
+    padding: 0px 40px 40px 40px;
+    font-size: 15px;
 }
