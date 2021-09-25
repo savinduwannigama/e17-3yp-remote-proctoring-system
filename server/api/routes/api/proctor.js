@@ -2,9 +2,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 // importing the mongoose models ///////////////////////////////////////////////////////////////////////////////
+
 const proctors = require('../../models/proctors');  // importing the mongoose model for the collection 'proctors'
 const students = require('../../models/students');  // importing the mongoose model for the collection 'students'
 const recordings = require('../../models/recordings');  // importing the mongoose model for the collection 'recordings'
+
+////////// student accessible collections
+
+const courses = require('../../models/courses');  // importing the mongoose model for the collection 'courses'
+const exams = require('../../models/exams');  // importing the mongoose model for the collection 'exams'
+const exam_rooms = require('../../models/exam_rooms');  // importing the mongoose model for the collection 'exam_rooms'
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -47,26 +54,35 @@ router.get('/checkpin', (req, res) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 // APIs for the Home page
 
-// scheduling and exam
-router.post('/schedule', (req, res) => {
+// scheduling and exam (REDUNDANT --> in admin.js)
+router.post('/exams', async (req, res) => {
     /**
      * add code to add a new exam to the database
      * add a auto generated id 
      * have to generate a URL/link for the meeting and store in the database
      */
+
+    const record = req.body;
+    console.log('Request body: ' + record);
+
+    const response = await exams.create(record);  // response is the return value from mongoDB
+    console.log('Created new exam: ' + response);
+
+    res.json({status: 'Addded new exam schedule'});  // response after succcesfully creating a new exam schedule
+     
 });
 
 // to get acheduled exams
-router.get('/schedule', (req, res) => {
+router.get('/exams', (req, res) => {
     /**
      * get all the schedules from the database
      * 
      */
-    res.json(/**array containing the schedules as object*/);  //
+    res.json({siddiya: "menna meekai sidduya"});  //  /**array containing the schedules as object*/
 });
 
 // to edit a schedules exam
-router.put('/schedule/:id', (req, res) => {
+router.put('/examschedule/:id', (req, res) => {
     /**
      * check if the schedule with the given id exists
      * edit the schedule in the database
