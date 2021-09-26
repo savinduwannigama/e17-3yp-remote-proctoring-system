@@ -1,186 +1,77 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src='https://meet.jit.si/external_api.js'></script>
+    <script defer src="js/help.js"></script>
+    <title>Virtual examination room</title>
     <style>
-        #gum {
-            width: 400;
-            height: 300;
+        #start,
+        #download {
+            border-radius: 5px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+            border: 0;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            justify-content: center;
+        }
+        
+        #start:disabled,
+        #download:disabled {
+            background-color: rgb(185, 183, 183);
+        }
+        
+        #start {
+            background-color: rgb(62, 167, 53);
+        }
+        
+        #download {
+            background-color: rgb(228, 18, 18);
         }
         
         #status {
-            height: 20px;
-            position: absolute;
+            display: initial;
+            text-align: center;
             width: 100%;
+            height: 20px;
+            position: fixed;
+            padding-top: 10px;
+            padding-right: 10px;
+            font-size: 15px;
+            right: 0px;
+            top: 35px;
+            color: white;
             background: transparent;
         }
         
-        #container {
-            display: none;
+        #btns {
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
+    <div id="btns">
+        <button id="start">Join meeting</button>
+        <button id="download" disabled>Leave meeting</button>
+    </div>
+    <br>
     <div id="status"></div>
     <div id="meet"></div>
-    <div id="container">
-        <video id="gum" playsinline autoplay muted></video>
 
-        <div>
-            <p>
-                Echo cancellation: <input type="checkbox" id="echoCancellation" />
-            </p>
-        </div>
+    <p>
+        Echo cancellation: <input type="checkbox" id="echoCancellation" />
+    </p>
 
+    <div>
+        <span id="errorMsg"></span>
     </div>
-    <script>
-        const {
-            ipcRenderer
-        } = require('electron')
 
-        const domain = 'meet.jit.si';
-        const options = {
-            roomName: 'CO227-test',
-            width: 800,
-            height: 400,
-            userInfo: {
-                displayName: 'sasini'
-            },
-            interfaceConfigOverwrite: {
-                TILE_VIEW_MAX_COLUMNS: 2,
-                DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
-                startWithAudioMuted: false,
-                startWithVideoMuted: false,
-            },
-
-            parentNode: document.querySelector('#meet')
-        };
-        const api = new JitsiMeetExternalAPI(domain, options);
-
-
-
-        /*****************************************************/
-
-
-        /* 'use strict';globals MediaRecorder */
-
-        let mediaRecorder;
-        let recordedBlobs;
-
-        const status = document.getElementById('status')
-        const video = document.getElementById('gum')
-
-
-
-
-
-
-        function handleDataAvailable(event) {
-            console.log('handleDataAvailable', event);
-            if (event.data && event.data.size > 0) {
-                recordedBlobs.push(event.data);
-            }
-        }
-
-        function startRecording() {
-            recordedBlobs = [];
-            let options = {
-                mimeType: 'video/webm;codecs=vp9,opus'
-            };
-            try {
-                mediaRecorder = new MediaRecorder(window.stream, options);
-            } catch (e) {
-                console.error('Exception while creating MediaRecorder:', e);
-                return;
-            }
-
-            console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
-
-
-            mediaRecorder.onstop = (event) => {
-                console.log('Recorder stopped: ', event);
-                console.log('Recorded Blobs: ', recordedBlobs);
-            };
-            mediaRecorder.ondataavailable = handleDataAvailable;
-            mediaRecorder.start();
-            console.log('MediaRecorder started', mediaRecorder);
-        }
-
-        function stopRecording() {
-            mediaRecorder.stop();
-        }
-
-        function handleSuccess(stream) {
-            console.log('getUserMedia() got stream:', stream);
-            window.stream = stream;
-
-            const gumVideo = document.querySelector('video#gum');
-            gumVideo.srcObject = stream;
-            startRecording();
-        }
-
-        async function init(constraints) {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia(constraints);
-                handleSuccess(stream);
-            } catch (e) {
-                console.error('navigator.getUserMedia error:', e);
-
-            }
-        }
-
-        window.addEventListener('offline', async() => {
-            status.innerHTML = "You are offline. Don't worry we keep recording you :)"
-            status.style.background = "linear-gradient(to left, rgba(255, 0, 0, 0) 20%, red 80%)";
-            const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
-            const constraints = {
-                audio: {
-                    echoCancellation: {
-                        exact: hasEchoCancellation
-                    }
-                },
-                video: {
-                    width: 1280,
-                    height: 720
-                }
-            };
-            console.log('Using media constraints:', constraints);
-            await init(constraints);
-
-        });
-
-        window.addEventListener('online', () => {
-
-            status.innerHTML = "You are back online. we will connect you with your exam room :)"
-            status.style.background = "linear-gradient(to left, rgba(255, 0, 0, 0) 20%, green 80%)";
-            video.srcObject = null;
-            stopRecording();
-
-            const blob = new Blob(recordedBlobs, {
-                type: 'video/mp4'
-            });
-            var time = new Date();
-            const url = window.URL.createObjectURL(blob);
-
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = time + '.mp4';
-            document.body.appendChild(a);
-            a.click();
-
-            setTimeout(() => {
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
-            }, 100);
-            //https: //www.geeksforgeeks.org/save-files-in-electronjs/
-
-        });
-    </script>
 </body>
 
 </html>

@@ -100,11 +100,11 @@ function updateOnlineStatus(event) {
         time.style.display = "none";
         timeindicator.style.display = "none";
 
-        status.style.background = "red";
+        status.style.background = "rgba(255, 0, 0, 0.678)";
         status.innerHTML = "YOU ARE OFFLINE !";
 
     } else {
-        status.style.background = "linear-gradient(to right, rgba(255, 0, 0, 0) 20%, green 80%)";
+        status.style.background = "#1eb119bd";
         status.innerHTML = "YOU ARE ONLINE !";
         setTimeout(function() {
             status.style.display = "none";

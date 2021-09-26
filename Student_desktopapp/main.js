@@ -72,15 +72,22 @@ function createWindow() {
     ipc.on('schedule', () => { mainWindow.loadFile('src/schedule.html') })
     ipc.on('notification', () => { mainWindow.loadFile('src/notifications.html') })
     ipc.on('settings', () => { mainWindow.loadFile('src/settings.html') })
-    ipc.on('help', () => { mainWindow.loadFile('src/videoRecording.html') })
+    ipc.on('help', () => { mainWindow.loadFile('src/help.html') })
 
 
-    ipcMain.on("download", async(event, { url }) => {
-        var time = new Date()
+    ipcMain.on("download", async(event, { url, fileName }) => {
+        var time = new Date();
+
         const win = BrowserWindow.getFocusedWindow();
-        console.log(await download(win, url, {
-            filename: time + '.mp4'
-        }));
+        await download(win, url, {
+            filename: fileName + '.mp4',
+            onCompleted: () => {
+                event.reply('done')
+            }
+        });
+
+
+
     });
 
 

@@ -1,91 +1,92 @@
 <html>
 
 <head>
-    <title>Media Recorder in Javascript</title>
-    <style>
-        #gum,
-        #recorded {
-            width: 400;
-            height: 300;
-        }
-    </style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://meet.jit.si/external_api.js'></script>
+    <title>Virtual examination room</title>
+
 </head>
 
 <body>
-    <div id="container">
-        <video id="gum" playsinline autoplay muted></video>
-        <video id="recorded" playsinline loop></video>
+    <button id="start">Join meeting</button>
+    <button id="download" disabled>Leave meeting</button>
+    <div id="status"></div>
+    <div id="meet"></div>
 
-        <div>
-            <button id="start">Start camera</button>
-            <button id="record" disabled>Record</button>
-            <button id="play" disabled>Play</button>
-            <button id="download" disabled>Download</button>
-        </div>
+    <p>
+        Echo cancellation: <input type="checkbox" id="echoCancellation" />
+    </p>
 
-        <div>
-            <h4>Media Stream Constraints options</h4>
-            <p>
-                Echo cancellation: <input type="checkbox" id="echoCancellation" />
-            </p>
-        </div>
-
-        <div>
-            <span id="errorMsg"></span>
-        </div>
+    <div>
+        <span id="errorMsg"></span>
     </div>
+
 </body>
 <script>
+    var record = false;
     const {
         ipcRenderer
     } = require('electron')
     const ipc = ipcRenderer
 
-    /* globals MediaRecorder */
+    const domain = 'meet.jit.si';
+    const options = {
+        roomName: 'CO227-test',
+        width: 800,
+        height: 400,
+        userInfo: {
+            displayName: 'sasini'
+        },
+        interfaceConfigOverwrite: {
+            TILE_VIEW_MAX_COLUMNS: 2,
+            DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
+            startWithAudioMuted: false,
+            startWithVideoMuted: false,
+        },
+
+        parentNode: document.querySelector('#meet')
+    };
 
     let mediaRecorder;
     let recordedBlobs;
 
     const errorMsgElement = document.querySelector('span#errorMsg');
-    const recordedVideo = document.querySelector('video#recorded');
-    const recordButton = document.querySelector('button#record');
-    const playButton = document.querySelector('button#play');
     const downloadButton = document.querySelector('button#download');
+    const startButton = document.querySelector('button#start');
 
 
-    recordButton.addEventListener('click', () => {
-        if (recordButton.textContent === 'Record') {
-            startRecording();
-        } else {
-            stopRecording();
-            recordButton.textContent = 'Record';
-            playButton.disabled = false;
-            downloadButton.disabled = false;
-        }
-    });
+    window.addEventListener('offline', () => {
+        record = true;
+        mediaRecorder.resume();
+    })
 
-
-    playButton.addEventListener('click', () => {
-        const superBuffer = new Blob(recordedBlobs, {
-            type: 'video/webm'
-        });
-        recordedVideo.src = null;
-        recordedVideo.srcObject = null;
-        recordedVideo.src = window.URL.createObjectURL(superBuffer);
-        recordedVideo.controls = true;
-        recordedVideo.play();
-    });
-
+    window.addEventListener('online', () => {
+        mediaRecorder.pause();
+    })
 
     downloadButton.addEventListener('click', () => {
-        const blob = new Blob(recordedBlobs, {
-            type: 'video/mp4'
-        });
+        var time = new Date();
+        var name = time.toString().split(':').join('_');
+        mediaRecorder.resume();
+        stopRecording();
 
-        const url = window.URL.createObjectURL(blob);
-        ipc.send("download", {
-            url: url
-        })
+        setTimeout(function() {
+            if (record) {
+                const blob = new Blob(recordedBlobs, {
+                    type: 'video/mp4'
+                });
+                const url = window.URL.createObjectURL(blob);
+                ipc.send("download", {
+                    url: url,
+                    fileName: name
+                })
+            }
+            ipc.send('home');
+        }, 3000)
+
+
+
 
     });
 
@@ -104,15 +105,10 @@
         try {
             mediaRecorder = new MediaRecorder(window.stream, options);
         } catch (e) {
-            console.error('Exception while creating MediaRecorder:', e);
             errorMsgElement.innerHTML = `Exception while creating MediaRecorder: ${JSON.stringify(e)}`;
             return;
         }
 
-        console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
-        recordButton.textContent = 'Stop Recording';
-        playButton.disabled = true;
-        downloadButton.disabled = true;
         mediaRecorder.onstop = (event) => {
             console.log('Recorder stopped: ', event);
             console.log('Recorded Blobs: ', recordedBlobs);
@@ -120,6 +116,7 @@
         mediaRecorder.ondataavailable = handleDataAvailable;
         mediaRecorder.start();
         console.log('MediaRecorder started', mediaRecorder);
+        mediaRecorder.pause();
     }
 
     function stopRecording() {
@@ -127,12 +124,9 @@
     }
 
     function handleSuccess(stream) {
-        recordButton.disabled = false;
-        console.log('getUserMedia() got stream:', stream);
         window.stream = stream;
+        startRecording();
 
-        const gumVideo = document.querySelector('video#gum');
-        gumVideo.srcObject = stream;
     }
 
     async function init(constraints) {
@@ -140,12 +134,13 @@
             const stream = await navigator.mediaDevices.getUserMedia(constraints);
             handleSuccess(stream);
         } catch (e) {
-            console.error('navigator.getUserMedia error:', e);
             errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
         }
     }
 
-    document.querySelector('button#start').addEventListener('click', async() => {
+    startButton.addEventListener('click', async() => {
+        startButton.disabled = true;
+        downloadButton.disabled = false;
         const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
         const constraints = {
             audio: {
@@ -159,6 +154,7 @@
             }
         };
         console.log('Using media constraints:', constraints);
+        const api = new JitsiMeetExternalAPI(domain, options);
         await init(constraints);
     });
 </script>
