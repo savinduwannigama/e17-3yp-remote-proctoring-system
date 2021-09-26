@@ -29,7 +29,24 @@ function display_c() {
     mytime = setTimeout('display_ct()', refresh);
     mybattery = setTimeout('battery()', refresh);
 
+
 }
+
+/**********************Date and Time **************/
+const monthNames = [" Jan ", " Feb ", " Mar ", " Apr ", " May ", " June ",
+    " July ", " Aug ", " Sep ", " Oct ", " Nov ", " Dec "
+];
+
+function display_date() {
+
+    var x = new Date()
+    var hours = x.getHours();
+    var min = x.getMinutes();
+    var sec = x.getSeconds();
+    document.getElementById('time').innerHTML = hours + " : " + min + " : " + sec;
+    document.getElementById("date").innerHTML = x.getDate() + monthNames[x.getMonth()] + x.getFullYear();
+}
+
 
 /***************** current time ******************/
 

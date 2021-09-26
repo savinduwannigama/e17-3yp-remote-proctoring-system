@@ -5,6 +5,7 @@ document.getElementById('testcam').addEventListener('click', () => {
     ipc.send("settings")
 })
 
-document.getElementById('schedule').addEventListener('click', () => {
+document.getElementById('examschedule').addEventListener('click', () => {
     ipc.send("schedule")
+
 })

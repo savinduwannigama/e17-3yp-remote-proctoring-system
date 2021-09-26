@@ -19,6 +19,7 @@ function createWindow() {
         height: 480,
         minimizable: false,
         maximizable: true,
+        icon: "src/img/appicon3.png",
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,

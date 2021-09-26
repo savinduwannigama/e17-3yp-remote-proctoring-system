@@ -4,7 +4,10 @@ const ipc = ipcRenderer
 var check = document.querySelector("input[name=checkbox]");
 check.addEventListener('change', function() {
     if (this.checked) {
-        ipc.send("Register")
+        setTimeout(function() {
+            ipc.send("Register")
+        }, 500)
+
     }
 });
 

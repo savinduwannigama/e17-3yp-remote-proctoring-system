@@ -1,7 +1,8 @@
 /*blocks to horizontally & vertically center align*/
 
+@import url('https://fonts.googleapis.com/css2?family=Sansita&display=swap');
 .body {
-    font-family: "Sansita", sans-serif;
+    font-family: 'Sansita', sans-serif;
 }
 
 .outer {
@@ -96,7 +97,8 @@ table {
 th {
     padding-left: 10px;
     text-align: left;
-    font-size: 30px;
+    font-size: 20px;
+    padding-bottom: 10px;
     width: 350px;
 }
 
