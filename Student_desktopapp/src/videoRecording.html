@@ -1,9 +1,14 @@
-<!DOCTYPE html>
 <html>
 
 <head>
     <title>Media Recorder in Javascript</title>
-    <link rel="stylesheet" href="main.css" />
+    <style>
+        #gum,
+        #recorded {
+            width: 400;
+            height: 300;
+        }
+    </style>
 </head>
 
 <body>
@@ -31,7 +36,10 @@
     </div>
 </body>
 <script>
-    'use strict';
+    const {
+        ipcRenderer
+    } = require('electron')
+    const ipc = ipcRenderer
 
     /* globals MediaRecorder */
 
@@ -73,17 +81,12 @@
         const blob = new Blob(recordedBlobs, {
             type: 'video/mp4'
         });
+
         const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = 'test.mp4';
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(() => {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }, 100);
+        ipc.send("download", {
+            url: url
+        })
+
     });
 
     function handleDataAvailable(event) {

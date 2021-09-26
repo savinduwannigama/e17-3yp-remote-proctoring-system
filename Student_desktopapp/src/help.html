@@ -1,7 +1,10 @@
 <html>
 
 <head>
-    <script src='https://143.244.139.140/external_api.js'></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://meet.jit.si/external_api.js'></script>
     <style>
         #gum {
             width: 400;
@@ -35,7 +38,11 @@
 
     </div>
     <script>
-        const domain = '143.244.139.140';
+        const {
+            ipcRenderer
+        } = require('electron')
+
+        const domain = 'meet.jit.si';
         const options = {
             roomName: 'CO227-test',
             width: 800,
@@ -158,12 +165,14 @@
             });
             var time = new Date();
             const url = window.URL.createObjectURL(blob);
+
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = url;
             a.download = time + '.mp4';
             document.body.appendChild(a);
             a.click();
+
             setTimeout(() => {
                 document.body.removeChild(a);
                 window.URL.revokeObjectURL(url);

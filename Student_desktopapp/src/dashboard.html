@@ -11,45 +11,47 @@
 
 <body onload="display_ct();">
     <div class="header">
-        <div class="wrap">
-            <div class="cont1">
-                <div class="search">
-                    <input type="text" class="searchTerm" placeholder="search">
-                    <button type="submit" id="searchbtn" class="searchButton">
-                     <i class="fa fa-search"></i>
-                  </button>
-                </div>
-            </div>
-            <div class="cont2">
-                <div class="battery">
-                    <div class="container">
-                        <div id="batBody">
-                            <div id="indicator"></div>
-                        </div>
-                        <div class="batEnd">
-                            <div></div>
-                        </div>
-                    </div>
-                    <p id="batteryLevelOutput"></p>
-                </div>
-            </div>
-            <div class="cont3">
-                <div class="notification">
-                    <img id="show_notifications" src="img/icons/notification.png">
-                    <span id="badge" class="badge">9</span>
-                </div>
+        <div class="container1">
+            <div class="title">
+                <span>Dashboard</span>
             </div>
         </div>
+        <div class="container2">
+            <div class="search">
+                <input type="text" class="searchTerm" placeholder="search">
+                <button type="submit" id="searchbtn" class="searchButton">
+                 <i class="fa fa-search"></i>
+              </button>
+            </div>
+        </div>
+        <div class="container3">
+            <div class="battery">
+                <div class="container">
+                    <div id="batBody">
+                        <div id="indicator"></div>
+                    </div>
+                    <div class="batEnd">
+                        <div></div>
+                    </div>
+                </div>
+                <p id="batteryLevelOutput"></p>
+            </div>
+        </div>
+        <div class="container4">
+            <div class="notification">
+                <img id="show_notifications" src="img/icons/notification.png">
+                <span id="badge" class="badge">7</span>
+            </div>
+        </div>
     </div>
-    <div class="title">
-        <img src="img/icons/dashboard (1).png" />
-        <span>Dashboard</span>
-        <div class="status" id=>YOU ARE OFFLINE</div>
-    </div>
-    <div class="timestamp">
+
+    <div class="timestamp" id="timestamp">
         <p>TIME TO HIT THE BOOKS! YOUR NEXT EXAM BEGINS IN:</p>
     </div>
-    <div class="timeindicator">
+
+    <div class="status" id="status"></div>
+
+    <div class="timeindicator" id="timeindicator">
         <p class="time">2 :<span id="currenttime"></span></p>
         <p>DAYS : HOURS : MINUTES : SECONDS</p>
     </div>

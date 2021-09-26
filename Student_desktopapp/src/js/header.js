@@ -87,23 +87,36 @@ window.addEventListener('online', updateOnlineStatus);
 
 
 function updateOnlineStatus(event) {
+    var timeindicator = document.getElementById("timeindicator");
+    var status = document.getElementById("status");
+    var time = document.getElementById("timestamp");
+
     var condition = navigator.onLine ? "online" : "offline";
     document.getElementById("avatar").className = condition;
-    var status = document.getElementById("status");
+
+
     if (condition == "offline") {
-        status.style.background = "linear-gradient(to right, rgba(255, 0, 0, 0) 20%, red 80%)";
+        status.style.display = "";
+        time.style.display = "none";
+        timeindicator.style.display = "none";
+
+        status.style.background = "red";
         status.innerHTML = "YOU ARE OFFLINE !";
+
     } else {
         status.style.background = "linear-gradient(to right, rgba(255, 0, 0, 0) 20%, green 80%)";
         status.innerHTML = "YOU ARE ONLINE !";
         setTimeout(function() {
-            status.style.background = "transparent";
+            status.style.display = "none";
+            time.style.display = "";
+            timeindicator.style.display = ""
         }, 3000)
+
 
     }
 }
 
-window.addEventListener("load", function() {
+/*window.addEventListener("load", function() {
     var condition = navigator.onLine ? "online" : "offline";
     document.getElementById("avatar").className = condition;
     var status = document.getElementById("status");
@@ -111,7 +124,7 @@ window.addEventListener("load", function() {
         status.style.background = "linear-gradient(to right, rgba(255, 0, 0, 0) 20%, red 80%)";
         status.innerHTML = "YOU ARE OFFLINE";
     }
-})
+})*/
 
 
 

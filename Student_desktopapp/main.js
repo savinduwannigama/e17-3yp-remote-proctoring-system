@@ -9,6 +9,7 @@ const {
     app
 } = require('electron')
 const path = require('path')
+const { download } = require("electron-dl");
 const ipc = ipcMain
 
 function createWindow() {
@@ -28,6 +29,16 @@ function createWindow() {
 
     })
 
+    app.commandLine.appendSwitch('allow-insecure-localhost');
+    app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
+        if (url === 'https://143.244.139.140/CO227-test#jitsi_meet_external_api_id=0&interfaceConfig.TILE_VIEW_MAX_COLUMNS=2&interfaceConfig.DISABLE_DOMINANT_SPEAKER_INDICATOR=true&interfaceConfig.startWithAudioMuted=false&interfaceConfig.startWithVideoMuted=false&userInfo.displayName=%22sasini%22&appData.localStorageContent=null') {
+            // Verification logic.
+            event.preventDefault()
+            callback(true)
+        } else {
+            callback(false)
+        }
+    })
     mainWindow.on('close', function(e) {
         /*const choice = require('electron').dialog.showMessageBoxSync(this, {
             type: 'question',
@@ -59,9 +70,18 @@ function createWindow() {
     ipc.on('dashboard', () => { mainWindow.loadFile('src/dashboard.html') })
     ipc.on('course', () => { mainWindow.loadFile('src/courses.html') })
     ipc.on('schedule', () => { mainWindow.loadFile('src/schedule.html') })
-    ipc.on('notification', () => { mainWindow.loadFile('src/autoDownload.html') })
+    ipc.on('notification', () => { mainWindow.loadFile('src/notifications.html') })
     ipc.on('settings', () => { mainWindow.loadFile('src/settings.html') })
-    ipc.on('help', () => { mainWindow.loadFile('src/help.html') })
+    ipc.on('help', () => { mainWindow.loadFile('src/videoRecording.html') })
+
+
+    ipcMain.on("download", async(event, { url }) => {
+        var time = new Date()
+        const win = BrowserWindow.getFocusedWindow();
+        console.log(await download(win, url, {
+            filename: time + '.mp4'
+        }));
+    });
 
 
     const menu = new Menu()
