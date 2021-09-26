@@ -1,0 +1,26 @@
+.Portal {
+    text-align: center;
+    
+    color: rgb(15, 15, 15);
+}
+.Portal h1{
+    padding-top: 60px;
+}
+
+.main{
+    height: 50vh;
+    width: 30%;
+    background-image: url("../isuri.jpeg");
+    margin: auto;
+    background-attachment: fixed;
+    background-position: center;
+    border-radius: 22px;
+    
+}
+.main h2{
+    padding-top: 30px;
+    font-size: 30px;
+}
+.options{
+    padding-top: 35px;
+}
