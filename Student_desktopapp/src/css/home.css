@@ -43,23 +43,13 @@
     cursor: pointer;
 }
 
-.exams li:nth-child(4n+0) {
-    background-color: rgba(107, 210, 219, 0.67);
-    ;
-}
-
-.exams li:nth-child(4n+1) {
+.exams li:nth-child(2n+1) {
     background-color: rgba(85, 158, 221, 0.74);
     ;
 }
 
-.exams li:nth-child(4n+2) {
+.exams li:nth-child(2n+2) {
     background-color: rgba(116, 109, 217, 0.58);
-    ;
-}
-
-.exams li:nth-child(4n+3) {
-    background-color: rgba(156, 72, 177, 0.54);
     ;
 }
 
