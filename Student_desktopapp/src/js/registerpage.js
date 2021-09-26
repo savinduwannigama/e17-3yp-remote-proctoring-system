@@ -4,7 +4,9 @@ const ipc = ipcRenderer
 var check = document.getElementById("switch")
 check.addEventListener('change', function() {
     if (!(this.checked)) {
-        ipc.send('Login');
+        setTimeout(function() {
+            ipc.send('Login');
+        }, 500)
     }
 });
 
