@@ -61,7 +61,7 @@ router.get('/admins', async (req, res) => {
  * API calls to the students collection
  */
 // add new student to the database
-router.post('/students', async (req, res) => {
+router.post('/students/single', async (req, res) => {
     // method to add a new entry to the user relation in the database
     /**
      * write code to add student to the database
@@ -78,6 +78,28 @@ router.post('/students', async (req, res) => {
 
     // redirecting to the login page after a successful registration
     // res.redirect('/*path of the page to redirect to after regitering */'); 
+});
+
+// add multiple stuedents from a sheet 
+// receiving object => {"uploaded file": "students", "details": [[], [], [start], ..., [end]]}
+router.post('/students/multiple', async (req, res) => {
+    const record = req.body;
+    console.log('Request body: ' + record);
+    console.log(record.details[0][0]);
+
+    for (let i = 1; i < record.details.length; i++) {
+        const shortname = record.details[i][0];
+        const fullname = record.details[i][1];
+        const department = record.details[i][2];
+        const semester = record.details[i][3];
+
+        const response = await students.create({shortname, fullname, department, semester});  // response is the return value from mongoDB
+        console.log('Created new student entry (' + i + '): ' + response);
+    }
+    /**
+     * have to handle errors of => adding an already existing student, trying to add a student without a required field
+     */
+    res.json({status: 'created all students successfully!'});
 });
 
 /**
@@ -106,8 +128,8 @@ router.post('/proctors', async (req, res) => {
 /**
  * API calls to the courses collection
  */
-// add a new course to the database
-router.post('/courses', async (req, res) => {
+// add 1 new course to the database
+router.post('/courses/single', async (req, res) => {
     // method to add a new entry to the user relation in the database
     /**
      * write code to add student to the database
@@ -125,6 +147,29 @@ router.post('/courses', async (req, res) => {
     // redirecting to the login page after a successful registration
     // res.redirect('/*path of the page to redirect to after regitering */'); 
 });
+
+// add multiple courses from a sheet 
+// receiving object => {"uploaded file": "courses", "details": [[], [start], [], ..., [end]]}
+router.post('/courses/multiple', async (req, res) => {
+    const record = req.body;
+    console.log('Request body: ' + record);
+    console.log(record.details[0][0]);
+
+    for (let i = 1; i < record.details.length; i++) {
+        const shortname = record.details[i][0];
+        const fullname = record.details[i][1];
+        const department = record.details[i][2];
+        const semester = record.details[i][3];
+
+        const response = await courses.create({shortname, fullname, department, semester});  // response is the return value from mongoDB
+        console.log('Created new course entry (' + i + '): ' + response);
+    }
+    /**
+     * have to handle errors of => adding an already existing course, trying to add a course without a required field
+     */
+    res.json({status: 'created all courses successfully!'});
+});
+
 
 /**
  * API calls to the devices collection
