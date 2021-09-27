@@ -116,7 +116,7 @@ body span.switcher-login {
     width: 135px;
     height: 37px;
     border-radius: 25px;
-    background-color: #35A78C;
+    background-color: #006666;
     outline: none;
     font-family: "Sansita";
     text-align: center;
@@ -161,7 +161,7 @@ body span.switcher-login {
   body span.switcher-login.switcher-l1 input:not(:checked) + label {
     left: 10px;
     right: 70px;
-    background: #35A78C;
+    background: #006666;
     transition: left 0.5s, right 0.4s 0.2s;
   }
   body span.switcher-login.switcher-l1 input:checked {
@@ -179,7 +179,7 @@ body span.switcher-login {
   body span.switcher-login.switcher-l1 input:checked + label {
     left: 70px;
     right: 10px;
-    background: #35A78C;
+    background: #006666;
     transition: left 0.4s 0.2s, right 0.5s, background 0.35s -0.1s;
   }
   /*END OF STUPID WEIRD BUTTON login*/
