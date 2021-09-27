@@ -92,7 +92,7 @@ h4{
     width: 135px;
     height: 37px;
     border-radius: 25px;
-    background-color: #35A78C;
+    background-color: #006666;
     outline: none;
     font-family: "Sansita";
     text-align: center;
@@ -137,7 +137,7 @@ h4{
   body span.switcher.switcher-1 input:checked + label {
     left: 10px;
     right: 70px;
-    background: #35A78C;
+    background: #006666;
     transition: left 0.5s, right 0.4s 0.2s;
   }
   body span.switcher.switcher-1 input:not(:checked) {
@@ -155,7 +155,7 @@ h4{
   body span.switcher.switcher-1 input:not(:checked) + label {
     left: 70px;
     right: 10px;
-    background: #35A78C;
+    background: #006666;
     transition: left 0.4s 0.2s, right 0.5s, background 0.35s -0.1s;
   }
   /*END OF STUPID WEIRD BUTTON for reg page*/
