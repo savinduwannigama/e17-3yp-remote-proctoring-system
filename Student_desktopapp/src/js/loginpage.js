@@ -106,7 +106,7 @@ const rmCheck = document.getElementById("staylogged"),
 
 if (localStorage.checkbox && localStorage.checkbox !== "") {
     rmCheck.setAttribute("checked", "checked");
-    emailInput.value = localStorage.username;
+    emailInput.value = localStorage.email;
 } else {
     rmCheck.removeAttribute("checked");
     emailInput.value = "";
@@ -114,10 +114,10 @@ if (localStorage.checkbox && localStorage.checkbox !== "") {
 
 function lsRememberMe() {
     if (rmCheck.checked && emailInput.value !== "") {
-        localStorage.username = emailInput.value;
+        localStorage.email = emailInput.value;
         localStorage.checkbox = rmCheck.value;
     } else {
-        localStorage.username = "";
+        localStorage.email = "";
         localStorage.checkbox = "";
     }
 }

@@ -20,7 +20,7 @@ function createWindow() {
         minimizable: false,
         maximizable: false,
         resizable: false,
-        movable: false,
+        //movable: false,
         icon: "src/img/appicon3_YGz_icon.ico",
 
         webPreferences: {

@@ -6,7 +6,9 @@
 }
 
 #record,
-#play {
+#play,
+#entername,
+#changeavtr {
     border-radius: 5px;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -19,6 +21,27 @@
     cursor: pointer;
     justify-content: center;
     background-color: #26a8aa;
+}
+
+#entername,
+#changeavtr {
+    width: 80px;
+}
+
+#name {
+    border: 0;
+    border-bottom: 2px solid #26a8aa;
+    padding: 5px;
+    height: 12px;
+    outline: none;
+    width: 250px;
+    font-weight: bold;
+}
+
+#namelength {
+    font-size: 13px;
+    color: #26a8aa;
+    padding-right: 10px;
 }
 
 #record:disabled,
