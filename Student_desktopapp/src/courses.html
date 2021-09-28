@@ -61,7 +61,7 @@
         <div class="smartphone-menu-trigger"></div>
         <header class="avatar">
             <img id="avatar" class="online" src="img/user.jpg" />
-            <h2 id="user_name">Devindi G.A.I</h2>
+            <h2 id="user_name">USER</h2>
         </header>
         <ul id="list">
             <li tabindex="0" id="home" class="icon-home"><span>Home</span></li>
@@ -82,16 +82,22 @@
         <ul class="cards" id="cards"> </ul>
     </div>
 
-    <script>
-        var card = document.getElementById("cards").getElementsByTagName('li')
-        var cardcount = card.length;
-        for (var i = 0; i < cardcount; i += 1) {
 
-            card[i].onclick = function() {
-                alert(this.class);
-            }
-        }
-    </script>
+
+    <a class="button" id="show" href="#popup">Test</a>
+
+
+    <div id="popup" class="overlay">
+        <div class="popup">
+            <h4>Course details</h4>
+            <a class="close" id="close" href="#">&times;</a>
+            <!--body starts here-->
+            <p>Course code: <span>null</span></p>
+            <p>Course name: <span>null</span></p>
+            <p>Department : <span>null</span></p>
+            <p>Course coordinator: <span>null</span></p>
+        </div>
+    </div>
 </body>
 
 </html>

@@ -57,10 +57,10 @@ function myFunction() {
 
 
 var courseJSON = '{"code":["CO227","CO321","CO322","CO323","CO324","CO325","EE386"], "name":["Computer Engineering Project", "Embedded System", "Data Structure and Algorithm","Computer Communication","Network and Web Application","Computer and Network Security","Ellectronic II"]}';
+var courseArray = JSON.parse(courseJSON);
 
+function makeCourseList(array) {
 
-function makeCourseList(json) {
-    var array = JSON.parse(json);
     // Create the list element:
     var list = document.getElementById('cards');
 
@@ -70,6 +70,7 @@ function makeCourseList(json) {
         var code = document.createElement('p');
         var name = document.createElement('p');
         item.id = i.toString();
+
 
         // Set its contents:
         item.className = 'card'
@@ -84,14 +85,19 @@ function makeCourseList(json) {
 
 }
 
+makeCourseList(courseArray);
 
-makeCourseList(courseJSON);
 
-
+var popup = document.getElementById("popup");
+var span = popup.getElementsByTagName('span')
+var link = document.getElementById("show")
 var btn = document.getElementById("cards").getElementsByTagName('li')
 var btncount = btn.length;
 for (var i = 0; i < btncount; i += 1) {
     btn[i].onclick = function() {
-        alert(this.id)
+        span[0].innerHTML = courseArray.code[this.id];
+        span[1].innerHTML = courseArray.name[this.id];
+        link.click()
+
     }
 }

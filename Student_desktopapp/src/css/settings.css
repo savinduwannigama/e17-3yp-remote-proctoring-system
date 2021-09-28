@@ -2,11 +2,50 @@
 #recorded {
     width: 200px;
     height: auto;
+    border: 2px solid #26a8aa;
+}
+
+#record,
+#play {
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 0;
+    width: 120px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    justify-content: center;
+    background-color: #26a8aa;
+}
+
+#record:disabled,
+#play:disabled {
+    background-color: rgb(185, 183, 183);
 }
 
 .separator3 {
     position: static;
-    padding-top: 140px;
+    padding-top: 110px;
+}
+
+#container {
+    text-align: center;
+}
+
+#container p {
+    text-align: left;
+}
+
+#container span {
+    text-align: left;
+    color: red;
+}
+
+video::-webkit-media-controls-panel {
+    display: none;
 }
 
 
