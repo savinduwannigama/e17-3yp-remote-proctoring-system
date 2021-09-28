@@ -1,0 +1,50 @@
+.collapse {
+    background: #fff;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.collapse-title {
+    padding: 10px;
+    cursor: pointer;
+    user-select: none;
+    background-color: rgba(38, 168, 170, 0.22);
+}
+
+.error {
+    padding: 10px;
+    user-select: none;
+    background-color: rgba(38, 168, 170, 0.22);
+}
+
+.collapse-title::before {
+    content: attr(data-after);
+    padding-right: 10px;
+    font-weight: 900;
+}
+
+.collapse-body {
+    display: none;
+    border: 2px solid rgba(38, 168, 170, 0.22);
+    border-bottom: 2px solid rgba(38, 168, 170, 0.22);
+    margin-top: 3px;
+    padding-bottom: 10px;
+    padding-top: 3px;
+    padding-left: 30px;
+}
+
+mark {
+    background-color: #ffdd4b;
+}
+
+#myInput {
+    width: 200px;
+    border: 2px solid #26a8aa;
+    padding: 5px;
+    height: 15px;
+    border-radius: 5px;
+    outline: none;
+    color: #26a8aa;
+    margin: 10px;
+    margin-left: 15px;
+}

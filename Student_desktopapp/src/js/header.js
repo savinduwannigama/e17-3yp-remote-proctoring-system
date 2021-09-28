@@ -1,5 +1,4 @@
 const { ipcRenderer } = require('electron')
-const { stat } = require('original-fs')
 const ipc = ipcRenderer
 
 const contextMenuBtn = document.getElementById("show_notifications")
@@ -19,10 +18,6 @@ for (var i = 0; i < btncount; i += 1) {
         ipc.send(this.id);
     }
 }
-
-
-
-
 
 function display_c() {
     var refresh = 1000; // Refresh rate in milli seconds

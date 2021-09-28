@@ -4,37 +4,11 @@
 <head>
     <title>Connexa</title>
     <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/notification.css">
+
     <script defer src="js/header.js"></script>
-    <style>
-        .collapse {
-            background: #fff;
-            padding: 0.5rem 1rem;
-            margin-bottom: 0.3rem;
-        }
-        
-        .collapse-title {
-            padding: 10px;
-            cursor: pointer;
-            user-select: none;
-            background-color: rgba(38, 168, 170, 0.22);
-        }
-        
-        .collapse-title::before {
-            content: attr(data-after);
-            padding-right: 10px;
-            font-weight: bold;
-        }
-        
-        .collapse-body {
-            display: none;
-            border: 2px solid rgba(38, 168, 170, 0.22);
-            border-bottom: 2px solid rgba(38, 168, 170, 0.22);
-            margin-top: 3px;
-            padding-bottom: 10px;
-            padding-top: 3px;
-            padding-left: 30px;
-        }
-    </style>
+    <script defer src="js/notification.js"></script>
+
 </head>
 
 <body onload="display_ct();">
@@ -44,14 +18,14 @@
                 <span>Notifications</span>
             </div>
         </div>
-        <div class="container2">
+        <!--<div class="container2">
             <div class="search">
                 <input type="text" class="searchTerm" placeholder="search">
                 <button type="submit" id="searchbtn" class="searchButton">
                  <i class="fa fa-search"></i>
               </button>
             </div>
-        </div>
+        </div>-->
         <div class="container3">
             <div class="battery">
                 <div class="container">
@@ -103,72 +77,11 @@
     </nav>
     <!--body starts here-->
     <div class="separator2"></div>
-    <div class="collapse">
-        <div class="collapse-title">Notification 1</div>
-        <div class="collapse-body">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint deserunt pariatur incidunt et odit repellat explicabo eaque quos assumenda aperiam rerum corporis ipsum, numquam reprehenderit necessitatibus quaerat architecto. Eveniet voluptatum
-            fuga dolore, optio suscipit quibusdam obcaecati odio laudantium eligendi in?</div>
-    </div>
-    <div class="collapse">
-        <div class="collapse-title">Notification 2</div>
-        <div class="collapse-body">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sint, officia dolores quis, quas maiores sequi architecto nesciunt saepe quia minima nisi repudiandae delectus enim et! Molestiae sit iusto harum fugiat!</div>
-    </div>
-    <div class="collapse">
-        <div class="collapse-title">Notification 3</div>
-        <div class="collapse-body">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti assumenda a eum similique beatae quo, illo omnis illum soluta velit accusantium sit quibusdam, ea officia inventore, minima cum esse minus consequatur optio ratione laborum consectetur
-            earum? Quas velit natus earum.</div>
-    </div>
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for a notification content">
 
-    <script>
-        /* This can be an external module */
-        class Collapse {
-            constructor(prefix = "collapse") {
-                this.prefix = prefix;
-                this.collapseList = [...document.getElementsByClassName(prefix)];
-                registerCollapses(this);
-                registerClickHandler(this);
-            }
-        }
+    <div id="notificationPanel"></div>
 
-        function registerCollapses(collapse) {
-            let idCount = 0;
-            collapse.collapseList.forEach((cl) => {
-                if (cl.classList && cl.classList.contains(collapse.prefix)) {
-                    let nodeList = [...cl.childNodes].filter((cn) => cn.nodeName == "DIV");
-                    nodeList[0].dataset.toggle = idCount;
-                    nodeList[0].dataset.after = "▽";
-                    nodeList[1].dataset.id = idCount;
-                    idCount++;
-                }
-            });
-        }
 
-        function registerClickHandler(collapse) {
-            const collapses = document.getElementsByClassName(`${collapse.prefix}-title`);
-            [...collapses].forEach((c) => {
-                c.addEventListener("click", () => {
-                    const id = c.dataset.toggle;
-                    const body = document.querySelector(`[data-id="${id}"]`);
-                    [...collapses].forEach((t) => {
-                        t.dataset.after = "▽";
-                    });
-                    const bodies = document.getElementsByClassName(`${collapse.prefix}-body`);
-                    [...bodies].forEach((b) => {
-                        if (b != body) b.style.display = "none";
-                    });
-                    if (body.style.display == "none") {
-                        body.style.display = "block";
-                        c.dataset.after = "△";
-                    } else {
-                        body.style.display = "none";
-                    }
-                });
-            });
-        }
-
-        /* This is the code to add in the script file*/
-        /* The parameter should be the prefix of the Collapse */
-        new Collapse("collapse");
-    </script>
 </body>
 
 </html>

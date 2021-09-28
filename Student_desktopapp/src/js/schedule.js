@@ -68,10 +68,15 @@ downloadButton.addEventListener('click', () => {
                 url: url,
                 fileName: name
             })
-        }
-        ipc.on("done", () => {
+
+            ipc.on("done", () => {
+                ipc.send('home');
+            })
+
+        } else {
             ipc.send('home');
-        })
+        }
+
     }, 3000)
 
 
