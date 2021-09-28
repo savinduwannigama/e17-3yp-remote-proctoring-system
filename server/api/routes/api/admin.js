@@ -85,16 +85,18 @@ router.post('/students/single', async (req, res) => {
 router.post('/students/multiple', async (req, res) => {
     const record = req.body;
     console.log('Request body: ' + record);
-    console.log(record.details[0][0]);
+    // console.log(record.details[0][0]);
 
-    for (let i = 1; i < record.details.length; i++) {
-        const shortname = record.details[i][0];
-        const fullname = record.details[i][1];
-        const department = record.details[i][2];
-        const semester = record.details[i][3];
+    for (let i = 2; i < record.details.length; i++) {
+        if(record.details[i].length ==  5) {  // skips an entire record if it doesn't have 5 fields
+            const regNo = record.details[i][1];
+            const name = record.details[i][2];
+            const email = record.details[i][3];
+            const department = record.details[i][4];
 
-        const response = await students.create({shortname, fullname, department, semester});  // response is the return value from mongoDB
-        console.log('Created new student entry (' + i + '): ' + response);
+            const response = await students.create({regNo, name, email, department});  // response is the return value from mongoDB
+            console.log('Created new student entry (' + i-1 + '): ' + response);
+        }
     }
     /**
      * have to handle errors of => adding an already existing student, trying to add a student without a required field
@@ -153,7 +155,7 @@ router.post('/courses/single', async (req, res) => {
 router.post('/courses/multiple', async (req, res) => {
     const record = req.body;
     console.log('Request body: ' + record);
-    console.log(record.details[0][0]);
+    // console.log(record.details[0][0]);
 
     for (let i = 1; i < record.details.length; i++) {
         const shortname = record.details[i][0];
@@ -213,6 +215,51 @@ router.post('/exams', async (req, res) => {
 
     res.json({status: 'Addded new exam schedule'});  // response after succcesfully creating a new exam schedule
      
+});
+
+// add an exam from the mastersheet 
+// receiving object => {"uploaded file": "mastersheet", "details": [[], [], [], ..., []]}
+router.post('/exams/mastersheet', async (req, res) => {
+    const record = req.body;
+    console.log('Request body: ' + record);
+    // console.log(record.details[0][0]);
+    /////////////////////////////////////////////////
+    // creating the date+time string
+    const year = record.details[1][3].substr(6, 4);
+    const month = record.details[1][3].substr(3, 2);
+    const date = record.details[1][3].substr(0, 2);
+    const hours = record.details[2][3].substr(0, 2); 
+    const mins = record.details[2][3].substr(3, 2); 
+    
+    const startTime = year+"-"+month+"-"+date+"T"+hours+":"+mins+":00";
+    /////////////////////////////////////////////////
+    const name = record.details[0][2];
+    // const startTime: {type: Date, required: true},  // it is a must that a exam has a start time 2023-12-10T10:00:00
+    const duration = record.details[3][3];
+    const course_coordinator = record.details[4][4];
+    const chief_invigilator = record.details[14][5];
+    const invigilator = record.details[14][6];
+    const total_students = record.details[10][5];
+    const students: [{regNo: String, eligible: Boolean, exam_room: String}],
+
+    // relationship with the courses (HAS)
+    course: String  // FK | maps to the correponding course
+
+    for (let i = 14; i < record.details.length; i++) {
+        if(record.details[i].length ==  5) {  // skips an entire record if it doesn't have 5 fields
+            const regNo = record.details[i][1];
+            const name = record.details[i][2];
+            const email = record.details[i][3];
+            const department = record.details[i][4];
+
+            const response = await students.create({regNo, name, email, department});  // response is the return value from mongoDB
+            console.log('Created new student entry (' + i-1 + '): ' + response);
+        }
+    }
+    /**
+     * have to handle errors of => adding an already existing student, trying to add a student without a required field
+     */
+    res.json({status: 'created all students successfully!'});
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
