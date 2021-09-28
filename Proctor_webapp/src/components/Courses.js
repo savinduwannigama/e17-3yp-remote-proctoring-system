@@ -3,8 +3,10 @@ import ProctorAppBar from './ProctorAppBar'
 function Courses() {
     return (
         <div style={{color:"black"}}>
-           <ProctorAppBar/>
+           <ProctorAppBar> 
            Courses
+           </ProctorAppBar>
+          
         </div>
     )
 }

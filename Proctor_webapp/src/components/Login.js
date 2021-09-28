@@ -21,7 +21,7 @@ function Login ()  {
     }
 
     return (
-      <> 
+      <div className="Main"> 
       
         <div className="login-reg">
         <Loginbtn property={'/register'}/>
@@ -55,7 +55,7 @@ function Login ()  {
         
         </div>
         
-        </>
+        </div>
     )
 }
 

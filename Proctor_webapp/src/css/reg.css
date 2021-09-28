@@ -1,3 +1,12 @@
+.Main{
+  text-align: center;
+  background-image: url("../desktop2.jpeg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 .login-reg{
   height: 85vh;
   width: 50vw;

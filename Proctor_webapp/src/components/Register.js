@@ -18,7 +18,7 @@ const Register = () => {
       setName("Authorization Unsuccessfull!");
     }
     return (
-      <>
+      <div className="Main">
         <div className="login-reg">
         <Button property={'/signin'}/>
         {/* <div align="right" className="login-button">
@@ -57,7 +57,7 @@ const Register = () => {
           
         </div>
       </div>
-      </>
+      </div>
     )
 }
 
