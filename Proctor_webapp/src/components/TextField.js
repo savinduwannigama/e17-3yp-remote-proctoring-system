@@ -81,7 +81,7 @@ export default function BasicTextFields(props) {
    
     </Box>
     <p></p>
-    <Portalbtn property={'/home'} btname = {props.mode} size= {'medium'}></Portalbtn>  
+    <Portalbtn property={props.next} btname = {props.mode} size= {'medium'}></Portalbtn>  
     </>
   );
 }

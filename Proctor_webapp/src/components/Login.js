@@ -4,7 +4,7 @@ import GoogleLogin from 'react-google-login';
 import { useHistory } from 'react-router-dom';
 import Loginbtn from './Loginbtn';
 import TextField from './TextField';
-
+import Divider from '@mui/material/Divider';
 
 
 function Login ()  {
@@ -37,9 +37,13 @@ function Login ()  {
                onFailure={failureHandle}
                cookiePolicy={'single_host_origin'}
             />
+            <div>
+              <br/>
+            <Divider>Or</Divider>
+            <br/>
+            </div>
             
-            <h6>Or</h6>
-            <TextField mode="SIGN IN"></TextField>
+            <TextField mode="SIGN IN" next= "/home"></TextField>
             
           
           

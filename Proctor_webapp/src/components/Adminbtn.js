@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import Stack from '@mui/material/Stack';
 import axios from 'axios';
+import Papa from "papaparse";
 
 const Input = styled('input')({
   display: 'none',
@@ -43,7 +44,7 @@ export default class Adminbtn extends React.Component {
   
   fileSelectedHandler = event => {
     
-    console.log(event.target.files);
+    /*console.log(event.target.files);*/
     this.setState({
       selectedFile: event.target.files[0],
       FileName: this.upload+event.target.files[0].name
@@ -51,13 +52,40 @@ export default class Adminbtn extends React.Component {
   }
 
   fileUploadHandler = ()=>{
+    
     const fd = new FormData();
-    fd.append(this.value, this.state.selectedFile,this.state.selectedFile.name);
-    axios.post('https://moodle-51262-0.cloudclusters.net/', fd, {
-      onUploadProgress: progressEvent => {
-        console.log(progressEvent.loaded / progressEvent.total)
-      }
-    })
+    const name = this.id;
+    fd.append(this.id, this.state.selectedFile,this.state.selectedFile.name);
+    Papa.parse(this.state.selectedFile, 
+      {
+        
+       complete: function(results) {
+         /*console.log("Finished:", results.data);*/
+         //store the results.data as a json object
+        // fd.append("data",JSON.stringify(results.data,null,4));
+         const value =JSON.stringify({"uploaded_file":name,"details":results.data},null,4) 
+
+         console.log(value)
+         /*console.log("Printing content of fd")
+         for (var pair of fd.entries()) {
+            console.log(pair[0]+":"+pair[1])
+        }*/
+        //after conversion send the fd to the server
+        axios.post('https://moodle-51262-0.cloudclusters.net/', value,{
+          headers: {
+            // Overwrite Axios's automatically set Content-Type
+            'Content-Type': 'application/json'
+          }
+          }, {
+            onUploadProgress: progressEvent => {
+            console.log(progressEvent.loaded / progressEvent.total)
+        }
+        })
+       }}
+     )
+    
+  
+    
   }
 
 

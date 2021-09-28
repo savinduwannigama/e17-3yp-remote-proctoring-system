@@ -4,6 +4,7 @@ import GoogleLogin from 'react-google-login';
 import { useHistory } from 'react-router-dom';
 import TextField from './TextField';
 import '../css/reg.css';
+import Divider from '@mui/material/Divider';
 const Register = () => {
     const history = useHistory();
     const[name,setName] = useState("");
@@ -11,7 +12,7 @@ const Register = () => {
       setName(response.profileObj.name);
       /*setEmail(response.profileObj.email);
       setUrl(response.profileObj.imageUrl);*/
-      history.push("/adminhome")
+      history.push("/signin")
      }
     const failureHandle = (response) => {
       setName("Authorization Unsuccessfull!");
@@ -41,8 +42,12 @@ const Register = () => {
                cookiePolicy={'single_host_origin'}
             />
             
-            <h6>Or</h6>
-            <TextField mode="REGISTER"></TextField>
+            <div>
+              <br/>
+            <Divider>Or</Divider>
+            <br/>
+            </div>
+            <TextField mode="REGISTER" next="/signin"></TextField>
             
           
           
