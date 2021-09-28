@@ -22,6 +22,7 @@ function Adminlogin() {
     }
 
     return (
+        <div className="page">
         <div className="login">
         <h2>WELCOME ADMIN!</h2>
       
@@ -41,6 +42,7 @@ function Adminlogin() {
         </div>
         
         
+        </div>
         </div>
     )
 }
