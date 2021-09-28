@@ -128,15 +128,23 @@ function updateOnlineStatus(event) {
     }
 }
 
-/*window.addEventListener("load", function() {
+window.addEventListener("load", function() {
     var condition = navigator.onLine ? "online" : "offline";
     document.getElementById("avatar").className = condition;
+
+    var time = document.getElementById("timestamp");
+    var timeindicator = document.getElementById("timeindicator");
     var status = document.getElementById("status");
+
     if (condition == "offline") {
-        status.style.background = "linear-gradient(to right, rgba(255, 0, 0, 0) 20%, red 80%)";
+        status.style.display = "";
+        time.style.display = "none";
+        timeindicator.style.display = "none";
+
+        status.style.background = "rgba(255, 0, 0, 0.678)";
         status.innerHTML = "YOU ARE OFFLINE";
     }
-})*/
+})
 
 
 
@@ -145,3 +153,12 @@ fetch("json/user_details.json").then(response => response.json()).then(data => {
     document.getElementById("user_name").innerHTML = data[0].name
     document.getElementById("avatar").src = data[0].avatar
 })
+
+
+
+
+/******************* set dark/light mode ************************/
+if (typeof(Storage) !== "undefined" && localStorage.theme) {
+    var Theme = localStorage.getItem('theme');
+    document.documentElement.setAttribute('data-theme', Theme);
+}
