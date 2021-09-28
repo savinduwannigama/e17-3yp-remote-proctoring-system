@@ -39,10 +39,10 @@ mark {
 
 #myInput {
     width: 200px;
-    border: 2px solid #26a8aa;
+    border: 0;
+    border-bottom: 2px solid #26a8aa;
     padding: 5px;
     height: 15px;
-    border-radius: 5px;
     outline: none;
     color: #26a8aa;
     margin: 10px;

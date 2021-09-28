@@ -349,6 +349,10 @@ body {
 
 /********** hamburger menu ************/
 
+#user_name {
+    font-weight: normal;
+}
+
 main {
     position: relative;
 }

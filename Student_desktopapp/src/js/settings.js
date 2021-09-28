@@ -132,6 +132,11 @@ img.addEventListener('click', function(event) {
 
 });
 
+document.getElementById("changeavtr").addEventListener("click", () => {
+    localStorage.setItem("useravatar", def.src);
+})
+
+
 /********* toggle dark/light mode *************/
 
 var toggleSwitch = document.querySelector('.toggle-btn input[type="checkbox"]');
@@ -159,3 +164,35 @@ function switchTheme(e) {
 }
 
 toggleSwitch.addEventListener('change', switchTheme, false);
+
+
+
+
+
+/*********** user name ****************/
+
+
+function countlength() {
+    var name = document.getElementById("name");
+    var remaininglength = document.getElementById("namelength")
+
+    var length = name.value.length;
+    var left = 25 - length;
+    remaininglength.innerHTML = left.toString() + "/25"
+
+}
+
+if (typeof(Storage) !== "undefined" && localStorage.username) {
+    var username = document.getElementById("name");
+    username.defaultValue = localStorage.getItem("username");
+}
+
+
+document.getElementById("entername").addEventListener("click", () => {
+
+    var newname = document.getElementById("name").value;
+    if (newname.length != 0) {
+        localStorage.setItem("username", newname);
+    }
+
+})

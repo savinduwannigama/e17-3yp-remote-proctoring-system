@@ -149,12 +149,20 @@ window.addEventListener("load", function() {
 
 
 /* update user details */
-fetch("json/user_details.json").then(response => response.json()).then(data => {
+/*fetch("json/user_details.json").then(response => response.json()).then(data => {
     document.getElementById("user_name").innerHTML = data[0].name
     document.getElementById("avatar").src = data[0].avatar
-})
+})*/
 
+if (typeof(Storage) !== "undefined" && localStorage.username) {
+    var username = document.getElementById("user_name");
+    username.innerHTML = localStorage.getItem("username");
+}
 
+if (typeof(Storage) !== "undefined" && localStorage.useravatar) {
+    var useravatar = document.getElementById("avatar");
+    useravatar.src = localStorage.getItem("useravatar");
+}
 
 
 /******************* set dark/light mode ************************/
