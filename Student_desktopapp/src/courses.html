@@ -82,16 +82,22 @@
         <ul class="cards" id="cards"> </ul>
     </div>
 
-    <script>
-        var card = document.getElementById("cards").getElementsByTagName('li')
-        var cardcount = card.length;
-        for (var i = 0; i < cardcount; i += 1) {
 
-            card[i].onclick = function() {
-                alert(this.class);
-            }
-        }
-    </script>
+
+    <a class="button" id="show" href="#popup">Test</a>
+
+
+    <div id="popup" class="overlay">
+        <div class="popup">
+            <h4>Course details</h4>
+            <a class="close" id="close" href="#">&times;</a>
+            <!--body starts here-->
+            <p>Course code: <span>null</span></p>
+            <p>Course name: <span>null</span></p>
+            <p>Department : <span>null</span></p>
+            <p>Course coordinator: <span>null</span></p>
+        </div>
+    </div>
 </body>
 
 </html>
