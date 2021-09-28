@@ -41,18 +41,13 @@
     border-radius: 20px;
     font-size: 20px;
     cursor: pointer;
+    color: black;
 }
 
 .exams li:nth-child(2n+1) {
     background-color: rgba(85, 158, 221, 0.74);
-    ;
 }
 
 .exams li:nth-child(2n+2) {
     background-color: rgba(116, 109, 217, 0.58);
-    ;
-}
-
-.exams li:hover {
-    box-shadow: 5px 5px 2px white;
 }

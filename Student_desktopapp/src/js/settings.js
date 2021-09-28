@@ -134,7 +134,7 @@ img.addEventListener('click', function(event) {
 
 /********* toggle dark/light mode *************/
 
-var toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+var toggleSwitch = document.querySelector('.toggle-btn input[type="checkbox"]');
 
 if (typeof(Storage) !== "undefined" && localStorage.theme) {
     var currentTheme = localStorage.getItem('theme');
