@@ -18,8 +18,11 @@ function createWindow() {
         width: 800,
         height: 480,
         minimizable: false,
-        maximizable: true,
-        icon: "src/img/appicon3.png",
+        maximizable: false,
+        resizable: false,
+        movable: false,
+        icon: "src/img/appicon3_YGz_icon.ico",
+
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
@@ -42,11 +45,14 @@ function createWindow() {
     })
     mainWindow.on('close', function(e) {
         /*const choice = require('electron').dialog.showMessageBoxSync(this, {
-            type: 'question',
+            type: 'none',
             buttons: ['Yes', 'No'],
             noLink: true,
             title: 'Confirm',
-            message: 'Are you sure you want to exit?'
+            message: 'Are you sure you want to exit?',
+            icon: 'src/img/appicon3_YGz_icon.ico'
+
+
         });
         if (choice === 1) {
             e.preventDefault();

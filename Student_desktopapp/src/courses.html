@@ -16,14 +16,14 @@
                 <span>Courses</span>
             </div>
         </div>
-        <div class="container2">
+        <!--<div class="container2">
             <div class="search">
                 <input type="text" class="searchTerm" placeholder="search">
                 <button type="submit" id="searchbtn" class="searchButton">
                  <i class="fa fa-search"></i>
               </button>
             </div>
-        </div>
+        </div>-->
         <div class="container3">
             <div class="battery">
                 <div class="container">
@@ -77,44 +77,21 @@
     <div class="separator3"></div>
     <button class="sortBtn" onclick="sortListDir()">Sort by Course Code</button>
     <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for a course name...">
+
     <div class="cards-bg">
-        <!--<p class="sec-title">Recently accessed courses</p>
-        <hr>-->
-
-
-        <ul class="cards" id="cards">
-            <li class="card">
-                <p>CO227</p>
-                <p>Computer Enginerring Project</p>
-            </li>
-            <li class="card">
-                <p>CO321</p>
-                <p>Embedded System</p>
-            </li>
-            <li class="card">
-                <p>Co322</p>
-                <p>Data Structure and Algorithm</p>
-            </li>
-            <li class="card">
-                <p>CO323</p>
-                <p>Computer Communication</p>
-            </li>
-            <li class="card">
-                <p>CO324</p>
-                <p>Network and Web Application</p>
-            </li>
-            <li class="card">
-                <p>CO325</p>
-                <p>Computer and Network Security</p>
-            </li>
-            <li class="card">
-                <p>EE386</p>
-                <p>Ellectronic II</p>
-            </li>
-        </ul>
-
+        <ul class="cards" id="cards"> </ul>
     </div>
 
+    <script>
+        var card = document.getElementById("cards").getElementsByTagName('li')
+        var cardcount = card.length;
+        for (var i = 0; i < cardcount; i += 1) {
+
+            card[i].onclick = function() {
+                alert(this.class);
+            }
+        }
+    </script>
 </body>
 
 </html>
