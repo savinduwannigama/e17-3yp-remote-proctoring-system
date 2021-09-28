@@ -122,7 +122,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   bgcolor: '#006666'
 }));
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft(props) {
   const history = useHistory();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -376,9 +376,10 @@ export default function PersistentDrawerLeft() {
         
        
       </Drawer>
-      <Main open={open} >
+      <Main open={open} sx={{color:"black"}}>
         <DrawerHeader />
-        
+        {props.item}
+        {props.children}
       </Main>
     </Box>
   );

@@ -1,6 +1,11 @@
 .Portal {
     text-align: center;
-    
+    background-image: url("../desktop2.jpeg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     color: rgb(15, 15, 15);
 }
 .Portal h1{
@@ -11,7 +16,8 @@
     height: 50vh;
     width: 30%;
     background-image: url("../isuri.jpeg");
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     background-attachment: fixed;
     background-position: center;
     border-radius: 22px;
