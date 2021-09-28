@@ -97,7 +97,7 @@
 .popup {
     margin: 70px auto;
     padding: 20px;
-    background: #fff;
+    background: var(--bg-color);
     border-radius: 5px;
     width: 500px;
     position: relative;
