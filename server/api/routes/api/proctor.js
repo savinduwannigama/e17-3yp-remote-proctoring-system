@@ -72,6 +72,9 @@ router.post('/exams', async (req, res) => {
      
 });
 
+/**
+ * API calls to the exams collection
+ */
 // to get acheduled exams
 router.get('/exams', (req, res) => {
     /**
@@ -91,6 +94,10 @@ router.put('/examschedule/:id', (req, res) => {
      res.redirect('/*path of the home page*/');  
 });
 
+
+/**
+ * API calls to the courses collection
+ */
 // to get the recently accessed courses
 router.get('/recentcourses', (req, res) => {
     /**
@@ -116,6 +123,60 @@ router.get('/recentexams', (req, res) => {
     /**
      * to get the recently finished exams
      */
+});
+
+/**
+ * API calls to the proctors collection
+ */
+// to read own student data (SELF)
+router.get('/proctors/self/:id', (req, res) => {
+    // const req_body = req.body;
+    // console.log('Request body: ' + req_body);
+
+    // const records = await admins.find(req_body);
+    // console.log('Sending response: ' + records);
+
+    proctors.findById(req.params.id)
+    .then(result => res.json(result))
+    .catch(err => res.status(400).json("Error : " +err ));
+});
+
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+
+/**
+ * API calls the to the exams collection
+ */
+
+// call to read all courses
+router.get('/courses/all', (req, res) => {
+    const req_body = req.body;
+    console.log('Request body: ' + req_body);
+
+    // const records = await admins.find(req_body);
+    // console.log('Sending response: ' + records);
+
+    courses.find()
+    .then(result => res.json(result))
+    .catch(err => res.status(400).json({Error: err }));
+});
+
+// call to read the self courses
+// returns only the courses for which there is a scheduled exam
+router.get('/courses/self/:id', async (req, res) => {
+    var proctoringCourses = [];
+    const proc = await proctors.findById(req.params.id);
+    console.log('found proc: ' + proc);
+
+    var invigilator = info.invigilators.find(obj => obj.exam_room === room).name;
+
+    const proctoring_exams = exams.find(obj => obj.chief_invigilators); //////////////////////////////////////asdadfawqfawsfawef//////////////////
+
+    admins.findById(req.params.id)
+    .then(result => res.json(result))
+    .catch(err => res.status(400).json({status: 'failure', message: "Following error occured while trying to read self admin record", error: err}));
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
