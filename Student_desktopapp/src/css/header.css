@@ -14,11 +14,13 @@ body {
     --bg-color: white;
     --header-color: #26a8aa;
     --sub-color: rgba(38, 168, 170, 0.22);
+    --left-arrow: url("../img/icons/left-arrow.png");
+    --list-menu: url("../img/icons/list.png");
 }
 
 [data-theme=dark] {
     --font-color: white;
-    --bg-color: rgb(119, 117, 117);
+    --bg-color: rgb(32, 32, 32);
     --header-color: #1a6061;
     --sub-color: rgba(18, 229, 233, 0.22);
 }
@@ -47,6 +49,22 @@ body {
     padding: 0;
     margin: 0;
     font-family: 'Sansita', sans-serif;
+}
+
+input[type="text"],
+textarea {
+    background-color: var(--bg-color);
+}
+
+::placeholder {
+    color: var(--header-color);
+    opacity: 1;
+}
+
+mark {
+    background-color: #ffdd4b;
+    text-decoration: underline;
+    text-decoration-color: var(--font-color);
 }
 
 
@@ -474,7 +492,7 @@ main {
         position: absolute;
         left: 100%;
         background: var(--header-color);
-        background-image: url("../img/icons/list.png");
+        background-image: var(--list-menu);
         background-repeat: no-repeat;
         background-position: center;
     }
@@ -484,7 +502,7 @@ main {
     }
     .menu:focus .smartphone-menu-trigger {
         pointer-events: none;
-        background-image: url("../img/icons/left-arrow.png");
+        background-image: var(--left-arrow);
     }
     /*.menu .smartphone-menu-trigger:before {
         content: "";
@@ -595,4 +613,61 @@ hr {
     background-color: rgb(158, 152, 152);
     margin-bottom: 15px;
     margin-top: 0px
+}
+
+
+/*************** pop up ***************/
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 600;
+}
+
+.overlay:target {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup {
+    margin: 70px auto;
+    padding: 20px;
+    background: var(--bg-color);
+    border-radius: 5px;
+    width: 500px;
+    position: relative;
+    transition: all 5s ease-in-out;
+}
+
+.popup h2 {
+    margin-top: 0;
+    color: #333;
+    font-family: Tahoma, Arial, sans-serif;
+}
+
+.popup .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+
+.popup .close:hover {
+    color: #26a8aa;
+}
+
+.popup .content {
+    max-height: 30%;
+    overflow: auto;
 }
