@@ -232,6 +232,7 @@ router.post('/exams/mastersheet', async (req, res) => {
     const mins = record.details[2][3].substr(3, 2); 
     
     const startTime = year+"-"+month+"-"+date+"T"+hours+":"+mins+":00";
+    console.log(startTime);
     /////////////////////////////////////////////////
     const name = record.details[0][2];
     // const startTime: {type: Date, required: true},  // it is a must that a exam has a start time 2023-12-10T10:00:00
@@ -240,26 +241,26 @@ router.post('/exams/mastersheet', async (req, res) => {
     const chief_invigilator = record.details[14][5];
     const invigilator = record.details[14][6];
     const total_students = record.details[10][5];
-    const students: [{regNo: String, eligible: Boolean, exam_room: String}],
-
-    // relationship with the courses (HAS)
-    course: String  // FK | maps to the correponding course
+    const students = [];
+    const course = name.split(" ")[0];
 
     for (let i = 14; i < record.details.length; i++) {
-        if(record.details[i].length ==  5) {  // skips an entire record if it doesn't have 5 fields
+        if(record.details[i].length ==  12) {  // skips an entire record if it doesn't have 5 fields
             const regNo = record.details[i][1];
-            const name = record.details[i][2];
-            const email = record.details[i][3];
-            const department = record.details[i][4];
-
-            const response = await students.create({regNo, name, email, department});  // response is the return value from mongoDB
-            console.log('Created new student entry (' + i-1 + '): ' + response);
+            var eligible = false;
+            if(record.details[i][2] == "TRUE") {
+                eligible = true;
+            }
+            const exam_room = record.details[i][3];  
+            students.push({regNo, eligible, exam_room});
         }
     }
+    const response = await exams.create({name, startTime, duration, course_coordinator, chief_invigilator, invigilator, total_students, students});  // response is the return value from mongoDB
+    // console.log('Created new exam entry : ' + response);
     /**
      * have to handle errors of => adding an already existing student, trying to add a student without a required field
      */
-    res.json({status: 'created all students successfully!'});
+    res.json({status: 'created an exam successfully!'});
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
