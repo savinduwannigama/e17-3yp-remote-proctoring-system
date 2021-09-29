@@ -4,6 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import '../css/Schedule.css'
+import Overlay from './Overlay.js'
 export default class Calendar extends Component {
     handleEventClick = (clickInfo) => {
         if (alert(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
@@ -41,6 +42,7 @@ export default class Calendar extends Component {
 }
 
 function handleEventClick(eventInfo) {
+    <Overlay/>
     alert(`Exam title: '${eventInfo.event.title}' \nStart time:'${eventInfo.event.start}'\nEnd time:'${eventInfo.event.end}'`)
     return (
       <>
@@ -52,6 +54,7 @@ function handleEventClick(eventInfo) {
   }
 
   function renderEventContent(eventInfo) {
+    <Overlay/>
     return (
       <>
         <b>{eventInfo.event.start}</b>

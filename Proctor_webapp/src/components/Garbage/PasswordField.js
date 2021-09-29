@@ -27,6 +27,7 @@ export default function BasicTextFields(props) {
     
       const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
+        
       };
     
       const handleClickShowPassword = () => {
@@ -41,47 +42,35 @@ export default function BasicTextFields(props) {
       };
   return (
       <>
-    <Box
-      component="form"
-      sx={{
-        '& > :not(style)': { m: 1, width: '25ch' },
-        
-      }}
-      Validate
-      autoComplete="on"
-    >
-      <TextField id="outlined-basic" label="Email" variant="outlined" placeholder="Enter your email" size="small" autoComplete='on'/>
+    
+      
       <TextField
-      id="input-with-icon-textfield" 
-      label="Password"  
-      type={values.showPassword ? 'text' : 'password'} 
-      value={values.password} 
-      onChange={handleChange('password')}
-      autoComplete="current-password"  
-      placeholder="Enter your password"
-      size="small"
-      InputProps={{
-        endAdornment:(
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {values.showPassword ?  <Visibility />:<VisibilityOff /> }
-              </IconButton>
-            </InputAdornment>
-        )
-      }}
+        id="input-with-icon-textfield" 
+        label="Password"  
+        type={values.showPassword ? 'text' : 'password'} 
+        value={values.password} 
+        onChange={handleChange('password')}
+        autoComplete="current-password"  
+        placeholder="Enter your password"
+        size="small"
+        InputProps={{
+          endAdornment:(
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {values.showPassword ?  <Visibility />:<VisibilityOff /> }
+                </IconButton>
+              </InputAdornment>
+          )
+        }}
       
       />
-           
-   
-   
-    </Box>
-    <p></p>
-    <Portalbtn property={props.next} btname = {props.mode} size= {'medium'}></Portalbtn>  
+    
+     
     </>
   );
 }
