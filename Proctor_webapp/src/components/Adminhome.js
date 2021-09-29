@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 function adminhome() {
     return (
        
-        <div className="Main">
+        <div className="admin-main">
             <NavBar></NavBar>
             
             <h3>Please upload the relevant files in CSV format.</h3>

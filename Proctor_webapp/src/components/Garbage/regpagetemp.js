@@ -1,12 +1,14 @@
 import React, {useState }  from 'react'
-import Button from './Button';
+import Button from '../Button';
 import GoogleLogin from 'react-google-login';
 import { useHistory } from 'react-router-dom';
-
+import TextField from './PasswordField';
 import '../css/reg.css';
 import Divider from '@mui/material/Divider';
-
-import Validation from './Validation'
+import Portalbtn from '../Portalbtn';
+import Emailfield from './Emailfield';
+import Box from '@mui/material/Box';
+import Validation from '../Validation'
 const Register = () => {
     const history = useHistory();
     const[name,setName] = useState("");
@@ -35,27 +37,20 @@ const Register = () => {
         <div className = 'box'>
           <div className='box-title'><h3>WELCOME PROCTOR!</h3></div>
           <div className='box-item'>
-          
-         
-            <h4>Register</h4>
-            
-            
-            <div style={{textAlign:'center'}}>
+            <h4 style={{textAlign:'left'}}>Register</h4>
             <GoogleLogin
-              
                clientId="75011686800-cetim0bpgbit8r00u1umppb8oh0rcivj.apps.googleusercontent.com"
                buttonText="Register with Google"
                onSuccess={responseGoogle}
                onFailure={failureHandle}
                cookiePolicy={'single_host_origin'}
             />
-            </div>
-            <div>
-              
-            <Divider>Or</Divider>
             
+            <div>
+              <br/>
+            <Divider>Or</Divider>
+            <br/>
             <Validation/>
-            <p style={{textAlign:"left",fontSize:'15px'}}>Already logged in?</p>
             </div>
             
             
@@ -73,4 +68,3 @@ const Register = () => {
 }
 
 export default Register
-
