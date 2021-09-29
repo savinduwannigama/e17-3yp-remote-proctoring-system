@@ -83,15 +83,15 @@ function createWindow() {
 
 
     ipcMain.on("download", async(event, { url, fileName }) => {
-        var time = new Date();
-
         const win = BrowserWindow.getFocusedWindow();
+
         await download(win, url, {
             filename: fileName + '.mp4',
+            directory: app.getAppPath() + '/src/recorded video',
             onCompleted: () => {
                 event.reply('done')
             }
-        });
+        }).then(dl => console.log(dl.getSavePath()))
 
 
 
@@ -99,8 +99,8 @@ function createWindow() {
 
 
     const menu = new Menu()
-    menu.append(new MenuItem({ label: 'CO321 Quize is postponded' }))
-    menu.append(new MenuItem({ type: 'separator' }))
+    menu.append(new MenuItem({ label: 'CO321 Quize is postponded' }));
+    menu.append(new MenuItem({ type: 'separator' }));
     menu.append(new MenuItem({ label: 'Please fill foloowing form' }))
 
     app.on('browser-window-created', (event, win) => {

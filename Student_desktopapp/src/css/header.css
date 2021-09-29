@@ -13,12 +13,14 @@ body {
     --font-color: black;
     --bg-color: white;
     --header-color: #26a8aa;
+    --sub-color: rgba(38, 168, 170, 0.22);
 }
 
 [data-theme=dark] {
     --font-color: white;
-    --bg-color: #000000;
-    --header-color: #0a696b;
+    --bg-color: rgb(119, 117, 117);
+    --header-color: #1a6061;
+    --sub-color: rgba(18, 229, 233, 0.22);
 }
 
 
@@ -141,7 +143,7 @@ body {
     padding-left: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
-    background-color: rgba(38, 168, 170, 0.22);
+    background-color: var(--sub-color);
 }
 
 .main {
