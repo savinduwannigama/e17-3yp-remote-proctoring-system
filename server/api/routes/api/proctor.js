@@ -172,7 +172,7 @@ router.get('/courses/self/:id', async (req, res) => {
 
     var invigilator = info.invigilators.find(obj => obj.exam_room === room).name;
 
-    const proctoring_exams = exams.find(obj => obj.chief_invigilators);
+    const proctoring_exams = exams.find(obj => obj.chief_invigilators); //////////////////////////////////////asdadfawqfawsfawef//////////////////
 
     admins.findById(req.params.id)
     .then(result => res.json(result))
