@@ -1,81 +1,85 @@
-<!DOCTYPE html>
 <html>
 
 <head>
     <title>Connexa</title>
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <link rel="stylesheet" href="css/header.css">
-    <!--<link rel="stylesheet" href="css/schedule.css">-->
-    <script defer src="js/header.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://meet.jit.si/external_api.js'></script>
+    <script defer src="js/help.js"></script>
+    <title>Virtual examination room</title>
+    <style>
+        #start,
+        #download,
+        #goBack {
+            border-radius: 5px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+            border: 0;
+            width: 120px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            justify-content: center;
+        }
+        
+        #start:disabled,
+        #download:disabled {
+            background-color: rgb(185, 183, 183);
+        }
+        
+        #start {
+            background-color: rgb(62, 167, 53);
+        }
+        
+        #download {
+            background-color: rgb(228, 18, 18);
+        }
+        
+        #goBack {
+            background-color: #26a8aa;
+        }
+        
+        #status {
+            display: initial;
+            text-align: center;
+            width: 100%;
+            height: 20px;
+            position: fixed;
+            padding-top: 10px;
+            padding-right: 10px;
+            font-size: 15px;
+            right: 0px;
+            top: 35px;
+            color: white;
+            background: transparent;
+        }
+        
+        #btns {
+            text-align: center;
+        }
+    </style>
 </head>
 
-<body onload="display_ct();">
-    <div class="header">
-        <div class="container1">
-            <div class="title">
-                <span>Help</span>
-            </div>
-        </div>
-        <!--<div class="container2">
-            <div class="search">
-                <input type="text" class="searchTerm" placeholder="search">
-                <button type="submit" id="searchbtn" class="searchButton">
-                 <i class="fa fa-search"></i>
-              </button>
-            </div>
-        </div>-->
-        <div class="container3">
-            <div class="battery">
-                <div class="container">
-                    <div id="batBody">
-                        <div id="indicator"></div>
-                    </div>
-                    <div class="batEnd">
-                        <div></div>
-                    </div>
-                </div>
-                <p id="batteryLevelOutput"></p>
-            </div>
-        </div>
-        <div class="container4">
-            <div class="notification">
-                <img id="show_notifications" src="img/icons/notification.png">
-                <span id="badge" class="badge">7</span>
-            </div>
-        </div>
+<body>
+    <div id="btns">
+        <button id="goBack">Go back</button>
+        <button id="start">Join meeting</button>
+        <button id="download" disabled>Leave meeting</button>
     </div>
+    <br>
+    <div id="status"></div>
+    <div id="meet"></div>
 
-    <div class="timestamp" id="timestamp">
-        <p>TIME TO HIT THE BOOKS! YOUR NEXT EXAM BEGINS IN:</p>
+    <p>
+        Echo cancellation: <input type="checkbox" id="echoCancellation" />
+    </p>
+
+    <div>
+        <span id="errorMsg"></span>
     </div>
-
-    <div class="status" id="status"></div>
-
-    <div class="timeindicator" id="timeindicator">
-        <p class="time">2 : <span id="currenttime"></span></p>
-        <p>DAYS : HOURS : MINUTES : SECONDS</p>
-    </div>
-
-    <!--hamburger menu-->
-    <nav class="menu" tabindex="0">
-        <div class="smartphone-menu-trigger"></div>
-        <header class="avatar">
-            <img id="avatar" class="online" src="img/user.jpg" />
-            <h2 id="user_name">USER</h2>
-        </header>
-        <ul id="list">
-            <li tabindex="0" id="home" class="icon-home"><span>Home</span></li>
-            <li tabindex="0" id="dashboard" class="icon-dashboard"><span>Dashboard</span></li>
-            <li tabindex="0" id="course" class="icon-courses"><span>Courses</span></li>
-            <li tabindex="0" id="schedule" class="icon-schedule"><span>Exam Schedule</span></li>
-            <li tabindex="0" id="notification" class="icon-notifications"><span>Notifications</span></li>
-            <li tabindex="0" id="settings" class="icon-settings"><span>Settings</span></li>
-            <li tabindex="0" id="help" class="icon-help"><span>Help</span></li>
-        </ul>
-    </nav>
-    <!--body starts here-->
-    <div class="separator2"></div>
-    <p>Delete recording: <input type="text" id="deletename"></input>
+    <!--<p>Delete recording: <input type="text" id="deletename"></input>
         <button id="deleted">Delete</button></p>
     <p id="deletedname"></p>
 
@@ -90,7 +94,7 @@
             });
             deletedname.innerHTML = name;
         })
-    </script>
+    </script>-->
 </body>
 
 </html>
