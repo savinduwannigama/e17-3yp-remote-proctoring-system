@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title> </title>
+    <title>Connexa</title>
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/settings.css">
     <script defer src="js/settings.js"></script>
@@ -11,47 +11,48 @@
 
 <body onload="display_ct();">
     <div class="header">
-        <div class="wrap">
-            <div class="cont1">
-                <div class="search">
-                    <input type="text" class="searchTerm" placeholder="search">
-                    <button type="submit" id="searchbtn" class="searchButton">
-                     <i class="fa fa-search"></i>
-                  </button>
-                </div>
-            </div>
-            <div class="cont2">
-                <div class="battery">
-                    <div class="container">
-                        <div id="batBody">
-                            <div id="indicator"></div>
-                        </div>
-                        <div class="batEnd">
-                            <div></div>
-                        </div>
-                    </div>
-                    <p id="batteryLevelOutput"></p>
-                </div>
-            </div>
-            <div class="cont3">
-                <div class="notification">
-                    <img id="show_notifications" src="img/icons/notification.png">
-                    <span id="badge" class="badge">9</span>
-                </div>
+        <div class="container1">
+            <div class="title">
+                <span>Settings</span>
             </div>
         </div>
-    </div>
-    <div class="title">
-        <img src="img/icons/settingsblack.png" />
-        <span>Settings</span>
-        <div class="status" id="status"></div>
+        <!--<div class="container2">
+            <div class="search">
+                <input type="text" class="searchTerm" placeholder="search">
+                <button type="submit" id="searchbtn" class="searchButton">
+                 <i class="fa fa-search"></i>
+              </button>
+            </div>
+        </div>-->
+        <div class="container3">
+            <div class="battery">
+                <div class="container">
+                    <div id="batBody">
+                        <div id="indicator"></div>
+                    </div>
+                    <div class="batEnd">
+                        <div></div>
+                    </div>
+                </div>
+                <p id="batteryLevelOutput"></p>
+            </div>
+        </div>
+        <div class="container4">
+            <div class="notification">
+                <img id="show_notifications" src="img/icons/notification.png">
+                <span id="badge" class="badge">7</span>
+            </div>
+        </div>
     </div>
 
-    <div class="timestamp">
+    <div class="timestamp" id="timestamp">
         <p>TIME TO HIT THE BOOKS! YOUR NEXT EXAM BEGINS IN:</p>
     </div>
-    <div class="timeindicator">
-        <p class="time">2 :<span id="currenttime"></span></p>
+
+    <div class="status" id="status"></div>
+
+    <div class="timeindicator" id="timeindicator">
+        <p class="time">2 : <span id="currenttime"></span></p>
         <p>DAYS : HOURS : MINUTES : SECONDS</p>
     </div>
 
@@ -59,8 +60,8 @@
     <nav class="menu" tabindex="0">
         <div class="smartphone-menu-trigger"></div>
         <header class="avatar">
-            <img id="avatar" class="online" src="img/isuri.jpg" />
-            <h2 id="user_name">Devindi G.A.I</h2>
+            <img id="avatar" class="online" src="img/user.jpg" />
+            <h2 id="user_name">USER</h2>
         </header>
         <ul id="list">
             <li tabindex="0" id="home" class="icon-home"><span>Home</span></li>
@@ -74,14 +75,51 @@
     </nav>
     <div class="separator3"></div>
     <!--body starts here-->
-    <span>change your name >></span>
-    <input type="text" id="setname">
-    <div class="box">
-        <span>Test your camera >></span>
-        <a class="button" id="start" href="#popup1">Test</a>
+
+    <div>
+        <span> change your user name >></span>
+        <a class="button" id="changename" href="#popup1">change</a>
     </div>
 
+    <div>
+        <span>change your profile picture>></span>
+        <a class="button" id="profpic" href="#popup2">change</a>
+    </div>
+
+    <div>
+        <span>Test your camera >></span>
+        <a class="button" id="start" href="#popup3">Test</a>
+    </div>
+
+
+
+    <div class=theme>
+        <p>change theme</p>
+        <div class="toggle-btn" id="_1st-toggle-btn">
+            <input type="checkbox" id="checkbox">
+            <span></span>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- pop ups -->
     <div id="popup1" class="overlay">
+        <div class="popup">
+            <a class="close" href="#">&times;</a>
+            <!--body starts here-->
+            <p>Enter your name</p>
+            <input type="text" maxlength="25" id="name" onkeyup="countlength()"></input><span id="namelength">25/25</span>
+            <button id="entername">Save</button>
+
+
+        </div>
+    </div>
+
+    <div id="popup3" class="overlay">
         <div class="popup">
             <a class="close" id="close" href="#">&times;</a>
             <br><br>
@@ -97,7 +135,7 @@
                 </div>
 
                 <div>
-                    <h4>Media Stream Constraints options</h4>
+                    <p>Media Stream Constraints options</p>
                     <p>
                         Echo cancellation: <input type="checkbox" id="echoCancellation" />
                     </p>
@@ -109,17 +147,14 @@
             </div>
         </div>
     </div>
-    <div class="box">
-        <span>change your profile picture>></span>
-        <a class="button" id="profpic" href="#popup2">change</a>
-    </div>
+
     <div id="popup2" class="overlay">
         <div class="popup">
-            <a class="close" id="close" href="#">&times;</a>
+            <a class="close" href="#">&times;</a>
 
             <div id=profpic>
                 <div id="default"><img id="defavatar" src="img/avatar/user.png" /></div>
-                <div id="btn"><button id=" changeavtr ">change</button></div>
+                <div id="btn"><button id="changeavtr">change</button></div>
             </div>
             <div class="cards" id="cards">
                 <img class="card" src="img/avatar/man (1).png ">
@@ -144,11 +179,7 @@
         </div>
 
     </div>
-    </div>
 
-</body>
-<script>
-</script>
 </body>
 
 </html>

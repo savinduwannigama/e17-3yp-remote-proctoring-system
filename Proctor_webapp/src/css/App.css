@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Sansita&display=swap');
 .App {
-  text-align: center;
+ /* text-align: center;
   background-image: url("../desktop2.jpeg");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  
+  */
   font-size: calc(10px + 2vmin);
   font-family: 'Sansita';
   color: white;

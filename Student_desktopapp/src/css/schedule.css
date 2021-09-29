@@ -1,0 +1,12 @@
+#calendar button {
+    background-color: var(--header-color)!important;
+    border: 0px!important;
+}
+
+#calendar {
+    padding: 10px;
+}
+
+#show-event {
+    display: none;
+}

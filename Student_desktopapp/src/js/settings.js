@@ -1,4 +1,4 @@
-/*'use strict'; globals MediaRecorder */
+/*global media recorder */
 
 let mediaRecorder;
 let recordedBlobs;
@@ -112,29 +112,15 @@ document.querySelector('#close').addEventListener('click', async() => {
     const mediaStream = video.srcObject;
     const tracks = mediaStream.getTracks();
     tracks.forEach(track => track.stop());
+    recordedVideo.pause();
+    recordedVideo.currentTime = 0;
     recordedVideo.srcObject = null;
 
 });
 
 
-/* update avatar 
-document.getElementById("setname").addEventListener('change', () => {
-    const fs = require('fs');
 
-    const filePath = '../json/user_details.json';
-    var fileObject = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-
-    // Do something with file
-    fileObject.name = "hello"
-
-    try {
-        fs.writeFileSync(filePath, JSON.stringify(fileObject, null, 2), 'utf8');
-        console.log("The file was saved!");
-    } catch (err) {
-        console.err("An error has ocurred when saving the file.");
-    }
-})*/
-
+/************ change avatar image ******************/
 const img = document.getElementById("cards");
 const def = document.getElementById("defavatar");
 
@@ -145,26 +131,68 @@ img.addEventListener('click', function(event) {
     }
 
 });
-/*
-// file system module to perform file operations
-const fs = require('fs');
 
-// json data
-var jsonData = '[{"name":"Devindi","avatar":"woman (1).png"}]';
+document.getElementById("changeavtr").addEventListener("click", () => {
+    localStorage.setItem("useravatar", def.src);
+})
 
-// parse json
-var jsonObj = JSON.parse(jsonData);
-console.log(jsonObj);
 
-// stringify JSON Object
-var jsonContent = JSON.stringify(jsonObj);
-console.log(jsonContent);
+/********* toggle dark/light mode *************/
 
-fs.writeFile("src/json/user_details.json", jsonContent, 'utf8', function(err) {
-    if (err) {
-        console.log("An error occured while writing JSON Object to File.");
-        return console.log(err);
+var toggleSwitch = document.querySelector('.toggle-btn input[type="checkbox"]');
+
+if (typeof(Storage) !== "undefined" && localStorage.theme) {
+    var currentTheme = localStorage.getItem('theme');
+
+    if (currentTheme) {
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        if (currentTheme === 'dark') {
+            toggleSwitch.checked = true;
+        }
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+
+
+
+
+
+/*********** user name ****************/
+
+
+function countlength() {
+    var name = document.getElementById("name");
+    var remaininglength = document.getElementById("namelength")
+
+    var length = name.value.length;
+    var left = 25 - length;
+    remaininglength.innerHTML = left.toString() + "/25"
+
+}
+
+if (typeof(Storage) !== "undefined" && localStorage.username) {
+    var username = document.getElementById("name");
+    username.defaultValue = localStorage.getItem("username");
+}
+
+
+document.getElementById("entername").addEventListener("click", () => {
+
+    var newname = document.getElementById("name").value;
+    if (newname.length != 0) {
+        localStorage.setItem("username", newname);
     }
 
-    console.log("JSON file has been saved.");
-});*/
+})

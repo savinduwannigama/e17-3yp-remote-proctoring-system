@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Varela+Round');
+@import url('https://fonts.googleapis.com/css2?family=Sansita&display=swap');
 html,
 body {
     overflow-x: hidden;
@@ -6,11 +6,65 @@ body {
     user-select: none;
 }
 
+
+/************ color variables ***********/
+
+:root {
+    --font-color: black;
+    --bg-color: white;
+    --header-color: #26a8aa;
+    --sub-color: rgba(38, 168, 170, 0.22);
+    --left-arrow: url("../img/icons/left-arrow.png");
+    --list-menu: url("../img/icons/list.png");
+}
+
+[data-theme=dark] {
+    --font-color: white;
+    --bg-color: rgb(32, 32, 32);
+    --header-color: #1a6061;
+    --sub-color: rgba(18, 229, 233, 0.22);
+}
+
+
+/******** scroll bar **********/
+
+ ::-webkit-scrollbar {
+    width: 10px;
+}
+
+ ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+}
+
+ ::-webkit-scrollbar-thumb {
+    background: rgba(38, 168, 170, 0.22)
+}
+
+
+/********** body css **********/
+
 body {
-    background: #fff;
+    background-color: var(--bg-color);
+    color: var(--font-color);
     padding: 0;
     margin: 0;
-    font-family: "Sansita", sans-serif;
+    font-family: 'Sansita', sans-serif;
+}
+
+input[type="text"],
+textarea {
+    background-color: var(--bg-color);
+}
+
+::placeholder {
+    color: var(--header-color);
+    opacity: 1;
+}
+
+mark {
+    background-color: #ffdd4b;
+    text-decoration: underline;
+    text-decoration-color: var(--font-color);
 }
 
 
@@ -30,7 +84,7 @@ body {
 .header {
     width: 100%;
     height: 40px !important;
-    background-color: #26a8aa;
+    background-color: var(--header-color);
     width: 100%;
     margin-top: 0;
     margin-bottom: 0;
@@ -38,40 +92,36 @@ body {
 }
 
 .title {
-    width: 100%;
-    max-width: 100%;
-    background-color: white;
-    position: fixed;
-    margin-top: 40px;
-    height: 85px !important;
+    color: white;
 }
 
 .title span {
     font-size: 25px;
     position: fixed;
-    margin-left: 60px;
-    margin-top: 5px;
+    margin-left: 0px;
+    margin-top: 2px;
 }
 
 .title img {
     display: inline-block;
     width: 30px;
     height: 30px;
-    margin-left: 20px;
+    margin-left: 80px;
     margin-top: 5px;
     position: fixed;
 }
 
 .status {
     display: initial;
-    text-align: right;
-    width: 500px;
+    text-align: center;
+    width: 100%;
     height: 30px;
     position: fixed;
     padding-top: 10px;
     padding-right: 10px;
     font-size: 20px;
     right: 0px;
+    top: 45px;
     color: white;
     background: transparent;
 }
@@ -81,7 +131,7 @@ body {
     width: fit-content;
     position: fixed;
     font-size: 8px;
-    margin-top: 80px;
+    margin-top: 45px;
     padding-top: 3px;
     text-align: center;
     right: 15px;
@@ -90,6 +140,7 @@ body {
 .timeindicator p {
     padding: 0;
     margin: 0;
+    color: var(--font-color);
 }
 
 .time {
@@ -98,16 +149,19 @@ body {
 
 .timestamp {
     width: 100%;
-    max-width: 100%;
-    background-color: rgba(38, 168, 170, 0.22);
+    background-color: var(--bg-color);
     position: fixed;
-    margin-top: 80px;
-    height: 40px !important;
+    margin-top: 40px;
+    height: 55px !important;
 }
 
 .timestamp p {
-    text-align: center;
-    margin-top: 12px;
+    text-align: left;
+    margin-top: 5px;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: var(--sub-color);
 }
 
 .main {
@@ -131,23 +185,21 @@ body {
     font-weight: bold;
     letter-spacing: 1.25px;
     background-color: rgba(38, 168, 170, 0.22);
-    border: 15px solid white;
+    border: 15px solid var(--bg-color);
 }
 
 
 /************serach bar*****************/
 
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 .search {
-    width: 150px;
     position: relative;
     display: flex;
-    margin-left: 250px;
+    margin-left: 0px;
     padding-top: 5px;
 }
 
 .searchTerm {
-    width: 100px;
+    width: 200px;
     border: 2px solid #26a8aa;
     border-right: none;
     padding: 5px;
@@ -180,29 +232,36 @@ body {
 
 .separator2 {
     position: static;
-    padding-top: 130px;
+    padding-top: 90px;
 }
 
-.wrap {
-    overflow: hidden;
+.separator3 {
+    position: static;
+    padding-top: 100px;
 }
 
-.cont1 {
-    display: inline-block;
+.container1 {
+    position: absolute;
+    left: 40px;
+    width: 100px;
 }
 
-.cont2 {
+.container2 {
+    position: absolute;
+    left: 300px;
+    width: 250px;
+}
+
+.container3 {
+    position: absolute;
     top: 9px;
     display: inline-block;
-    position: fixed;
     width: 100px;
     right: 50px;
 }
 
-.cont3 {
-    display: inline-block;
-    position: fixed;
-    width: 30px;
+.container4 {
+    position: absolute;
     right: 20px;
 }
 
@@ -214,7 +273,7 @@ body {
 }
 
 .battery p {
-    padding-top: 3px;
+    padding-top: 1px;
     margin: 0;
     color: white;
 }
@@ -232,7 +291,7 @@ body {
 .batEnd {
     float: left;
     height: 20px;
-    width: 20px;
+    width: 10px;
 }
 
 .batEnd div {
@@ -291,31 +350,35 @@ body {
     cursor: pointer;
 }
 
-.badge:hover {
-    background: white;
-}
-
 .notification .badge {
     position: absolute;
     top: 0;
     right: -7px;
-    padding: 1px 6px;
+    width: 20px;
+    height: 20px;
+    padding: 1px;
     border-radius: 100%;
     background: red;
-    color: white;
     font-weight: bold;
+    color: white;
     cursor: pointer;
+    text-align: center;
+    font-size: 15px;
 }
 
 
 /********** hamburger menu ************/
+
+#user_name {
+    font-weight: normal;
+}
 
 main {
     position: relative;
 }
 
 .menu {
-    background: #26a8aa;
+    background: var(--header-color);
     height: 100vh;
     width: 240px;
     position: fixed;
@@ -345,14 +408,13 @@ main {
 }
 
 .offline {
-    border: 4px solid red;
+    border: 4px solid rgb(255, 0, 0);
 }
 
 .menu .avatar h2 {
     width: 200px;
     font-size: 20px;
     padding-top: 10px;
-    font-weight: bold;
     margin: 0;
     color: white;
     word-wrap: break-word;
@@ -365,7 +427,6 @@ main {
 }
 
 .menu ul li {
-    font-weight: bold;
     background-repeat: no-repeat;
     background-position: left 15px center;
     background-size: auto 20px;
@@ -430,8 +491,8 @@ main {
         height: 40px;
         position: absolute;
         left: 100%;
-        background: #26a8aa;
-        background-image: url("../img/icons/list.png");
+        background: var(--header-color);
+        background-image: var(--list-menu);
         background-repeat: no-repeat;
         background-position: center;
     }
@@ -441,7 +502,7 @@ main {
     }
     .menu:focus .smartphone-menu-trigger {
         pointer-events: none;
-        background-image: url("../img/icons/left-arrow.png");
+        background-image: var(--left-arrow);
     }
     /*.menu .smartphone-menu-trigger:before {
         content: "";
@@ -552,4 +613,61 @@ hr {
     background-color: rgb(158, 152, 152);
     margin-bottom: 15px;
     margin-top: 0px
+}
+
+
+/*************** pop up ***************/
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 600;
+}
+
+.overlay:target {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup {
+    margin: 70px auto;
+    padding: 20px;
+    background: var(--bg-color);
+    border-radius: 5px;
+    width: 500px;
+    position: relative;
+    transition: all 5s ease-in-out;
+}
+
+.popup h2 {
+    margin-top: 0;
+    color: #333;
+    font-family: Tahoma, Arial, sans-serif;
+}
+
+.popup .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+
+.popup .close:hover {
+    color: #26a8aa;
+}
+
+.popup .content {
+    max-height: 30%;
+    overflow: auto;
 }

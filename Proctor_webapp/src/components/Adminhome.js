@@ -2,12 +2,12 @@ import React from 'react'
 import Adminbtn from './Adminbtn'
 import ButtonGroup from '@mui/material/ButtonGroup';
 import "../css/Admin.css"
-import NavBar from './PrimarySearchAppBar';
+import NavBar from './AdminAppBar';
 import Box from '@mui/material/Box';
 function adminhome() {
     return (
        
-        <div className="Main">
+        <div className="admin-main">
             <NavBar></NavBar>
             
             <h3>Please upload the relevant files in CSV format.</h3>
@@ -16,13 +16,16 @@ function adminhome() {
             <Adminbtn btnname="Add MasterSheet" value="mastersheet" />
             
             </ButtonGroup>
-            
             <ButtonGroup  orientation="vertical">
-            <Adminbtn btnname="Add students" value="student" />
+            <Adminbtn btnname="Add courses" value="courses" />
             
             </ButtonGroup>
             <ButtonGroup  orientation="vertical">
-            <Adminbtn btnname="Add Proctors" value="proctor"/>
+            <Adminbtn btnname="Add students" value="students" />
+            
+            </ButtonGroup>
+            <ButtonGroup  orientation="vertical">
+            <Adminbtn btnname="Add Proctors" value="proctors"/>
             </ButtonGroup>
             </Box>
             

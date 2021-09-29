@@ -7,6 +7,11 @@ import Portal from './components/Portal';
 import Adminlogin from './components/Adminlogin';
 import Adminhome from './components/Adminhome';
 import Home from './components/Home';
+import Dashboard from './components/Dashboard';
+import Schedule from './components/Schedule';
+import Courses from './components/Courses';
+import Settings from './components/Settings';
+import Help from './components/Help';
 
 function App() {
   return (
@@ -33,6 +38,24 @@ function App() {
           </Route>
           <Route path="/home" exact>
             <Home/>
+          </Route>
+          <Route path="/dashboard" exact>
+            <Dashboard/>
+          </Route>
+
+          <Route path="/schedule" exact>
+            <Schedule/>
+          </Route>
+          <Route path="/courses" exact>
+            <Courses/>
+          </Route>
+
+          <Route path="/settings" exact>
+            <Settings/>
+          </Route>
+
+          <Route path="/help" exact>
+            <Help/>
           </Route>
         </Switch>
       </Router>

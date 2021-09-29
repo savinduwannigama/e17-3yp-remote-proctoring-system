@@ -9,6 +9,7 @@ const {
     app
 } = require('electron')
 const path = require('path')
+const { download } = require("electron-dl");
 const ipc = ipcMain
 
 function createWindow() {
@@ -17,7 +18,11 @@ function createWindow() {
         width: 800,
         height: 480,
         minimizable: false,
-        maximizable: true,
+        maximizable: false,
+        resizable: false,
+        //movable: false,
+        icon: "src/img/appicon3_YGz_icon.ico",
+
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
@@ -28,13 +33,26 @@ function createWindow() {
 
     })
 
+    app.commandLine.appendSwitch('allow-insecure-localhost');
+    app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
+        if (url === 'https://143.244.139.140/CO227-test#jitsi_meet_external_api_id=0&interfaceConfig.TILE_VIEW_MAX_COLUMNS=2&interfaceConfig.DISABLE_DOMINANT_SPEAKER_INDICATOR=true&interfaceConfig.startWithAudioMuted=false&interfaceConfig.startWithVideoMuted=false&userInfo.displayName=%22sasini%22&appData.localStorageContent=null') {
+            // Verification logic.
+            event.preventDefault()
+            callback(true)
+        } else {
+            callback(false)
+        }
+    })
     mainWindow.on('close', function(e) {
         /*const choice = require('electron').dialog.showMessageBoxSync(this, {
-            type: 'question',
+            type: 'none',
             buttons: ['Yes', 'No'],
             noLink: true,
             title: 'Confirm',
-            message: 'Are you sure you want to exit?'
+            message: 'Are you sure you want to exit?',
+            icon: 'src/img/appicon3_YGz_icon.ico'
+
+
         });
         if (choice === 1) {
             e.preventDefault();
@@ -59,14 +77,30 @@ function createWindow() {
     ipc.on('dashboard', () => { mainWindow.loadFile('src/dashboard.html') })
     ipc.on('course', () => { mainWindow.loadFile('src/courses.html') })
     ipc.on('schedule', () => { mainWindow.loadFile('src/schedule.html') })
-    ipc.on('notification', () => { mainWindow.loadFile('src/autoDownload.html') })
+    ipc.on('notification', () => { mainWindow.loadFile('src/notifications.html') })
     ipc.on('settings', () => { mainWindow.loadFile('src/settings.html') })
     ipc.on('help', () => { mainWindow.loadFile('src/help.html') })
 
 
+    ipcMain.on("download", async(event, { url, fileName }) => {
+        const win = BrowserWindow.getFocusedWindow();
+
+        await download(win, url, {
+            filename: fileName + '.mp4',
+            directory: app.getAppPath() + '/src/recorded video',
+            onCompleted: () => {
+                event.reply('done')
+            }
+        }).then(dl => console.log(dl.getSavePath()))
+
+
+
+    });
+
+
     const menu = new Menu()
-    menu.append(new MenuItem({ label: 'CO321 Quize is postponded' }))
-    menu.append(new MenuItem({ type: 'separator' }))
+    menu.append(new MenuItem({ label: 'CO321 Quize is postponded' }));
+    menu.append(new MenuItem({ type: 'separator' }));
     menu.append(new MenuItem({ label: 'Please fill foloowing form' }))
 
     app.on('browser-window-created', (event, win) => {

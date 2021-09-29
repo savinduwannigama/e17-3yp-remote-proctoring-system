@@ -2,3 +2,5 @@ https://www.geeksforgeeks.org/prevent-system-from-entering-sleep-mode-in-electro
 https://www.howtocodeschool.com/2020/10/change-brightness-using-html-range-slider.html
 https://codepen.io/Beni70/pen/jOPzxLJ
 https://codepen.io/Sp00ky/pen/YPPmGL -stiky notifications
+https://codepen.io/windyvu/pen/mEkKok - notifications   
+https://codepen.io/vquilon/pen/wvzWYyW  - print json in html 

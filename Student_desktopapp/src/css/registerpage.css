@@ -1,5 +1,10 @@
 /*blocks to horizontally & vertically center align*/
 
+@import url('https://fonts.googleapis.com/css2?family=Sansita&display=swap');
+.body {
+    font-family: 'Sansita', sans-serif;
+}
+
 .outer {
     display: table;
     position: absolute;
@@ -93,7 +98,8 @@ table {
 th {
     padding-left: 10px;
     text-align: left;
-    font-size: 30px;
+    font-size: 20px;
+    padding-bottom: 10px;
     width: 350px;
 }
 
@@ -140,7 +146,7 @@ button:focus {
     margin-top: 5px;
     width: 125px;
     transform: translateY(5%);
-    padding-left: 100px;
+    padding-left: 72px;
     /*should change*/
 }
 

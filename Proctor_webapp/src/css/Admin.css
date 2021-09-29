@@ -1,3 +1,12 @@
+.page{
+  text-align: center;
+  background-image: url("../desktop2.jpeg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 .login{
     align-items: center;
     justify-content: center;
@@ -16,13 +25,20 @@
     padding-top: 50px;
 }
 
-.Main {
+.admin-main {
+    text-align: center;
+    background-color: white !important;
+    display: flex;
+    flex-direction: column;
+    
+    font-size: calc(10px + 2vmin);
+    font-family: 'Sansita';
     
     
     
     color: rgb(15, 15, 15);
 }
-.Main h3{
+.admin-main h3{
     
     padding-top: 100px;
     padding-bottom:50px ;

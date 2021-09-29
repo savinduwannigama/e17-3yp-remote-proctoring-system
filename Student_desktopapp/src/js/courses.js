@@ -54,3 +54,50 @@ function myFunction() {
         }
     }
 }
+
+
+var courseJSON = '{"code":["CO227","CO321","CO322","CO323","CO324","CO325","EE386"], "name":["Computer Engineering Project", "Embedded System", "Data Structure and Algorithm","Computer Communication","Network and Web Application","Computer and Network Security","Ellectronic II"]}';
+var courseArray = JSON.parse(courseJSON);
+
+function makeCourseList(array) {
+
+    // Create the list element:
+    var list = document.getElementById('cards');
+
+    for (var i = 0; i < array.code.length; i++) {
+        // Create the list item:
+        var item = document.createElement('li');
+        var code = document.createElement('p');
+        var name = document.createElement('p');
+        item.id = i.toString();
+
+
+        // Set its contents:
+        item.className = 'card'
+        code.innerHTML = array.code[i];
+        name.innerHTML = array.name[i];
+        item.appendChild(code);
+        item.appendChild(name);
+
+        // Add it to the list:
+        list.appendChild(item);
+    }
+
+}
+
+makeCourseList(courseArray);
+
+
+var popup = document.getElementById("popup");
+var span = popup.getElementsByTagName('span')
+var link = document.getElementById("show")
+var btn = document.getElementById("cards").getElementsByTagName('li')
+var btncount = btn.length;
+for (var i = 0; i < btncount; i += 1) {
+    btn[i].onclick = function() {
+        span[0].innerHTML = courseArray.code[this.id];
+        span[1].innerHTML = courseArray.name[this.id];
+        link.click()
+
+    }
+}
