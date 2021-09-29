@@ -75,8 +75,21 @@
     </nav>
     <!--body starts here-->
     <div class="separator2"></div>
+    <p>Delete recording: <input type="text" id="deletename"></input>
+        <button id="deleted">Delete</button></p>
+    <p id="deletedname"></p>
 
     <script>
+        var fs = require('fs');
+        var deletedname = document.getElementById('deletedname')
+        document.getElementById('deleted').addEventListener('click', () => {
+            var name = document.getElementById('deletename').value
+            fs.unlink('src/recorded video/' + name, function(err) {
+                console.log(err);
+                deletedname.innerHTML = "The " + name + " is deleted successfully"
+            });
+            deletedname.innerHTML = name;
+        })
     </script>
 </body>
 
