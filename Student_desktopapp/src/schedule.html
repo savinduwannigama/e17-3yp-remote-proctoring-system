@@ -2,55 +2,62 @@
 <html>
 
 <head>
-    <title> </title>
+    <title>Connexa</title>
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/schedule.css">
-    <script defer src="js/schedule.js"></script>
     <script defer src="js/header.js"></script>
+
+
+    <meta charset='utf-8' />
+    <link href='calendar/lib/main.css' rel='stylesheet' />
+    <script src='calendar/lib/main.js'></script>
+
 </head>
 
 <body onload="display_ct();">
     <div class="header">
-        <div class="wrap">
-            <div class="cont1">
-                <div class="search">
-                    <input type="text" class="searchTerm" placeholder="search">
-                    <button type="submit" id="searchbtn" class="searchButton">
-                     <i class="fa fa-search"></i>
-                  </button>
-                </div>
-            </div>
-            <div class="cont2">
-                <div class="battery">
-                    <div class="container">
-                        <div id="batBody">
-                            <div id="indicator"></div>
-                        </div>
-                        <div class="batEnd">
-                            <div></div>
-                        </div>
-                    </div>
-                    <p id="batteryLevelOutput"></p>
-                </div>
-            </div>
-            <div class="cont3">
-                <div class="notification">
-                    <img id="show_notifications" src="img/icons/notification.png">
-                    <span id="badge" class="badge">9</span>
-                </div>
+        <div class="container1">
+            <div class="title">
+                <span>Schedule</span>
             </div>
         </div>
-    </div>
-    <div class="title">
-        <img src="img/icons/home (2).png" />
-        <span>Exam Schedule</span>
-        <div class="status" id="status"></div>
+        <!--<div class="container2">
+            <div class="search">
+                <input type="text" class="searchTerm" placeholder="search">
+                <button type="submit" id="searchbtn" class="searchButton">
+                 <i class="fa fa-search"></i>
+              </button>
+            </div>
+        </div>-->
+        <div class="container3">
+            <div class="battery">
+                <div class="container">
+                    <div id="batBody">
+                        <div id="indicator"></div>
+                    </div>
+                    <div class="batEnd">
+                        <div></div>
+                    </div>
+                </div>
+                <p id="batteryLevelOutput"></p>
+            </div>
+        </div>
+        <div class="container4">
+            <div class="notification">
+                <img id="show_notifications" src="img/icons/notification.png">
+                <span id="badge" class="badge">7</span>
+            </div>
+        </div>
     </div>
 
-    <div class="timestamp">
+    <div class="timestamp" id="timestamp">
         <p>TIME TO HIT THE BOOKS! YOUR NEXT EXAM BEGINS IN:</p>
     </div>
-    <div class="timeindicator">
+
+    <div class="status" id="status"></div>
+
+    <div class="timeindicator" id="timeindicator">
         <p class="time">2 : <span id="currenttime"></span></p>
         <p>DAYS : HOURS : MINUTES : SECONDS</p>
     </div>
@@ -59,8 +66,8 @@
     <nav class="menu" tabindex="0">
         <div class="smartphone-menu-trigger"></div>
         <header class="avatar">
-            <img id="avatar" class="online" src="img/isuri.jpg" />
-            <h2 id="user_name">Devindi G.A.I</h2>
+            <img id="avatar" class="online" src="img/user.jpg" />
+            <h2 id="user_name">USER</h2>
         </header>
         <ul id="list">
             <li tabindex="0" id="home" class="icon-home"><span>Home</span></li>
@@ -74,6 +81,63 @@
     </nav>
     <!--body starts here-->
     <div class="separator2"></div>
+    <a class="button" id="show-event" href="#popup">Test</a>
+
+
+    <div id="popup" class="overlay">
+        <div class="popup">
+            <a class="close" href="#">&times;</a>
+            <!--body starts here-->
+            <p id="show-title"></p>
+            <p id="show-starttime"></p>
+            <p id="show-endtime"></p>
+        </div>
+    </div>
+
+    <script>
+        var showevent = document.getElementById("show-event");
+        var showtitle = document.getElementById("show-title");
+        var showstarttime = document.getElementById("show-starttime");
+        var showendtime = document.getElementById("show-endtime");
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                height: 350,
+                initialView: 'dayGridMonth',
+                eventColor: 'orange',
+                events: [{
+                    title: "CO321",
+                    start: '2021-09-10T10:00:00',
+                    end: '2021-09-10T16:00:00',
+                    display: 'block',
+
+                }, {
+                    title: "CO322",
+                    start: '2021-09-12T10:00:00',
+                    end: '2021-09-12T16:00:00',
+                    display: 'block',
+                }],
+                eventClick: function(info) {
+                    showtitle.innerHTML = info.event.title
+                    showstarttime.innerHTML = info.event.start
+                    showendtime.innerHTML = info.event.end
+                    showevent.click()
+
+                },
+                /*headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'listWeek,dayGridMonth'
+                }*/
+            });
+            calendar.render();
+        });
+    </script>
+
+    <div id='calendar'></div>
+
+
 
 </body>
 

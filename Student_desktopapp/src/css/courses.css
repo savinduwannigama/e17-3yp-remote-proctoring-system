@@ -62,7 +62,7 @@
 }
 
 #cards li:hover:not(.header) {
-    border: 3px solid white;
+    background-color: #ffff
     /* Add a hover effect to all links, except for headers */
 }
 
@@ -74,4 +74,12 @@
     border-radius: 5px;
     outline: none;
     color: #26a8aa;
+}
+
+h4 {
+    color: #26a8aa;
+}
+
+#show {
+    display: none;
 }

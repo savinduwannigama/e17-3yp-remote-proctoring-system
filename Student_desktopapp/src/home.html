@@ -2,56 +2,58 @@
 <html>
 
 <head>
-    <title> </title>
+    <title>Connexa</title>
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/home.css">
+    <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
     <script defer src="js/home.js"></script>
     <script defer src="js/header.js"></script>
 </head>
 
 <body onload="display_ct();">
     <div class="header">
-        <div class="wrap">
-            <div class="cont1">
-                <div class="search">
-                    <input type="text" class="searchTerm" placeholder="search">
-                    <button type="submit" id="searchbtn" class="searchButton">
-                     <i class="fa fa-search"></i>
-                  </button>
-                </div>
-            </div>
-            <div class="cont2">
-                <div class="battery">
-                    <div class="container">
-                        <div id="batBody">
-                            <div id="indicator"></div>
-                        </div>
-                        <div class="batEnd">
-                            <div></div>
-                        </div>
-                    </div>
-                    <p id="batteryLevelOutput"></p>
-                </div>
-            </div>
-            <div class="cont3">
-                <div class="notification">
-                    <img id="show_notifications" src="img/icons/notification.png">
-                    <span id="badge" class="badge">9</span>
-                </div>
+        <div class="container1">
+            <div class="title">
+                <span>Home</span>
             </div>
         </div>
-    </div>
-    <div class="title">
-        <img src="img/icons/home (2).png" />
-        <span>Home</span>
-        <div class="status" id="status"></div>
+        <!--<div class="container2">
+            <div class="search">
+                <input type="text" class="searchTerm" placeholder="search">
+                <button type="submit" id="searchbtn" class="searchButton">
+                 <i class="fa fa-search"></i>
+              </button>
+            </div>
+        </div>-->
+        <div class="container3">
+            <div class="battery">
+                <div class="container">
+                    <div id="batBody">
+                        <div id="indicator"></div>
+                    </div>
+                    <div class="batEnd">
+                        <div></div>
+                    </div>
+                </div>
+                <p id="batteryLevelOutput"></p>
+            </div>
+        </div>
+        <div class="container4">
+            <div class="notification">
+                <img id="show_notifications" src="img/icons/notification.png">
+                <span id="badge" class="badge">8</span>
+            </div>
+        </div>
     </div>
 
-    <div class="timestamp">
+    <div class="timestamp" id="timestamp">
         <p>TIME TO HIT THE BOOKS! YOUR NEXT EXAM BEGINS IN:</p>
     </div>
-    <div class="timeindicator">
-        <p class="time">2 :<span id="currenttime"></span></p>
+
+    <div class="status" id="status"></div>
+
+    <div class="timeindicator" id="timeindicator">
+        <p class="time">2 : <span id="currenttime"></span></p>
         <p>DAYS : HOURS : MINUTES : SECONDS</p>
     </div>
 
@@ -59,8 +61,8 @@
     <nav class="menu" tabindex="0">
         <div class="smartphone-menu-trigger"></div>
         <header class="avatar">
-            <img id="avatar" class="online" src="img/isuri.jpg" />
-            <h2 id="user_name">Devindi G.A.I</h2>
+            <img id="avatar" class="online" src="img/user.jpg" />
+            <h2 id="user_name">USER</h2>
         </header>
         <ul id="list">
             <li tabindex="0" id="home" class="icon-home"><span>Home</span></li>
@@ -75,13 +77,14 @@
     <!--body starts here-->
     <div class="separator2"></div>
     <div class="mainInner">
+
         <div class="test">
-            <img src="img/icons/video-camera (1).png">
-            <img src="img/icons/headphones (1).png">
+            <img id='testcam' src="img/icons/video-camera (1).png">
+            <img id='testmic' src="img/icons/headphones (1).png">
             <p>Test Your Equipments</p>
         </div>
         <div class="test">
-            <img src="img/icons/calendar.png">
+            <img id='examschedule' src="img/icons/calendar.png">
             <p>See Your Exam Schedule</p>
         </div>
     </div>
@@ -100,6 +103,12 @@
         </div>
 
     </div>
+    <script>
+        /*for (var i = 0; i < localStorage.length; i++) {
+                    console.log(localStorage.getItem(localStorage.key(i)));
+                }*/
+    </script>>
+
 </body>
 
 </html>

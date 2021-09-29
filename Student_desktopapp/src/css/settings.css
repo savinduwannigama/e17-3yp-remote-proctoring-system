@@ -1,12 +1,75 @@
 #gum,
 #recorded {
     width: 200px;
-    height: auto;
+    height: 113px;
+    border: 2px solid #26a8aa;
+}
+
+#record,
+#play,
+#entername,
+#changeavtr {
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 0;
+    width: 120px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    justify-content: center;
+    background-color: #26a8aa;
+}
+
+#entername,
+#changeavtr {
+    width: 80px;
+}
+
+#name {
+    border: 0;
+    border-bottom: 2px solid #26a8aa;
+    padding: 5px;
+    height: 12px;
+    outline: none;
+    width: 250px;
+    font-weight: bold;
+    color: var(--font-color);
+}
+
+#namelength {
+    font-size: 13px;
+    color: #26a8aa;
+    padding-right: 10px;
+}
+
+#record:disabled,
+#play:disabled {
+    background-color: rgb(185, 183, 183);
 }
 
 .separator3 {
     position: static;
-    padding-top: 140px;
+    padding-top: 110px;
+}
+
+#container {
+    text-align: center;
+}
+
+#container p {
+    text-align: left;
+}
+
+#container span {
+    text-align: left;
+    color: red;
+}
+
+video::-webkit-media-controls-panel {
+    display: none;
 }
 
 
@@ -24,7 +87,7 @@
 .button {
     font-size: 15px;
     padding: 5px;
-    color: #26a8aa;
+    color: var(--header-color);
     border: none;
     border-radius: 10px;
     text-decoration: none;
@@ -36,60 +99,6 @@
 /*.button:hover {
     background: #26a8aa;
 }*/
-
-.overlay {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.7);
-    transition: opacity 500ms;
-    visibility: hidden;
-    opacity: 0;
-    z-index: 600;
-}
-
-.overlay:target {
-    visibility: visible;
-    opacity: 1;
-}
-
-.popup {
-    margin: 70px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 5px;
-    width: 500px;
-    position: relative;
-    transition: all 5s ease-in-out;
-}
-
-.popup h2 {
-    margin-top: 0;
-    color: #333;
-    font-family: Tahoma, Arial, sans-serif;
-}
-
-.popup .close {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    transition: all 200ms;
-    font-size: 30px;
-    font-weight: bold;
-    text-decoration: none;
-    color: #333;
-}
-
-.popup .close:hover {
-    color: #06D85F;
-}
-
-.popup .content {
-    max-height: 30%;
-    overflow: auto;
-}
 
 
 /* avatar*/
@@ -142,4 +151,88 @@
 
 #default {
     text-align: center;
+}
+
+.theme {
+    overflow: hidden;
+}
+
+.theme p {
+    display: inline-block;
+}
+
+.toggle-btn {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+    margin: 0 auto;
+    border-radius: 40px;
+}
+
+input[type="checkbox"] {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    margin: 0px;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 2;
+}
+
+
+/* First toggle btn */
+
+#_1st-toggle-btn span {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    overflow: hidden;
+    opacity: 1;
+    background-color: rgba(38, 168, 170);
+    border-radius: 40px;
+    transition: 0.2s ease background-color, 0.2s ease opacity;
+}
+
+#_1st-toggle-btn span:before,
+#_1st-toggle-btn span:after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    transition: 0.5s ease transform, 0.2s ease background-color;
+}
+
+#_1st-toggle-btn span:before {
+    background-color: var(--header-color);
+    transform: translate(-19px, 0px);
+    z-index: 1;
+}
+
+#_1st-toggle-btn span:after {
+    background-color: white;
+    transform: translate(2px, 0px);
+    z-index: 0;
+}
+
+#_1st-toggle-btn input[type="checkbox"]:checked+span {
+    background-color: var(--header-color);
+}
+
+#_1st-toggle-btn input[type="checkbox"]:active+span {
+    opacity: 0.5;
+}
+
+#_1st-toggle-btn input[type="checkbox"]:checked+span:before {
+    background-color: var(--header-color);
+    transform: translate(18px, -6px);
+}
+
+#_1st-toggle-btn input[type="checkbox"]:checked+span:after {
+    background-color: var(--bg-color);
+    transform: translate(26px, 0px);
 }

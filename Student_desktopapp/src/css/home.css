@@ -3,13 +3,13 @@
 .test {
     vertical-align: middle;
     width: 50%;
-    cursor: pointer;
 }
 
 .test img {
     width: 50px;
     height: auto;
     margin: 10px;
+    cursor: pointer;
 }
 
 .test p {
@@ -41,28 +41,13 @@
     border-radius: 20px;
     font-size: 20px;
     cursor: pointer;
+    color: black;
 }
 
-.exams li:nth-child(4n+0) {
-    background-color: rgba(107, 210, 219, 0.67);
-    ;
-}
-
-.exams li:nth-child(4n+1) {
+.exams li:nth-child(2n+1) {
     background-color: rgba(85, 158, 221, 0.74);
-    ;
 }
 
-.exams li:nth-child(4n+2) {
+.exams li:nth-child(2n+2) {
     background-color: rgba(116, 109, 217, 0.58);
-    ;
-}
-
-.exams li:nth-child(4n+3) {
-    background-color: rgba(156, 72, 177, 0.54);
-    ;
-}
-
-.exams li:hover {
-    box-shadow: 5px 5px 2px white;
 }
