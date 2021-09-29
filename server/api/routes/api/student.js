@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 // importing the mongoose models ///////////////////////////////////////////////////////////////////////////////
 
+const students = require('../../models/students');  // importing the mongoose model for the collection 'students'
 const courses = require('../../models/courses');  // importing the mongoose model for the collection 'courses'
 const exams = require('../../models/exams');  // importing the mongoose model for the collection 'exams'
 const exam_rooms = require('../../models/exam_rooms');  // importing the mongoose model for the collection 'exam_rooms'
@@ -44,6 +45,22 @@ router.post('/devices', async (req, res) => {
 
     // redirecting to the login page after a successful registration
     // res.redirect('/*path of the page to redirect to after regitering */'); 
+});
+
+/**
+ * API calls to students collections
+ */
+// to read own student data (SELF)
+router.get('/students/self/:id', (req, res) => {
+    // const req_body = req.body;
+    // console.log('Request body: ' + req_body);
+
+    // const records = await admins.find(req_body);
+    // console.log('Sending response: ' + records);
+
+    students.findById(req.params.id)
+    .then(result => res.json(result))
+    .catch(err => res.status(400).json("Error : " +err ));
 });
 /////////////////////////////////////////////////////////////////////////////////////////
 
