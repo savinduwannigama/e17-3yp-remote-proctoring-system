@@ -8,6 +8,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 const theme = createTheme({
     status: {
       danger: '#e53e3e',
@@ -38,37 +40,59 @@ class Validationlogin extends React.Component {
       weight: '',
       weightRange: '',
       showPassword: false,
+      rememberMe:false
+
     };
-    
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
     this.handleMouseDownPassword =this.handleMouseDownPassword.bind(this);
     
   }
-     
+    componentDidMount() {
+        let input = this.state.input;
+        
+    const rememberMe = localStorage.getItem('rememberMe') === 'true';
+    input['email'] = rememberMe ? localStorage.getItem('user') : '';
+    this.setState({ 
+        input,
+        rememberMe: rememberMe });
+    }
     handleChange(event) {
-    let input = this.state.input;
-    input[event.target.name] = event.target.value;
+    if(event.target.type === 'checkbox'){
+        this.setState({
+            rememberMe: event.target.checked
+        })
+        
+    }
+    else{
+        let input = this.state.input;
+        input[event.target.name] = event.target.value;
   
-    this.setState({
-      input
-    });
+        this.setState({
+            input
+        });
+    }
+    
+    
   }
      
     handleSubmit(event) {
     event.preventDefault();
   
     if(this.validate()){
+        const rememberMe = this.state.rememberMe;
         console.log(this.state);
-  
+        localStorage.setItem('rememberMe',rememberMe);
+        localStorage.setItem('user', rememberMe? this.state.input['email']: '')
         let input = {};
         
-        input["email"] = "";
+        input["email"] = rememberMe? this.state.input['email']: '';
         input["password"] = "";
         
         this.setState({input:input});
-  
+        
         
         this.props.history.push('/home');
     }
@@ -127,6 +151,7 @@ class Validationlogin extends React.Component {
   
       return isValid;
   }
+  
      
   render() {
     return (
@@ -140,9 +165,9 @@ class Validationlogin extends React.Component {
               autoComplete="off"
               onSubmit={this.handleSubmit}
         >
-          
+          <ThemeProvider theme={theme}>   
             <TextField 
-            
+            color="neutral"
             id="outlined-basic" 
             label="Email" 
             variant="outlined" 
@@ -157,6 +182,7 @@ class Validationlogin extends React.Component {
             />
           
             <TextField
+                color="neutral"
                 id="input-with-icon-textfield" 
                 label="Password" 
                 type={this.state.showPassword ? 'text' : 'password'} 
@@ -183,18 +209,21 @@ class Validationlogin extends React.Component {
                 }}
                 {...(this.state.errors.password && {error:true,helperText:this.state.errors.password})}
       
-      />            
-            
+      />        
+       
+        <FormControlLabel control={<Checkbox color="neutral" name="rememberMe" checked={this.state.rememberMe} onChange={this.handleChange} type="checkbox" />} label="Remember me" />
+       
                  
          <div style={{paddingLeft:"20px",
             textAlign:"center"}}>
-        <ThemeProvider theme={theme}>
+        
                 <Button color="neutral" variant="contained" type="submit" value="Submit" size="medium" >
                     SIGN IN
                 </Button>
-        </ThemeProvider>
-         <br/>
+        
+        
          </div>
+         </ThemeProvider>
         </Box>
         
       

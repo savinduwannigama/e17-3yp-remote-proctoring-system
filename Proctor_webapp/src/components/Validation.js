@@ -151,9 +151,9 @@ class Validation extends React.Component {
               autoComplete="off"
               onSubmit={this.handleSubmit}
         >
-          
+          <ThemeProvider theme={theme}>
             <TextField 
-            
+            color="neutral"
             id="outlined-basic" 
             label="Email" 
             variant="outlined" 
@@ -168,6 +168,7 @@ class Validation extends React.Component {
             />
           
             <TextField
+            color="neutral"
                 id="input-with-icon-textfield" 
                 label="Password" 
                 type={this.state.showPassword ? 'text' : 'password'} 
@@ -196,6 +197,7 @@ class Validation extends React.Component {
       
       />            
             <TextField
+            color="neutral"
                 id="input-with-icon-textfield" 
                 label="Password"  
                 type={this.state.showPassword ? 'text' : 'password'} 
@@ -226,13 +228,14 @@ class Validation extends React.Component {
                  
          <div style={{paddingLeft:"20px",
              textAlign:"center"}}>
-        <ThemeProvider theme={theme}>
+        
                 <Button color="neutral" variant="contained" type="submit" value="Submit" size="medium" >
                     REGISTER
                 </Button>
-        </ThemeProvider>
+        
          <br/>
          </div>
+         </ThemeProvider>
         </Box>
         
       
