@@ -1,100 +1,49 @@
-/*blocks to horizontally & vertically center align*/
-
 @import url('https://fonts.googleapis.com/css2?family=Sansita&display=swap');
-.body {
-    font-family: 'Sansita', sans-serif;
-}
-
-.outer {
-    display: table;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
+body {
     background: url("../img/icons/desktop1.jpeg");
     background-size: cover;
     background-repeat: no-repeat;
+    font-family: 'Sansita', sans-serif;
 }
 
-.middle {
-    display: table-cell;
-    vertical-align: middle;
-}
-
-.inner {
-    margin-left: auto;
-    margin-right: auto;
-    width: 700px;
-    height: 380px;
-    background: url("../img/icons/desktop2.jpeg");
+#outer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    min-height: 400px;
+    min-width: 700px;
     border-radius: 20px;
+    background: url("../img/icons/desktop2.jpeg");
 }
 
-
-/************Welcome section***********/
-
-.welcome {
-    display: inline-block;
-    width: 350px;
+#inner {
     position: relative;
-    overflow: hidden;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    user-select: none;
 }
 
-.welcome p {
-    padding-top: 80px;
-    /*should be changed*/
-    font-weight: 400;
-    font-style: normal;
-    font-family: "Sansita", sans-serif;
-    color: black;
+#welcome {
+    position: absolute;
+    left: 60px;
+    top: 120px;
+}
+
+#welcome p {
+    padding: 0;
+    margin: 0;
     font-size: 50px;
-    letter-spacing: 0px;
-    line-height: 1.2;
-    word-wrap: normal;
+}
+
+.switch {
+    position: absolute;
+    right: 10px;
+    top: 10px;
 }
 
 
 /************login section***********/
 
-.login {
-    display: inline-block;
-    position: fixed;
-    background-color: rgb(235, 235, 235, 0.46);
-    border-radius: 20px;
-    width: 350px;
-    height: 380px;
-}
-
-.title {
-    display: inline-block;
-    font-size: 30px;
-}
-
-.title h3 {
-    padding-top: 0;
-    padding-left: 10px;
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.row {
-    overflow: hidden;
-}
-
-.switch {
-    display: inline-block;
-}
-
-table {
-    padding-top: 30px;
-}
-
-th {
+.user-input {
     padding-left: 10px;
     text-align: left;
     font-size: 20px;
@@ -102,21 +51,53 @@ th {
     width: 350px;
 }
 
+#sign-in-up {
+    position: absolute;
+    left: 300px;
+    top: 10px;
+    width: 390px;
+    height: 380px;
+    border-radius: 20px;
+    background-color: rgb(235, 235, 235, 0.46);
+}
+
+#sign-in-up p {
+    padding: 3px;
+    margin: 0;
+}
+
+#sign-in,
+#sign-up {
+    padding: 10px;
+}
+
+#sign-in {
+    display: block;
+}
+
+#sign-up {
+    display: none;
+}
+
+h1 {
+    margin-top: 0px;
+}
+
 .staylogged {
     width: 20px!important;
 }
 
-th span {
-    font-family: "Sansita", sans-serif;
+span {
     font-size: 15px;
     font-weight: normal;
 }
 
-th input {
+.user-input {
     width: 250px;
     padding-bottom: 5px;
     padding-top: 5px;
     padding-left: 10px;
+    font-size: 15px;
     cursor: pointer;
     border: 0;
     border-radius: 10px;
@@ -130,11 +111,14 @@ button:focus {
 }
 
 .submit {
-    text-align: center!important;
+    position: absolute;
+    bottom: 10px;
+    left: 170px;
 }
 
 .submit button {
-    background-color: #006666;
+    background-color: #0d9494;
+    min-width: 100px;
     border-radius: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -144,6 +128,32 @@ button:focus {
     color: white;
     font-weight: bold;
     cursor: pointer;
+}
+
+span {
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #000;
+}
+
+.separator:not(:empty)::before {
+    margin-right: .25em;
+}
+
+.separator:not(:empty)::after {
+    margin-left: .25em;
 }
 
 
@@ -176,7 +186,7 @@ label {
 .toggle {
     position: absolute;
     width: 50%;
-    background-color: rgb(53, 167, 140);
+    background-color: #0d9494;
     box-shadow: 0 2px 15px rgba(0, 0, 0, .15);
     transition: transform .3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -185,8 +195,8 @@ label {
     font-size: 13px;
     font-weight: bolder;
     width: 80%;
-    margin-left: 13%;
-    margin-top: 0;
+    margin: 0;
+    margin-left: 12%;
     position: absolute;
     display: flex;
     justify-content: space-between;
@@ -208,7 +218,7 @@ label {
 
 [type="checkbox"]:checked+.app .toggle {
     transform: translateX(100%);
-    background-color: rgb(53, 167, 140);
+    background-color: #006666;
 }
 
 [type="checkbox"]:checked+.app .dark {
@@ -223,6 +233,14 @@ label {
 
 .Red::placeholder {
     color: red;
+    font-size: 12px;
+    word-wrap: normal;
+    /* Most modern browsers support this now. */
+}
+
+.Gray::placeholder {
+    color: gray;
+    font-size: 12px;
     word-wrap: normal;
     /* Most modern browsers support this now. */
 }
