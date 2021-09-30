@@ -1,7 +1,7 @@
 import React, {useState }  from 'react'
 import Button from './Button';
 import GoogleLogin from 'react-google-login';
-import { useHistory } from 'react-router-dom';
+import { useHistory,Link } from 'react-router-dom';
 
 import '../css/reg.css';
 import Divider from '@mui/material/Divider';
@@ -55,7 +55,7 @@ const Register = () => {
             <Divider>Or</Divider>
             
             <Validation/>
-            <p style={{textAlign:"left",fontSize:'15px'}}>Already logged in?</p>
+            <p style={{textAlign:"left",fontSize:'15px'}}>Already logged in?<Link to='/signin'> Sign in!</Link></p>
             </div>
             
             
