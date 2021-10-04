@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const exam_rooms = require('./exam_rooms');  // importing the mongoose model for the collection 'exam_rooms'
-
+const courses = require('./courses');
 
 const examsSchema = new mongoose.Schema({
     name: {type: String, required: true, unique: true},
@@ -57,11 +57,12 @@ examsSchema.statics.addExamRooms = function(info) {  // HAVE TO HANDLE ERRORS
         newExamRoom.save()  // waiting until the exam room finishes creating 
         .then(() => {
             // console.log('Created new exam_room: ' + newExamRoom);
+            return true;
         })
         .catch(err => {
             // res.status(400).json({status: 'failure', message: 'Following error occured when trying to make an exam room', error: err});
             console.log('Error occured trying to make exam room: \n' + err);
-            // return false;
+            return false;
             // errorOccured = true;
         });
             
@@ -69,6 +70,43 @@ examsSchema.statics.addExamRooms = function(info) {  // HAVE TO HANDLE ERRORS
     // return true;
 };
 
+/**
+ * 
+ * function to update the courses collection when adding an exam 
+ * will update the course coordinator IF the course doesn't already have a coordinator
+ * will add the students who are are not already in the students list of the course
+ * argument info = {course: "shortname" of the course, students: list of "students", course_coordinator: "coordinator" of the course}
+ */
+examsSchema.statics.updateExamOnCourses = function(info) { 
+    const shortname = info.course;
+    // const students = info.students;
+    // const coordinator = info.course_coordinator;
+
+    courses.findOne({shortname})
+    .then(result => {
+        if(result.coordinator == "")  // updating the courses coordinator of there isn't one already
+            result.coordinator = info.course_coordinator;
+
+        info.students.forEach(newStudent => {  // checking each student of the new exam in the list of students in the course
+            if(result.students.find(exstStudent => exstStudent == newStudent) == null) 
+                result.students.push(newStudent);  // adding the student if he/she is not already in the courses list
+        });
+        
+        result.save()
+        .then(() => {
+            console.log("Updated the courses collections -->\n\tchecked and updated the course coordinator\n\tadded the new students to the course.");
+            return true;
+        })
+        .catch(err => {
+            console.log("Error occured while trying to update the courses according to the new exam:\n" + err);
+            return false;
+        });
+    })
+    .catch(err => {
+        console.log("Error occured while trying to find the course to update after creating new exam:\n" + err);
+        return false;
+    });
+};
 const model = mongoose.model('examsModel', examsSchema)
 
 module.exports = model

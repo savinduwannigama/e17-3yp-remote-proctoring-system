@@ -82,6 +82,7 @@ router.get('/admins/self/:id', (req, res) => {
     .catch(err => res.status(400).json({status: 'failure', message: "Following error occured while trying to read self admin record", error: String(err)}));
 });
 
+
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -165,6 +166,9 @@ router.get('/students/all', (req, res) => {
 });
 
 
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
 
 /**
  * API calls to the proctors collection
@@ -186,10 +190,10 @@ router.post('/proctors', (req, res) => {
     newProctor.save()
     .then(() => {
         console.log('Created new proctor entry: ' + newProctor);
-        res.json({status: 'Addded new proctor to the database'});  // response after succcesfully creating a new exam schedule
+        res.json({status: 'success', message: 'Addded new proctor to the database'});  // response after succcesfully creating a new exam schedule
 
     })
-    .catch(err => res.status(400).json({Error: String(err)}));
+    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save a new proctor', error: String(err)}));
 
     // console.log('Created new proctor entry: ' + response);
  
@@ -209,7 +213,7 @@ router.get('/proctors/all', (req, res) => {
 
     proctors.find()
     .then(result => res.json(result))
-    .catch(err => res.status(400).json({Error: String(err) }));
+    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find all proctors', error: String(err)}));
 });
 
 
@@ -298,7 +302,7 @@ router.post('/courses/mastersheet', async (req, res) => {
 
 // call to read all courses
 router.get('/courses/all', (req, res) => {
-    const req_body = req.body;
+    // const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
     // const records = await admins.find(req_body);
@@ -399,10 +403,12 @@ router.post('/exams/single', async (req, res) => {
 
 // add an exam from the mastersheet 
 // receiving object => {"uploaded file": "mastersheet", "details": [[], [], [], ..., []]}
+// the course of the exam should exist in the courses collection prior to adding an exam
 router.post('/exams/mastersheet', (req, res) => {
     const record = req.body;
     // console.log('Request body: ' + record);
     var distinct_exam_rooms = [];
+
     // console.log(record.details[0][0]);
     /////////////////////////////////////////////////
     // creating the date+time string
@@ -424,6 +430,21 @@ router.post('/exams/mastersheet', (req, res) => {
     const total_students = record.details[10][5];
     const students = [];
     const course = name.split(" ")[0] + '-' + year;
+
+    // checking if the course is in the courses collection
+    // and if not, returning without adding the exam
+    courses.findOne({shortname: course})
+    .then(result => {
+        if(result == null)  // returns without adding the new course
+            return res.json({status: 'failure', message: 'The course of the exam does not exist in the database under the courses collection.'});
+    })
+    .catch(err => {  // returns without adding the new course
+        console.log("Error occured while finding the course of the exam in the courses collection");
+        return res.json({status: 'failure', message: "Error occured while finding the course of the exam in the courses collection", error: String(err)});
+    });
+
+    // continues if the course of the exam exists in the coures collection ...
+
 
     for (let i = 14; i < record.details.length; i++) {
         if(record.details[i].length ==  12) {  // skips an entire record if it doesn't have 5 fields
@@ -457,7 +478,13 @@ router.post('/exams/mastersheet', (req, res) => {
         // console.log('Created new exam entry: ' + newExam);
 
         // calling the function to create exam rooms
+        // will return true if successfully creates the rooms, and else will return false
         const exam_rooms_created = await exams.addExamRooms({distinct_exam_rooms, name, students, chief_invigilators, invigilators});
+        // updates the relevant course according to the new exam
+        // will return true if the courses were updated successfully, and else will return false.
+        const courses_updated = await exams.updateExamOnCourses({course, students, course_coordinator});
+        // USE THE RETURN VALUE OF THE ABOVE 2 VARIABLE AND AND DELETE THE CREATED EXAM RECORD IF EITHER IS FALSE.
+
         res.json({status: 'success', message: 'Addded new exam to the database, and created the relevant exam rooms', createdEntry: newExam});
 
         // console.log(exam_rooms_created);
@@ -482,20 +509,37 @@ router.post('/exams/mastersheet', (req, res) => {
 // call to read all exams
 router.get('/exams/all', (req, res) => {
     const req_body = req.body;
-    console.log('Request body: ' + req_body);
+    // console.log('Request body: ' + req_body);
 
     // const records = await admins.find(req_body);
     // console.log('Sending response: ' + records);
 
     exams.find()
     .then(result => res.json(result))
-    .catch(err => res.status(400).json({Error: String(err) }));
+    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find all exams', error: String(err) }));
 });
+
+
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
 
 /**
  * API calls to the exam rooms collection
  */
 
+// call to read all exams_rooms
+router.get('/examsrooms/all', (req, res) => {
+    const req_body = req.body;
+    // console.log('Request body: ' + req_body);
+
+    // const records = await admins.find(req_body);
+    // console.log('Sending response: ' + records);
+
+    exam_rooms.find()
+    .then(result => res.json(result))
+    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find all exams rooms', error: String(err) }));
+});
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module.exports = router;
