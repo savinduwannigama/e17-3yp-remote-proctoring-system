@@ -433,82 +433,135 @@ router.post('/exams/mastersheet', async (req, res) => {
 
     // checking if the course is in the courses collection
     // and if not, returning without adding the exam
-    var course_not_found = false;
-    await courses.findOne({shortname: course})
+    // var course_not_found = false;
+    courses.findOne({shortname: course})
     .then(result => {
         if(result == null) {  // returns without adding the new course
-            course_not_found = true;
-            return res.json({status: 'failure', message: 'The course of the exam does not exist in the database under the courses collection.'});
+            // course_not_found = true;
+            return res.json({status: 'failure', message: 'The course does not exist in the database under the courses collection.'});
         }
+        for (let i = 14; i < record.details.length; i++) {
+            if(record.details[i].length ==  12) {  // skips an entire record if it doesn't have 5 fields
+                const regNo = record.details[i][1];
+                var eligible = false;
+                if(record.details[i][2] == "TRUE") {
+                    eligible = true;
+                }
+                const exam_room = record.details[i][3];
+    
+                // adding a new distinct exam room 
+                if(!distinct_exam_rooms.includes(exam_room)) {  // 
+                    distinct_exam_rooms.push(exam_room); 
+                    // adding a chief invigilator and an invigilator for a new room
+                    chief_invigilators.push({exam_room, name: record.details[i][5]});  
+                    invigilators.push({exam_room, name: record.details[i][6]});
+                }
+                // adding the new student to the students array    
+                students.push({regNo, eligible, exam_room});
+            }
+        }
+
+        // this is a schema method of exams
+        // takes the distinct exam rooms as the arguments
+        const newExam = new exams({name, startTime, duration, course_coordinator, chief_invigilators, invigilators, total_students, students, course});
+
+        // saving the new exam
+        newExam.save()
+        .then(async () => {
+            // console.log('Created new exam entry: ' + newExam);
+
+            // calling the function to create exam rooms
+            // will return true if successfully creates the rooms, and else will return false
+            const exam_rooms_created = await exams.addExamRooms({distinct_exam_rooms, name, students, chief_invigilators, invigilators});
+            // updates the relevant course according to the new exam
+            // will return true if the courses were updated successfully, and else will return false.
+            const courses_updated = await exams.updateExamOnCourses({course, students, course_coordinator});
+            // USE THE RETURN VALUE OF THE ABOVE 2 VARIABLE AND AND DELETE THE CREATED EXAM RECORD IF EITHER IS FALSE.
+
+            res.json({status: 'success', message: 'Addded new exam to the database, and created the relevant exam rooms', createdEntry: newExam});
+
+            // console.log(exam_rooms_created);
+            // if(exam_rooms_created) {
+            //     res.json({status: 'success', message: 'Addded new exam to the database, and created the relevant exam rooms', createdEntry: newExam});
+            //     // WRITE CODE TO DELETE THE EXAM ENTRY SUCCESSFULLY CREATED BY THIS MASTERSHEET
+            // }
+            // else
+            //     res.status(400).json({status: 'failure', message: 'Error occured when trying to make an exam room'});
+        })
+        .catch(err => {
+            res.status(400).json({status: 'failure', message: 'Following error occured when trying to make an exam', error: String(err)});
+            // console.log(err);
+        });
+    
     })
     .catch(err => {  // returns without adding the new course
         console.log("Error occured while finding the course of the exam in the courses collection");
-        course_not_found = true;
+        // course_not_found = true;
         return res.json({status: 'failure', message: "Error occured while finding the course of the exam in the courses collection", error: String(err)});
     });
 
-    // returning from the API call if relevant course not found
-    if(course_not_found) {
-        console.log('\n\ngoing to return from call');
-        // eturn;
-    }
+    // // returning from the API call if relevant course not found
+    // if(course_not_found) {
+    //     console.log('\n\ngoing to return from call');
+    //     // eturn;
+    // }
     // console.log('\n\n\nhari giye na wade\n\n\n');   
     // continues if the course of the exam exists in the coures collection ...
 
 
-    for (let i = 14; i < record.details.length; i++) {
-        if(record.details[i].length ==  12) {  // skips an entire record if it doesn't have 5 fields
-            const regNo = record.details[i][1];
-            var eligible = false;
-            if(record.details[i][2] == "TRUE") {
-                eligible = true;
-            }
-            const exam_room = record.details[i][3];
+    // for (let i = 14; i < record.details.length; i++) {
+    //     if(record.details[i].length ==  12) {  // skips an entire record if it doesn't have 5 fields
+    //         const regNo = record.details[i][1];
+    //         var eligible = false;
+    //         if(record.details[i][2] == "TRUE") {
+    //             eligible = true;
+    //         }
+    //         const exam_room = record.details[i][3];
 
-            // adding a new distinct exam room 
-            if(!distinct_exam_rooms.includes(exam_room)) {  // 
-                distinct_exam_rooms.push(exam_room); 
-                // adding a chief invigilator and an invigilator for a new room
-                chief_invigilators.push({exam_room, name: record.details[i][5]});  
-                invigilators.push({exam_room, name: record.details[i][6]});
-            }
-            // adding the new student to the students array    
-            students.push({regNo, eligible, exam_room});
-        }
-    }
+    //         // adding a new distinct exam room 
+    //         if(!distinct_exam_rooms.includes(exam_room)) {  // 
+    //             distinct_exam_rooms.push(exam_room); 
+    //             // adding a chief invigilator and an invigilator for a new room
+    //             chief_invigilators.push({exam_room, name: record.details[i][5]});  
+    //             invigilators.push({exam_room, name: record.details[i][6]});
+    //         }
+    //         // adding the new student to the students array    
+    //         students.push({regNo, eligible, exam_room});
+    //     }
+    // }
     // const response = await exams.create({name, startTime, duration, course_coordinator, chief_invigilator, invigilator, total_students, students});  // response is the return value from mongoDB
     
     
-    // this is a schema method of exams
-    // takes the distinct exam rooms as the arguments
-    const newExam = new exams({name, startTime, duration, course_coordinator, chief_invigilators, invigilators, total_students, students, course});
-    // saving the new exam
-    newExam.save()
-    .then(async () => {
-        // console.log('Created new exam entry: ' + newExam);
+    // // this is a schema method of exams
+    // // takes the distinct exam rooms as the arguments
+    // const newExam = new exams({name, startTime, duration, course_coordinator, chief_invigilators, invigilators, total_students, students, course});
+    // // saving the new exam
+    // newExam.save()
+    // .then(async () => {
+    //     // console.log('Created new exam entry: ' + newExam);
 
-        // calling the function to create exam rooms
-        // will return true if successfully creates the rooms, and else will return false
-        const exam_rooms_created = await exams.addExamRooms({distinct_exam_rooms, name, students, chief_invigilators, invigilators});
-        // updates the relevant course according to the new exam
-        // will return true if the courses were updated successfully, and else will return false.
-        const courses_updated = await exams.updateExamOnCourses({course, students, course_coordinator});
-        // USE THE RETURN VALUE OF THE ABOVE 2 VARIABLE AND AND DELETE THE CREATED EXAM RECORD IF EITHER IS FALSE.
+    //     // calling the function to create exam rooms
+    //     // will return true if successfully creates the rooms, and else will return false
+    //     const exam_rooms_created = await exams.addExamRooms({distinct_exam_rooms, name, students, chief_invigilators, invigilators});
+    //     // updates the relevant course according to the new exam
+    //     // will return true if the courses were updated successfully, and else will return false.
+    //     const courses_updated = await exams.updateExamOnCourses({course, students, course_coordinator});
+    //     // USE THE RETURN VALUE OF THE ABOVE 2 VARIABLE AND AND DELETE THE CREATED EXAM RECORD IF EITHER IS FALSE.
 
-        res.json({status: 'success', message: 'Addded new exam to the database, and created the relevant exam rooms', createdEntry: newExam});
+    //     res.json({status: 'success', message: 'Addded new exam to the database, and created the relevant exam rooms', createdEntry: newExam});
 
-        // console.log(exam_rooms_created);
-        // if(exam_rooms_created) {
-        //     res.json({status: 'success', message: 'Addded new exam to the database, and created the relevant exam rooms', createdEntry: newExam});
-        //     // WRITE CODE TO DELETE THE EXAM ENTRY SUCCESSFULLY CREATED BY THIS MASTERSHEET
-        // }
-        // else
-        //     res.status(400).json({status: 'failure', message: 'Error occured when trying to make an exam room'});
-    })
-    .catch(err => {
-        res.status(400).json({status: 'failure', message: 'Following error occured when trying to make an exam', error: String(err)});
-        // console.log(err);
-    });
+    //     // console.log(exam_rooms_created);
+    //     // if(exam_rooms_created) {
+    //     //     res.json({status: 'success', message: 'Addded new exam to the database, and created the relevant exam rooms', createdEntry: newExam});
+    //     //     // WRITE CODE TO DELETE THE EXAM ENTRY SUCCESSFULLY CREATED BY THIS MASTERSHEET
+    //     // }
+    //     // else
+    //     //     res.status(400).json({status: 'failure', message: 'Error occured when trying to make an exam room'});
+    // })
+    // .catch(err => {
+    //     res.status(400).json({status: 'failure', message: 'Following error occured when trying to make an exam', error: String(err)});
+    //     // console.log(err);
+    // });
     // console.log('Created new exam entry : ' + response);
     /**
      * have to handle errors of => adding an already existing student, trying to add a student without a required field
