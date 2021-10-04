@@ -22,6 +22,7 @@ const examsSchema = new mongoose.Schema({
 /**
  * 
  * static function that will be called to create relevant exam rooms when admin creates an exam
+ * argument info = {students: list of "students", distinct_exam_rooms: [A, B, ..], name: "E20 Mock Exam", chief_invigilators: [{exam_room: "", name: name of the CI}, {}, ...], invigilators: [{exam_room: "", name: name of the CI}, {}, ...]}
  */
 examsSchema.statics.addExamRooms = function(info) {  // HAVE TO HANDLE ERRORS
     const exam = info.name;
@@ -52,6 +53,8 @@ examsSchema.statics.addExamRooms = function(info) {  // HAVE TO HANDLE ERRORS
             }
         });
 
+        // PROBLEM IF THE PROGRAM EXECUTES THE FOLLOWING BEFORE COMPLETING THE PREVIOUS
+        
         const newExamRoom = new exam_rooms({exam, room_name, room_students, chief_invigilator, invigilator});
 
         newExamRoom.save()  // waiting until the exam room finishes creating 
@@ -81,20 +84,20 @@ examsSchema.statics.updateExamOnCourses = function(info) {
     const shortname = info.course;
     // const students = info.students;
     // const coordinator = info.course_coordinator;
-
+    // console.log("\n\n\n\nshortname: " + shortname + '\n\n\n');
     courses.findOne({shortname})
     .then(result => {
         if(result.coordinator == "")  // updating the courses coordinator of there isn't one already
             result.coordinator = info.course_coordinator;
 
         info.students.forEach(newStudent => {  // checking each student of the new exam in the list of students in the course
-            if(result.students.find(exstStudent => exstStudent == newStudent) == null) 
-                result.students.push(newStudent);  // adding the student if he/she is not already in the courses list
+            if(result.students.find(exstStudent => exstStudent == newStudent.regNo) == null) 
+                result.students.push(newStudent.regNo);  // adding the student if he/she is not already in the courses list
         });
         
         result.save()
         .then(() => {
-            console.log("Updated the courses collections -->\n\tchecked and updated the course coordinator\n\tadded the new students to the course.");
+            console.log("Updated the courses collections " + shortname + "-->\n\tchecked and updated the course coordinator\n\tadded the new students to the course.");
             return true;
         })
         .catch(err => {

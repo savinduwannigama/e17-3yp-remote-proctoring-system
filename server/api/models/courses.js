@@ -4,7 +4,7 @@ const coursesSchema = new mongoose.Schema({
     shortname: {type: String, required: true, unique: true},  // this field will be used as an unique identifier
     fullname: {type: String, required: true},
     department: {type: String, required: true},
-    coordinator: {type: String, required: false},  // FK | maps to a proctor from 'proctors' | every course must have a coordinator
+    coordinator: {type: String, default: ""},  // FK | maps to a proctor from 'proctors' | every course must have a coordinator
     semester: Number,
     // relationship with the proctors (TEACH)
     lecturers: [String],  // FK | maps the proctors teaching the course | YET TO DECIDE WHAT TO STORE

@@ -86,6 +86,7 @@ router.get('/admins/self/:id', (req, res) => {
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
+
 /**
  * API calls to the students collection
  */
@@ -190,7 +191,7 @@ router.post('/proctors', (req, res) => {
     newProctor.save()
     .then(() => {
         console.log('Created new proctor entry: ' + newProctor);
-        res.json({status: 'success', message: 'Addded new proctor to the database'});  // response after succcesfully creating a new exam schedule
+        res.json({status: 'success', message: 'Addded new proctor to the database', createdEntry: newProctor});  // response after succcesfully creating a new exam schedule
 
     })
     .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save a new proctor', error: String(err)}));
@@ -330,18 +331,18 @@ router.post('/devices/single', (req, res) => {
      */
 
     const record = req.body;
-    console.log('Request body: ' + record);
+    // console.log('Request body: ' + record);
     
     // const response = await devices.create(record);  // response is the return value from mongoDB
     
-    const newDevice = new courses(record);
+    const newDevice = new devices(record);
     // saves the new device
     newDevice.save()
     .then(() => {
         console.log('Created new device entry: ' + newDevice);
-        res.json({status: 'Addded new device to the database'});
+        res.json({status: 'success', message: 'Addded new device to the database', createdEntry: newDevice});
     })
-    .catch(err => res.status(400).json({Error: String(err)}));
+    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save new device', error: String(err)}));
     
     // console.log('Created new device entry: ' + response);
  
@@ -362,7 +363,7 @@ router.get('/devices/all', (req, res) => {
 
     devices.find()
     .then(result => res.json(result))
-    .catch(err => res.status(400).json({Error: String(err) }));
+    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find all the devices', error: String(err) }));
 });
 
 
@@ -373,33 +374,34 @@ router.get('/devices/all', (req, res) => {
 /**
  * API calls to the exams collection
  */
-// scheduling and exam (REDUNDANT --> in proctor.js)
-router.post('/exams/single', async (req, res) => {
-    /**
-     * add code to add a new exam to the database
-     * add a auto generated id 
-     * have to generate a URL/link for the meeting and store in the database
-     */
 
-    const record = req.body;
-    console.log('Request body: ' + record);
+// // scheduling and exam (REDUNDANT --> in proctor.js)
+// router.post('/exams/single', async (req, res) => {
+//     /**
+//      * add code to add a new exam to the database
+//      * add a auto generated id 
+//      * have to generate a URL/link for the meeting and store in the database
+//      */
 
-    // const response = await exams.create(record);  // response is the return value from mongoDB
+//     const record = req.body;
+//     console.log('Request body: ' + record);
+
+//     // const response = await exams.create(record);  // response is the return value from mongoDB
     
-    const newExam = new courses(record);
-    // saves the new device
-    newExam.save()
-    .then(() => {
-        console.log('Created new exam entry: ' + newExam);
-        res.json({status: 'Addded new exam to the database'});
-    })
-    .catch(err => res.status(400).json({Error: String(err)}));
+//     const newExam = new courses(record);
+//     // saves the new device
+//     newExam.save()
+//     .then(() => {
+//         // console.log('Created new exam entry: ' + newExam);
+//         res.json({status: 'success', message: 'Addded new exam to the database'});
+//     })
+//     .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying save the new exam', error: String(err)}));
     
-    // console.log('Created new exam: ' + response);
+//     // console.log('Created new exam: ' + response);
 
-    // res.json({status: 'Addded new exam schedule'});  // response after succcesfully creating a new exam schedule
+//     // res.json({status: 'Addded new exam schedule'});  // response after succcesfully creating a new exam schedule
      
-});
+// });
 
 // add an exam from the mastersheet 
 // receiving object => {"uploaded file": "mastersheet", "details": [[], [], [], ..., []]}
@@ -438,7 +440,7 @@ router.post('/exams/mastersheet', async (req, res) => {
     .then(result => {
         if(result == null) {  // returns without adding the new course
             // course_not_found = true;
-            return res.json({status: 'failure', message: 'The course does not exist in the database under the courses collection.'});
+            return res.json({status: 'failure', message: 'The course ' + course + ' does not exist in the database under the courses collection.'});
         }
         for (let i = 14; i < record.details.length; i++) {
             if(record.details[i].length ==  12) {  // skips an entire record if it doesn't have 5 fields
@@ -588,11 +590,11 @@ router.get('/exams/all', (req, res) => {
 ////////////////////////////////////////////////////////////////////
 
 /**
- * API calls to the exam rooms collection
+ * API calls to the exam_rooms collection
  */
 
 // call to read all exams_rooms
-router.get('/examsrooms/all', (req, res) => {
+router.get('/examrooms/all', (req, res) => {
     const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
