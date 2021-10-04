@@ -404,7 +404,7 @@ router.post('/exams/single', async (req, res) => {
 // add an exam from the mastersheet 
 // receiving object => {"uploaded file": "mastersheet", "details": [[], [], [], ..., []]}
 // the course of the exam should exist in the courses collection prior to adding an exam
-router.post('/exams/mastersheet', (req, res) => {
+router.post('/exams/mastersheet', async (req, res) => {
     const record = req.body;
     // console.log('Request body: ' + record);
     var distinct_exam_rooms = [];
@@ -433,16 +433,26 @@ router.post('/exams/mastersheet', (req, res) => {
 
     // checking if the course is in the courses collection
     // and if not, returning without adding the exam
-    courses.findOne({shortname: course})
+    var course_not_found = false;
+    await courses.findOne({shortname: course})
     .then(result => {
-        if(result == null)  // returns without adding the new course
+        if(result == null) {  // returns without adding the new course
+            course_not_found = true;
             return res.json({status: 'failure', message: 'The course of the exam does not exist in the database under the courses collection.'});
+        }
     })
     .catch(err => {  // returns without adding the new course
         console.log("Error occured while finding the course of the exam in the courses collection");
+        course_not_found = true;
         return res.json({status: 'failure', message: "Error occured while finding the course of the exam in the courses collection", error: String(err)});
     });
 
+    // returning from the API call if relevant course not found
+    if(course_not_found) {
+        console.log('\n\ngoing to return from call');
+        // eturn;
+    }
+    // console.log('\n\n\nhari giye na wade\n\n\n');   
     // continues if the course of the exam exists in the coures collection ...
 
 
