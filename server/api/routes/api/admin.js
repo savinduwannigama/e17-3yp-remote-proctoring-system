@@ -90,6 +90,7 @@ router.get('/admins/self/:id', (req, res) => {
 /**
  * API calls to the students collection
  */
+
 // add new student to the database
 router.post('/students/single', (req, res) => {
     // method to add a new entry to the user relation in the database
@@ -98,7 +99,7 @@ router.post('/students/single', (req, res) => {
      */
 
     const record = req.body;
-    console.log('Request body: ' + record);
+    // console.log('Request body: ' + record);
 
     // const response = await students.create(record);  // response is the return value from mongoDB
     // adds the request body straight away as the object to be created
@@ -107,9 +108,9 @@ router.post('/students/single', (req, res) => {
     newStudent.save()
     .then(() => {
         console.log('Created new student entry: ' + newStudent);
-        res.json({status: 'Addded new student to the database'});
+        res.json({status: 'success', message: 'Addded new student to the database', createdEntry: newStudent});
     })
-    .catch(err => res.status(400).json({Error: String(err)}));
+    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save new student', error: String(err)}));
 
     // console.log('Created new student entry: ' + response);
  
@@ -122,11 +123,12 @@ router.post('/students/single', (req, res) => {
 
 // add multiple stuedents from a sheet 
 // receiving object => {"uploaded file": "students", "details": [[], [], [start], ..., [end]]}
-router.post('/students/multiple', async (req, res) => {
+router.post('/students/multiple', async (req, res, next) => {
     const record = req.body;
     console.log('Request body: ' + record);
     // console.log(record.details[0][0]);
-
+    const createdEntry = [];
+    
     for (let i = 2; i < record.details.length; i++) {  // ADD CODE TO CHECK DATABASE FOR ALREADY EXISTING STUDENT, AND ONLY TRY TO ADD IF NOT
         if(record.details[i].length ==  5) {  // skips an entire record if it doesn't have 5 fields
             const regNo = record.details[i][1];
@@ -137,33 +139,48 @@ router.post('/students/multiple', async (req, res) => {
             // const response = await students.create({regNo, name, email, department});  // response is the return value from mongoDB
             // console.log('Created new student entry (' + i-1 + '): ' + response);
 
-            const newStudent = new students({regNo, name, email, department});
-            // saves the new student
-            newStudent.save()
-            .then(() => {
-                console.log('Created new student entry: ' + newStudent);
-                // res.json({status: 'Addded new student to the database'});
+            // checking of the student already exist in the database
+            students.findOne({regNo: regNo})
+            .then(result => {
+                if(result == null) {
+                    // console.log('onna creating new entry');
+                    const newStudent = new students({regNo, name, email, department});
+                    // saves the new student
+                    newStudent.save()
+                    .then(() => {
+                        // console.log('Created new student entry: ' + newStudent);
+                        createdEntry.push(newStudent);
+                        // res.json({status: 'Addded new student to the database'});
+                    })
+                    .catch(err => res.status(400).json({Error: String(err)}));  // MIGHT GIVE AN ERROR 
+                }
+                else
+                    console.log('Tried to enter already existing student');
             })
-            .catch(err => res.status(400).json({Error: String(err)}));  // MIGHT GIVE AN ERROR 
+            .catch(err => {
+                console.log('Error occured while trying to find student in the students collection:\n' + err);
+            });
+
         }
     }
     /**
-     * have to handle errors of => adding an already existing student, trying to add a student without a required field
+     * have to handle errors of =>  trying to add a student without a required field
      */
-    res.json({status: 'created all students successfully!'});
+    // console.log('enddd');
+    res.json({status: 'response under construction'});
 });
 
 // call to read all students
 router.get('/students/all', (req, res) => {
     const req_body = req.body;
-    console.log('Request body: ' + req_body);
+    // console.log('Request body: ' + req_body);
 
     // const records = await admins.find(req_body);
     // console.log('Sending response: ' + records);
 
     students.find()
     .then(result => res.json(result))
-    .catch(err => res.status(400).json({Error: String(err) }));
+    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find all students', error: String(err)}));
 });
 
 
@@ -175,14 +192,14 @@ router.get('/students/all', (req, res) => {
  * API calls to the proctors collection
  */
 // add a new proctor to the database
-router.post('/proctors', (req, res) => {
+router.post('/proctors/single', (req, res) => {
     // method to add a new entry to the user relation in the database
     /**
      * write code to add student to the database
      */
 
     const record = req.body;
-    console.log('Request body: ' + record);
+    // console.log('Request body: ' + record);
     
     // const response = await proctors.create(record);  // response is the return value from mongoDB
 
@@ -190,7 +207,7 @@ router.post('/proctors', (req, res) => {
     //saving the new proctor
     newProctor.save()
     .then(() => {
-        console.log('Created new proctor entry: ' + newProctor);
+        // console.log('Created new proctor entry: ' + newProctor);
         res.json({status: 'success', message: 'Addded new proctor to the database', createdEntry: newProctor});  // response after succcesfully creating a new exam schedule
 
     })

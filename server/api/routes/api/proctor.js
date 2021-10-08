@@ -86,7 +86,7 @@ const router = express.Router();
 
 // to get acheduled exams relevant to the proctor
 // response --> {chief_invigilating_exams: [[{exam_room}, {exam}], [], ..., []], invigilating_exams: [[{exam_room}, {exam}], [], ..., []]}
-router.get('/exam/self/:id', (req, res) => {
+router.get('/exams/self/:id', (req, res) => {
     proctors.findById(req.params.id)
     .then(async result1 => {
         // const StudentRegNo = result1.regNo;
