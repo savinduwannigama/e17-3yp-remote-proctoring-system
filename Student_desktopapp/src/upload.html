@@ -5,6 +5,12 @@
     <title>Connexa</title>
     <link rel="stylesheet" href="css/header.css">
     <script defer src="js/header.js"></script>
+    <script defer src="js/googledrive.js"></script>
+    <style>
+        #uploadbtn:disabled {
+            background-color: rgb(238, 56, 32);
+        }
+    </style>
 </head>
 
 <body onload="display_ct();">
@@ -83,12 +89,12 @@
         <div id='data' class="popup">
             <h4>Saved Video Details</h4>
             <!--body starts here-->
-            <p>name: <span>null</span></p>
+            <p>name: <span id='filename'>null</span></p>
             <p>created time : <span>null</span></p>
             <p>size: <span>null</span>MB</p>
             <div class="center">
-                <button class="button">Upload</button>
-                <button class="button" onclick="closePopup()">Close</button>
+                <button class="button" id='uploadbtn' onclick="upload()">Upload</button>
+                <button class="button" id='uploadcancle' onclick="closePopup()">Close</button>
             </div>
 
         </div>
@@ -97,7 +103,7 @@
 
     <script>
         var fs = require('fs');
-        var files = fs.readdirSync('src/recorded video');
+        var files = fs.readdirSync('src/recordedVideo');
         var list = document.getElementById('saved-files')
         for (var i = 0; i < files.length; i++) {
             console.log(files[i]);
@@ -142,6 +148,16 @@
                 });
                 link.click()
             }
+        }
+
+        function upload() {
+            var uploadbtn = document.getElementById('uploadbtn')
+            var canclebtn = document.getElementById('uploadcancle')
+            uploadbtn.innerHTML = "uploading...";
+            uploadbtn.disabled = true;
+            canclebtn.style.display = 'none';
+            var filename = document.getElementById('filename').innerHTML;
+            uploadFile(filename);
         }
     </script>
 </body>

@@ -1,6 +1,8 @@
 const { ipcRenderer } = require('electron')
 const ipc = ipcRenderer
 
+const date = require('date-and-time');
+
 const contextMenuBtn = document.getElementById("show_notifications")
 contextMenuBtn.addEventListener('click', () => {
     ipc.send('notification')

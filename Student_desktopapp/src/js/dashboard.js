@@ -1,6 +1,11 @@
 var examdetailsJSON = localStorage.getItem("examdetails");
 var examArray = []
 
+const examNamedetails = document.getElementById('examName');
+const examStartdetails = document.getElementById('examStart');
+const examEnddetails = document.getElementById('examEnd');
+const examStatusdetails = document.getElementById('examstatus');
+
 if (examdetailsJSON) {
     var examArray = JSON.parse(examdetailsJSON);
     makerecentlyAccessedList(examArray);
@@ -8,6 +13,17 @@ if (examdetailsJSON) {
 
 
 function makerecentlyAccessedList(array) {
+
+    //add recently accessed exam details
+    examNamedetails.innerHTML = examArray[0].roomName;
+    examStartdetails.innerHTML = examArray[0].startTime;
+    examEnddetails.innerHTML = examArray[0].endTime;
+
+    for (var j = 0; j < examArray[0].status.length; j++) {
+        var timedif = document.createElement('p');
+        timedif.innerHTML = examArray[0].status[j];
+        examStatusdetails.appendChild(timedif);
+    }
 
     // Create the list element:
     var list = document.getElementById('recent-exams');
@@ -20,7 +36,7 @@ function makerecentlyAccessedList(array) {
         // Set its contents:
         item.id = i.toString();
         examName.innerHTML = array[i].roomName;
-        examStart.innerHTML = array[i].startTime.split('T')[0];
+        examStart.innerHTML = array[i].startTime;
         item.appendChild(examName);
         item.appendChild(examStart);
 
@@ -37,10 +53,6 @@ function makerecentlyAccessedList(array) {
 
 }
 
-var examNamedetails = document.getElementById('examName');
-var examStartdetails = document.getElementById('examStart');
-var examEnddetails = document.getElementById('examEnd');
-var examStatusdetails = document.getElementById('examstatus');
 
 var btn = document.getElementById("recent-exams").getElementsByTagName('li')
 var btncount = btn.length;
@@ -51,7 +63,7 @@ for (var i = 0; i < btncount; i += 1) {
         examEnddetails.innerHTML = examArray[this.id].endTime;
         examStatusdetails.innerHTML = '';
         for (var j = 0; j < examArray[this.id].status.length; j++) {
-            var timedif = document.createElement('li');
+            var timedif = document.createElement('p');
             timedif.innerHTML = examArray[this.id].status[j];
             examStatusdetails.appendChild(timedif);
         }

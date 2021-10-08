@@ -1,9 +1,11 @@
-var record = false;
 const {
     ipcRenderer
 } = require('electron')
 const ipc = ipcRenderer
 
+const date = require('date-and-time');
+
+var record = false;
 /************* online offline array ***************/
 var roomInfoJSON = '{"name":"CO227-test"}';
 var roomInfoArray = JSON.parse(roomInfoJSON);
@@ -15,17 +17,6 @@ var statusArray = [];
 var examdetails = {};
 
 
-/**********************Date and Time **************/
-const monthNames = [" Jan ", " Feb ", " Mar ", " Apr ", " May ", " June ",
-    " July ", " Aug ", " Sep ", " Oct ", " Nov ", " Dec "
-];
-
-function display_date() {
-
-    var x = new Date()
-    var date = x.getDate() + monthNames[x.getMonth()] + x.getFullYear() + " " + x.getHours() + "-" + x.getMinutes();
-    return date;
-}
 
 /************ jitsi room settings *********************/
 examdetails['roomName'] = roomInfoArray.name;
@@ -60,7 +51,7 @@ const goBack = document.querySelector('#goBack');
 
 
 window.addEventListener('offline', () => {
-    offlineStart = new Date();
+    offlineStart = date.format(new Date(), 'MMMDD HH-mm-ss')
     offlineEnd = 0;
     record = true;
     mediaRecorder.resume();
@@ -70,8 +61,8 @@ window.addEventListener('offline', () => {
 })
 
 window.addEventListener('online', () => {
-    offlineEnd = new Date();
-    statusArray.push(offlineStart + "-" + offlineEnd);
+    offlineEnd = date.format(new Date(), 'MMMDD HH-mm-ss')
+    statusArray.push(offlineStart + " to " + offlineEnd);
     mediaRecorder.pause();
     status.style.background = "#1eb119bd";
     status.innerHTML = "You are online."
@@ -83,18 +74,18 @@ goBack.addEventListener('click', () => {
 
 downloadButton.addEventListener('click', () => {
     downloadButton.disabled = true;
-    examdetails['endTime'] = new Date();
+    examdetails['endTime'] = date.format(new Date(), 'DD MMM YYYY HH-mm-ss');
     status.style.background = "rgba(255, 0, 0, 0.678)";
     status.innerHTML = "Please wait...";
-    var time = display_date();
-    var participantName = localStorage.getItem("username")
+    var time = date.format(new Date(), 'DD MMM YYYY HH_mm_ss');
+    var participantName = localStorage.getItem("email")
     var name = participantName + " " + time;
     //time.toString().split(':').join('_');
     mediaRecorder.resume();
     stopRecording();
 
     if (offlineEnd == 0) {
-        statusArray.push(offlineStart + "-");
+        statusArray.push(offlineStart + " to -");
     }
     examdetails['status'] = statusArray;
     additem(examdetails);
@@ -112,11 +103,11 @@ downloadButton.addEventListener('click', () => {
             })
 
             ipc.on("done", () => {
-                ipc.send('home');
+                ipc.send('dashboard');
             })
 
         } else {
-            ipc.send('home');
+            ipc.send('dashboard');
         }
 
     }, 3000)
@@ -196,8 +187,7 @@ startButton.addEventListener('click', async() => {
     console.log('Using media constraints:', constraints);
     const api = new JitsiMeetExternalAPI(domain, options);
     await init(constraints);
-    examdetails['startTime'] = new Date();
-
+    examdetails['startTime'] = date.format(new Date(), 'DD MMM YYYY HH-mm-ss')
 });
 
 
