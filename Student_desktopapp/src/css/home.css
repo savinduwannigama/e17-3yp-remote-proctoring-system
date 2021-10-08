@@ -3,6 +3,7 @@
 .test {
     vertical-align: middle;
     width: 50%;
+    text-align: center;
 }
 
 .test img {
@@ -26,6 +27,7 @@
     border-radius: 20px;
     margin: 20px;
     padding: 20px;
+    text-align: center;
 }
 
 .exams ul {

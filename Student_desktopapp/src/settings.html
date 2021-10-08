@@ -68,6 +68,7 @@
             <li tabindex="0" id="dashboard" class="icon-dashboard"><span>Dashboard</span></li>
             <li tabindex="0" id="course" class="icon-courses"><span>Courses</span></li>
             <li tabindex="0" id="schedule" class="icon-schedule"><span>Exam Schedule</span></li>
+            <li tabindex="0" id="upload" class="icon-upload"><span>Upoad Videos</span></li>
             <li tabindex="0" id="notification" class="icon-notifications"><span>Notifications</span></li>
             <li tabindex="0" id="settings" class="icon-settings"><span>Settings</span></li>
             <li tabindex="0" id="help" class="icon-help"><span>Help</span></li>
@@ -78,17 +79,17 @@
 
     <div>
         <span> change your user name >></span>
-        <a class="button" id="changename" href="#popup1">change</a>
+        <a class="link" id="changename" href="#popup1">change</a>
     </div>
 
     <div>
         <span>change your profile picture>></span>
-        <a class="button" id="profpic" href="#popup2">change</a>
+        <a class="link" id="profpic" href="#popup2">change</a>
     </div>
 
     <div>
         <span>Test your camera >></span>
-        <a class="button" id="start" href="#popup3">Test</a>
+        <a class="link" id="start" href="#popup3">Test</a>
     </div>
 
 
@@ -109,10 +110,9 @@
     <!-- pop ups -->
     <div id="popup1" class="overlay">
         <div class="popup">
-            <a class="close" href="#">&times;</a>
             <!--body starts here-->
             <p>Enter your name</p>
-            <input type="text" maxlength="25" id="name" onkeyup="countlength()"></input><span id="namelength">25/25</span>
+            <input type="text" maxlength="30" id="name" onkeyup="countlength()"></input><span id="namelength">30/30</span>
             <button id="entername">Save</button>
 
 
@@ -121,40 +121,35 @@
 
     <div id="popup3" class="overlay">
         <div class="popup">
-            <a class="close" id="close" href="#">&times;</a>
             <br><br>
             <!--body starts here-->
             <div id="container">
                 <video id="gum" playsinline autoplay muted></video>
                 <video id="recorded" playsinline loop></video>
 
-                <div>
-                    <!--<button id="start">Start camera</button>-->
+                <div class="center">
                     <button id="record" disabled>Record</button>
                     <button id="play" disabled>Play</button>
-                </div>
-
-                <div>
-                    <p>Media Stream Constraints options</p>
-                    <p>
-                        Echo cancellation: <input type="checkbox" id="echoCancellation" />
-                    </p>
+                    <button class="button" id="close">Close</button>
                 </div>
 
                 <div>
                     <span id="errorMsg"></span>
                 </div>
             </div>
+
         </div>
+
     </div>
 
     <div id="popup2" class="overlay">
         <div class="popup">
-            <a class="close" href="#">&times;</a>
 
             <div id=profpic>
                 <div id="default"><img id="defavatar" src="img/avatar/user.png" /></div>
-                <div id="btn"><button id="changeavtr">change</button></div>
+                <div class="center">
+                    <button id="changeavtr" class="button">change</button>
+                </div>
             </div>
             <div class="cards" id="cards">
                 <img class="card" src="img/avatar/man (1).png ">

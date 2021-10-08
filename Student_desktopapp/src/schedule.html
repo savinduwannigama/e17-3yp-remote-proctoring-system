@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/schedule.css">
     <script defer src="js/header.js"></script>
+    <script defer src="js/schedule.js"></script>
 
 
     <meta charset='utf-8' />
@@ -74,6 +75,7 @@
             <li tabindex="0" id="dashboard" class="icon-dashboard"><span>Dashboard</span></li>
             <li tabindex="0" id="course" class="icon-courses"><span>Courses</span></li>
             <li tabindex="0" id="schedule" class="icon-schedule"><span>Exam Schedule</span></li>
+            <li tabindex="0" id="upload" class="icon-upload"><span>Upoad Videos</span></li>
             <li tabindex="0" id="notification" class="icon-notifications"><span>Notifications</span></li>
             <li tabindex="0" id="settings" class="icon-settings"><span>Settings</span></li>
             <li tabindex="0" id="help" class="icon-help"><span>Help</span></li>
@@ -86,54 +88,27 @@
 
     <div id="popup" class="overlay">
         <div class="popup">
-            <a class="close" href="#">&times;</a>
             <!--body starts here-->
-            <p id="show-title"></p>
-            <p id="show-starttime"></p>
-            <p id="show-endtime"></p>
+            <table id="course-content">
+                <tr>
+                    <th>Title :</th>
+                    <th><span id="show-title"></span></th>
+                </tr>
+                <tr>
+                    <th>Start Time :</th>
+                    <th><span id="show-starttime"></span></th>
+                </tr>
+                <tr>
+                    <th>End Time :</th>
+                    <th><span id="show-endtime"></span></th>
+                </tr>
+
+            </table>
+            <div class="center">
+                <button class="button" onclick="closePopup()">Close</button>
+            </div>
         </div>
     </div>
-
-    <script>
-        var showevent = document.getElementById("show-event");
-        var showtitle = document.getElementById("show-title");
-        var showstarttime = document.getElementById("show-starttime");
-        var showendtime = document.getElementById("show-endtime");
-
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                height: 350,
-                initialView: 'dayGridMonth',
-                eventColor: 'orange',
-                events: [{
-                    title: "CO321",
-                    start: '2021-09-10T10:00:00',
-                    end: '2021-09-10T16:00:00',
-                    display: 'block',
-
-                }, {
-                    title: "CO322",
-                    start: '2021-09-12T10:00:00',
-                    end: '2021-09-12T16:00:00',
-                    display: 'block',
-                }],
-                eventClick: function(info) {
-                    showtitle.innerHTML = info.event.title
-                    showstarttime.innerHTML = info.event.start
-                    showendtime.innerHTML = info.event.end
-                    showevent.click()
-
-                },
-                /*headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'listWeek,dayGridMonth'
-                }*/
-            });
-            calendar.render();
-        });
-    </script>
 
     <div id='calendar'></div>
 

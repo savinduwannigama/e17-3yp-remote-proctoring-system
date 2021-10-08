@@ -7,8 +7,7 @@
 
 #record,
 #play,
-#entername,
-#changeavtr {
+#entername {
     border-radius: 5px;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -23,18 +22,13 @@
     background-color: #26a8aa;
 }
 
-#entername,
-#changeavtr {
-    width: 80px;
-}
-
 #name {
     border: 0;
     border-bottom: 2px solid #26a8aa;
     padding: 5px;
     height: 12px;
     outline: none;
-    width: 250px;
+    width: 300px;
     font-weight: bold;
     color: var(--font-color);
 }
@@ -84,7 +78,7 @@ video::-webkit-media-controls-panel {
     text-align: center;
 }*/
 
-.button {
+.link {
     font-size: 15px;
     padding: 5px;
     color: var(--header-color);
@@ -142,11 +136,6 @@ video::-webkit-media-controls-panel {
     font-weight: bold;
     text-align: center;
     cursor: pointer;
-}
-
-#btn {
-    text-align: center;
-    margin-bottom: 20px;
 }
 
 #default {
