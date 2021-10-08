@@ -4,9 +4,6 @@
 <head>
     <title>Connexa</title>
     <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/home.css">
-    <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
-    <script defer src="js/home.js"></script>
     <script defer src="js/header.js"></script>
 </head>
 
@@ -14,7 +11,7 @@
     <div class="header">
         <div class="container1">
             <div class="title">
-                <span>Home</span>
+                <span>Upload</span>
             </div>
         </div>
         <!--<div class="container2">
@@ -77,39 +74,76 @@
     </nav>
     <!--body starts here-->
     <div class="separator2"></div>
-    <div class="mainInner">
+    <div id='saved-files'></div>
 
-        <div class="test">
-            <img id='testcam' src="img/icons/video-camera (1).png">
-            <img id='testmic' src="img/icons/headphones (1).png">
-            <p>Test Your Equipments</p>
-        </div>
-        <div class="test">
-            <img id='examschedule' src="img/icons/calendar.png">
-            <p>See Your Exam Schedule</p>
+    <a id="show" href="#popup"></a>
+
+
+    <div id="popup" class="overlay">
+        <div id='data' class="popup">
+            <h4>Saved Video Details</h4>
+            <!--body starts here-->
+            <p>name: <span>null</span></p>
+            <p>created time : <span>null</span></p>
+            <p>size: <span>null</span>MB</p>
+            <div class="center">
+                <button class="button">Upload</button>
+                <button class="button" onclick="closePopup()">Close</button>
+            </div>
+
         </div>
     </div>
-    <div class="mainInner">
-        <div class="exams">
-            <p class=sec-title>up coming exams</p>
-            <hr>
-            <ul id="examlist">
-                <li>Wendsday: Apr 3, 2021 8.00 a.m - CO323</li>
-                <li>Thursday: Apr 4, 2021 8.00 a.m - CO322</li>
-                <li>Friday: Apr 5, 2021 8.00 a.m - CO227</li>
-                <li>Monday: Apr 8, 2021 8.00 a.m - CO325</li>
-                <li>Thursday: Apr 11, 2021 8.00 a.m - CO321</li>
-                <li>Friday: Apr 12, 2021 8.00 a.m - COEE386</li>
-            </ul>
-        </div>
 
-    </div>
+
     <script>
-        /*for (var i = 0; i < localStorage.length; i++) {
-                                                                    console.log(localStorage.getItem(localStorage.key(i)));
-                                                                }*/
-    </script>
+        var fs = require('fs');
+        var files = fs.readdirSync('src/recorded video');
+        var list = document.getElementById('saved-files')
+        for (var i = 0; i < files.length; i++) {
+            console.log(files[i]);
 
+
+            var item = document.createElement('p');
+            //var name = document.createElement('th');
+            //var size = document.createElement('span');
+
+            // Set its contents:
+            item.id = i.toString();
+            item.innerHTML = files[i];
+            /*fs.stat('src/recorded video/' + files[i], (err, stats) => {
+            size.innerHTML = stats.size
+            }); */
+            //console.log(stats)
+            //size.innerHTML = stats.size;
+
+            //item.appendChild(name);
+            //item.appendChild(size);
+            //console.log(files[i])
+            // Add it to the list:
+            list.appendChild(item);
+
+
+        }
+
+
+        var popup = document.getElementById("popup");
+        var link = document.getElementById("show")
+        var btn = document.getElementById("saved-files").getElementsByTagName('p')
+        var btncount = btn.length;
+        for (var i = 0; i < btncount; i += 1) {
+            btn[i].onclick = function() {
+                var data = document.getElementById("data").getElementsByTagName('span')
+                var video = document.getElementById(this.id);
+                fs.stat('src/recordedVideo/' + video.innerHTML, (err, stats) => {
+                    //console.log(stats)
+                    data[0].innerHTML = video.innerHTML;
+                    data[1].innerHTML = stats.birthtime;
+                    data[2].innerHTML = Math.round(stats.size / 10000) / 100;
+                });
+                link.click()
+            }
+        }
+    </script>
 </body>
 
 </html>

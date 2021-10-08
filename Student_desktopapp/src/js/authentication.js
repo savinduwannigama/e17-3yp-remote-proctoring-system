@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     OTPInput();
 });
 
-document.getElementById("verify").addEventListener('click', function() {
+document.getElementById("sixth").addEventListener('keydown', function() {
     var v1 = document.getElementById("first").value;
     var v2 = document.getElementById("second").value;
     var v3 = document.getElementById("third").value;

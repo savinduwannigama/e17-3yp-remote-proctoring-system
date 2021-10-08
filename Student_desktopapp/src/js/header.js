@@ -35,11 +35,8 @@ const monthNames = [" Jan ", " Feb ", " Mar ", " Apr ", " May ", " June ",
 function display_date() {
 
     var x = new Date()
-    var hours = x.getHours();
-    var min = x.getMinutes();
-    var sec = x.getSeconds();
-    document.getElementById('time').innerHTML = hours + " : " + min + " : " + sec;
-    document.getElementById("date").innerHTML = x.getDate() + monthNames[x.getMonth()] + x.getFullYear();
+    var date = x.getDate() + monthNames[x.getMonth()] + x.getFullYear();
+    return date;
 }
 
 
@@ -169,4 +166,17 @@ if (typeof(Storage) !== "undefined" && localStorage.useravatar) {
 if (typeof(Storage) !== "undefined" && localStorage.theme) {
     var Theme = localStorage.getItem('theme');
     document.documentElement.setAttribute('data-theme', Theme);
+}
+
+
+/************************** close popup**************************/
+function closePopup() {
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = '#';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+        document.body.removeChild(a);
+    }, 100);
 }

@@ -118,15 +118,15 @@ register.addEventListener('click', function(e) {
     OK = "true"
 
     var regemail = document.getElementById("reg-email");
+    var regpassword = document.getElementById("reg-password");
+    var confirmpassword = document.getElementById("confirm-password");
+
     if (!(validateEmail(regemail.value))) {
         regemail.value = "";
         regemail.placeholder = "Enter a valid Email";
         changePlaceholderColor(textBoxes);
         OK = "false";
     }
-
-    var regpassword = document.getElementById("reg-password");
-    var confirmpassword = document.getElementById("confirm-password");
 
     if (!(validatePassword(regpassword))) {
         changePlaceholderColor(textBoxes);
