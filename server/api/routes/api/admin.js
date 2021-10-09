@@ -126,7 +126,7 @@ router.delete('/admins/single/:email', (req, res) => {
     admins.findOneAndDelete({email: req.params.email})
     .then(deleted => {
         if(deleted == null)
-            res.json({status: 'failure', message: 'Admin with given email does not exist'});
+            res.status(400).json({status: 'failure', message: 'Admin with given email does not exist'});
         else
             res.json({status: 'success', message: 'Deleted admin', deletedEntry: deleted})
     })
@@ -269,7 +269,7 @@ router.delete('/students/single/:email', (req, res) => {
     students.findOneAndDelete({email: req.params.email})
     .then(deleted => {
         if(deleted == null)
-            res.json({status: 'failure', message: 'Student with given email does not exist'});
+            res.status(400).json({status: 'failure', message: 'Student with given email does not exist'});
         else
             res.json({status: 'success', message: 'Deleted student', deletedEntry: deleted});
     })
@@ -455,6 +455,32 @@ router.put('/courses/single/:shortname', (req, res) => {
     })
     .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find the course record", error: String(err)}));
 });
+
+// deleting a single course
+// sends the shortname of the the updated course as a request parameter
+router.delete('/courses/single/:shortname', (req, res) => {
+    courses.findOneAndDelete({shortname: req.params.shortname})
+    .then(deleted => {
+        if(deleted == null)
+            res.status(400).json({status: 'failure', message: 'Course with given shortname does not exist'});
+        else
+            res.json({status: 'success', message: 'Deleted course', deletedEntry: deleted});
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete course", error: String(err)}));
+});
+
+// deleting all courses
+// only the super-admin can call this
+router.delete('/courses/all', (req, res) => {
+    courses.find()
+    .then(result => {
+        courses.deleteMany({})  // expected to delete all the courses
+        .then(deleted => res.json({status: 'success', message: 'Deleted all the courses', deleted, deletedEntry: result}))  // TRY GIVING DELETED INSTEAD OF RESULT
+        .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete all courses", error: String(err)}));
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find all the courses", error: String(err)}));
+});
+
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
