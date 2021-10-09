@@ -97,7 +97,7 @@ router.put('/admins/self/:id', (req, res) => {
 
         admin.save()
         .then(() => res.json({status: 'success', message: 'Updated the admin info', updatedEntry: admin}))
-        .catch(err => res.json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: err}));
+        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: String(err)}));
     })
     .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to read self admin record", error: String(err)}));
 });
@@ -105,7 +105,7 @@ router.put('/admins/self/:id', (req, res) => {
 // updating info of another admin
 // sends the email of the the updated admin as a request parameter
 // front end has to send all the fields of the new entry (both updated and non updated fields)
-router.put('/admins/other/:email', (req, res) => {
+router.put('/admins/single/:email', (req, res) => {
     admins.findOne({email: req.params.email})
     .then(admin => {
         admin.name = req.body.name;
@@ -114,9 +114,9 @@ router.put('/admins/other/:email', (req, res) => {
 
         admin.save()    
         .then(() => res.json({status: 'success', message: 'Updated the admin info', updatedEntry: admin}))
-        .catch(err => res.json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: err}));
+        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: String(err)}));
     })
-    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to read self admin record", error: String(err)}));
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find the admin record", error: String(err)}));
 });
 
 // deleting an admin
@@ -124,21 +124,26 @@ router.put('/admins/other/:email', (req, res) => {
 // finds an admin by email and deletes
 router.delete('/admins/single/:email', (req, res) => {
     admins.findOneAndDelete({email: req.params.email})
-    .then(deleted => res.json({status: 'success', message: 'Deleted admin', deletedEntry: deleted}))
+    .then(deleted => {
+        if(deleted == null)
+            res.status(400).json({status: 'failure', message: 'Admin with given email does not exist'});
+        else
+            res.json({status: 'success', message: 'Deleted admin', deletedEntry: deleted})
+    })
     .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete admin", error: String(err)}));
 });
 
-// deleting an admin
-// only the super-admin can call this
-router.delete('/admins/all', (req, res) => {
-    admins.find()
-    .then(result => {
-        admins.deleteMany({})  // expected to delete all the admins
-        .then(deleted => res.json({status: 'success', message: 'Deleted all thr admin', deletedEntry: result}))  // TRY GIVING DELETED INSTEAD OF RESULT
-        .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete all admins", error: String(err)}));
-    })
-    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find all admins", error: String(err)}));
-});
+// // deleting all admins
+// // only the super-admin can call this
+// router.delete('/admins/all', (req, res) => {
+//     admins.find()
+//     .then(result => {
+//         admins.deleteMany({})  // expected to delete all the admins
+//         .then(deleted => res.json({status: 'success', message: 'Deleted all thr admin', deletedEntry: result}))  // TRY GIVING DELETED INSTEAD OF RESULT
+//         .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete all admins", error: String(err)}));
+//     })
+//     .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find all admins", error: String(err)}));
+// });
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -196,26 +201,32 @@ router.post('/students/multiple', async (req, res, next) => {
             // console.log('Created new student entry (' + i-1 + '): ' + response);
 
             // checking of the student already exist in the database
-            students.findOne({regNo: regNo})
-            .then(result => {
-                if(result == null) {
-                    // console.log('onna creating new entry');
-                    const newStudent = new students({regNo, name, email, department});
-                    // saves the new student
-                    newStudent.save()
-                    .then(() => {
-                        // console.log('Created new student entry: ' + newStudent);
-                        createdEntry.push(newStudent);
-                        // res.json({status: 'Addded new student to the database'});
-                    })
-                    .catch(err => res.status(400).json({Error: String(err)}));  // MIGHT GIVE AN ERROR 
-                }
-                else
-                    console.log('Tried to enter already existing student');
+            // students.findOne({regNo: regNo})
+            // .then(result => {
+                // if(result == null) {
+                // console.log('onna creating new entry');
+            const newStudent = new students({regNo, name, email, department});
+            // saves the new student
+            newStudent.save()
+            .then(() => {
+                // console.log('Created new student entry: ' + newStudent);
+                createdEntry.push(newStudent);
+                // res.json({status: 'Addded new student to the database'});
             })
             .catch(err => {
-                console.log('Error occured while trying to find student in the students collection:\n' + err);
-            });
+                console.log(i);
+                console.log("Error occured: " + err);
+
+            });  
+                // }
+                // else{
+                //     console.log(i);
+                //     console.log('Tried to enter already existing student');
+                // }
+            // })
+            // .catch(err => {
+            //     console.log('Error occured while trying to find student in the students collection:\n' + err);
+            // });
 
         }
     }
@@ -239,6 +250,49 @@ router.get('/students/all', (req, res) => {
     .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find all students', error: String(err)}));
 });
 
+// updating info of a single student
+// sends the email of the the updated student as a request parameter
+// front end has to send all the fields of the new entry (both updated and non updated fields)
+router.put('/students/single/:email', (req, res) => {
+    students.findOne({email: req.params.email})
+    .then(student => {
+        student.name = req.body.name;
+        student.regNo = req.body.regNo;
+        student.email = req.body.email;
+        student.department = req.body.department;
+        student.device = req.body.device;
+
+        student.save()    
+        .then(() => res.json({status: 'success', message: 'Updated the student info', updatedEntry: student}))
+        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: String(err)}));
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find the student record", error: String(err)}));
+});
+
+// deleting a single student
+// sends the email of the the updated student as a request parameter
+router.delete('/students/single/:email', (req, res) => {
+    students.findOneAndDelete({email: req.params.email})
+    .then(deleted => {
+        if(deleted == null)
+            res.status(400).json({status: 'failure', message: 'Student with given email does not exist'});
+        else
+            res.json({status: 'success', message: 'Deleted student', deletedEntry: deleted});
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete student", error: String(err)}));
+});
+
+// deleting all students
+// only the super-admin can call this
+router.delete('/students/all', (req, res) => {
+    students.find()
+    .then(result => {
+        students.deleteMany({})  // expected to delete all the students
+        .then(deleted => res.json({status: 'success', message: 'Deleted all the students', deleted, deletedEntry: result}))  // TRY GIVING DELETED INSTEAD OF RESULT
+        .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete all students", error: String(err)}));
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find all the students", error: String(err)}));
+});
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -315,7 +369,7 @@ router.post('/courses/single', (req, res) => {
     // saves the new student
     newCourse.save()
     .then(() => {
-        console.log('Created new course entry: ' + newCourse);
+        // console.log('Created new course entry: ' + newCourse);
         res.json({status: 'success', message: 'Addded new course to the database', createdEntry: newCourse});
     })
     .catch(err => res.status(400).json({status: 'failure', message: 'Following error occured while trying to create a course', error: String(err)}));
@@ -351,7 +405,7 @@ router.post('/courses/mastersheet', async (req, res) => {
         // console.log('Created new course entry (' + i + '): ' + response);
         const newCourse = new courses({shortname, fullname, department, semester});
         // saves the new student
-        await newCourse.save()  // without the await, the loop will carry on without waiting for the save().then().catch()
+        newCourse.save()  // without the await, the loop will carry on without waiting for the save().then().catch()
         .then(() => {
             // console.log('Created new course entry: ' + newCourse);
             createdEntries.push(newCourse);
@@ -360,8 +414,9 @@ router.post('/courses/mastersheet', async (req, res) => {
         })
         .catch(err => {
             console.log(i);
-            res.status(400).json({status: 'failure', message: 'Following error occured while trying to create a course', error: String(err)});
+            // res.status(400).json({status: 'failure', message: 'Following error occured while trying to create a course', error: String(err)});
             // return true;
+            console.log("Error occured: " + err);
             errorOccured = true;
             // next();
         });  // MIGHT GIVE AN ERROR 
@@ -370,8 +425,8 @@ router.post('/courses/mastersheet', async (req, res) => {
      * have to handle errors of => adding an already existing course, trying to add a course without a required field
      */
     // console.log('going to send success response');
-    if(!errorOccured)
-        res.json({status: 'success', message: 'Created all courses successfully!', createdEntry: createdEntries});
+    // if(!errorOccured)
+    res.json({status: 'response under construction'});
 });
 
 // call to read all courses
@@ -385,6 +440,77 @@ router.get('/courses/all', (req, res) => {
     courses.find()
     .then(result => res.json(result))
     .catch(err => res.status(400).json({status: 'failure', message: 'Following error occured while trying to read all the courses', error: String(err) }));
+});
+
+
+// updating info of a single course
+// sends the shortname of the the updated course as a request parameter
+// front end has to send all the fields of the new entry (both updated and non updated fields)
+router.put('/courses/single/:shortname', (req, res) => {
+    courses.findOne({shortname: req.params.shortname})
+    .then(course => {
+        course.name = req.body.shortname;
+        course.regNo = req.body.fullname;
+        course.email = req.body.department;
+        course.department = req.body.coordinator;
+        course.lecturers = req.body.lecturers;  // this will be an array
+        course.students = req.body.students;  // this will be an array
+        // hasExam field cannot be edited by the admin
+        
+        course.save()    
+        .then(() => res.json({status: 'success', message: 'Updated the course info', updatedEntry: course}))
+        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: String(err)}));
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find the course record", error: String(err)}));
+});
+
+// deleting a single course
+// sends the shortname of the the updated course as a request parameter
+router.delete('/courses/single/:shortname', (req, res) => {
+    courses.findOne({shortname: req.params.shortname})
+    .then(result => {
+        if (result == null) {
+            res.status(400).json({status: 'failure', message: 'No course with the given short name'});
+        }
+        else {
+            if(result.hasExam) {
+                res.status(400).json({status: 'failure', message: 'Tried to delete a course which has a scheduled exam'});
+            }
+            else {
+                courses.findOneAndDelete({shortname: req.params.shortname})
+                .then(deleted => {
+                    if(deleted == null)
+                        res.status(400).json({status: 'failure', message: 'Course with given shortname does not exist'});
+                    else
+                        res.json({status: 'success', message: 'Deleted course', deletedEntry: deleted});
+                })
+                .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete course", error: String(err)}));
+            }
+        }
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find the course record", error: String(err)}))
+});
+
+// deleting all courses
+// only the super-admin can call this
+router.delete('/courses/all', (req, res) => {
+    exams.findOne()
+    .then(result => {
+        if(result == null) {
+            courses.find()
+            .then(result => {
+                courses.deleteMany({})  // expected to delete all the courses
+                .then(deleted => res.json({status: 'success', message: 'Deleted all the courses', deleted, deletedEntry: result}))  // TRY GIVING DELETED INSTEAD OF RESULT
+                .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete all courses", error: String(err)}));
+            })
+            .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find all the courses", error: String(err)}));
+        }
+        else {  
+            console.log(result);
+            res.status(400).json({status: 'failure', message: 'Tried to delete a all course when there are scheduled exams'})
+        }
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find all exams", error: String(err)}))
 });
 
 

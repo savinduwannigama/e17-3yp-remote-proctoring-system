@@ -10,8 +10,8 @@ const coursesSchema = new mongoose.Schema({
     lecturers: [String],  // FK | maps the proctors teaching the course | YET TO DECIDE WHAT TO STORE
 
     // relationship with the students (ENROLLED)
-    students: [String]  // FK | maps the students enrolled for a course | stores the regNo of the students
-    
+    students: [String],  // FK | maps the students enrolled for a course | stores the regNo of the students
+    hasExam: {type: Boolean, default: false}  // cannot be edited by admin
 }, {collection: 'courses'})
 
 const model = mongoose.model('coursesModel', coursesSchema)
