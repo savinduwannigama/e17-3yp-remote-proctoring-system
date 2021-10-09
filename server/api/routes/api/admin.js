@@ -124,7 +124,20 @@ router.put('/admins/other/:email', (req, res) => {
 // finds an admin by email and deletes
 router.delete('/admins/single/:email', (req, res) => {
     admins.findOneAndDelete({email: req.params.email})
-    .then(deleted %)
+    .then(deleted => res.json({status: 'success', message: 'Deleted admin', deletedEntry: deleted}))
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete admin", error: String(err)}));
+});
+
+// deleting an admin
+// only the super-admin can call this
+router.delete('/admins/all', (req, res) => {
+    admins.find()
+    .then(result => {
+        admins.deleteMany({})  // expected to delete all the admins
+        .then(deleted => res.json({status: 'success', message: 'Deleted all thr admin', deletedEntry: result}))  // TRY GIVING DELETED INSTEAD OF RESULT
+        .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete all admins", error: String(err)}));
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find all admins", error: String(err)}));
 });
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
