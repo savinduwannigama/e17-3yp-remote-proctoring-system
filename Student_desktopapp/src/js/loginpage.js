@@ -1,13 +1,27 @@
 const { ipcRenderer } = require('electron')
 const ipc = ipcRenderer
 
+const textBoxes = document.getElementsByTagName("input");
+
 var check = document.querySelector("input[name=checkbox]");
+
+var loginpage = document.getElementById('sign-in');
+var regpage = document.getElementById('sign-up')
+
 check.addEventListener('change', function() {
     if (this.checked) {
         setTimeout(function() {
-            ipc.send("Register")
-        }, 500)
+            resetPlaceholder(textBoxes);
+            loginpage.style.display = 'none';
+            regpage.style.display = 'block'
+        }, 300)
 
+    } else {
+        setTimeout(function() {
+            resetPlaceholder(textBoxes);
+            loginpage.style.display = 'block';
+            regpage.style.display = 'none'
+        }, 300)
     }
 });
 
@@ -18,7 +32,17 @@ function changePlaceholderColor(textBoxes) {
     for (var i = 0; i < textBoxes.length; i++) {
         if (textBoxes[i].type == "text" || textBoxes[i].type == "password") {
             if (!textBoxes[i].value) {
-                textBoxes[i].className += " Red";
+                textBoxes[i].className = "user-input Red";
+            }
+        }
+    }
+}
+
+function resetPlaceholder(textBoxes) {
+    for (var i = 0; i < textBoxes.length; i++) {
+        if (textBoxes[i].type == "text" || textBoxes[i].type == "password") {
+            if (!textBoxes[i].value) {
+                textBoxes[i].className = "user-input Gray";
             }
         }
     }
@@ -56,27 +80,28 @@ function validateEmail(e) {
 
 /************** check user input before login ******************/
 
-var login = document.getElementById("login");
 
+
+var login = document.getElementById("login");
+var OK;
 login.addEventListener('click', function(e) {
     e.preventDefault()
     OK = "true"
 
-    var textBoxes = document.getElementsByTagName("input");
-    var email = document.getElementById("email");
-    if (!(validateEmail(email.value))) {
-        email.value = "";
-        email.placeholder = "Enter a valid Email";
+
+    var logemail = document.getElementById("log-email");
+    if (!(validateEmail(logemail.value))) {
+        logemail.value = "";
+        logemail.placeholder = "Enter a valid Email";
         changePlaceholderColor(textBoxes);
         OK = "false";
     }
 
-    var password = document.getElementById("password");
-    if (!(validatePassword(password))) {
+    var logpassword = document.getElementById("log-password");
+    if (!(validatePassword(logpassword))) {
         changePlaceholderColor(textBoxes);
         OK = "false";
     }
-
 
     if (OK == "true") {
         ipc.send('home')
@@ -84,25 +109,65 @@ login.addEventListener('click', function(e) {
 
 })
 
+/************** registration validation ****************/
+
+var register = document.getElementById("register");
+
+register.addEventListener('click', function(e) {
+    e.preventDefault()
+    OK = "true"
+
+    var regemail = document.getElementById("reg-email");
+    var regpassword = document.getElementById("reg-password");
+    var confirmpassword = document.getElementById("confirm-password");
+
+    if (!(validateEmail(regemail.value))) {
+        regemail.value = "";
+        regemail.placeholder = "Enter a valid Email";
+        changePlaceholderColor(textBoxes);
+        OK = "false";
+    }
+
+    if (!(validatePassword(regpassword))) {
+        changePlaceholderColor(textBoxes);
+        OK = "false";
+    }
+
+    if (confirmpassword.value.length == 0) {
+        confirmpassword.placeholder = "Re-enter your password"
+        changePlaceholderColor(textBoxes);
+        OK = "false";
+    }
+    if (regpassword.value != confirmpassword.value) {
+        confirmpassword.value = ""
+        confirmpassword.placeholder = "Passwords doesn't match"
+        changePlaceholderColor(textBoxes);
+        OK = "false";
+    }
+
+
+    if (OK == "true") {
+        ipc.send('Authentication')
+    }
+
+})
 
 /**************** toggle password **************/
 
-const togglePassword = document.querySelector('#togglePassword');
-const password = document.querySelector('#password');
 
-togglePassword.addEventListener('click', function(e) {
-    // toggle the type attribute
-    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+function togglePassword(id, eyeid) {
+    var password = document.getElementById(id);
+    var eye = document.getElementById(eyeid);
+    var type = password.getAttribute('type') === 'password' ? 'text' : 'password';
     password.setAttribute('type', type);
-    // toggle the eye / eye slash icon
-    this.classList.toggle('bi-eye');
-});
+    eye.classList.toggle('bi-eye');
+}
 
 
 
 /*****************Remember me***********************/
 const rmCheck = document.getElementById("staylogged"),
-    emailInput = document.getElementById("email");
+    emailInput = document.getElementById("log-email");
 
 if (localStorage.checkbox && localStorage.checkbox !== "") {
     rmCheck.setAttribute("checked", "checked");

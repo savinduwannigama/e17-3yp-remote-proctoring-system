@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Connexa</title>
+    <link rel="stylesheet" href="css/header.css">
+    <script defer src="js/header.js"></script>
+    <script defer src="js/googledrive.js"></script>
+    <style>
+        #uploadbtn:disabled {
+            background-color: rgb(238, 56, 32);
+        }
+    </style>
+</head>
+
+<body onload="display_ct();">
+    <div class="header">
+        <div class="container1">
+            <div class="title">
+                <span>Upload</span>
+            </div>
+        </div>
+        <!--<div class="container2">
+            <div class="search">
+                <input type="text" class="searchTerm" placeholder="search">
+                <button type="submit" id="searchbtn" class="searchButton">
+                 <i class="fa fa-search"></i>
+              </button>
+            </div>
+        </div>-->
+        <div class="container3">
+            <div class="battery">
+                <div class="container">
+                    <div id="batBody">
+                        <div id="indicator"></div>
+                    </div>
+                    <div class="batEnd">
+                        <div></div>
+                    </div>
+                </div>
+                <p id="batteryLevelOutput"></p>
+            </div>
+        </div>
+        <div class="container4">
+            <div class="notification">
+                <img id="show_notifications" src="img/icons/notification.png">
+                <span id="badge" class="badge">8</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="timestamp" id="timestamp">
+        <p>TIME TO HIT THE BOOKS! YOUR NEXT EXAM BEGINS IN:</p>
+    </div>
+
+    <div class="status" id="status"></div>
+
+    <div class="timeindicator" id="timeindicator">
+        <p class="time">2 : <span id="currenttime"></span></p>
+        <p>DAYS : HOURS : MINUTES : SECONDS</p>
+    </div>
+
+    <!--hamburger menu-->
+    <nav class="menu" tabindex="0">
+        <div class="smartphone-menu-trigger"></div>
+        <header class="avatar">
+            <img id="avatar" class="online" src="img/user.jpg" />
+            <h2 id="user_name">USER</h2>
+        </header>
+        <ul id="list">
+            <li tabindex="0" id="home" class="icon-home"><span>Home</span></li>
+            <li tabindex="0" id="dashboard" class="icon-dashboard"><span>Dashboard</span></li>
+            <li tabindex="0" id="course" class="icon-courses"><span>Courses</span></li>
+            <li tabindex="0" id="schedule" class="icon-schedule"><span>Exam Schedule</span></li>
+            <li tabindex="0" id="upload" class="icon-upload"><span>Upoad Videos</span></li>
+            <li tabindex="0" id="notification" class="icon-notifications"><span>Notifications</span></li>
+            <li tabindex="0" id="settings" class="icon-settings"><span>Settings</span></li>
+            <li tabindex="0" id="help" class="icon-help"><span>Help</span></li>
+        </ul>
+    </nav>
+    <!--body starts here-->
+    <div class="separator2"></div>
+    <div id='saved-files'></div>
+
+    <a id="show" href="#popup"></a>
+
+
+    <div id="popup" class="overlay">
+        <div id='data' class="popup">
+            <h4>Saved Video Details</h4>
+            <!--body starts here-->
+            <p>name: <span id='filename'>null</span></p>
+            <p>created time : <span>null</span></p>
+            <p>size: <span>null</span>MB</p>
+            <div class="center">
+                <button class="button" id='uploadbtn' onclick="upload()">Upload</button>
+                <button class="button" id='uploadcancle' onclick="closePopup()">Close</button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+        var fs = require('fs');
+        var files = fs.readdirSync('src/recordedVideo');
+        var list = document.getElementById('saved-files')
+        for (var i = 0; i < files.length; i++) {
+            console.log(files[i]);
+
+
+            var item = document.createElement('p');
+            //var name = document.createElement('th');
+            //var size = document.createElement('span');
+
+            // Set its contents:
+            item.id = i.toString();
+            item.innerHTML = files[i];
+            /*fs.stat('src/recorded video/' + files[i], (err, stats) => {
+            size.innerHTML = stats.size
+            }); */
+            //console.log(stats)
+            //size.innerHTML = stats.size;
+
+            //item.appendChild(name);
+            //item.appendChild(size);
+            //console.log(files[i])
+            // Add it to the list:
+            list.appendChild(item);
+
+
+        }
+
+
+        var popup = document.getElementById("popup");
+        var link = document.getElementById("show")
+        var btn = document.getElementById("saved-files").getElementsByTagName('p')
+        var btncount = btn.length;
+        for (var i = 0; i < btncount; i += 1) {
+            btn[i].onclick = function() {
+                var data = document.getElementById("data").getElementsByTagName('span')
+                var video = document.getElementById(this.id);
+                fs.stat('src/recordedVideo/' + video.innerHTML, (err, stats) => {
+                    //console.log(stats)
+                    data[0].innerHTML = video.innerHTML;
+                    data[1].innerHTML = stats.birthtime;
+                    data[2].innerHTML = Math.round(stats.size / 10000) / 100;
+                });
+                link.click()
+            }
+        }
+
+        function upload() {
+            var uploadbtn = document.getElementById('uploadbtn')
+            var canclebtn = document.getElementById('uploadcancle')
+            uploadbtn.innerHTML = "uploading...";
+            uploadbtn.disabled = true;
+            canclebtn.style.display = 'none';
+            var filename = document.getElementById('filename').innerHTML;
+            uploadFile(filename);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "connexa-test-327619",
+  "private_key_id": "2ce21845d766f9232aa093960d4cc6e12efe5ecd",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC8ukBU76Vt2EJs\nEr5R6fuVFH9CwcbEKw9H1T7ZV0yMPxlUpK+67mlxRhogL7gQMBl28noiM1qnXojp\nRN2V5vlCUNdV9tWYzFq8CxT288r3MNNQWPAQ9FoWm3prFurzpyOj3q4KB23oMbn7\npH0ezjXAvjMQTZPs2Ar5OxcY6slMbZrrI7ZZxAlvC76RPDJ67fow13A7tjPIDpXu\nn340Ot38pxmGxqBlysu/1O9wcIpCCZwlo6WtuOrZELS9U+G/bNAwG9BwxGHeo/A0\nuxra8Ioe2UrW2t4BfvrTt42UdBuD5uIp1hKUbDMBxswA/aa/dApqkutEQP7Iaj9R\nGiVe6cbxAgMBAAECggEAEh/5Ca8yPghk6KgsKwXDqZ+cUTb29eQExatPK+Rcb6On\ntR9T2SoIal6HJ8wtazCTYX8MB7jS3fwQPgblGP5jteC5rYHVJaWKmUCfNNBZD8Ba\nqv6/n4E4Ha+05BABZIEKxTQflsr73S7ZY7d6ZLj9JJOfp9Mrf7WH6EOqhjQWPQan\nfT4PXFXQmEnOEx5LlA2iFgmK8g8tI6089dtuYq0Tm7c5FqA+kzmDPxQHNk/wIW8p\n6/QLioU3lnCCCQo71Y8Mwqoojpj79yMqQDhFVofeSDajHznSETHHdzeYq61xUa/6\nNJKwx29DyUlygfzWK5qIeVbp4CxP2G29G6VOUVqhoQKBgQDgxLsCVNJS54K/vDW6\ni2N92StzOP+xT9qCAbfN7JNEenW6TnzM6vwfXfQuEmsBossa72C443Bc31Y239cm\nJyBiCW7oSlQTgFxXy8lg9EPhhl2g0v2b/eXXCxd0Ap1TcujLUNfwZCDFSNyj+075\nFvyYeLq0VopYByclBgcRE/wGFQKBgQDW84EAY2wFg3OWGb+rAfUgWiCZs6Ns9YtW\nbEdsrQkKywvWkAIHZqEuWe93pxsncAKT9S9XQDTIZZdUjyOKY2MIJzUdKGjhcHSa\n9Ov377x8/XqiNhk9VgJgWM+cfK8f9PTR7I+b4Q+B37+eux0Pa21vrBLRCZuksO2g\nIncjUKpwbQKBgQCj8LoaHDYABB5IrQVfV7WsoA7iDsvozz6oHoqq5wgPJWbjCcZb\nTHWyhzvHsuVbnxqXPcwFbtaQ1tEyWxe5G0ayWwEK6tPiGXjBDMGINwGf5/o4iEw0\nT/8pV0y28AVCTYjgasnl65I/c0KDVJSoeAyrRTugt5JWXHk/tuLGoRXsdQKBgQDN\n3NxZsN6N0T1sLjDg6LkJSQgb7G3CNtBB7uXg8T/NtHUcA0POLr6Dk+LCp6pb9Oyj\nI5k5aOakXpe2hng1W8ZG0rYNvNvlvTwQBC3SgSn2UxWWMVWu5qbT+3qqlsdqRcIL\nIxLO6ZdefRoaPX4xfGONJjHHPfpwmnqaeSe9DM6PaQKBgBb8uSBD4u0ZjO3Vsw/K\nvrka5a9brnh8+KgURCW/IBlW7LAT7qVR+rZZE/rAhawqj6U8H7uf08fFbhIHCjT7\nlVf+kKc8MRIDWeEZH4Xir7c1Wc37ECcIBFkt3XxCQgLue+50BgJwboYyV6sWsLLW\ndCC4TgQlgeU+RJiGIAC7HKpS\n-----END PRIVATE KEY-----\n",
+  "client_email": "connexatestserviceaccount@connexa-test-327619.iam.gserviceaccount.com",
+  "client_id": "100981243563190836339",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/connexatestserviceaccount%40connexa-test-327619.iam.gserviceaccount.com"
+}

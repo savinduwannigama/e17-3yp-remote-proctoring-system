@@ -90,11 +90,11 @@ async function init(constraints) {
 
 
 document.querySelector('#start').addEventListener('click', async() => {
-    const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
+
     const constraints = {
         audio: {
             echoCancellation: {
-                exact: hasEchoCancellation
+                exact: true
             }
         },
         video: {
@@ -115,6 +115,7 @@ document.querySelector('#close').addEventListener('click', async() => {
     recordedVideo.pause();
     recordedVideo.currentTime = 0;
     recordedVideo.srcObject = null;
+    closePopup();
 
 });
 
@@ -134,6 +135,7 @@ img.addEventListener('click', function(event) {
 
 document.getElementById("changeavtr").addEventListener("click", () => {
     localStorage.setItem("useravatar", def.src);
+    closePopup();
 })
 
 
@@ -177,8 +179,8 @@ function countlength() {
     var remaininglength = document.getElementById("namelength")
 
     var length = name.value.length;
-    var left = 25 - length;
-    remaininglength.innerHTML = left.toString() + "/25"
+    var left = 30 - length;
+    remaininglength.innerHTML = left.toString() + "/30"
 
 }
 
@@ -194,5 +196,6 @@ document.getElementById("entername").addEventListener("click", () => {
     if (newname.length != 0) {
         localStorage.setItem("username", newname);
     }
+    closePopup();
 
 })

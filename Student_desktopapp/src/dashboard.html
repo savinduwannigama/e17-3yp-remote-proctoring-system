@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/dashboard.css">
     <script defer src="js/dashboard.js"></script>
     <script defer src="js/header.js"></script>
+
 </head>
 
 <body onload="display_ct();">
@@ -68,6 +69,7 @@
             <li tabindex="0" id="dashboard" class="icon-dashboard"><span>Dashboard</span></li>
             <li tabindex="0" id="course" class="icon-courses"><span>Courses</span></li>
             <li tabindex="0" id="schedule" class="icon-schedule"><span>Exam Schedule</span></li>
+            <li tabindex="0" id="upload" class="icon-upload"><span>Upoad Videos</span></li>
             <li tabindex="0" id="notification" class="icon-notifications"><span>Notifications</span></li>
             <li tabindex="0" id="settings" class="icon-settings"><span>Settings</span></li>
             <li tabindex="0" id="help" class="icon-help"><span>Help</span></li>
@@ -77,21 +79,22 @@
     <div class="separator2"></div>
     <div class="mainInner">
         <div class="exams">
-            <p class=sec-title>Recently accessed exams</p>
+            <p class="sec-title" id="sec-title">Recently accessed exams</p>
             <hr>
-            <ul id="examlist">
-                <li>Wendsday: Apr 3, 2021 8.00 a.m - CO323</li>
-                <li>Thursday: Apr 4, 2021 8.00 a.m - CO322</li>
-                <li>Friday: Apr 5, 2021 8.00 a.m - CO227</li>
-                <li>Monday: Apr 8, 2021 8.00 a.m - CO325</li>
-                <li>Thursday: Apr 11, 2021 8.00 a.m - CO321</li>
-                <li>Friday: Apr 12, 2021 8.00 a.m - COEE386</li>
+            <ul id="recent-exams">
             </ul>
+        </div>
+        <div class='details'>
+            <p class="sec-title">Exam Details</p>
+            <hr>
+            <p>Exam room: <span id='examName'></span></p>
+            <p>Start time: <span id='examStart'></span></p>
+            <p>End time: <span id='examEnd'></span></p>
+            <p>Disconnections:<span id='examstatus'></span></p>
+
         </div>
 
     </div>
-
-
 </body>
 
 </html>
