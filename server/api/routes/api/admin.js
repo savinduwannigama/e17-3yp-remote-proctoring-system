@@ -344,7 +344,46 @@ router.get('/proctors/all', (req, res) => {
     .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find all proctors', error: String(err)}));
 });
 
+// updating info of a single proctor
+// sends the email of the the updated proctor as a request parameter
+// front end has to send all the fields of the new entry (both updated and non updated fields)
+router.put('/proctors/single/:email', (req, res) => {
+    proctors.findOne({email: req.params.email})
+    .then(proctor => {
+        proctor.name = req.body.name;
+        proctor.email = req.body.email;
 
+        proctor.save()    
+        .then(() => res.json({status: 'success', message: 'Updated the proctor info', updatedEntry: proctor}))
+        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: String(err)}));
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find the proctor record", error: String(err)}));
+});
+
+// deleting a single proctor
+// sends the email of the the updated proctor as a request parameter
+router.delete('/proctors/single/:email', (req, res) => {
+    proctors.findOneAndDelete({email: req.params.email})
+    .then(deleted => {
+        if(deleted == null)
+            res.status(400).json({status: 'failure', message: 'Proctor with given email does not exist'});
+        else
+            res.json({status: 'success', message: 'Deleted proctor', deletedEntry: deleted});
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete proctor", error: String(err)}));
+});
+
+// deleting all proctors
+// only the super-admin can call this
+router.delete('/proctors/all', (req, res) => {
+    proctors.find()
+    .then(result => {
+        proctors.deleteMany({})  // expected to delete all the proctors
+        .then(deleted => res.json({status: 'success', message: 'Deleted all the proctors', deleted, deletedEntry: result}))  // TRY GIVING DELETED INSTEAD OF RESULT
+        .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete all proctors", error: String(err)}));
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find all the proctors", error: String(err)}));
+});
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -456,7 +495,7 @@ router.put('/courses/single/:shortname', (req, res) => {
         course.lecturers = req.body.lecturers;  // this will be an array
         course.students = req.body.students;  // this will be an array
         // hasExam field cannot be edited by the admin
-        
+
         course.save()    
         .then(() => res.json({status: 'success', message: 'Updated the course info', updatedEntry: course}))
         .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: String(err)}));
@@ -479,10 +518,10 @@ router.delete('/courses/single/:shortname', (req, res) => {
             else {
                 courses.findOneAndDelete({shortname: req.params.shortname})
                 .then(deleted => {
-                    if(deleted == null)
-                        res.status(400).json({status: 'failure', message: 'Course with given shortname does not exist'});
-                    else
-                        res.json({status: 'success', message: 'Deleted course', deletedEntry: deleted});
+                    // if(deleted == null)
+                    //     res.status(400).json({status: 'failure', message: 'Course with given shortname does not exist'});
+                    // else
+                    res.json({status: 'success', message: 'Deleted course', deletedEntry: deleted});
                 })
                 .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete course", error: String(err)}));
             }
@@ -782,6 +821,26 @@ router.get('/exams/all', (req, res) => {
     .then(result => res.json(result))
     .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find all exams', error: String(err) }));
 });
+
+// deleting a single exam
+// sends the shortname of the the updated course as a request parameter
+router.delete('/exams/single/:name', (req, res) => {
+    // console.log(req.params.name);
+    exams.findOneAndDelete({name: req.params.name})
+    .then(deleted => {
+        if(deleted == null)
+            res.status(400).json({status: 'failure', message: 'Exam with given shortname does not exist'});
+        else {
+            exam_rooms.deleteMany({exam: deleted.name})
+            .then(deleteCount => {
+                res.json({status: 'success', message: 'Deleted exam and relevant exam rooms', deletedExamEntry: deleted, numberOfExamRoomsDeleted: deleteCount});
+            })
+            .catch(err => res.status(400).json({status: 'failure', message: 'Deleted the exam, but error occured while trying to delete relevant exam rooms', error: String(err) }));
+        }
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete exam", error: String(err)}));   
+});
+
 
 
 ////////////////////////////////////////////////////////////////////
