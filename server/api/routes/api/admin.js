@@ -201,26 +201,32 @@ router.post('/students/multiple', async (req, res, next) => {
             // console.log('Created new student entry (' + i-1 + '): ' + response);
 
             // checking of the student already exist in the database
-            students.findOne({regNo: regNo})
-            .then(result => {
-                if(result == null) {
-                    // console.log('onna creating new entry');
-                    const newStudent = new students({regNo, name, email, department});
-                    // saves the new student
-                    newStudent.save()
-                    .then(() => {
-                        // console.log('Created new student entry: ' + newStudent);
-                        createdEntry.push(newStudent);
-                        // res.json({status: 'Addded new student to the database'});
-                    })
-                    .catch(err => res.status(400).json({Error: String(err)}));  // MIGHT GIVE AN ERROR 
-                }
-                else
-                    console.log('Tried to enter already existing student');
+            // students.findOne({regNo: regNo})
+            // .then(result => {
+                // if(result == null) {
+                // console.log('onna creating new entry');
+            const newStudent = new students({regNo, name, email, department});
+            // saves the new student
+            newStudent.save()
+            .then(() => {
+                // console.log('Created new student entry: ' + newStudent);
+                createdEntry.push(newStudent);
+                // res.json({status: 'Addded new student to the database'});
             })
             .catch(err => {
-                console.log('Error occured while trying to find student in the students collection:\n' + err);
-            });
+                console.log(i);
+                console.log("Error occured: " + err);
+
+            });  
+                // }
+                // else{
+                //     console.log(i);
+                //     console.log('Tried to enter already existing student');
+                // }
+            // })
+            // .catch(err => {
+            //     console.log('Error occured while trying to find student in the students collection:\n' + err);
+            // });
 
         }
     }
@@ -363,7 +369,7 @@ router.post('/courses/single', (req, res) => {
     // saves the new student
     newCourse.save()
     .then(() => {
-        console.log('Created new course entry: ' + newCourse);
+        // console.log('Created new course entry: ' + newCourse);
         res.json({status: 'success', message: 'Addded new course to the database', createdEntry: newCourse});
     })
     .catch(err => res.status(400).json({status: 'failure', message: 'Following error occured while trying to create a course', error: String(err)}));
@@ -399,7 +405,7 @@ router.post('/courses/mastersheet', async (req, res) => {
         // console.log('Created new course entry (' + i + '): ' + response);
         const newCourse = new courses({shortname, fullname, department, semester});
         // saves the new student
-        await newCourse.save()  // without the await, the loop will carry on without waiting for the save().then().catch()
+        newCourse.save()  // without the await, the loop will carry on without waiting for the save().then().catch()
         .then(() => {
             // console.log('Created new course entry: ' + newCourse);
             createdEntries.push(newCourse);
@@ -408,8 +414,9 @@ router.post('/courses/mastersheet', async (req, res) => {
         })
         .catch(err => {
             console.log(i);
-            res.status(400).json({status: 'failure', message: 'Following error occured while trying to create a course', error: String(err)});
+            // res.status(400).json({status: 'failure', message: 'Following error occured while trying to create a course', error: String(err)});
             // return true;
+            console.log("Error occured: " + err);
             errorOccured = true;
             // next();
         });  // MIGHT GIVE AN ERROR 
@@ -418,8 +425,8 @@ router.post('/courses/mastersheet', async (req, res) => {
      * have to handle errors of => adding an already existing course, trying to add a course without a required field
      */
     // console.log('going to send success response');
-    if(!errorOccured)
-        res.json({status: 'success', message: 'Created all courses successfully!', createdEntry: createdEntries});
+    // if(!errorOccured)
+    res.json({status: 'response under construction'});
 });
 
 // call to read all courses
@@ -448,7 +455,8 @@ router.put('/courses/single/:shortname', (req, res) => {
         course.department = req.body.coordinator;
         course.lecturers = req.body.lecturers;  // this will be an array
         course.students = req.body.students;  // this will be an array
-
+        // hasExam field cannot be edited by the admin
+        
         course.save()    
         .then(() => res.json({status: 'success', message: 'Updated the course info', updatedEntry: course}))
         .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: String(err)}));
@@ -459,26 +467,50 @@ router.put('/courses/single/:shortname', (req, res) => {
 // deleting a single course
 // sends the shortname of the the updated course as a request parameter
 router.delete('/courses/single/:shortname', (req, res) => {
-    courses.findOneAndDelete({shortname: req.params.shortname})
-    .then(deleted => {
-        if(deleted == null)
-            res.status(400).json({status: 'failure', message: 'Course with given shortname does not exist'});
-        else
-            res.json({status: 'success', message: 'Deleted course', deletedEntry: deleted});
+    courses.findOne({shortname: req.params.shortname})
+    .then(result => {
+        if (result == null) {
+            res.status(400).json({status: 'failure', message: 'No course with the given short name'});
+        }
+        else {
+            if(result.hasExam) {
+                res.status(400).json({status: 'failure', message: 'Tried to delete a course which has a scheduled exam'});
+            }
+            else {
+                courses.findOneAndDelete({shortname: req.params.shortname})
+                .then(deleted => {
+                    if(deleted == null)
+                        res.status(400).json({status: 'failure', message: 'Course with given shortname does not exist'});
+                    else
+                        res.json({status: 'success', message: 'Deleted course', deletedEntry: deleted});
+                })
+                .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete course", error: String(err)}));
+            }
+        }
     })
-    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete course", error: String(err)}));
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find the course record", error: String(err)}))
 });
 
 // deleting all courses
 // only the super-admin can call this
 router.delete('/courses/all', (req, res) => {
-    courses.find()
+    exams.findOne()
     .then(result => {
-        courses.deleteMany({})  // expected to delete all the courses
-        .then(deleted => res.json({status: 'success', message: 'Deleted all the courses', deleted, deletedEntry: result}))  // TRY GIVING DELETED INSTEAD OF RESULT
-        .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete all courses", error: String(err)}));
+        if(result == null) {
+            courses.find()
+            .then(result => {
+                courses.deleteMany({})  // expected to delete all the courses
+                .then(deleted => res.json({status: 'success', message: 'Deleted all the courses', deleted, deletedEntry: result}))  // TRY GIVING DELETED INSTEAD OF RESULT
+                .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete all courses", error: String(err)}));
+            })
+            .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find all the courses", error: String(err)}));
+        }
+        else {  
+            console.log(result);
+            res.status(400).json({status: 'failure', message: 'Tried to delete a all course when there are scheduled exams'})
+        }
     })
-    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find all the courses", error: String(err)}));
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find all exams", error: String(err)}))
 });
 
 

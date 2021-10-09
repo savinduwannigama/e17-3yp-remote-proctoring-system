@@ -89,7 +89,8 @@ examsSchema.statics.updateExamOnCourses = function(info) {
     .then(result => {
         if(result.coordinator == "")  // updating the courses coordinator of there isn't one already
             result.coordinator = info.course_coordinator;
-
+        if(result.hasExam == false)
+            result.hasExam = true;
         info.students.forEach(newStudent => {  // checking each student of the new exam in the list of students in the course
             if(result.students.find(exstStudent => exstStudent == newStudent.regNo) == null) 
                 result.students.push(newStudent.regNo);  // adding the student if he/she is not already in the courses list
