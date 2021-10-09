@@ -68,6 +68,7 @@
             <li tabindex="0" id="dashboard" class="icon-dashboard"><span>Dashboard</span></li>
             <li tabindex="0" id="course" class="icon-courses"><span>Courses</span></li>
             <li tabindex="0" id="schedule" class="icon-schedule"><span>Exam Schedule</span></li>
+            <li tabindex="0" id="upload" class="icon-upload"><span>Upoad Videos</span></li>
             <li tabindex="0" id="notification" class="icon-notifications"><span>Notifications</span></li>
             <li tabindex="0" id="settings" class="icon-settings"><span>Settings</span></li>
             <li tabindex="0" id="help" class="icon-help"><span>Help</span></li>
@@ -90,12 +91,14 @@
     <div id="popup" class="overlay">
         <div class="popup">
             <h4>Course details</h4>
-            <a class="close" id="close" href="#">&times;</a>
             <!--body starts here-->
             <p>Course code: <span>null</span></p>
             <p>Course name: <span>null</span></p>
             <p>Department : <span>null</span></p>
             <p>Course coordinator: <span>null</span></p>
+            <div class="center">
+                <button class="button" onclick="closePopup()">Close</button>
+            </div>
         </div>
     </div>
 </body>

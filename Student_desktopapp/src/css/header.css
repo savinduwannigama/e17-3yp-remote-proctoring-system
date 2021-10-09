@@ -14,15 +14,17 @@ body {
     --bg-color: white;
     --header-color: #26a8aa;
     --sub-color: rgba(38, 168, 170, 0.22);
+    --popup-bg-color: rgba(0, 0, 0, 0.7);
     --left-arrow: url("../img/icons/left-arrow.png");
     --list-menu: url("../img/icons/list.png");
 }
 
 [data-theme=dark] {
     --font-color: white;
-    --bg-color: rgb(32, 32, 32);
+    --bg-color: rgb(46, 46, 46);
     --header-color: #1a6061;
     --sub-color: rgba(18, 229, 233, 0.22);
+    --popup-bg-color: rgba(255, 254, 254, 0.7);
 }
 
 
@@ -179,13 +181,26 @@ mark {
 
 .mainInner div {
     display: table-cell;
-    text-align: center;
-    font-size: 3em;
     border-radius: 40px;
     font-weight: bold;
     letter-spacing: 1.25px;
     background-color: rgba(38, 168, 170, 0.22);
     border: 15px solid var(--bg-color);
+}
+
+.button {
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 0;
+    width: 120px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    justify-content: center;
+    background-color: var(--header-color);
 }
 
 
@@ -369,10 +384,6 @@ mark {
 
 /********** hamburger menu ************/
 
-#user_name {
-    font-weight: normal;
-}
-
 main {
     position: relative;
 }
@@ -392,14 +403,17 @@ main {
     background: rgba(0, 0, 0, 0.1);
     padding: 10px;
     height: fit-content;
-    min-height: 100px;
-    text-align: center;
+    min-height: 65px;
+    /*text-align: center;*/
+    overflow: hidden;
 }
 
 .menu .avatar img {
     width: 50px;
     border-radius: 50%;
-    overflow: hidden;
+    position: fixed;
+    /*overflow: hidden;*/
+    display: inline-block;
     box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
 }
 
@@ -412,12 +426,14 @@ main {
 }
 
 .menu .avatar h2 {
-    width: 200px;
-    font-size: 20px;
-    padding-top: 10px;
+    width: 135px;
+    font-size: 18px;
+    padding-left: 70px;
+    font-weight: normal;
     margin: 0;
     color: white;
     word-wrap: break-word;
+    display: inline-block;
 }
 
 .menu ul {
@@ -456,6 +472,10 @@ main {
     background-image: url("../img/icons/calendar\ \(1\).png");
 }
 
+.menu ul li.icon-upload {
+    background-image: url("../img/icons/upload.png");
+}
+
 .menu ul li.icon-notifications {
     background-image: url("../img/icons/notification.png");
 }
@@ -476,7 +496,7 @@ main {
     outline: none;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 900px) {
     body {
         padding-left: 0;
     }
@@ -532,8 +552,7 @@ main {
     }*/
 }
 
-
-/*@media screen and (max-width: 900px) and (min-width: 400px) {
+@media screen and (min-width: 900px) {
     body {
         padding-left: 90px;
     }
@@ -564,7 +583,7 @@ main {
         transform: translate3d(0px, -50%, 0);
     }
     .menu ul li {
-        height: 60px;
+        height: 30px;
         background-position: center center;
         background-size: 30px auto;
         position: relative;
@@ -575,6 +594,7 @@ main {
         background: rgba(0, 0, 0, 0.5);
         padding: 0.2em 0.5em;
         border-radius: 4px;
+        min-width: 100px;
         top: 50%;
         left: 80px;
         transform: translate3d(-15px, -50%, 0);
@@ -596,7 +616,7 @@ main {
         opacity: 1;
         transform: translate3d(0px, -50%, 0);
     }
-}*/
+}
 
 .sec-title {
     text-transform: uppercase;
@@ -624,7 +644,7 @@ hr {
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: var(--popup-bg-color);
     transition: opacity 500ms;
     visibility: hidden;
     opacity: 0;
@@ -670,4 +690,12 @@ hr {
 .popup .content {
     max-height: 30%;
     overflow: auto;
+}
+
+#close-popup {
+    background-color: var(--header-color);
+}
+
+.center {
+    text-align: center;
 }

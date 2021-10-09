@@ -123,6 +123,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function PersistentDrawerLeft(props) {
+  const rememberMe = localStorage.getItem('rememberMe') === 'true';
+  const user = rememberMe ? localStorage.getItem('user') : '';
   const history = useHistory();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -175,7 +177,7 @@ export default function PersistentDrawerLeft(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>User: {user}</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );

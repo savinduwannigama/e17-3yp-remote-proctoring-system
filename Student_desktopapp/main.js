@@ -18,8 +18,8 @@ function createWindow() {
         width: 800,
         height: 480,
         minimizable: false,
-        maximizable: false,
-        resizable: false,
+        //maximizable: false,
+        //resizable: false,
         //movable: false,
         icon: "src/img/appicon3_YGz_icon.ico",
 
@@ -77,6 +77,7 @@ function createWindow() {
     ipc.on('dashboard', () => { mainWindow.loadFile('src/dashboard.html') })
     ipc.on('course', () => { mainWindow.loadFile('src/courses.html') })
     ipc.on('schedule', () => { mainWindow.loadFile('src/schedule.html') })
+    ipc.on('upload', () => { mainWindow.loadFile('src/upload.html') })
     ipc.on('notification', () => { mainWindow.loadFile('src/notifications.html') })
     ipc.on('settings', () => { mainWindow.loadFile('src/settings.html') })
     ipc.on('help', () => { mainWindow.loadFile('src/help.html') })
@@ -87,7 +88,9 @@ function createWindow() {
 
         await download(win, url, {
             filename: fileName + '.mp4',
-            directory: app.getAppPath() + '/src/recorded video',
+            directory: app.getAppPath() + '/src/recordedVideo',
+            showBadge: true,
+            overwrite: false,
             onCompleted: () => {
                 event.reply('done')
             }
