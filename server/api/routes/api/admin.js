@@ -18,11 +18,15 @@ const students = require('../../models/students');  // importing the mongoose mo
 const courses = require('../../models/courses');  // importing the mongoose model for the collection 'courses'
 const exams = require('../../models/exams');  // importing the mongoose model for the collection 'exams'
 const exam_rooms = require('../../models/exam_rooms');  // importing the mongoose model for the collection 'exam_rooms'
+const { findOneAndDelete } = require('../../models/proctors');
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const router = express.Router();
 
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
 
 /**
  * API calls to the admins collection
@@ -69,7 +73,7 @@ router.get('/admins/all', (req, res) => {
     .catch(err => res.status(400).json({status: 'failure', message: "Following error occured while trying to read all admins", error: String(err)}));
 });
 
-// reading an admin by id (own info to populate the page)
+// reading an admin by id (self info to populate the page)
 router.get('/admins/self/:id', (req, res) => {
     // const req_body = req.body;
     // console.log('Request body: ' + req_body);
@@ -82,7 +86,46 @@ router.get('/admins/self/:id', (req, res) => {
     .catch(err => res.status(400).json({status: 'failure', message: "Following error occured while trying to read self admin record", error: String(err)}));
 });
 
+// updating self info
+// front end has to send all the fields of the new entry (both updated and non updated fields)
+router.put('/admins/self/:id', (req, res) => {
+    admins.findById(req.params.id)
+    .then(admin => {
+        admin.name = req.body.name;
+        admin.email = req.body.email;
+        admin.role = req.body.role;
 
+        admin.save()
+        .then(() => res.json({status: 'success', message: 'Updated the admin info', updatedEntry: admin}))
+        .catch(err => res.json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: err}));
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to read self admin record", error: String(err)}));
+});
+
+// updating info of another admin
+// sends the email of the the updated admin as a request parameter
+// front end has to send all the fields of the new entry (both updated and non updated fields)
+router.put('/admins/other/:email', (req, res) => {
+    admins.findOne({email: req.params.email})
+    .then(admin => {
+        admin.name = req.body.name;
+        admin.email = req.body.email;
+        admin.role = req.body.role;
+
+        admin.save()    
+        .then(() => res.json({status: 'success', message: 'Updated the admin info', updatedEntry: admin}))
+        .catch(err => res.json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: err}));
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to read self admin record", error: String(err)}));
+});
+
+// deleting an admin
+// only the super-admin can call this
+// finds an admin by email and deletes
+router.delete('/admins/single/:email', (req, res) => {
+    admins.findOneAndDelete({email: req.params.email})
+    .then(deleted %)
+});
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
