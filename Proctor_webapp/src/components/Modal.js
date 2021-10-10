@@ -1,3 +1,9 @@
+/*
+Modal to display the content of an event in the calendar as a card
+
+*/
+
+
 import React from "react";
 import ReactDOM from "react-dom";
 import '../css/Modal.css'
@@ -34,6 +40,7 @@ class Modal extends React.Component{
           End : {this.props.einfo['end'].toString()}
           <br/>
           Url : <a href={this.props.einfo['url']} style={{color:'white'}}>{this.props.einfo['url']}</a>
+          
           <br/>
           <div className ="closebtn">
             <ThemeProvider theme={theme}>
