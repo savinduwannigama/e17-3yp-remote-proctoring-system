@@ -12,6 +12,7 @@ import Schedule from './components/Schedule';
 import Courses from './components/Courses';
 import Settings from './components/Settings';
 import Help from './components/Help';
+import Meeting from './components/Meeting';
 
 function App() {
   return (
@@ -56,6 +57,10 @@ function App() {
 
           <Route path="/help" exact>
             <Help/>
+          </Route>
+
+          <Route path="/meeting" exact>
+            <Meeting/>
           </Route>
         </Switch>
       </Router>
