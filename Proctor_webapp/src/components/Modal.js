@@ -4,7 +4,17 @@ import '../css/Modal.css'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
+import { createTheme,ThemeProvider } from '@mui/material/styles';
+const theme = createTheme({
+  
+  palette: {
+    
+    neutral: {
+      main: '#006666',
+      contrastText: '#fff',
+    },
+  },
+});
 
 class Modal extends React.Component{
   constructor(props){
@@ -26,7 +36,9 @@ class Modal extends React.Component{
           Url : <a href={this.props.einfo['url']} style={{color:'white'}}>{this.props.einfo['url']}</a>
           <br/>
           <div className ="closebtn">
-          <Button size="small" onClick={this.props.close} sx={{bgcolor:"white",color:'#006666',margin:'auto'}}>CLOSE</Button>
+            <ThemeProvider theme={theme}>
+          <Button color= "neutral" size="small" variant="contained" onClick={this.props.close} sx={{bgcolor:"white",color:'#006666',margin:'auto'}}>CLOSE</Button>
+          </ThemeProvider>
           </div>
           </CardContent>
           </Card>
