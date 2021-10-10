@@ -19,8 +19,8 @@ class JitsiComponent extends Component {
 
     startMeet = () => {
         const options = {
-            roomName: this.state.room,
-            
+            //roomName: this.state.room,
+            roomName: this.props.name,
             height:'500px',
             configOverwrite: { prejoinPageEnabled: false },
             interfaceConfigOverwrite: {
