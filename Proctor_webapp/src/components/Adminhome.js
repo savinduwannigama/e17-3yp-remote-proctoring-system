@@ -13,15 +13,15 @@ function adminhome() {
             <h3>Please upload the relevant files in CSV format.</h3>
             <Box  sx={{ justifyContent:"center", display: 'flex','& > *': { m: 1,}}} >
             <ButtonGroup  orientation="vertical">
-            <Adminbtn btnname="Add MasterSheet" value="mastersheet" />
+            <Adminbtn btnname="Add MasterSheet" value="mastersheet" url="exams/mastersheet" />
             
             </ButtonGroup>
             <ButtonGroup  orientation="vertical">
-            <Adminbtn btnname="Add courses" value="courses" />
+            <Adminbtn btnname="Add courses" value="courses" url="courses/mastersheet"/>
             
             </ButtonGroup>
             <ButtonGroup  orientation="vertical">
-            <Adminbtn btnname="Add students" value="students" />
+            <Adminbtn btnname="Add students" value="students" url="students/multiple"/>
             
             </ButtonGroup>
             <ButtonGroup  orientation="vertical">
