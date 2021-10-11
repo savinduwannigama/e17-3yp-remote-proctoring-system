@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
 // const app = express();
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
 
@@ -16,6 +16,17 @@ const mongoose = require('mongoose');
  * https://mongoosejs.com/docs/models.html#:~:text=If%20you%20create%20a-,custom%20connection,-%2C%20use%20that%20connection%27s
  */
 mongoose.connect('mongodb://localhost:27017/remote_proctoring_system');
+
+////////////////////////////////
+// to connect to atlas mongoDB
+////////////////////////////////
+// // DB config
+// const db = require('./config/keys').MongoURI
+
+// // connect to mongoDB II
+// mongoose.connect(db, {useNewUrlParser: true})
+// .then(() => console.log('Connected to atlas MongoDB...'))
+// .catch(err => console.log(err));
 
 // importing the modules containing the routers  (can also straight awa require as the second argument of app.use())
 var indexRouter = require('./routes/index');
@@ -53,6 +64,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // app.use(bodyParser.json());  // BODY PARSER
+// app.use(express.urlencoded({ extended: false }));
 
 /////////////////////////////////////////////////////////////////////////////////
 // insert the routes here

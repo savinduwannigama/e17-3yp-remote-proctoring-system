@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 // importing the mongoose models ///////////////////////////////////////////////////////////////////////////////
 
@@ -23,6 +24,73 @@ const { findOneAndDelete } = require('../../models/proctors');
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const router = express.Router();
+
+
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+/**
+ * API calls for registration
+ * admin emails and detailt will be added by the super-admin
+ * when astudent tries to register --> check DB for given email
+ * if email exists --> astudent can add a password of his/her choice.
+ * astudent setting a password is considered as registering
+ */
+
+// API call to register proctor
+router.post('/register', (req, res) => {
+    const {email, password0, password1} = req.body;
+
+    // let errors = [];
+
+    // checking of required fields is done by the frontend
+
+    // checking this just incase because suri is dumb
+    if(password0 != password1) {
+        // errors.push({msg: 'Passwords do not match'});
+        res.status(400).json({status: 'failure', message: 'Entered passwords do not match'})  // CHECK THE STATUS CODE
+    }
+    else {
+        // validation passed
+        admins.findOne({email})  // finds the admin by email
+        .then(admin => {
+            if(admin) {  // given email exists as a admin
+                // checks whether the email is set or not. to check whether the admin has already registered or not
+                if(admin.password == '') {  // admin not yet register
+                    bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(password0, salt, (err, hash) => {
+                            if(err) throw err;  // HANDLE WHAT HAPPENS HERE
+                            // setting admin's password to hashed value
+                            admin.password = hash;
+                            // saving the admin with the new password hash
+                            admin.save()
+                            .then(() => {
+                                // success
+                                res.json({status: 'success', message: 'Admin is now registered'});
+                            })
+                            .catch(err => {
+                                res.status(400).json({status: 'failure', message: 'Error occured while trying to save the password hash', error: String(err)})  // CHECK THE STATUS CODE
+                            }); 
+                        })
+                    })
+                }
+                else {  // admin has already registered
+                    res.status(400).json({status: 'failure', message: 'Admin has already been registered'})  // CHECK THE STATUS CODE
+                }
+
+            }
+            else {  // no user with the given email is entered as a admin by the admin
+                res.status(400).json({status: 'failure', message: 'The email has not been assigned as a admin by the super-admin'})  // CHECK THE STATUS CODE
+            }
+        })
+        .catch(err => {
+            res.status(400).json({status: 'failure', message: 'Error occured while trying to find the admin with the given email', error: String(err)})  // CHECK THE STATUS CODE
+        });
+    }
+
+});
+
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -344,7 +412,46 @@ router.get('/proctors/all', (req, res) => {
     .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find all proctors', error: String(err)}));
 });
 
+// updating info of a single proctor
+// sends the email of the the updated proctor as a request parameter
+// front end has to send all the fields of the new entry (both updated and non updated fields)
+router.put('/proctors/single/:email', (req, res) => {
+    proctors.findOne({email: req.params.email})
+    .then(proctor => {
+        proctor.name = req.body.name;
+        proctor.email = req.body.email;
 
+        proctor.save()    
+        .then(() => res.json({status: 'success', message: 'Updated the proctor info', updatedEntry: proctor}))
+        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: String(err)}));
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find the proctor record", error: String(err)}));
+});
+
+// deleting a single proctor
+// sends the email of the the updated proctor as a request parameter
+router.delete('/proctors/single/:email', (req, res) => {
+    proctors.findOneAndDelete({email: req.params.email})
+    .then(deleted => {
+        if(deleted == null)
+            res.status(400).json({status: 'failure', message: 'Proctor with given email does not exist'});
+        else
+            res.json({status: 'success', message: 'Deleted proctor', deletedEntry: deleted});
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete proctor", error: String(err)}));
+});
+
+// deleting all proctors
+// only the super-admin can call this
+router.delete('/proctors/all', (req, res) => {
+    proctors.find()
+    .then(result => {
+        proctors.deleteMany({})  // expected to delete all the proctors
+        .then(deleted => res.json({status: 'success', message: 'Deleted all the proctors', deleted, deletedEntry: result}))  // TRY GIVING DELETED INSTEAD OF RESULT
+        .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete all proctors", error: String(err)}));
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find all the proctors", error: String(err)}));
+});
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -456,7 +563,7 @@ router.put('/courses/single/:shortname', (req, res) => {
         course.lecturers = req.body.lecturers;  // this will be an array
         course.students = req.body.students;  // this will be an array
         // hasExam field cannot be edited by the admin
-        
+
         course.save()    
         .then(() => res.json({status: 'success', message: 'Updated the course info', updatedEntry: course}))
         .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: String(err)}));
@@ -479,10 +586,10 @@ router.delete('/courses/single/:shortname', (req, res) => {
             else {
                 courses.findOneAndDelete({shortname: req.params.shortname})
                 .then(deleted => {
-                    if(deleted == null)
-                        res.status(400).json({status: 'failure', message: 'Course with given shortname does not exist'});
-                    else
-                        res.json({status: 'success', message: 'Deleted course', deletedEntry: deleted});
+                    // if(deleted == null)
+                    //     res.status(400).json({status: 'failure', message: 'Course with given shortname does not exist'});
+                    // else
+                    res.json({status: 'success', message: 'Deleted course', deletedEntry: deleted});
                 })
                 .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete course", error: String(err)}));
             }
@@ -494,7 +601,8 @@ router.delete('/courses/single/:shortname', (req, res) => {
 // deleting all courses
 // only the super-admin can call this
 router.delete('/courses/all', (req, res) => {
-    exams.findOne()
+    // checks whether there's atleast one exam --> if so cannot delete all courses
+    exams.findOne()  
     .then(result => {
         if(result == null) {
             courses.find()
@@ -782,6 +890,39 @@ router.get('/exams/all', (req, res) => {
     .then(result => res.json(result))
     .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find all exams', error: String(err) }));
 });
+
+// deleting a single exam
+// sends the shortname of the the updated course as a request parameter
+router.delete('/exams/single/:name', (req, res) => {
+    // console.log(req.params.name);
+    exams.findOneAndDelete({name: req.params.name})
+    .then(deleted => {
+        if(deleted == null)
+            res.status(400).json({status: 'failure', message: 'Exam with given shortname does not exist'});
+        else {
+            // deleting the exam rooms of the deleted exam
+            exam_rooms.deleteMany({exam: deleted.name})
+            .then(deleteCount => {
+                // changing the hasExam = false for the relevant course f the deleted exam
+                courses.findOne({shortname: deleted.course})
+                .then(course => {
+                    course.hasExam = false
+
+                    course.save()    
+                    .then(() => {
+                        console.log(course.shortname + '.hasExam set to false after deleting the exam');
+                        res.json({status: 'success', message: 'Deleted exam, deleted relevant exam rooms and hasExam of relevant course set to false', deletedExamEntry: deleted, numberOfExamRoomsDeleted: deleteCount});
+                    })
+                    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to set hasExam of course to false', error: String(err)}));
+                })
+                .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find the course relevant to the deleted exam", error: String(err)}));
+            })
+            .catch(err => res.status(400).json({status: 'failure', message: 'Deleted the exam, but error occured while trying to delete relevant exam rooms', error: String(err) }));
+        }
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to delete exam", error: String(err)}));   
+});
+
 
 
 ////////////////////////////////////////////////////////////////////

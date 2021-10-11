@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 // importing the mongoose models ///////////////////////////////////////////////////////////////////////////////
 
@@ -44,6 +45,72 @@ const router = express.Router();
 // });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+/**
+ * API calls for registration
+ * proctor emails and detailt will be added by the admin
+ * when procor tries to register --> check DB for given email
+ * if email exists --> proctor can add a password of his/her choice.
+ * proctor setting a password is considered as registering
+ */
+
+// API call to register proctor
+router.post('/register', (req, res) => {
+    const {email, password0, password1} = req.body;
+
+    // let errors = [];
+
+    // checking of required fields is done by the frontend
+
+    // checking this just incase because suri is dumb
+    if(password0 != password1) {
+        // errors.push({msg: 'Passwords do not match'});
+        res.status(400).json({status: 'failure', message: 'Entered passwords do not match'})  // CHECK THE STATUS CODE
+    }
+    else {
+        // validation passed
+        proctors.findOne({email})  // finds the proctor by email
+        .then(proctor => {
+            if(proctor) {  // given email exists as a proctor
+                // checks whether the email is set or not. to check whether the proctor has already registered or not
+                if(proctor.password == '') {  // proctor not yet register
+                    bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(password0, salt, (err, hash) => {
+                            if(err) throw err;  // HANDLE WHAT HAPPENS HERE
+                            // setting proctor's password to hashed value
+                            proctor.password = hash;
+                            // saving the proctor with the new password hash
+                            proctor.save()
+                            .then(() => {
+                                // success
+                                res.json({status: 'success', message: 'Proctor is now registered'});
+                            })
+                            .catch(err => {
+                                res.status(400).json({status: 'failure', message: 'Error occured while trying to save the password hash', error: String(err)})  // CHECK THE STATUS CODE
+                            }); 
+                        })
+                    })
+                }
+                else {  // proctor has already registered
+                    res.status(400).json({status: 'failure', message: 'Proctor has already been registered'})  // CHECK THE STATUS CODE
+                }
+
+            }
+            else {  // no user with the given email is entered as a proctor by the admin
+                res.status(400).json({status: 'failure', message: 'The email has not been assigned as a proctor by the admin'})  // CHECK THE STATUS CODE
+            }
+        })
+        .catch(err => {
+            res.status(400).json({status: 'failure', message: 'Error occured while trying to find the proctor with the given email', error: String(err)})  // CHECK THE STATUS CODE
+        });
+    }
+
+});
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 // API s for the login page
 /**
@@ -64,25 +131,6 @@ const router = express.Router();
  * proctor can only read exams
  * proctor can only read scheduled exams which he/she proctors
  */
-
-// // scheduling and exam (REDUNDANT --> in admin.js)
-// router.post('/exams', async (req, res) => {
-//     /**
-//      * add code to add a new exam to the database
-//      * add a auto generated id 
-//      * have to generate a URL/link for the meeting and store in the database
-//      */
-
-//     const record = req.body;
-//     console.log('Request body: ' + record);
-
-//     const response = await exams.create(record);  // response is the return value from mongoDB
-//     console.log('Created new exam: ' + response);
-
-//     res.json({status: 'Addded new exam schedule'});  // response after succcesfully creating a new exam schedule
-     
-// });
-
 
 // to get acheduled exams relevant to the proctor
 // response --> {chief_invigilating_exams: [[{exam_room}, {exam}], [], ..., []], invigilating_exams: [[{exam_room}, {exam}], [], ..., []]}
@@ -173,16 +221,6 @@ router.get('/exams/self/:id', (req, res) => {
     });
 });
 
-// // to edit a schedules exam
-// router.put('/examschedule/:id', (req, res) => {
-//     /**
-//      * check if the schedule with the given id exists
-//      * edit the schedule in the database
-//      */
-//     //redirect to the home page
-//      res.redirect('/*path of the home page*/');  
-// });
-
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -243,7 +281,7 @@ router.get('/courses/self/:id', (req, res) => {
                 .catch(err => {
                     console.log("Error occured while trying to find the exam of the given exam_room (chief invigilating)");
                     // returns from the entire API call sending the error as the response
-                    return res.json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room (chief invigilating)', error: String(err)});
+                    return res.status(400).json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room (chief invigilating)', error: String(err)});
                 });
                 // // adding the array [exam_room, exam] as an element to the returning array
                 // chief_invigilating_exams.push(tempArray);
@@ -254,7 +292,7 @@ router.get('/courses/self/:id', (req, res) => {
         })
         .catch(err => {
             console.log("Error occured while trying to find the exam_rooms for the given proctor name (chief invigilating)");
-            res.json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name (chief invigilating)', error: String(err)});
+            res.status(400).json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name (chief invigilating)', error: String(err)});
         });
 
         //////// getting the invigilating rooms
@@ -278,7 +316,7 @@ router.get('/courses/self/:id', (req, res) => {
                 .catch(err => {
                     console.log("Error occured while trying to find the exam of the given exam_room (invigilating)");
                     // returns from the entire API call sending the error as the response
-                    return res.json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room (invigilating)', error: String(err)});
+                    return res.status(400).json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room (invigilating)', error: String(err)});
                 });
                 // // adding the array [exam_room, exam] as an element to the returning array
                 // invigilating_exams.push(tempArray);
@@ -289,7 +327,7 @@ router.get('/courses/self/:id', (req, res) => {
         })
         .catch(err => {
             console.log("Error occured while trying to find the exam_rooms for the given proctor name (invigilating)");
-            res.json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name (invigilating)', error: String(err)});
+            res.status(400).json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name (invigilating)', error: String(err)});
         });
 
         // sending the succeess response to the user
@@ -298,7 +336,7 @@ router.get('/courses/self/:id', (req, res) => {
     })
     .catch(err => {
         console.log("Error occured while trying to find the proctor name from given ID");
-        res.json({status: 'failure', message: 'Error occured while trying to find the proctor name from given ID', error: String(err)});
+        res.status(400).json({status: 'failure', message: 'Error occured while trying to find the proctor name from given ID', error: String(err)});
     });
 });
 
@@ -331,6 +369,7 @@ router.get('/courses/self/:id', (req, res) => {
 /**
  * API calls to the proctors collection
  */
+
 // to read own student data (SELF)
 router.get('/proctors/self/:id', (req, res) => {
     // const req_body = req.body;
@@ -341,7 +380,21 @@ router.get('/proctors/self/:id', (req, res) => {
 
     proctors.findById(req.params.id)
     .then(result => res.json(result))
-    .catch(err => res.status(400).json("Error : " +err ));
+    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find the proctor from given ID', error: String(err)}));
+});
+
+// API call to update self info
+router.put('/proctors/self/:id', (req, res) => {
+    proctors.findById(req.params.id)
+    .then(proctor => {
+        proctor.name = req.body.name;
+        proctor.email = req.body.email;
+
+        proctor.save()
+        .then(() => res.json({status: 'success', message: 'Updated the proctor info', updatedEntry: proctor}))
+        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: String(err)}));
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to read self proctor record", error: String(err)}));
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
