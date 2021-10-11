@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 // importing the mongoose models ///////////////////////////////////////////////////////////////////////////////
 
@@ -46,6 +47,72 @@ const router = express.Router();
 //     // redirecting to the login page after a successful registration
 //     // res.redirect('/*path of the page to redirect to after regitering */'); 
 // });
+
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+/**
+ * API calls for registration
+ * astudent emails and detailt will be added by the admin
+ * when astudent tries to register --> check DB for given email
+ * if email exists --> astudent can add a password of his/her choice.
+ * student setting a password is considered as registering
+ */
+
+// API call to register student
+router.post('/register', (req, res) => {
+    const {email, password0, password1} = req.body;
+
+    // let errors = [];
+
+    // checking of required fields is done by the frontend
+
+    // checking this just incase because suri is dumb
+    if(password0 != password1) {
+        // errors.push({msg: 'Passwords do not match'});
+        res.status(400).json({status: 'failure', message: 'Entered passwords do not match'})  // CHECK THE STATUS CODE
+    }
+    else {
+        // validation passed
+        students.findOne({email})  // finds the student by email
+        .then(student => {
+            if(student) {  // given email exists as a student
+                // checks whether the email is set or not. to check whether the student has already registered or not
+                if(student.password == '') {  // student not yet register
+                    bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(password0, salt, (err, hash) => {
+                            if(err) throw err;  // HANDLE WHAT HAPPENS HERE
+                            // setting student's password to hashed value
+                            student.password = hash;
+                            // saving the student with the new password hash
+                            student.save()
+                            .then(() => {
+                                // success
+                                res.json({status: 'success', message: 'Student is now registered'});
+                            })
+                            .catch(err => {
+                                res.status(400).json({status: 'failure', message: 'Error occured while trying to save the password hash', error: String(err)})  // CHECK THE STATUS CODE
+                            }); 
+                        })
+                    })
+                }
+                else {  // student has already registered
+                    res.status(400).json({status: 'failure', message: 'Student has already been registered'})  // CHECK THE STATUS CODE
+                }
+
+            }
+            else {  // no user with the given email is entered as a student by the admin
+                res.status(400).json({status: 'failure', message: 'The email has not been assigned as a student by the admin'})  // CHECK THE STATUS CODE
+            }
+        })
+        .catch(err => {
+            res.status(400).json({status: 'failure', message: 'Error occured while trying to find the student with the given email', error: String(err)})  // CHECK THE STATUS CODE
+        });
+    }
+
+});
+
 
 
 ////////////////////////////////////////////////////////////////////

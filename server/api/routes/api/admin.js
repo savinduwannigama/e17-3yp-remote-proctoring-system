@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 // importing the mongoose models ///////////////////////////////////////////////////////////////////////////////
 
@@ -23,6 +24,73 @@ const { findOneAndDelete } = require('../../models/proctors');
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const router = express.Router();
+
+
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+/**
+ * API calls for registration
+ * admin emails and detailt will be added by the super-admin
+ * when astudent tries to register --> check DB for given email
+ * if email exists --> astudent can add a password of his/her choice.
+ * astudent setting a password is considered as registering
+ */
+
+// API call to register proctor
+router.post('/register', (req, res) => {
+    const {email, password0, password1} = req.body;
+
+    // let errors = [];
+
+    // checking of required fields is done by the frontend
+
+    // checking this just incase because suri is dumb
+    if(password0 != password1) {
+        // errors.push({msg: 'Passwords do not match'});
+        res.status(400).json({status: 'failure', message: 'Entered passwords do not match'})  // CHECK THE STATUS CODE
+    }
+    else {
+        // validation passed
+        admins.findOne({email})  // finds the admin by email
+        .then(admin => {
+            if(admin) {  // given email exists as a admin
+                // checks whether the email is set or not. to check whether the admin has already registered or not
+                if(admin.password == '') {  // admin not yet register
+                    bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(password0, salt, (err, hash) => {
+                            if(err) throw err;  // HANDLE WHAT HAPPENS HERE
+                            // setting admin's password to hashed value
+                            admin.password = hash;
+                            // saving the admin with the new password hash
+                            admin.save()
+                            .then(() => {
+                                // success
+                                res.json({status: 'success', message: 'Admin is now registered'});
+                            })
+                            .catch(err => {
+                                res.status(400).json({status: 'failure', message: 'Error occured while trying to save the password hash', error: String(err)})  // CHECK THE STATUS CODE
+                            }); 
+                        })
+                    })
+                }
+                else {  // admin has already registered
+                    res.status(400).json({status: 'failure', message: 'Admin has already been registered'})  // CHECK THE STATUS CODE
+                }
+
+            }
+            else {  // no user with the given email is entered as a admin by the admin
+                res.status(400).json({status: 'failure', message: 'The email has not been assigned as a admin by the super-admin'})  // CHECK THE STATUS CODE
+            }
+        })
+        .catch(err => {
+            res.status(400).json({status: 'failure', message: 'Error occured while trying to find the admin with the given email', error: String(err)})  // CHECK THE STATUS CODE
+        });
+    }
+
+});
+
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////

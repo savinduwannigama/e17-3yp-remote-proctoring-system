@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 // importing the mongoose models ///////////////////////////////////////////////////////////////////////////////
 
@@ -51,22 +52,61 @@ const router = express.Router();
 
 /**
  * API calls for registration
+ * proctor emails and detailt will be added by the admin
+ * when procor tries to register --> check DB for given email
+ * if email exists --> proctor can add a password of his/her choice.
+ * proctor setting a password is considered as registering
  */
 
 // API call to register proctor
 router.post('/register', (req, res) => {
     const {email, password0, password1} = req.body;
 
-    let errors = [];
+    // let errors = [];
 
     // checking of required fields is done by the frontend
 
     // checking this just incase because suri is dumb
     if(password0 != password1) {
-        errors.push({msg: 'Passwords do not match'});
+        // errors.push({msg: 'Passwords do not match'});
+        res.status(400).json({status: 'failure', message: 'Entered passwords do not match'})  // CHECK THE STATUS CODE
     }
     else {
-        
+        // validation passed
+        proctors.findOne({email})  // finds the proctor by email
+        .then(proctor => {
+            if(proctor) {  // given email exists as a proctor
+                // checks whether the email is set or not. to check whether the proctor has already registered or not
+                if(proctor.password == '') {  // proctor not yet register
+                    bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(password0, salt, (err, hash) => {
+                            if(err) throw err;  // HANDLE WHAT HAPPENS HERE
+                            // setting proctor's password to hashed value
+                            proctor.password = hash;
+                            // saving the proctor with the new password hash
+                            proctor.save()
+                            .then(() => {
+                                // success
+                                res.json({status: 'success', message: 'Proctor is now registered'});
+                            })
+                            .catch(err => {
+                                res.status(400).json({status: 'failure', message: 'Error occured while trying to save the password hash', error: String(err)})  // CHECK THE STATUS CODE
+                            }); 
+                        })
+                    })
+                }
+                else {  // proctor has already registered
+                    res.status(400).json({status: 'failure', message: 'Proctor has already been registered'})  // CHECK THE STATUS CODE
+                }
+
+            }
+            else {  // no user with the given email is entered as a proctor by the admin
+                res.status(400).json({status: 'failure', message: 'The email has not been assigned as a proctor by the admin'})  // CHECK THE STATUS CODE
+            }
+        })
+        .catch(err => {
+            res.status(400).json({status: 'failure', message: 'Error occured while trying to find the proctor with the given email', error: String(err)})  // CHECK THE STATUS CODE
+        });
     }
 
 });

@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const adminsSchema = new mongoose.Schema({
     name: {type: String, required: true},
     email: {type: String, required: true, unique: true},  // student names and emails are required
+    password: {type: String, default: ''},
     role: {type: String, required: true}
 
 }, {collection: 'admins'})
