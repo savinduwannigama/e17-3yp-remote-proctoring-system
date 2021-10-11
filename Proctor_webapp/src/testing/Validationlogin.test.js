@@ -70,7 +70,7 @@ describe("login",()=>{
         const pwdError = getByText("Please add at least 8 charachters");
         expect(pwdError).toBeInTheDocument();
 
-        //case 2: doesnot contain letters
+        //case 2: doesnot contain letters 
         fireEvent.change(passwordInputNode,{target:{value:"12345678"}});
         fireEvent.click(button);
         const pwdError2 = getByText("Password should contain at least one letter");
