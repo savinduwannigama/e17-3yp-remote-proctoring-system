@@ -17,6 +17,17 @@ const mongoose = require('mongoose');
  */
 mongoose.connect('mongodb://localhost:27017/remote_proctoring_system');
 
+////////////////////////////////
+// to connect to atlas mongoDB
+////////////////////////////////
+// // DB config
+// const db = require('./config/keys').MongoURI
+
+// // connect to mongoDB II
+// mongoose.connect(db, {useNewUrlParser: true})
+// .then(() => console.log('Connected to atlas MongoDB...'))
+// .catch(err => console.log(err));
+
 // importing the modules containing the routers  (can also straight awa require as the second argument of app.use())
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -53,7 +64,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // app.use(bodyParser.json());  // BODY PARSER
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.urlencoded({ extended: false }));
 
 /////////////////////////////////////////////////////////////////////////////////
 // insert the routes here
