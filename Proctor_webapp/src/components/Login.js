@@ -15,7 +15,7 @@ function Login ()  {
       setName(response.profileObj.name);
       /*setEmail(response.profileObj.email);
       setUrl(response.profileObj.imageUrl);*/
-      history.push("/adminhome")
+      history.push("/home")
      }
     const failureHandle = (response) => {
       setName("Authorization Unsuccessfull!");
