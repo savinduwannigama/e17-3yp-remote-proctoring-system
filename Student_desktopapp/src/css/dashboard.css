@@ -18,9 +18,13 @@
     padding-top: 5px;
     padding-bottom: 5px;
     margin: 3px;
-    border-radius: 7px;
+    border-radius: 5px;
     font-size: 15px;
     cursor: pointer;
+}
+
+.exams li:before {
+    content: '\1F4CC';
 }
 
 .exams li p {
@@ -29,18 +33,19 @@
 }
 
 .exams li:nth-child(2n+1) {
-    background-color: rgba(85, 158, 221, 0.74);
-    ;
+    background-color: var(--main-color1);
 }
 
 .exams li:nth-child(2n+2) {
-    background-color: rgba(116, 109, 217, 0.58);
-    ;
+    background-color: var(--main-color2);
 }
+
+
+/********** exam details ***************/
 
 .details {
     text-align: left;
-    padding: 10px;
+    padding: 20px;
     width: 50%;
 }
 
@@ -53,9 +58,17 @@
 }
 
 #examstatus {
-    color: rgb(189, 30, 30);
+    color: rgb(212, 36, 36);
 }
 
 .sec-title {
     font-size: 20px!important;
+}
+
+#sec-title-box {
+    border: 0px;
+    padding: 10px;
+    border-radius: 3px;
+    width: 50%;
+    background-color: var(--main-color1);
 }
