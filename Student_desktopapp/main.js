@@ -12,6 +12,32 @@ const path = require('path')
 const { download } = require("electron-dl");
 const ipc = ipcMain
 
+
+const { google } = require('googleapis');
+//const path = require('path');
+const fs = require('fs');
+
+const CLIENT_ID = '541047315053-7bibru42slsvqs7pbg6gjg0o5udemasb.apps.googleusercontent.com';
+const CLIENT_SECRET = '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';
+const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
+
+const REFRESH_TOKEN = '1//04tZJFIBNTtPVCgYIARAAGAQSNwF-L9IrHhA9F1EffRHqqeRjErHm3WBoNjfpuYEG1Wkm0UdSLEowNhzl6vMOkAZqxWQfeGvtc-E';
+
+const oauth2Client = new google.auth.OAuth2(
+    CLIENT_ID,
+    CLIENT_SECRET,
+    REDIRECT_URI
+);
+
+oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+
+const drive = google.drive({
+    version: 'v3',
+    auth: oauth2Client,
+});
+
+
+
 function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
@@ -61,8 +87,8 @@ function createWindow() {
     });
 
 
-    mainWindow.setMenu(null)
-        // and load the index.html of the app.
+    mainWindow.setMenu(null);
+    // and load the index.html of the app.
     mainWindow.loadFile('src/loginpage.html')
 
     // Open the DevTools.
@@ -99,6 +125,12 @@ function createWindow() {
 
 
     });
+
+    ipc.on("googleDriveUpload", async(event, { fileName }) => {
+        uploadFile(event, fileName)
+    })
+
+
 
 
     const menu = new Menu()
@@ -146,3 +178,34 @@ app.on('window-all-closed', function() {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+
+
+async function uploadFile(event, file) {
+    try {
+        const filePath = path.join(__dirname, 'src/recordedVideo/' + file);
+        const response = await drive.files.create({
+            media: {
+                mimeType: 'application/octet-stream',
+                body: fs.createReadStream(filePath),
+                resumable: true,
+            },
+            resource: {
+                'name': file,
+                parents: ['1FXjMPKqJgJ88-UmKqgeLhd_8DyjeQ9nX']
+            },
+            fields: 'id'
+
+        });
+
+
+        console.log(response.data);
+        event.reply('done', {
+            errormsg: 'noError',
+        })
+    } catch (error) {
+        event.reply('done', {
+            errormsg: error.message,
+        })
+    }
+}
