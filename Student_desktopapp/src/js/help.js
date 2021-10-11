@@ -4,10 +4,11 @@ const {
 const ipc = ipcRenderer
 
 const date = require('date-and-time');
+var api;
 
 var record = false;
 /************* online offline array ***************/
-var roomInfoJSON = '{"name":"CO227-test"}';
+var roomInfoJSON = '{"name":"CO227-Test"}';
 var roomInfoArray = JSON.parse(roomInfoJSON);
 
 var offlineStart = -1,
@@ -74,9 +75,9 @@ goBack.addEventListener('click', () => {
 
 downloadButton.addEventListener('click', () => {
     downloadButton.disabled = true;
+    api.dispose();
     examdetails['endTime'] = date.format(new Date(), 'DD MMM YYYY HH-mm-ss');
-    status.style.background = "rgba(255, 0, 0, 0.678)";
-    status.innerHTML = "Please wait...";
+
     var time = date.format(new Date(), 'DD MMM YYYY HH_mm_ss');
     var participantName = localStorage.getItem("email")
     var name = participantName + " " + time;
@@ -97,6 +98,10 @@ downloadButton.addEventListener('click', () => {
                 type: 'video/mp4'
             });
             const url = window.URL.createObjectURL(blob);
+
+            status.innerHTML = "Video Saving...";
+            status.style.background = "rgba(255, 0, 0, 0.678)";
+
             ipc.send("download", {
                 url: url,
                 fileName: name
@@ -107,6 +112,8 @@ downloadButton.addEventListener('click', () => {
             })
 
         } else {
+            status.innerHTML = "Please wait...";
+            status.style.background = "rgba(255, 0, 0, 0.678)";
             ipc.send('dashboard');
         }
 
@@ -180,12 +187,13 @@ startButton.addEventListener('click', async() => {
             }
         },
         video: {
-            width: 1280,
-            height: 720
+            width: 640,
+            height: 360,
+            frameRate: { max: 10 },
         }
     };
     console.log('Using media constraints:', constraints);
-    const api = new JitsiMeetExternalAPI(domain, options);
+    api = new JitsiMeetExternalAPI(domain, options);
     await init(constraints);
     examdetails['startTime'] = date.format(new Date(), 'DD MMM YYYY HH-mm-ss')
 });

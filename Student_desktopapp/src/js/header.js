@@ -3,6 +3,7 @@ const ipc = ipcRenderer
 
 const date = require('date-and-time');
 
+
 const contextMenuBtn = document.getElementById("show_notifications")
 contextMenuBtn.addEventListener('click', () => {
     ipc.send('notification')
@@ -180,5 +181,6 @@ function closePopup() {
     a.click();
     setTimeout(() => {
         document.body.removeChild(a);
-    }, 100);
+        location.reload();
+    }, 200);
 }
