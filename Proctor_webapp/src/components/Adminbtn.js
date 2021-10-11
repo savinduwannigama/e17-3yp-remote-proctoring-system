@@ -31,6 +31,7 @@ export default class Adminbtn extends React.Component {
     this.upload= "Upload ";
     this.id = props.value;
     this.btnname = props.btnname;
+    this.path = props.url;
     this.state = {
       selectedFile: undefined,
       FileName: "No File Selected",
@@ -55,6 +56,8 @@ export default class Adminbtn extends React.Component {
     
     const fd = new FormData();
     const name = this.id;
+    //Add the path dynamically by appending this.id
+    const url = `http://localhost:5000/api/admin/${this.path}`
     fd.append(this.id, this.state.selectedFile,this.state.selectedFile.name);
     Papa.parse(this.state.selectedFile, 
       {
@@ -71,7 +74,7 @@ export default class Adminbtn extends React.Component {
             console.log(pair[0]+":"+pair[1])
         }*/
         //after conversion send the fd to the server
-        axios.post('https://moodle-51262-0.cloudclusters.net/', value,{
+        axios.post(url, value,{
           headers: {
             // Overwrite Axios's automatically set Content-Type
             'Content-Type': 'application/json'
