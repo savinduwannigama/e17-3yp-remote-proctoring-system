@@ -139,7 +139,7 @@ class Validationlogin extends React.Component {
       else if ( input["password"] !== "") {
         if(input["password"].length < 8){
             isValid = false;
-            errors["password"] = "Please add at least 8 charachters";
+            errors["password"] = "Please add at least 8 characters";
         }
         else if (input["password"].search(/[a-z]/i) < 0) {
           isValid = false;
