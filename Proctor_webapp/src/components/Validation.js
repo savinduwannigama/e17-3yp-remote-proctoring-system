@@ -31,8 +31,8 @@ class Validation extends React.Component {
     constructor() {
     super();
     this.state = {
-      input: {},
-      errors: {},
+      input: {'email':'','password':'','confirm_password':''},
+      errors: {'email':'','password':'','confirm_password':''},
       amount: '',
       password: '',
       weight: '',
@@ -60,7 +60,7 @@ class Validation extends React.Component {
     event.preventDefault();
   
     if(this.validate()){
-        console.log(this.state);
+        //console.log(this.state);
   
         let input = {};
         
@@ -92,43 +92,53 @@ class Validation extends React.Component {
       let isValid = true;
    
       
-      if (!input["email"]) {
+      if (input["email"]==='') {
         isValid = false;
-        errors["email"] = "Please enter your email Address.";
+        errors["email"] = "Please enter your email Address";
       }
   
-      if (typeof input["email"] !== "undefined") {
+      else if ( input["email"] !== "") {
           
         var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
         if (!pattern.test(input["email"])) {
           isValid = false;
-          errors["email"] = "Please enter valid email address.";
+          errors["email"] = "Please enter a valid email address";
         }
       }
   
-      if (!input["password"]) {
+      if (input["password"]==='') {
         isValid = false;
-        errors["password"] = "Please enter your password.";
+        errors["password"] = "Please enter your password";
       }
   
-      if (!input["confirm_password"]) {
+      if (input["confirm_password"]==='') {
         isValid = false;
-        errors["confirm_password"] = "Please enter your confirm password.";
+        errors["confirm_password"] = "Please confirm your password";
       }
   
-      if (typeof input["password"] !== "undefined") {
-        if(input["password"].length < 6){
+      if (input["password"] !== "") {
+        if(input["password"].length < 8){
             isValid = false;
-            errors["password"] = "Please add at least 6 charachter.";
+            errors["password"] = "Please add at least 8 characters";
+        }
+        else if (input["password"].search(/[a-z]/i) < 0) {
+          isValid = false;
+          errors["password"] = "Password should contain at least one letter";
+          
+        }
+        else if (input["password"].search(/[0-9]/) < 0) {
+          isValid = false;
+          errors["password"] ="Password should contain at least one digit";
+          
         }
       }
   
-      if (typeof input["password"] !== "undefined" && typeof input["confirm_password"] !== "undefined") {
+      if ( input["password"] !== "" && input["confirm_password"] !== "") {
           
         if (input["password"] !== input["confirm_password"]) {
           isValid = false;
-          errors["password"] = "Passwords don't match.";
-          errors["confirm_password"] = "Passwords don't match."
+          errors["password"] = "Passwords don't match";
+          errors["confirm_password"] = "Passwords don't match"
         }
       }
   
@@ -169,7 +179,7 @@ class Validation extends React.Component {
           
             <TextField
             color="neutral"
-                id="input-with-icon-textfield" 
+                id="input" 
                 label="Password" 
                 type={this.state.showPassword ? 'text' : 'password'} 
                 name="password" 
@@ -199,13 +209,13 @@ class Validation extends React.Component {
             <TextField
             color="neutral"
                 id="input-with-icon-textfield" 
-                label="Password"  
+                label="Confirm-Password"  
                 type={this.state.showPassword ? 'text' : 'password'} 
                 name="confirm_password" 
                 value={this.state.input.confirm_password}
                 onChange={this.handleChange}
                 autoComplete="current-password"  
-                placeholder="Enter your password"
+                placeholder="Re-enter your password"
                 
                 size="small"
                 InputProps={{
