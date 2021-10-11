@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
 // const app = express();
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
 
@@ -53,6 +53,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // app.use(bodyParser.json());  // BODY PARSER
+app.use(express.urlencoded({ extended: false }));
 
 /////////////////////////////////////////////////////////////////////////////////
 // insert the routes here

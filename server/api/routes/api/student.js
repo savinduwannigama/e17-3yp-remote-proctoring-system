@@ -68,7 +68,22 @@ router.get('/students/self/:id', (req, res) => {
     .catch(err => res.status(400).json("Error : " +err ));
 });
 
+// API call to update self info
+router.put('/students/self/:id', (req, res) => {
+    students.findById(req.params.id)
+    .then(student => {
+        student.name = req.body.name;
+        student.regNo = req.body.regNo;
+        student.email = req.body.email;
+        student.department = req.body.department;    
+        student.device = req.body.device;    
 
+        student.save()
+        .then(() => res.json({status: 'success', message: 'Updated the student info', updatedEntry: student}))
+        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: String(err)}));
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to read self student record", error: String(err)}));
+});
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -77,6 +92,7 @@ router.get('/students/self/:id', (req, res) => {
  * API calls to the courses collection
  * student can only read courses
  * student can only read courses underwhich he/she has a scheduled exam
+ * response --> [{course}, {}, {}]
  */
 router.get('/courses/self/:id', (req, res) => {
     students.findById(req.params.id)
@@ -89,12 +105,12 @@ router.get('/courses/self/:id', (req, res) => {
         })
         .catch(err => {
             console.log("Error occured while trying to find the student regNo in courses.students");
-            res.json({status: 'failure', message: 'Error occured while trying to find the student regNo in courses.students', error: String(err)});
+            res.status(400).json({status: 'failure', message: 'Error occured while trying to find the student regNo in courses.students', error: String(err)});
         });
     })
     .catch(err => {
         console.log("Error occured while trying to find the student RegNo from given ID");
-        res.json({status: 'failure', message: 'Error occured while trying to find the student RegNo from given ID', error: String(err)});
+        res.status(400).json({status: 'failure', message: 'Error occured while trying to find the student RegNo from given ID', error: String(err)});
     });
 });
 
@@ -110,42 +126,62 @@ router.get('/courses/self/:id', (req, res) => {
   */
  // call to get student's exams
  // response --> {retArray: [[{exam_room}, {exam}], [], ..., []]}
-  router.get('/exam/self/:id', (req, res) => {
-    students.findById(req.params.id)
-    .then(async result1 => {
+  router.get('/exams/self/:id', (req, res) => {
+    const retArray = [];
+    students.findById(req.params.id)  // the student with the given id will always be in the students collection
+    .then(result1 => {
+        // console.log('result1.regNo: ' + result1.regNo);
         // const StudentRegNo = result1.regNo;
-        await exam_rooms.find({room_students: result1.regNo})
+        exam_rooms.find({"room_students.regNo": result1.regNo})
         .then(result2 => {
-            const retArray = [];
-            // const tempArray = [];
-            result2.forEach(room => {
+            if(result2.length == 0) {  // checking if the student has no exams (checking whether the number of relevant exam_rooms == 0)
+                res.json([]);
+            }
+            else {
+                // console.log('result2: ' + result2);
+                // const tempArray = [];
+                const numberOfRooms = result2.length;
+                var itrCount = 0;
                 var tempArray = [];
-                tempArray.push(room);
-                exams.findOne({name: room.exam})
-                .then(result3 => tempArray.push(result3))
-                .catch(err => {
-                    console.log("Error occured while trying to find the exam of the given exam_room");
-                    // returns from the entire API call sending the error as the response
-                    return res.json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room', error: String(err)});
+                // console.log(numberOfRooms);
+                result2.forEach(room => {
+                    tempArray.push(room);
+                    exams.findOne({name: room.exam})
+                    .then(result3 => {
+                        tempArray.push(result3);
+                        // adding the array [exam_room, exam] as an element to the returning array
+                        retArray.push(tempArray);
+                        // clearing the tempArray for the next iteration
+                        tempArray = [];  
+                        itrCount++;
+                        // console.log('hererererere');
+                        if(itrCount >= numberOfRooms)  // sends the response if the loop has iterated once for each room
+                            res.json(retArray);
+                    })
+                    .catch(err => {
+                        console.log("Error occured while trying to find the exam of the given exam_room:\n" + err);
+                        // returns from the entire API call sending the error as the response
+                        // return res.json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room', error: String(err)});
+                    });
+                    // // adding the array [exam_room, exam] as an element to the returning array
+                    // retArray.push(tempArray);
+                    // clearing the tempArray for the next iteration
+                    // tempArray = [];
+                    // res.json(retArray);
                 });
-                // adding the array [exam_room, exam] as an element to the returning array
-                retArray.push(tempArray);
-                // clearing the tempArray for the next iteration
-                tempArray = [];
-            });
-            // res.json(retArray);
+                // sending the successful response to the user AFTER the above part of the program
+                // res.json(retArray);
+                // res.json(retArray);
+                }
         })
         .catch(err => {
             console.log("Error occured while trying to find the exam_rooms for the given student regNo");
-            res.json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given student regNo', error: String(err)});
+            res.status(400).json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given student regNo', error: String(err)});
         });
-
-        // sending the successful response to the user AFTER the above part of the program
-        res.json(retArray);
     })
     .catch(err => {
         console.log("Error occured while trying to find the student RegNo from given ID");
-        res.json({status: 'failure', message: 'Error occured while trying to find the student RegNo from given ID', error: String(err)});
+        res.status(400).json({status: 'failure', message: 'Error occured while trying to find the student RegNo from given ID', error: String(err)});
     });
 });
 /////////////////////////////////////////////////////////////////////////////////////////

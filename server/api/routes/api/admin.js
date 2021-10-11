@@ -533,7 +533,8 @@ router.delete('/courses/single/:shortname', (req, res) => {
 // deleting all courses
 // only the super-admin can call this
 router.delete('/courses/all', (req, res) => {
-    exams.findOne()
+    // checks whether there's atleast one exam --> if so cannot delete all courses
+    exams.findOne()  
     .then(result => {
         if(result == null) {
             courses.find()
@@ -831,9 +832,22 @@ router.delete('/exams/single/:name', (req, res) => {
         if(deleted == null)
             res.status(400).json({status: 'failure', message: 'Exam with given shortname does not exist'});
         else {
+            // deleting the exam rooms of the deleted exam
             exam_rooms.deleteMany({exam: deleted.name})
             .then(deleteCount => {
-                res.json({status: 'success', message: 'Deleted exam and relevant exam rooms', deletedExamEntry: deleted, numberOfExamRoomsDeleted: deleteCount});
+                // changing the hasExam = false for the relevant course f the deleted exam
+                courses.findOne({shortname: deleted.course})
+                .then(course => {
+                    course.hasExam = false
+
+                    course.save()    
+                    .then(() => {
+                        console.log(course.shortname + '.hasExam set to false after deleting the exam');
+                        res.json({status: 'success', message: 'Deleted exam, deleted relevant exam rooms and hasExam of relevant course set to false', deletedExamEntry: deleted, numberOfExamRoomsDeleted: deleteCount});
+                    })
+                    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to set hasExam of course to false', error: String(err)}));
+                })
+                .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find the course relevant to the deleted exam", error: String(err)}));
             })
             .catch(err => res.status(400).json({status: 'failure', message: 'Deleted the exam, but error occured while trying to delete relevant exam rooms', error: String(err) }));
         }

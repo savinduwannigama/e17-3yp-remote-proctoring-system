@@ -65,25 +65,6 @@ const router = express.Router();
  * proctor can only read scheduled exams which he/she proctors
  */
 
-// // scheduling and exam (REDUNDANT --> in admin.js)
-// router.post('/exams', async (req, res) => {
-//     /**
-//      * add code to add a new exam to the database
-//      * add a auto generated id 
-//      * have to generate a URL/link for the meeting and store in the database
-//      */
-
-//     const record = req.body;
-//     console.log('Request body: ' + record);
-
-//     const response = await exams.create(record);  // response is the return value from mongoDB
-//     console.log('Created new exam: ' + response);
-
-//     res.json({status: 'Addded new exam schedule'});  // response after succcesfully creating a new exam schedule
-     
-// });
-
-
 // to get acheduled exams relevant to the proctor
 // response --> {chief_invigilating_exams: [[{exam_room}, {exam}], [], ..., []], invigilating_exams: [[{exam_room}, {exam}], [], ..., []]}
 router.get('/exams/self/:id', (req, res) => {
@@ -173,16 +154,6 @@ router.get('/exams/self/:id', (req, res) => {
     });
 });
 
-// // to edit a schedules exam
-// router.put('/examschedule/:id', (req, res) => {
-//     /**
-//      * check if the schedule with the given id exists
-//      * edit the schedule in the database
-//      */
-//     //redirect to the home page
-//      res.redirect('/*path of the home page*/');  
-// });
-
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -243,7 +214,7 @@ router.get('/courses/self/:id', (req, res) => {
                 .catch(err => {
                     console.log("Error occured while trying to find the exam of the given exam_room (chief invigilating)");
                     // returns from the entire API call sending the error as the response
-                    return res.json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room (chief invigilating)', error: String(err)});
+                    return res.status(400).json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room (chief invigilating)', error: String(err)});
                 });
                 // // adding the array [exam_room, exam] as an element to the returning array
                 // chief_invigilating_exams.push(tempArray);
@@ -254,7 +225,7 @@ router.get('/courses/self/:id', (req, res) => {
         })
         .catch(err => {
             console.log("Error occured while trying to find the exam_rooms for the given proctor name (chief invigilating)");
-            res.json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name (chief invigilating)', error: String(err)});
+            res.status(400).json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name (chief invigilating)', error: String(err)});
         });
 
         //////// getting the invigilating rooms
@@ -278,7 +249,7 @@ router.get('/courses/self/:id', (req, res) => {
                 .catch(err => {
                     console.log("Error occured while trying to find the exam of the given exam_room (invigilating)");
                     // returns from the entire API call sending the error as the response
-                    return res.json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room (invigilating)', error: String(err)});
+                    return res.status(400).json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room (invigilating)', error: String(err)});
                 });
                 // // adding the array [exam_room, exam] as an element to the returning array
                 // invigilating_exams.push(tempArray);
@@ -289,7 +260,7 @@ router.get('/courses/self/:id', (req, res) => {
         })
         .catch(err => {
             console.log("Error occured while trying to find the exam_rooms for the given proctor name (invigilating)");
-            res.json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name (invigilating)', error: String(err)});
+            res.status(400).json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name (invigilating)', error: String(err)});
         });
 
         // sending the succeess response to the user
@@ -298,7 +269,7 @@ router.get('/courses/self/:id', (req, res) => {
     })
     .catch(err => {
         console.log("Error occured while trying to find the proctor name from given ID");
-        res.json({status: 'failure', message: 'Error occured while trying to find the proctor name from given ID', error: String(err)});
+        res.status(400).json({status: 'failure', message: 'Error occured while trying to find the proctor name from given ID', error: String(err)});
     });
 });
 
@@ -331,6 +302,7 @@ router.get('/courses/self/:id', (req, res) => {
 /**
  * API calls to the proctors collection
  */
+
 // to read own student data (SELF)
 router.get('/proctors/self/:id', (req, res) => {
     // const req_body = req.body;
@@ -341,7 +313,21 @@ router.get('/proctors/self/:id', (req, res) => {
 
     proctors.findById(req.params.id)
     .then(result => res.json(result))
-    .catch(err => res.status(400).json("Error : " +err ));
+    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find the proctor from given ID', error: String(err)}));
+});
+
+// API call to update self info
+router.put('/proctors/self/:id', (req, res) => {
+    proctors.findById(req.params.id)
+    .then(proctor => {
+        proctor.name = req.body.name;
+        proctor.email = req.body.email;
+
+        proctor.save()
+        .then(() => res.json({status: 'success', message: 'Updated the proctor info', updatedEntry: proctor}))
+        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: String(err)}));
+    })
+    .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to read self proctor record", error: String(err)}));
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
