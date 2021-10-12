@@ -7,6 +7,21 @@ const proctorsSchema = new mongoose.Schema({
     
 }, {collection: 'proctors'})
 
-const model = mongoose.model('proctorsModel', proctorsSchema)
+// const model = mongoose.model('proctorsModel', proctorsSchema)
 
+
+proctorsSchema.methods.matchPasswords = async function(enteredPassword) {
+    // console.log();
+    bcrypt.compare(enteredPassword, this.password, function(err, result) {
+        return result;  // true if passwords match, else false
+    });
+}
+
+proctorsSchema.methods.getSignedToken = function() {
+    // signing a JWT token with the user _id
+    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRE});
+}
+
+const model = mongoose.model('proctorsModel', proctorsSchema)
 module.exports = model
+
