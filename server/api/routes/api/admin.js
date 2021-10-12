@@ -23,6 +23,8 @@ const { findOneAndDelete } = require('../../models/proctors');
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+const { protectAdmin } = require('../../middleware/adminAuth');
+
 const router = express.Router();
 
 
@@ -87,6 +89,44 @@ router.post('/register', (req, res) => {
         .catch(err => {
             res.status(400).json({status: 'failure', message: 'Error occured while trying to find the admin with the given email', error: String(err)})  // CHECK THE STATUS CODE
         });
+    }
+});
+
+// API call to login admin
+router.post('/login', (req, res) => {
+    // frontend does email password field validations
+    const email = req.body.email;
+    const password = req.body.password;
+
+    if(!email || !password){
+        return res.status(400).json({status: 'failure', message: 'Enter both email and password fields'})
+    }
+    try{
+        admins.findOne({ email }).select("+password")  // TRYING WITHOUT THE .select() part
+        .then(admin => {
+            if(!admin){
+                return res.status(404).json({success: false, error: "Invalid credentials"});
+            }
+            admin.matchPasswords(password)
+            .then(isMatch => {
+                if(!isMatch){  // if passwords don't match
+                    return res.status(405).json({status: 'failure', message: "Invalid credentials"});
+                }
+                // password match
+                // login successful
+                // sending token to admin
+                admin.getSignedToken()
+                .then(token => {
+                    res.json({status: 'success', token});
+                })
+                .catch(err => res.status(400).json({status: 'failure', message: 'Error occured when calling self.getSignedToken()', error: String(err)}));
+            })
+            .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to match password', error: String(err)}));
+        })
+        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find the admin by given email', error: String(err)}));
+    
+    }catch(error){
+        res.status(406).json({success: false, error: error.message});
     }
 
 });

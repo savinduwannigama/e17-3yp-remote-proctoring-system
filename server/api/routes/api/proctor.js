@@ -16,6 +16,8 @@ const exam_rooms = require('../../models/exam_rooms');  // importing the mongoos
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+const { protectProctor } = require('../../middleware/proctorAuth');
+
 const router = express.Router();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,12 +113,46 @@ router.post('/register', (req, res) => {
 
 });
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-// API s for the login page
-/**
- * 
- */
-////////////////////////////////////////////////////////////////////////////////////////////////////////
+// API call to login proctor
+router.post('/login', (req, res) => {
+    // frontend does email password field validations
+    const email = req.body.email;
+    const password = req.body.password;
+
+    if(!email || !password){
+        return res.status(400).json({status: 'failure', message: 'Enter both email and password fields'})
+    }
+    try{
+        proctors.findOne({ email }).select("+password")  // TRYING WITHOUT THE .select() part
+        .then(proctor => {
+            if(!proctor){
+                return res.status(404).json({success: false, error: "Invalid credentials"});
+            }
+            proctor.matchPasswords(password)
+            .then(isMatch => {
+                if(!isMatch){  // if passwords don't match
+                    return res.status(405).json({status: 'failure', message: "Invalid credentials"});
+                }
+                // password match
+                // login successful
+                // sending token to proctor
+                proctor.getSignedToken()
+                .then(token => {
+                    res.json({status: 'success', token});
+                })
+                .catch(err => res.status(400).json({status: 'failure', message: 'Error occured when calling self.getSignedToken()', error: String(err)}));
+            })
+            .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to match password', error: String(err)}));
+        })
+        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find the proctor by given email', error: String(err)}));
+    
+    }catch(error){
+        res.status(406).json({success: false, error: error.message});
+    }
+
+});
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 // APIs for the Home page
