@@ -55,10 +55,11 @@ router.post('/register', (req, res) => {
     }
     else {
         // validation passed
-        admins.findOne({email})  // finds the admin by email
+        admins.findOne({email}).select('+password')  // finds the admin by email
         .then(admin => {
             if(admin) {  // given email exists as a admin
                 // checks whether the email is set or not. to check whether the admin has already registered or not
+                console.log(admin);
                 if(admin.password == '') {  // admin not yet register
                     bcrypt.genSalt(10, (err, salt) => {
                         bcrypt.hash(password0, salt, (err, hash) => {
@@ -101,33 +102,61 @@ router.post('/login', (req, res) => {
     if(!email || !password){
         return res.status(400).json({status: 'failure', message: 'Enter both email and password fields'})
     }
-    try{
-        admins.findOne({ email }).select("+password")  // TRYING WITHOUT THE .select() part
-        .then(admin => {
-            if(!admin){
-                return res.status(404).json({success: false, error: "Invalid credentials"});
+    // try{
+    admins.findOne({ email }).select("+password")  // TRYING WITHOUT THE .select() part
+    .then(admin => {
+        // console.log(admin);
+        if(!admin){
+            return res.status(404).json({status: 'failure', message: "Email does not exist"});
+        }
+        else if(admin.password == '') {  // to check if the user has not yet registered
+            return res.status(400).json({status: 'failure', message: "Admin has not registered"});
+        }
+        
+        admin.matchPasswords(password, (err, isMatch) => {
+            if(err)  // exiting if error occured
+                return res.status(400).json({status: 'failure', message: 'Error occured while trying match passwords', error: String(err)});
+            if(!isMatch){  // if passwords don't match
+                return res.status(405).json({status: 'failure', message: "Invalid credentials"});
             }
-            admin.matchPasswords(password)
-            .then(isMatch => {
-                if(!isMatch){  // if passwords don't match
-                    return res.status(405).json({status: 'failure', message: "Invalid credentials"});
-                }
-                // password match
-                // login successful
-                // sending token to admin
-                admin.getSignedToken()
-                .then(token => {
+            // password match
+            // login successful
+            // sending token to admin
+            admin.getSignedToken((err, token) => {
+                if(err)
+                    return res.status(400).json({status: 'failure', message: 'Error occured when calling self.getSignedToken()', error: String(err)})
                     res.json({status: 'success', token});
-                })
-                .catch(err => res.status(400).json({status: 'failure', message: 'Error occured when calling self.getSignedToken()', error: String(err)}));
-            })
-            .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to match password', error: String(err)}));
-        })
-        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find the admin by given email', error: String(err)}));
+            });
+            // .then(token => {
+            //     res.json({status: 'success', token});
+            // })
+            // .catch(err => res.status(400).json({status: 'failure', message: 'Error occured when calling self.getSignedToken()', error: String(err)}));
+        });
+        // .then(isMatch => {
+        //     console.log('hutto: ' + isMatch);
+        //     if(!isMatch){  // if passwords don't match
+        //         return res.status(405).json({status: 'failure', message: "Invalid credentials"});
+        //     }
+        //     console.log(isMatch);
+        //     // password match
+        //     // login successful
+        //     // sending token to admin
+        //     admin.getSignedToken()
+        //     .then(token => {
+        //         res.json({status: 'success', token});
+        //     })
+        //     .catch(err => res.status(400).json({status: 'failure', message: 'Error occured when calling self.getSignedToken()', error: String(err)}));
+        // })
+        // .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to match password', error: String(err)}));
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(400).json({status: 'failure', message: 'Error occured while trying to find the admin by given email', error: err})
+    });
     
-    }catch(error){
-        res.status(406).json({success: false, error: error.message});
-    }
+    // }catch(error){
+    //     res.status(406).json({status: 'failure', error: error.message});
+    // }
 
 });
 

@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const adminsSchema = new mongoose.Schema({
     name: {type: String, required: true},
@@ -8,9 +9,10 @@ const adminsSchema = new mongoose.Schema({
 
 }, {collection: 'admins'})
 
-adminsSchema.methods.matchPasswords = async function(enteredPassword) {
+adminsSchema.methods.matchPasswords = function(enteredPassword) {
     // console.log();
     bcrypt.compare(enteredPassword, this.password, function(err, result) {
+        console.log(result);
         return result;  // true if passwords match, else false
     });
 }

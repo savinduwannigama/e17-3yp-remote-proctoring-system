@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const proctorsSchema = new mongoose.Schema({
     name: {type: String, required: true},  // used as the PK for now | must change PK to email
