@@ -103,8 +103,8 @@ router.post('/login', (req, res) => {
         return res.status(400).json({status: 'failure', message: 'Enter both email and password fields'})
     }
     // try{
-    admins.findOne({ email }).select("+password")  // TRYING WITHOUT THE .select() part
-    .then(admin => {
+    admins.findOne({ email }).select("+password")  
+    .then(async admin => {
         // console.log(admin);
         if(!admin){
             return res.status(404).json({status: 'failure', message: "Email does not exist"});
@@ -113,25 +113,46 @@ router.post('/login', (req, res) => {
             return res.status(400).json({status: 'failure', message: "Admin has not registered"});
         }
         
-        admin.matchPasswords(password, (err, isMatch) => {
-            if(err)  // exiting if error occured
-                return res.status(400).json({status: 'failure', message: 'Error occured while trying match passwords', error: String(err)});
-            if(!isMatch){  // if passwords don't match
+        try {
+            const isMatch = await admin.matchPasswords(password);  // AWAIT WORKS
+            // console.log(isMatch);
+
+            if(!isMatch){
                 return res.status(405).json({status: 'failure', message: "Invalid credentials"});
             }
             // password match
             // login successful
             // sending token to admin
-            admin.getSignedToken((err, token) => {
-                if(err)
-                    return res.status(400).json({status: 'failure', message: 'Error occured when calling self.getSignedToken()', error: String(err)})
-                    res.json({status: 'success', token});
-            });
-            // .then(token => {
-            //     res.json({status: 'success', token});
-            // })
-            // .catch(err => res.status(400).json({status: 'failure', message: 'Error occured when calling self.getSignedToken()', error: String(err)}));
-        });
+            const token = await admin.getSignedToken();  // AWAIT WORKS
+            // console.log(token);
+            // sending the token to the user
+            res.json({status: 'success', token});
+
+        }catch(err) {
+            res.status(406).json({status: 'failure', message:'Error occured', error: err.message});
+        }
+        // admin.matchPasswords(password, isMatch => {
+        //     // console.log('inside callbak from matchPasswords');
+        //     // console.log(err);
+        //     // console.log(isMatch);
+        //     // if(err)  // exiting if error occured
+        //     //     return res.status(400).json({status: 'failure', message: 'Error occured while trying match passwords', error: String(err)});
+        //     if(!isMatch){  // if passwords don't match
+        //         return res.status(405).json({status: 'failure', message: "Invalid credentials"});
+        //     }
+        //     // password match
+        //     // login successful
+        //     // sending token to admin
+        //     admin.getSignedToken((token) => {
+        //         // if(err)
+        //         //     return res.status(400).json({status: 'failure', message: 'Error occured when calling self.getSignedToken()', error: String(err)})
+        //         res.json({status: 'success', token});
+        //     });
+        //     // .then(token => {
+        //     //     res.json({status: 'success', token});
+        //     // })
+        //     // .catch(err => res.status(400).json({status: 'failure', message: 'Error occured when calling self.getSignedToken()', error: String(err)}));
+        // });
         // .then(isMatch => {
         //     console.log('hutto: ' + isMatch);
         //     if(!isMatch){  // if passwords don't match

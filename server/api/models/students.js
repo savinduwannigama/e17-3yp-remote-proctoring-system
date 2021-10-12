@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const studentsSchema = new mongoose.Schema({
     name: {type: String, required: true},
@@ -15,14 +16,22 @@ const studentsSchema = new mongoose.Schema({
 
 studentsSchema.methods.matchPasswords = async function(enteredPassword) {
     // console.log();
-    bcrypt.compare(enteredPassword, this.password, function(err, result) {
-        return result;  // true if passwords match, else false
-    });
+    // var isMatch = false;
+    // bcrypt.compare(enteredPassword, this.password, function(err, result) {
+    //     console.log('inside matchPasswords: ' + result);
+    //     cb(result);
+    //     // cb(result);  // true if passwords match, else false
+    //     // isMatch = result;   
+    // });
+    // return isMatch;
+    const isMatch =  bcrypt.compare(enteredPassword, this.password);  // AWAIT WORKS
+    console.log(isMatch);
+    return isMatch;
 }
 
-studentsSchema.methods.getSignedToken = function() {
+studentsSchema.methods.getSignedToken = function(cb) {
     // signing a JWT token with the user _id
-    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRE});
+    return jwt.sign({ id: this._id }, process.env.JWT_SECRET_STUDENT, {expiresIn: process.env.JWT_EXPIRE_STUDENT});
 }
 
 

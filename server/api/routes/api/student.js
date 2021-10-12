@@ -77,7 +77,7 @@ router.post('/register', (req, res) => {
     }
     else {
         // validation passed
-        students.findOne({email})  // finds the student by email
+        students.findOne({email}).select('+password')  // finds the student by email
         .then(student => {
             if(student) {  // given email exists as a student
                 // checks whether the email is set or not. to check whether the student has already registered or not
@@ -124,33 +124,44 @@ router.post('/login', (req, res) => {
     if(!email || !password){
         return res.status(400).json({status: 'failure', message: 'Enter both email and password fields'})
     }
-    try{
-        students.findOne({ email }).select("+password")  // TRYING WITHOUT THE .select() part
-        .then(student => {
-            if(!student){
-                return res.status(404).json({success: false, error: "Invalid credentials"});
+    // try{
+    students.findOne({ email }).select("+password")  
+    .then(async student => {
+        // console.log(student);
+        if(!student){
+            return res.status(404).json({status: 'failure', message: "Email does not exist"});
+        }
+        else if(student.password == '') {  // to check if the user has not yet registered
+            return res.status(400).json({status: 'failure', message: "Student has not registered"});
+        }
+        
+        try {
+            const isMatch = await student.matchPasswords(password);  // AWAIT WORKS
+            // console.log(isMatch);
+
+            if(!isMatch){
+                return res.status(405).json({status: 'failure', message: "Invalid credentials"});
             }
-            student.matchPasswords(password)
-            .then(isMatch => {
-                if(!isMatch){  // if passwords don't match
-                    return res.status(405).json({status: 'failure', message: "Invalid credentials"});
-                }
-                // password match
-                // login successful
-                // sending token to student
-                student.getSignedToken()
-                .then(token => {
-                    res.json({status: 'success', token});
-                })
-                .catch(err => res.status(400).json({status: 'failure', message: 'Error occured when calling self.getSignedToken()', error: String(err)}));
-            })
-            .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to match password', error: String(err)}));
-        })
-        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find the student by given email', error: String(err)}));
+            // password match
+            // login successful
+            // sending token to student
+            const token = await student.getSignedToken();  // AWAIT WORKS
+            // console.log(token);
+            // sending the token to the user
+            res.json({status: 'success', token});
+
+        }catch(err) {
+            res.status(406).json({status: 'failure', message:'Error occured', error: err.message});
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(400).json({status: 'failure', message: 'Error occured while trying to find the student by given email', error: err})
+    });
     
-    }catch(error){
-        res.status(406).json({success: false, error: error.message});
-    }
+    // }catch(error){
+    //     res.status(406).json({status: 'failure', error: error.message});
+    // }
 
 });
 
