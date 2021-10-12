@@ -1,9 +1,10 @@
-require('dotenv').config({path: './secret.env'});  // adding the variables in secret.env to environment variables
+
+require('dotenv').config({path: './adminSecret.env'});  // adding the variables in secret.env to environment variables
 const jwt = require('jsonwebtoken');
 
-const students = require('../models/students');
+const admins = require('../models/admins');
 
-exports.protect = (req, res, next) => {
+exports.protectAdmin = (req, res, next) => {
     let token;
     token = req.headers.authorization;
     const tokenId = token.split(" ")[1];
@@ -16,15 +17,15 @@ exports.protect = (req, res, next) => {
         const decoded = jwt.verify(tokenId, proccess.env.JWT_SECRET);  // synchronous function
         console.log(decoded);
 
-        students.findById(decoded.id)
-        .then(student => {
-            if(!student)
-                return res.status(400).json({status: 'failure', meassage: 'Student with the given token does not exist'});
+        admins.findById(decoded.id)
+        .then(admin => {
+            if(!admin)
+                return res.status(400).json({status: 'failure', meassage: 'Admin with the given token does not exist'});
             
-            req.student = student;
+            req.admin = admin;
             next();
         })
-        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find student during authentication'}));
+        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find admin during authentication'}));
 
     }
     catch(error) {

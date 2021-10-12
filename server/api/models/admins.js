@@ -8,6 +8,18 @@ const adminsSchema = new mongoose.Schema({
 
 }, {collection: 'admins'})
 
+adminsSchema.methods.matchPasswords = async function(enteredPassword) {
+    // console.log();
+    bcrypt.compare(enteredPassword, this.password, function(err, result) {
+        return result;  // true if passwords match, else false
+    });
+}
+
+adminsSchema.methods.getSignedToken = function() {
+    // signing a JWT token with the user _id
+    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRE});
+}
+
 const model = mongoose.model('adminsModel', adminsSchema)
 
 module.exports = model
