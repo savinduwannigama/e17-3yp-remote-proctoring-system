@@ -20,8 +20,8 @@ adminsSchema.methods.matchPasswords = async function(enteredPassword) {
     //     // isMatch = result;   
     // });
     // return isMatch;
-    const isMatch =  bcrypt.compare(enteredPassword, this.password);  // AWAIT WORKS
-    console.log(isMatch);
+    const isMatch =  await bcrypt.compare(enteredPassword, this.password);  // AWAIT WORKS
+    // console.log(isMatch);
     return isMatch;
 }
 
