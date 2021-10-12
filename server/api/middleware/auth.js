@@ -19,7 +19,7 @@ exports.protect = (req, res, next) => {
         students.findById(decoded.id)
         .then(student => {
             if(!student)
-                return res.status(4000).json({status: 'failure', meassage: 'Student with the given token does not exist'});
+                return res.status(400).json({status: 'failure', meassage: 'Student with the given token does not exist'});
             
             req.student = student;
             next();
