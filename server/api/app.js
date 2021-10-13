@@ -1,3 +1,4 @@
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -6,6 +7,9 @@ var logger = require('morgan');
 const cors = require('cors');
 // const app = express();
 const bodyParser = require('body-parser');
+
+// setting environment variables
+require('dotenv').config({path: './config.env'});
 
 const mongoose = require('mongoose');
 

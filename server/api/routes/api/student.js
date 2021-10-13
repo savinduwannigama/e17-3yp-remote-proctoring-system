@@ -12,6 +12,8 @@ const recordings = require('../../models/recordings');  // importing the mongoos
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+const { protectStudent } = require('../../middleware/studentAuth');
+const { token } = require('morgan');
 const router = express.Router();
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +77,7 @@ router.post('/register', (req, res) => {
     }
     else {
         // validation passed
-        students.findOne({email})  // finds the student by email
+        students.findOne({email}).select('+password')  // finds the student by email
         .then(student => {
             if(student) {  // given email exists as a student
                 // checks whether the email is set or not. to check whether the student has already registered or not
@@ -113,7 +115,55 @@ router.post('/register', (req, res) => {
 
 });
 
+// API call to login student
+router.post('/login', (req, res) => {
+    // frontend does email password field validations
+    const email = req.body.email;
+    const password = req.body.password;
 
+    if(!email || !password){
+        return res.status(400).json({status: 'failure', message: 'Enter both email and password fields'})
+    }
+    // try{
+    students.findOne({ email }).select("+password")  
+    .then(async student => {
+        // console.log(student);
+        if(!student){
+            return res.status(404).json({status: 'failure', message: "Email does not exist"});
+        }
+        else if(student.password == '') {  // to check if the user has not yet registered
+            return res.status(400).json({status: 'failure', message: "Student has not registered"});
+        }
+        
+        try {
+            const isMatch = await student.matchPasswords(password);  // AWAIT WORKS
+            // console.log(isMatch);
+
+            if(!isMatch){
+                return res.status(405).json({status: 'failure', message: "Invalid credentials"});
+            }
+            // password match
+            // login successful
+            // sending token to student
+            const token = await student.getSignedToken();  // AWAIT WORKS
+            // console.log(token);
+            // sending the token to the user
+            res.json({status: 'success', token});
+
+        }catch(err) {
+            res.status(406).json({status: 'failure', message:'Error occured', error: err.message});
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(400).json({status: 'failure', message: 'Error occured while trying to find the student by given email', error: err})
+    });
+    
+    // }catch(error){
+    //     res.status(406).json({status: 'failure', error: error.message});
+    // }
+
+});
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -123,22 +173,23 @@ router.post('/register', (req, res) => {
  * API calls to students collections
  */
 // to read own student data (SELF)
-router.get('/students/self/:id', (req, res) => {
+router.get('/students/self', protectStudent, (req, res) => {
     // const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
     // const records = await admins.find(req_body);
     // console.log('Sending response: ' + records);
-
-    students.findById(req.params.id)
-    .then(result => res.json(result))
-    .catch(err => res.status(400).json("Error : " +err ));
+    res.json(req.student);
+    // students.findById(req.student.id)
+    // .then(result => res.json(result))
+    // .catch(err => res.status(400).json("Error : " +err ));
 });
 
 // API call to update self info
-router.put('/students/self/:id', (req, res) => {
-    students.findById(req.params.id)
-    .then(student => {
+router.put('/students/self', protectStudent, (req, res) => {
+    console.log(req.body.name);
+    students.findById(req.student.id)
+    .then(student => {  // can use req.student to optimize
         student.name = req.body.name;
         student.regNo = req.body.regNo;
         student.email = req.body.email;
@@ -161,8 +212,8 @@ router.put('/students/self/:id', (req, res) => {
  * student can only read courses underwhich he/she has a scheduled exam
  * response --> [{course}, {}, {}]
  */
-router.get('/courses/self/:id', (req, res) => {
-    students.findById(req.params.id)
+router.get('/courses/self', protectStudent, (req, res) => {
+    students.findById(req.student.id)
     .then(result1 => {
         // const StudentRegNo = result1.regNo;
         courses.find({students: result1.regNo})
@@ -193,9 +244,9 @@ router.get('/courses/self/:id', (req, res) => {
   */
  // call to get student's exams
  // response --> {retArray: [[{exam_room}, {exam}], [], ..., []]}
-  router.get('/exams/self/:id', (req, res) => {
+  router.get('/exams/self', protectStudent, (req, res) => {
     const retArray = [];
-    students.findById(req.params.id)  // the student with the given id will always be in the students collection
+    students.findById(req.student.id)  // the student with the given id will always be in the students collection
     .then(result1 => {
         // console.log('result1.regNo: ' + result1.regNo);
         // const StudentRegNo = result1.regNo;

@@ -22,6 +22,8 @@ const exam_rooms = require('../../models/exam_rooms');  // importing the mongoos
 const { findOneAndDelete } = require('../../models/proctors');
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// requiring authorization middleware
+const { protectAdmin } = require('../../middleware/adminAuth');
 
 const router = express.Router();
 
@@ -53,10 +55,11 @@ router.post('/register', (req, res) => {
     }
     else {
         // validation passed
-        admins.findOne({email})  // finds the admin by email
+        admins.findOne({email}).select('+password')  // finds the admin by email
         .then(admin => {
             if(admin) {  // given email exists as a admin
                 // checks whether the email is set or not. to check whether the admin has already registered or not
+                console.log(admin);
                 if(admin.password == '') {  // admin not yet register
                     bcrypt.genSalt(10, (err, salt) => {
                         bcrypt.hash(password0, salt, (err, hash) => {
@@ -88,6 +91,93 @@ router.post('/register', (req, res) => {
             res.status(400).json({status: 'failure', message: 'Error occured while trying to find the admin with the given email', error: String(err)})  // CHECK THE STATUS CODE
         });
     }
+});
+
+// API call to login admin
+router.post('/login', (req, res) => {
+    // frontend does email password field validations
+    const email = req.body.email;
+    const password = req.body.password;
+
+    if(!email || !password){
+        return res.status(400).json({status: 'failure', message: 'Enter both email and password fields'})
+    }
+    // try{
+    admins.findOne({ email }).select("+password")  
+    .then(async admin => {
+        // console.log(admin);
+        if(!admin){
+            return res.status(404).json({status: 'failure', message: "Email does not exist"});
+        }
+        else if(admin.password == '') {  // to check if the user has not yet registered
+            return res.status(400).json({status: 'failure', message: "Admin has not registered"});
+        }
+        
+        try {
+            const isMatch = await admin.matchPasswords(password);  // AWAIT WORKS
+            // console.log(isMatch);
+
+            if(!isMatch){
+                return res.status(405).json({status: 'failure', message: "Invalid credentials"});
+            }
+            // password match
+            // login successful
+            // sending token to admin
+            const token = await admin.getSignedToken();  // AWAIT WORKS
+            // console.log(token);
+            // sending the token to the user
+            res.json({status: 'success', token});
+
+        }catch(err) {
+            res.status(406).json({status: 'failure', message:'Error occured', error: err.message});
+        }
+        // admin.matchPasswords(password, isMatch => {
+        //     // console.log('inside callbak from matchPasswords');
+        //     // console.log(err);
+        //     // console.log(isMatch);
+        //     // if(err)  // exiting if error occured
+        //     //     return res.status(400).json({status: 'failure', message: 'Error occured while trying match passwords', error: String(err)});
+        //     if(!isMatch){  // if passwords don't match
+        //         return res.status(405).json({status: 'failure', message: "Invalid credentials"});
+        //     }
+        //     // password match
+        //     // login successful
+        //     // sending token to admin
+        //     admin.getSignedToken((token) => {
+        //         // if(err)
+        //         //     return res.status(400).json({status: 'failure', message: 'Error occured when calling self.getSignedToken()', error: String(err)})
+        //         res.json({status: 'success', token});
+        //     });
+        //     // .then(token => {
+        //     //     res.json({status: 'success', token});
+        //     // })
+        //     // .catch(err => res.status(400).json({status: 'failure', message: 'Error occured when calling self.getSignedToken()', error: String(err)}));
+        // });
+        // .then(isMatch => {
+        //     console.log('hutto: ' + isMatch);
+        //     if(!isMatch){  // if passwords don't match
+        //         return res.status(405).json({status: 'failure', message: "Invalid credentials"});
+        //     }
+        //     console.log(isMatch);
+        //     // password match
+        //     // login successful
+        //     // sending token to admin
+        //     admin.getSignedToken()
+        //     .then(token => {
+        //         res.json({status: 'success', token});
+        //     })
+        //     .catch(err => res.status(400).json({status: 'failure', message: 'Error occured when calling self.getSignedToken()', error: String(err)}));
+        // })
+        // .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to match password', error: String(err)}));
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(400).json({status: 'failure', message: 'Error occured while trying to find the admin by given email', error: err})
+    });
+    
+    // }catch(error){
+    //     res.status(406).json({status: 'failure', error: error.message});
+    // }
 
 });
 
@@ -142,16 +232,17 @@ router.get('/admins/all', (req, res) => {
 });
 
 // reading an admin by id (self info to populate the page)
-router.get('/admins/self/:id', (req, res) => {
+router.get('/admins/self', protectAdmin, (req, res) => {
     // const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
     // const records = await admins.find(req_body);
     // console.log('Sending response: ' + records);
-
-    admins.findById(req.params.id)
-    .then(result => res.json(result))
-    .catch(err => res.status(400).json({status: 'failure', message: "Following error occured while trying to read self admin record", error: String(err)}));
+    // console.log(req.admin);
+    res.json(req.admin)
+    // admins.findById(req.params.id)
+    // .then(result => res.json(result))
+    // .catch(err => res.status(400).json({status: 'failure', message: "Following error occured while trying to read self admin record", error: String(err)}));
 });
 
 // updating self info

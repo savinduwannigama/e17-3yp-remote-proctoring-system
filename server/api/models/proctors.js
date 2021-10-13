@@ -1,9 +1,11 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const proctorsSchema = new mongoose.Schema({
     name: {type: String, required: true},  // used as the PK for now | must change PK to email
     email: {type: String, required: true, unique: true},
-    password: {type: String, default: ''}
+    password: {type: String, default: '', select: false}
     
 }, {collection: 'proctors'})
 
@@ -12,15 +14,24 @@ const proctorsSchema = new mongoose.Schema({
 
 proctorsSchema.methods.matchPasswords = async function(enteredPassword) {
     // console.log();
-    bcrypt.compare(enteredPassword, this.password, function(err, result) {
-        return result;  // true if passwords match, else false
-    });
+    // var isMatch = false;
+    // bcrypt.compare(enteredPassword, this.password, function(err, result) {
+    //     console.log('inside matchPasswords: ' + result);
+    //     cb(result);
+    //     // cb(result);  // true if passwords match, else false
+    //     // isMatch = result;   
+    // });
+    // return isMatch;
+    const isMatch =  await bcrypt.compare(enteredPassword, this.password);  // AWAIT WORKS
+    // console.log(isMatch);
+    return isMatch;
 }
 
-proctorsSchema.methods.getSignedToken = function() {
+proctorsSchema.methods.getSignedToken = function(cb) {
     // signing a JWT token with the user _id
-    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRE});
+    return jwt.sign({ id: this._id }, process.env.JWT_SECRET_STUDENT, {expiresIn: process.env.JWT_EXPIRE_STUDENT});
 }
+
 
 const model = mongoose.model('proctorsModel', proctorsSchema)
 module.exports = model
