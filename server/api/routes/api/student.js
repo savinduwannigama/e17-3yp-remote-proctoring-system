@@ -173,22 +173,23 @@ router.post('/login', (req, res) => {
  * API calls to students collections
  */
 // to read own student data (SELF)
-router.get('/students/self/:id', (req, res) => {
+router.get('/students/self', protectStudent, (req, res) => {
     // const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
     // const records = await admins.find(req_body);
     // console.log('Sending response: ' + records);
-
-    students.findById(req.params.id)
-    .then(result => res.json(result))
-    .catch(err => res.status(400).json("Error : " +err ));
+    res.json(req.student);
+    // students.findById(req.student.id)
+    // .then(result => res.json(result))
+    // .catch(err => res.status(400).json("Error : " +err ));
 });
 
 // API call to update self info
-router.put('/students/self/:id', (req, res) => {
-    students.findById(req.params.id)
-    .then(student => {
+router.put('/students/self', protectStudent, (req, res) => {
+    console.log(req.body.name);
+    students.findById(req.student.id)
+    .then(student => {  // can use req.student to optimize
         student.name = req.body.name;
         student.regNo = req.body.regNo;
         student.email = req.body.email;
@@ -211,8 +212,8 @@ router.put('/students/self/:id', (req, res) => {
  * student can only read courses underwhich he/she has a scheduled exam
  * response --> [{course}, {}, {}]
  */
-router.get('/courses/self/:id', (req, res) => {
-    students.findById(req.params.id)
+router.get('/courses/self', protectStudent, (req, res) => {
+    students.findById(req.student.id)
     .then(result1 => {
         // const StudentRegNo = result1.regNo;
         courses.find({students: result1.regNo})
@@ -243,9 +244,9 @@ router.get('/courses/self/:id', (req, res) => {
   */
  // call to get student's exams
  // response --> {retArray: [[{exam_room}, {exam}], [], ..., []]}
-  router.get('/exams/self/:id', (req, res) => {
+  router.get('/exams/self', protectStudent, (req, res) => {
     const retArray = [];
-    students.findById(req.params.id)  // the student with the given id will always be in the students collection
+    students.findById(req.student.id)  // the student with the given id will always be in the students collection
     .then(result1 => {
         // console.log('result1.regNo: ' + result1.regNo);
         // const StudentRegNo = result1.regNo;

@@ -182,8 +182,8 @@ router.post('/login', (req, res) => {
 
 // to get acheduled exams relevant to the proctor
 // response --> {chief_invigilating_exams: [[{exam_room}, {exam}], [], ..., []], invigilating_exams: [[{exam_room}, {exam}], [], ..., []]}
-router.get('/exams/self/:id', (req, res) => {
-    proctors.findById(req.params.id)
+router.get('/exams/self', protectProctor, (req, res) => {
+    proctors.findById(req.proctor.id)
     .then(async result1 => {
         // const StudentRegNo = result1.regNo;
         const chief_invigilating_exams = [];
@@ -301,8 +301,8 @@ router.get('/courses/all', (req, res) => {
 
 // call to get courses which have scheduled exams to be invigilators
 // response --> {chief_invigilating_courses: [], invigilating_courses: []}
-router.get('/courses/self/:id', (req, res) => {
-    proctors.findById(req.params.id)
+router.get('/courses/self', protectProctor, (req, res) => {
+    proctors.findById(req.proctor.id)
     .then(async result1 => {
         // const StudentRegNo = result1.regNo;
         const chief_invigilating_courses = [];
@@ -419,21 +419,22 @@ router.get('/courses/self/:id', (req, res) => {
  */
 
 // to read own student data (SELF)
-router.get('/proctors/self/:id', (req, res) => {
+router.get('/proctors/self', protectProctor, (req, res) => {
     // const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
     // const records = await admins.find(req_body);
     // console.log('Sending response: ' + records);
 
-    proctors.findById(req.params.id)
-    .then(result => res.json(result))
-    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find the proctor from given ID', error: String(err)}));
+    res.json(req.proctor)
+    // proctors.findById(req.params.id)
+    // .then(result => res.json(result))
+    // .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find the proctor from given ID', error: String(err)}));
 });
 
 // API call to update self info
-router.put('/proctors/self/:id', (req, res) => {
-    proctors.findById(req.params.id)
+router.put('/proctors/self', protectProctor, (req, res) => {
+    proctors.findById(req.proctor.id)
     .then(proctor => {
         proctor.name = req.body.name;
         proctor.email = req.body.email;

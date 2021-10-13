@@ -5,17 +5,19 @@ const jwt = require('jsonwebtoken');
 const proctors = require('../models/proctors');
 
 exports.protectProctor = (req, res, next) => {
-    let token;
-    token = req.headers.authorization;
-    const tokenId = token.split(" ")[1];
+    const authHeader = req.headers.authorization;
+    // console.log(authHeader);
+    const token = authHeader && authHeader.split(" ")[1];
+    // console.log(authHeader.split(" ")[1]);
+    // console.log(token);
 
     if(!token) {  // if authorization header is missing in the request
         return res.status(400).json({status: 'failure', meassage: 'Authorization header is missing in the request'});;
     }  // HAVE TO BE return response ?????
 
     try{
-        const decoded = jwt.verify(tokenId, proccess.env.JWT_SECRET);  // synchronous function
-        console.log(decoded);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_PROCTOR);  // synchronous function
+        // console.log(decoded);
 
         proctors.findById(decoded.id)
         .then(proctor => {

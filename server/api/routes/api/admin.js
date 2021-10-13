@@ -22,7 +22,7 @@ const exam_rooms = require('../../models/exam_rooms');  // importing the mongoos
 const { findOneAndDelete } = require('../../models/proctors');
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+// requiring authorization middleware
 const { protectAdmin } = require('../../middleware/adminAuth');
 
 const router = express.Router();
@@ -232,16 +232,17 @@ router.get('/admins/all', (req, res) => {
 });
 
 // reading an admin by id (self info to populate the page)
-router.get('/admins/self/:id', (req, res) => {
+router.get('/admins/self', protectAdmin, (req, res) => {
     // const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
     // const records = await admins.find(req_body);
     // console.log('Sending response: ' + records);
-
-    admins.findById(req.params.id)
-    .then(result => res.json(result))
-    .catch(err => res.status(400).json({status: 'failure', message: "Following error occured while trying to read self admin record", error: String(err)}));
+    // console.log(req.admin);
+    res.json(req.admin)
+    // admins.findById(req.params.id)
+    // .then(result => res.json(result))
+    // .catch(err => res.status(400).json({status: 'failure', message: "Following error occured while trying to read self admin record", error: String(err)}));
 });
 
 // updating self info
