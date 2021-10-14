@@ -48,16 +48,18 @@ export default class Adminbtn extends React.Component {
     /*console.log(event.target.files);*/
     this.setState({
       selectedFile: event.target.files[0],
-      FileName: this.upload+event.target.files[0].name
+      FileName: this.upload+event.target.files[0].name? this.upload+event.target.files[0].name:"No File Selected"
     })
-  }
-
-  fileUploadHandler = ()=>{
     
+  }
+  
+  donothing =()=>{}
+  fileUploadHandler = ()=>{
+    console.log(this.state.FileName);
     const fd = new FormData();
     const name = this.id;
     //Add the path dynamically by appending this.id
-    const url = `http://localhost:5000/api/admin/${this.path}`
+    const url = `http://143.244.139.140:5000/api/admin/${this.path}`
     fd.append(this.id, this.state.selectedFile,this.state.selectedFile.name);
     Papa.parse(this.state.selectedFile, 
       {
@@ -83,7 +85,10 @@ export default class Adminbtn extends React.Component {
             onUploadProgress: progressEvent => {
             console.log(progressEvent.loaded / progressEvent.total)
         }
-        })
+        }).then(resp => {
+
+          console.log(resp.data);
+        });
        }}
      )
     
@@ -117,7 +122,7 @@ export default class Adminbtn extends React.Component {
       <Stack direction= 'column' alignItems="center">
       <label>
           <ThemeProvider theme={theme}>
-          <Button color="other" variant="contained" component="span" size="small" onClick = {this.fileUploadHandler}>
+          <Button color="other" variant="contained" component="span" size="small" onClick = {this.state.FileName?this.fileUploadHandler:this.donothing}>
                            
           <p className="btnp" style={{color:"#0408A0"}}> {this.state.FileName}</p>
           </Button>
