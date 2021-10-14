@@ -11,8 +11,14 @@ import Validationlogin from './Validationlogin';
 function Login ()  {
     const history = useHistory();
     const[name,setName] = useState("");
+    const[img,setImg] = useState("");
     const responseGoogle = (response) => {
       setName(response.profileObj.name);
+      setImg(response.profileObj.imageUrl);
+      localStorage.setItem('rememberMe','true');
+      localStorage.setItem('user',response.profileObj.email);
+      localStorage.setItem("username",response.profileObj.name);
+      localStorage.setItem("profileimage",response.profileObj.imageUrl);
       /*setEmail(response.profileObj.email);
       setUrl(response.profileObj.imageUrl);*/
       history.push("/home")

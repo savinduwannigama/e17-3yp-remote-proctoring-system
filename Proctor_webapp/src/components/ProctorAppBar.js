@@ -31,6 +31,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useHistory } from 'react-router-dom';
+import Avatar from '@mui/material/Avatar';
 
 const drawerWidth = 240;
 
@@ -125,6 +126,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawerLeft(props) {
   const rememberMe = localStorage.getItem('rememberMe') === 'true';
   const user = rememberMe ? localStorage.getItem('user') : '';
+  const username = localStorage.getItem('username') ? localStorage.getItem('username') : '';
+  const img = localStorage.getItem('profileimage') ? localStorage.getItem('profileimage') : '';
   const history = useHistory();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -160,25 +163,34 @@ export default function PersistentDrawerLeft(props) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogout =()=>{
+    localStorage.removeItem("username");
+    localStorage.removeItem("profileimage");
+    history.push('/signin');
+  }
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{
+      /*anchorOrigin={{
         vertical: 'top',
         horizontal: 'right',
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
+      }}*/
+      id="basic-menu"
+     // keepMounted
+     /* transformOrigin={{
         vertical: 'top',
         horizontal: 'right',
-      }}
+      }}*/
       open={isMenuOpen}
       onClose={handleMenuClose}
+      MenuListProps={{
+        'aria-labelledby': 'basic-button',
+      }}
     >
-      <MenuItem onClick={handleMenuClose}>User: {user}</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose} divider="true">User: {username}</MenuItem>
+      <MenuItem onClick={handleMenuClose}divider="true">My Account</MenuItem>
+      <MenuItem onClick={handleLogout}>Log Out</MenuItem>
     </Menu>
   );
 
@@ -244,10 +256,13 @@ export default function PersistentDrawerLeft(props) {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
+            sx={{ mr: 3, ...(open && { display: 'none' }) }}
           >
             <MenuIcon />
           </IconButton>
+          {props.item}
+          {props.icon}
+          
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -257,7 +272,8 @@ export default function PersistentDrawerLeft(props) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Box sx={{ flexGrow: 1 }} />
+
+          <Box sx={{ flexGrow: 2 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
@@ -282,7 +298,7 @@ export default function PersistentDrawerLeft(props) {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <Avatar src={img} />
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -380,7 +396,7 @@ export default function PersistentDrawerLeft(props) {
       </Drawer>
       <Main open={open} sx={{color:"black"}}>
         <DrawerHeader />
-        {props.item}
+        Content starts here if u wanna load content dynamically it should be props.children
         {props.children}
       </Main>
     </Box>
