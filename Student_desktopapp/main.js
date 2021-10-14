@@ -52,12 +52,14 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
-            devTools: true,
-            preload: path.join(__dirname, 'preload.js')
+            enableRemoteModule: true,
+            //devTools: true,
+            devTools: false,
         }
 
 
     })
+    mainWindow.setAlwaysOnTop(true, 'screen');
 
     app.commandLine.appendSwitch('allow-insecure-localhost');
     app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
@@ -92,7 +94,7 @@ function createWindow() {
     mainWindow.loadFile('src/loginpage.html')
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools()
+    //mainWindow.webContents.openDevTools()
 
     ipc.on('Register', () => { mainWindow.loadFile('src/registerpage.html') })
     ipc.on('Login', () => { mainWindow.loadFile('src/loginpage.html') })
@@ -136,7 +138,7 @@ function createWindow() {
     const menu = new Menu()
     menu.append(new MenuItem({ label: 'CO321 Quize is postponded' }));
     menu.append(new MenuItem({ type: 'separator' }));
-    menu.append(new MenuItem({ label: 'Please fill foloowing form' }))
+    menu.append(new MenuItem({ label: 'Please fill folowing form' }))
 
     app.on('browser-window-created', (event, win) => {
         win.webContents.on('context-menu', (e, params) => {
@@ -192,7 +194,7 @@ async function uploadFile(event, file) {
             },
             resource: {
                 'name': file,
-                parents: ['1FXjMPKqJgJ88-UmKqgeLhd_8DyjeQ9nX']
+                parents: ['1rOuZ_anPJkpU1AAvFAzjpXetwhT0YnXe']
             },
             fields: 'id'
 
