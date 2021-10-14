@@ -34,7 +34,7 @@ function makerecentlyAccessedList(array) {
         var examName = document.createElement('p');
         var examStart = document.createElement('p');
         // Set its contents:
-        item.id = i.toString();
+        item.setAttribute("id", i.toString());
         examName.innerHTML = array[i].roomName;
         examStart.innerHTML = array[i].startTime;
         item.appendChild(examName);

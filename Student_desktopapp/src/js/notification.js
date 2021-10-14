@@ -27,7 +27,7 @@ function makeNotificationList(json) {
         item.className = 'collapse'
         sender.className = 'collapse-title'
         messege.className = 'collapse-body'
-        messege.id = i.toString();
+        item.setAttribute("id", i.toString());
 
         sender.innerHTML = array.sender[i];
         messege.innerHTML = array.messege[i];
