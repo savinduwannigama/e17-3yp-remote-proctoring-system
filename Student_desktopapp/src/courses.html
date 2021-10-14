@@ -13,7 +13,7 @@
     <div class="header">
         <div class="container1">
             <div class="title">
-                <span>Courses</span>
+                <span id='title'>Courses</span>
             </div>
         </div>
         <!--<div class="container2">
@@ -80,7 +80,12 @@
     <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for a course name...">
 
     <div class="cards-bg">
-        <ul class="cards" id="cards"> </ul>
+        <ul class="cards" id="cards">
+            <!-- <li class='card' id='hi' name='C11'>
+                <p>code</p>
+                <p>yelloooo</p>
+            </li> -->
+        </ul>
     </div>
 
 
@@ -97,7 +102,7 @@
             <p>Department : <span>null</span></p>
             <p>Course coordinator: <span>null</span></p>
             <div class="center">
-                <button class="button" onclick="closePopup()">Close</button>
+                <button class="button" name='close' onclick="closePopup()">Close</button>
             </div>
         </div>
     </div>
