@@ -8,7 +8,7 @@ var api;
 
 var record = false;
 /************* online offline array ***************/
-var roomInfoJSON = '{"name":"CO227-Test"}';
+var roomInfoJSON = '{"name":"CO321 MID"}';
 var roomInfoArray = JSON.parse(roomInfoJSON);
 
 var offlineStart = -1,
