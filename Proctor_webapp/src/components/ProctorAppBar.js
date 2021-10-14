@@ -166,7 +166,7 @@ export default function PersistentDrawerLeft(props) {
   const handleLogout =()=>{
     localStorage.removeItem("username");
     localStorage.removeItem("profileimage");
-    history.push('/signin');
+    history.push('/');
   }
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -188,7 +188,7 @@ export default function PersistentDrawerLeft(props) {
         'aria-labelledby': 'basic-button',
       }}
     >
-      <MenuItem onClick={handleMenuClose} divider="true">User: {username}</MenuItem>
+      {/*<MenuItem onClick={handleMenuClose} divider="true"><Avatar src={img} /> {username}</MenuItem>*/}
       <MenuItem onClick={handleMenuClose}divider="true">My Account</MenuItem>
       <MenuItem onClick={handleLogout}>Log Out</MenuItem>
     </Menu>
@@ -275,7 +275,7 @@ export default function PersistentDrawerLeft(props) {
 
           <Box sx={{ flexGrow: 2 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+            {/*<IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
@@ -288,7 +288,7 @@ export default function PersistentDrawerLeft(props) {
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+  </IconButton>*/}
             <IconButton
               size="large"
               edge="end"
@@ -299,6 +299,8 @@ export default function PersistentDrawerLeft(props) {
               color="inherit"
             >
               <Avatar src={img} />
+              <div style={{paddingLeft:"10px",  fontSize:"15px",fontFamily:"Sansita"}}>{username}</div>
+              
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -396,7 +398,7 @@ export default function PersistentDrawerLeft(props) {
       </Drawer>
       <Main open={open} sx={{color:"black"}}>
         <DrawerHeader />
-        Content starts here if u wanna load content dynamically it should be props.children
+        {/*Content starts here if u wanna load content dynamically it should be props.children*/}
         {props.children}
       </Main>
     </Box>

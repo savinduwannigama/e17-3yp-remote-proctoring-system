@@ -53,7 +53,7 @@ function Login ()  {
             <Divider>Or</Divider>
             <br/>
             </div>
-            <Validationlogin/>
+            <Validationlogin next={'/home'}/>
            
             
           
