@@ -175,26 +175,29 @@ router.post('/login', (req, res) => {
 ////////////////////////////////////////////////////////////////////
 
 /**
- * API calls to the exams collection
+ * API calls to the chief_invigilating exams collection
  * proctor can only read exams
  * proctor can only read scheduled exams which he/she proctors
  */
 
 // to get acheduled exams relevant to the proctor
-// response --> {chief_invigilating_exams: [[{exam_room}, {exam}], [], ..., []], invigilating_exams: [[{exam_room}, {exam}], [], ..., []]}
-router.get('/exams/self', protectProctor, (req, res) => {
+// response --> {chief_invigilating_exams: [[{exam_room}, {exam}], [], ..., []]}
+router.get('/exams/chief_invigilator/self', protectProctor, (req, res) => {
     proctors.findById(req.proctor.id)
     .then(async result1 => {
         // const StudentRegNo = result1.regNo;
         const chief_invigilating_exams = [];
-        const invigilating_exams = [];
+        // const invigilating_exams = [];
         // const tempArray = [];
 
-        //////// getting the chief invigilating rooms
-        await exam_rooms.find({chief_invigilator: result1.name})
-        .then(async result2 => {
-            // const retArray = [];
-            // const tempArray = [];
+        try {
+            const result2 = await exam_rooms.find({chief_invigilator: result1.name});
+            // console.log(result2);
+            const res2len = result2.length;
+            if (res2len == 0)  // returning if there are no exam_rooms for the proctor
+                return res.json({chief_invigilating_exams});
+                 
+            var itrCounter = 0
             result2.forEach(room => {
                 var tempArray = [];
                 tempArray.push(room);
@@ -203,6 +206,10 @@ router.get('/exams/self', protectProctor, (req, res) => {
                     tempArray.push(result3);
                     // adding the array [exam_room, exam] as an element to the returning array
                     chief_invigilating_exams.push(tempArray);
+                    itrCounter += 1;
+                    // console.log({chief_invigilating_exams});
+                    if (itrCounter >= res2len)  // sending the response if the loop has iterated through all the exam_rooms 
+                        return res.json({chief_invigilating_exams});
                     // clearing the tempArray for the next iteration
                     tempArray = [];
 
@@ -210,57 +217,88 @@ router.get('/exams/self', protectProctor, (req, res) => {
                 .catch(err => {
                     console.log("Error occured while trying to find the exam of the given exam_room (chief invigilating)");
                     // returns from the entire API call sending the error as the response
-                    return res.json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room (chief invigilating)', error: String(err)});
+                    return res.status(400).json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room (chief invigilating)', error: String(err)});
                 });
                 // // adding the array [exam_room, exam] as an element to the returning array
                 // chief_invigilating_exams.push(tempArray);
                 // // clearing the tempArray for the next iteration
                 // tempArray = [];
             });
-            // res.json(retArray);
-        })
-        .catch(err => {
+        }
+        catch (err) {
             console.log("Error occured while trying to find the exam_rooms for the given proctor name (chief invigilating)");
             res.json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name (chief invigilating)', error: String(err)});
-        });
+        }
+        // //////// getting the chief invigilating rooms
+        // await exam_rooms.find({chief_invigilator: result1.name})
+        // .then(result2 => {
+        //     // const retArray = [];
+        //     // const tempArray = [];
+        //     result2.forEach(room => {
+        //         var tempArray = [];
+        //         tempArray.push(room);        res.json({chief_invigilating_exams, invigilating_exams});
 
-        //////// getting the invigilating rooms
-        await exam_rooms.find({invigilator: result1.name})
-        .then(result2 => {
-            // const retArray = [];
-            // const tempArray = [];
+        //             // adding the array [exam_room, exam] as an element to the returning array
+        //             chief_invigilating_exams.push(tempArray);
+        //             console.log({chief_invigilating_exams});
+        //             // clearing the tempArray for the next iteration
+        //             tempArray = [];
+
+        //         })
+        //         .catch(err => {
+        //             console.log("Error occured while trying to find the exam of the given exam_room (chief invigilating)");
+        //             // returns from the entire API call sending the error as the response
+        //             return res.json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room (chief invigilating)', error: String(err)});
+        //         });
+        //         // // adding the array [exam_room, exam] as an element to the returning array
+        //         // chief_invigilating_exams.push(tempArray);
+        //         // // clearing the tempArray for the next iteration
+        //         // tempArray = [];
+        //     });
+        //     // res.json(retArray);
+        // })
+        // .catch(err => {
+        //     console.log("Error occured while trying to find the exam_rooms for the given proctor name (chief invigilating)");
+        //     res.json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name (chief invigilating)', error: String(err)});
+        // });
+
+        // //////// getting the invigilating rooms
+        // await exam_rooms.find({invigilator: result1.name})
+        // .then(result2 => {
+        //     // const retArray = [];
+        //     // const tempArray = [];
             
-            tempArray = [];  // not necessary
-            result2.forEach(room => {
-                var tempArray = [];
-                tempArray.push(room);
-                exams.findOne({name: room.exam})
-                .then(result3 => {
-                    tempArray.push(result3);
-                    // adding the array [exam_room, exam] as an element to the returning array
-                    invigilating_exams.push(tempArray);
-                    // clearing the tempArray for the next iteration
-                    tempArray = [];
-                })
-                .catch(err => {
-                    console.log("Error occured while trying to find the exam of the given exam_room (invigilating)");
-                    // returns from the entire API call sending the error as the response
-                    return res.json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room (invigilating)', error: String(err)});
-                });
-                // // adding the array [exam_room, exam] as an element to the returning array
-                // invigilating_exams.push(tempArray);
-                // // clearing the tempArray for the next iteration
-                // tempArray = [];
-            });
-            // res.json(retArray);
-        })
-        .catch(err => {
-            console.log("Error occured while trying to find the exam_rooms for the given proctor name (invigilating)");
-            res.json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name (invigilating)', error: String(err)});
-        });
+        //     tempArray = [];  // not necessary
+        //     result2.forEach(room => {
+        //         var tempArray = [];
+        //         tempArray.push(room);
+        //         exams.findOne({name: room.exam})
+        //         .then(result3 => {
+        //             tempArray.push(result3);
+        //             // adding the array [exam_room, exam] as an element to the returning array
+        //             invigilating_exams.push(tempArray);
+        //             // clearing the tempArray for the next iteration
+        //             tempArray = [];
+        //         })
+        //         .catch(err => {
+        //             console.log("Error occured while trying to find the exam of the given exam_room (invigilating)");
+        //             // returns from the entire API call sending the error as the response
+        //             return res.json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room (invigilating)', error: String(err)});
+        //         });
+        //         // // adding the array [exam_room, exam] as an element to the returning array
+        //         // invigilating_exams.push(tempArray);
+        //         // // clearing the tempArray for the next iteration
+        //         // tempArray = [];
+        //     });
+        //     // res.json(retArray);
+        // })
+        // .catch(err => {
+        //     console.log("Error occured while trying to find the exam_rooms for the given proctor name (invigilating)");
+        //     res.json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name (invigilating)', error: String(err)});
+        // });
 
         // sending the succeess response to the user
-        res.json({chief_invigilating_exams, invigilating_exams});
+        // res.json({chief_invigilating_exams, invigilating_exams});
 
     })
     .catch(err => {
@@ -269,6 +307,63 @@ router.get('/exams/self', protectProctor, (req, res) => {
     });
 });
 
+// to get scheduled invigilating exams relevant to the proctor
+// response --> {invigilating_exams: [[{exam_room}, {exam}], [], ..., []]}
+router.get('/exams/invigilator/self', protectProctor, (req, res) => {
+    proctors.findById(req.proctor.id)
+    .then(async result1 => {
+        // const StudentRegNo = result1.regNo;
+        // const chief_invigilating_exams = [];
+        const invigilating_exams = [];
+        // const tempArray = [];
+
+        try {
+            const result2 = await exam_rooms.find({invigilator: result1.name});
+            // console.log(result2);
+            const res2len = result2.length;
+
+            if (res2len == 0)  // returning if there are no exam_rooms for the proctor
+                return res.json({invigilating_exams});
+                 
+            var itrCounter = 0
+            result2.forEach(room => {
+                var tempArray = [];
+                tempArray.push(room);
+                exams.findOne({name: room.exam})
+                .then(result3 => {
+                    tempArray.push(result3);
+                    // adding the array [exam_room, exam] as an element to the returning array
+                    invigilating_exams.push(tempArray);
+                    itrCounter += 1;
+                    // console.log({chief_invigilating_exams});
+                    if (itrCounter >= res2len)  // sending the response if the loop has iterated through all the exam_rooms 
+                        return res.json({invigilating_exams});
+                    // clearing the tempArray for the next iteration
+                    tempArray = [];
+
+                })
+                .catch(err => {
+                    console.log("Error occured while trying to find the exam of the given exam_room (invigilating)");
+                    // returns from the entire API call sending the error as the response
+                    return res.status(400).json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room (invigilating)', error: String(err)});
+                });
+                // // adding the array [exam_room, exam] as an element to the returning array
+                // chief_invigilating_exams.push(tempArray);
+                // // clearing the tempArray for the next iteration
+                // tempArray = [];
+            });
+        }
+        catch (err) {
+            console.log("Error occured while trying to find the exam_rooms for the given proctor name (invigilating)");
+            res.json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name (invigilating)', error: String(err)});
+        }
+
+    })
+    .catch(err => {
+        console.log("Error occured while trying to find the proctor name from given ID");
+        res.json({status: 'failure', message: 'Error occured while trying to find the proctor name from given ID', error: String(err)});
+    });
+});
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -300,20 +395,25 @@ router.get('/courses/all', (req, res) => {
 });
 
 // call to get courses which have scheduled exams to be invigilators
-// response --> {chief_invigilating_courses: [], invigilating_courses: []}
-router.get('/courses/self', protectProctor, (req, res) => {
+// response --> {chief_invigilating_courses: []}
+router.get('/courses/chief_invigilating/self', protectProctor, (req, res) => {
     proctors.findById(req.proctor.id)
     .then(async result1 => {
         // const StudentRegNo = result1.regNo;
         const chief_invigilating_courses = [];
-        const invigilating_courses = [];
+        // const invigilating_courses = [];
         // const tempArray = [];
 
         //////// getting the chief invigilating rooms
-        await exam_rooms.find({chief_invigilator: result1.name})
-        .then(async result2 => {
+        exam_rooms.find({chief_invigilator: result1.name})
+        .then(result2 => {
             // const retArray = [];
             // const tempArray = [];
+            const res2len = result2.length;
+            if(res2len == 0) {
+                return res.json({chief_invigilating_courses});
+            }
+            var itrCounter = 0;
             result2.forEach(room => {
                 // var tempArray = [];
                 // tempArray.push(room);
@@ -322,8 +422,12 @@ router.get('/courses/self', protectProctor, (req, res) => {
                     // tempArray.push(result3);
                     // adding the array [exam_room, exam] as an element to the returning array
                     chief_invigilating_courses.push(result3.course);
+                    itrCounter += 1;
+                    if(itrCounter >= res2len)  // sending the response and returning after looping through all the rooms
+                        return res.json({chief_invigilating_courses});
                     // clearing the tempArray for the next iteration
                     // tempArray = [];
+
 
                 })
                 .catch(err => {
@@ -343,13 +447,71 @@ router.get('/courses/self', protectProctor, (req, res) => {
             res.status(400).json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name (chief invigilating)', error: String(err)});
         });
 
+        // //////// getting the invigilating rooms
+        // await exam_rooms.find({invigilator: result1.name})
+        // .then(result2 => {
+        //     // const retArray = [];
+        //     // const tempArray = [];
+            
+        //     // tempArray = [];  // not necessary
+        //     result2.forEach(room => {
+        //         // var tempArray = [];
+        //         // tempArray.push(room);
+        //         exams.findOne({name: room.exam})
+        //         .then(result3 => {
+        //             // tempArray.push(result3);
+        //             // adding the array [exam_room, exam] as an element to the returning array
+        //             invigilating_courses.push(tempArray);
+        //             // clearing the tempArray for the next iteration
+        //             // tempArray = [];
+        //         })
+        //         .catch(err => {
+        //             console.log("Error occured while trying to find the exam of the given exam_room (invigilating)");
+        //             // returns from the entire API call sending the error as the response
+        //             return res.status(400).json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room (invigilating)', error: String(err)});
+        //         });
+        //         // // adding the array [exam_room, exam] as an element to the returning array
+        //         // invigilating_exams.push(tempArray);
+        //         // // clearing the tempArray for the next iteration
+        //         // tempArray = [];
+        //     });
+        //     // res.json(retArray);
+        // })
+        // .catch(err => {
+        //     console.log("Error occured while trying to find the exam_rooms for the given proctor name (invigilating)");
+        //     res.status(400).json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name (invigilating)', error: String(err)});
+        // });
+
+        // // sending the succeess response to the user
+        // res.json({chief_invigilating_courses, invigilating_courses});
+
+    })
+    .catch(err => {
+        console.log("Error occured while trying to find the proctor name from given ID");
+        res.status(400).json({status: 'failure', message: 'Error occured while trying to find the proctor name from given ID', error: String(err)});
+    });
+});
+
+// call to get courses which have scheduled exams to be invigilators
+// response --> {invigilating_courses: []}
+router.get('/courses/invigilating/self', protectProctor, (req, res) => {
+    proctors.findById(req.proctor.id)
+    .then(async result1 => {
+        // const StudentRegNo = result1.regNo;
+        // const chief_invigilating_courses = [];
+        const invigilating_courses = [];
+        // const tempArray = [];
+
         //////// getting the invigilating rooms
-        await exam_rooms.find({invigilator: result1.name})
+        exam_rooms.find({invigilator: result1.name})
         .then(result2 => {
             // const retArray = [];
             // const tempArray = [];
-            
-            // tempArray = [];  // not necessary
+            const res2len = result2.length;
+            if(res2len == 0) {
+                return res.json({invigilating_courses});
+            }
+            var itrCounter = 0;
             result2.forEach(room => {
                 // var tempArray = [];
                 // tempArray.push(room);
@@ -357,9 +519,14 @@ router.get('/courses/self', protectProctor, (req, res) => {
                 .then(result3 => {
                     // tempArray.push(result3);
                     // adding the array [exam_room, exam] as an element to the returning array
-                    invigilating_courses.push(tempArray);
+                    invigilating_courses.push(result3.course);
+                    itrCounter += 1;
+                    if(itrCounter >= res2len)  // sending the response and returning after looping through all the rooms
+                        return res.json({invigilating_courses});
                     // clearing the tempArray for the next iteration
                     // tempArray = [];
+
+
                 })
                 .catch(err => {
                     console.log("Error occured while trying to find the exam of the given exam_room (invigilating)");
@@ -377,10 +544,6 @@ router.get('/courses/self', protectProctor, (req, res) => {
             console.log("Error occured while trying to find the exam_rooms for the given proctor name (invigilating)");
             res.status(400).json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name (invigilating)', error: String(err)});
         });
-
-        // sending the succeess response to the user
-        res.json({chief_invigilating_courses, invigilating_courses});
-
     })
     .catch(err => {
         console.log("Error occured while trying to find the proctor name from given ID");

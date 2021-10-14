@@ -11,14 +11,15 @@ document.addEventListener('DOMContentLoaded', function() {
         eventColor: 'orange',
         events: [{
             title: "CO321",
-            start: '2021-09-10T10:00:00',
-            end: '2021-09-10T16:00:00',
+            start: '2021-11-10T10:00:00',
+            end: '2021-11-10T16:00:00',
             display: 'block',
+            id: 'CO321exam',
 
         }, {
             title: "CO322",
-            start: '2021-09-12T10:00:00',
-            end: '2021-09-12T16:00:00',
+            start: '2021-11-12T10:00:00',
+            end: '2021-11-12T16:00:00',
             display: 'block',
         }],
         eventClick: function(info) {
