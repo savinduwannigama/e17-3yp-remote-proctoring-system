@@ -5,7 +5,7 @@
     <title>Connexa</title>
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/home.css">
-    <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+    <script defer src="js/data/userdetails.js"></script>
     <script defer src="js/header.js"></script>
     <script defer src="js/home.js"></script>
 </head>
@@ -17,14 +17,7 @@
                 <span id='title'>Home</span>
             </div>
         </div>
-        <!--<div class="container2">
-            <div class="search">
-                <input type="text" class="searchTerm" placeholder="search">
-                <button type="submit" id="searchbtn" class="searchButton">
-                 <i class="fa fa-search"></i>
-              </button>
-            </div>
-        </div>-->
+        <div class="container2" onclick="refresh();"></div>
         <div class="container3">
             <div class="battery">
                 <div class="container">
@@ -37,12 +30,6 @@
                 </div>
                 <p id="batteryLevelOutput"></p>
             </div>
-        </div>
-        <div class="container4">
-            <div class="notification">
-                <img id="show_notifications" src="img/icons/notification.png">
-                <span id="badge" class="badge">8</span>
-            </div>
         </div>
     </div>
 
@@ -70,9 +57,9 @@
             <li tabindex="0" id="course" class="icon-courses"><span>Courses</span></li>
             <li tabindex="0" id="schedule" class="icon-schedule"><span>Exam Schedule</span></li>
             <li tabindex="0" id="upload" class="icon-upload"><span>Upoad Videos</span></li>
-            <li tabindex="0" id="notification" class="icon-notifications"><span>Notifications</span></li>
             <li tabindex="0" id="settings" class="icon-settings"><span>Settings</span></li>
             <li tabindex="0" id="help" class="icon-help"><span>Help</span></li>
+            <li tabindex="0" id="Login" class="icon-logout"><span>Log out</span></li>
         </ul>
     </nav>
     <!--body starts here-->
@@ -94,22 +81,10 @@
             <p class=sec-title>up coming exams</p>
             <hr>
             <ul id="examlist">
-                <li>Wendsday: Apr 3, 2021 8.00 a.m - CO323</li>
-                <li>Thursday: Apr 4, 2021 8.00 a.m - CO322</li>
-                <li>Friday: Apr 5, 2021 8.00 a.m - CO227</li>
-                <li>Monday: Apr 8, 2021 8.00 a.m - CO325</li>
-                <li>Thursday: Apr 11, 2021 8.00 a.m - CO321</li>
-                <li>Friday: Apr 12, 2021 8.00 a.m - COEE386</li>
             </ul>
         </div>
 
     </div>
-    <script>
-        /*for (var i = 0; i < localStorage.length; i++) {
-                                                                                                                                                                                                            console.log(localStorage.getItem(localStorage.key(i)));
-                                                                                                                                                                                                        }*/
-    </script>
-
 </body>
 
 </html>

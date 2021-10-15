@@ -66,27 +66,42 @@ video::-webkit-media-controls-panel {
     display: none;
 }
 
+.body {
+    overflow: hidden;
+    height: 90px;
+    background-color: var(--sub-color);
+    margin: 15px;
+    border-radius: 15px;
+}
 
-/*.box {
-    width: 40%;
-    margin: 0 auto;
-    background: rgba(255, 255, 255, 0.2);
-    padding: 35px;
-    border: 2px solid red;
-    border-radius: 20px/50px;
-    background-clip: padding-box;
-    text-align: center;
-}*/
+.body p {
+    margin: 7px;
+}
 
-.link {
-    font-size: 17px;
+.profile {
+    display: inline-block;
+    width: 70px;
     padding: 10px;
 }
 
-.link a {
-    color: var(--font-color);
-    text-decoration: none;
+.info {
+    display: inline-block;
+}
+
+#user_prof {}
+
+.link {
+    font-size: 17px;
+    margin-left: 15px;
+    margin-right: 15px;
+    padding: 10px;
     cursor: pointer;
+    color: var(--font-color);
+    background-color: var(--sub-color);
+}
+
+a {
+    text-decoration: none;
 }
 
 
@@ -143,7 +158,9 @@ video::-webkit-media-controls-panel {
 }
 
 .theme {
-    overflow: hidden;
+    float: right;
+    margin-right: 8px;
+    margin-top: 5px;
 }
 
 .theme p {

@@ -1,12 +1,18 @@
-const {
-    ipcRenderer
-} = require('electron')
+const { ipcRenderer } = require('electron')
 const ipc = ipcRenderer
 
 const date = require('date-and-time');
 var api;
 
+
+/****************** variables **********************/
+
+const userName = localStorage.getItem("username");
+const userEmail = localStorage.getItem("email");
+
 var record = false;
+
+
 /************* online offline array ***************/
 var roomInfoJSON = '{"name":"CO321 MID"}';
 var roomInfoArray = JSON.parse(roomInfoJSON);
@@ -18,8 +24,8 @@ var statusArray = [];
 var examdetails = {};
 
 
-
 /************ jitsi room settings *********************/
+
 examdetails['roomName'] = roomInfoArray.name;
 
 
@@ -29,17 +35,34 @@ const options = {
     width: 750,
     height: 400,
     userInfo: {
-        displayName: localStorage.getItem("username")
+        email: userEmail,
+        displayName: userName,
     },
-    interfaceConfigOverwrite: {
-        TILE_VIEW_MAX_COLUMNS: 2,
-        DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
+    configOverwrite: {
         startWithAudioMuted: false,
         startWithVideoMuted: false,
+        enableWelcomePage: false,
+        prejoinPageEnabled: false,
+        logoImageUrl: 'hi',
+        toolbarButtons: ['camera', 'chat',
+            'microphone', 'raisehand'
+        ],
+
+    },
+    interfaceConfigOverwrite: {
+        TILE_VIEW_MAX_COLUMNS: 1,
+        DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
+        APP_NAME: 'Connexa',
+        DEFAULT_LOGO_URL: '',
+
     },
 
     parentNode: document.querySelector('#meet')
 };
+
+
+
+/************************ Recordings *************************/
 
 let mediaRecorder;
 let recordedBlobs;
@@ -79,9 +102,7 @@ downloadButton.addEventListener('click', () => {
     examdetails['endTime'] = date.format(new Date(), 'DD MMM YYYY HH-mm-ss');
 
     var time = date.format(new Date(), 'DD MMM YYYY HH_mm_ss');
-    var participantName = localStorage.getItem("email")
-    var name = participantName + " " + time;
-    //time.toString().split(':').join('_');
+    var name = time;
     mediaRecorder.resume();
     stopRecording();
 
@@ -193,6 +214,8 @@ startButton.addEventListener('click', async() => {
         }
     };
     console.log('Using media constraints:', constraints);
+
+    //jitsi meeting starts here
     api = new JitsiMeetExternalAPI(domain, options);
     await init(constraints);
     examdetails['startTime'] = date.format(new Date(), 'DD MMM YYYY HH-mm-ss')
@@ -201,6 +224,7 @@ startButton.addEventListener('click', async() => {
 
 
 /****************** recently acced exams *******************/
+
 function additem(data) {
 
     var items = JSON.parse(localStorage.getItem('examdetails'));

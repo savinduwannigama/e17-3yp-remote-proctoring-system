@@ -16,14 +16,7 @@
                 <span id='title'>Settings</span>
             </div>
         </div>
-        <!--<div class="container2">
-            <div class="search">
-                <input type="text" class="searchTerm" placeholder="search">
-                <button type="submit" id="searchbtn" class="searchButton">
-                 <i class="fa fa-search"></i>
-              </button>
-            </div>
-        </div>-->
+        <div class="container2" onclick="refresh();"></div>
         <div class="container3">
             <div class="battery">
                 <div class="container">
@@ -36,12 +29,6 @@
                 </div>
                 <p id="batteryLevelOutput"></p>
             </div>
-        </div>
-        <div class="container4">
-            <div class="notification">
-                <img id="show_notifications" src="img/icons/notification.png">
-                <span id="badge" class="badge">7</span>
-            </div>
         </div>
     </div>
 
@@ -69,37 +56,40 @@
             <li tabindex="0" id="course" class="icon-courses"><span>Courses</span></li>
             <li tabindex="0" id="schedule" class="icon-schedule"><span>Exam Schedule</span></li>
             <li tabindex="0" id="upload" class="icon-upload"><span>Upoad Videos</span></li>
-            <li tabindex="0" id="notification" class="icon-notifications"><span>Notifications</span></li>
             <li tabindex="0" id="settings" class="icon-settings"><span>Settings</span></li>
             <li tabindex="0" id="help" class="icon-help"><span>Help</span></li>
         </ul>
     </nav>
-    <div class="separator3"></div>
+    <div class="separator2"></div>
     <!--body starts here-->
-    <div class='body'>
-        <div class="link">
-            <a id="changename" href="#popup1">change your user name</a>
-        </div>
 
-        <div class="link">
-            <a id="profpic" href="#popup2">change your profile picture</a>
-        </div>
 
-        <div class="link">
-            <a id="start" href="#popup3">Test your camera</a>
-        </div>
-
+    <div class="body">
         <div class=theme>
-            <p>change theme</p>
             <div class="toggle-btn" id="_1st-toggle-btn">
                 <input type="checkbox" id="checkbox">
                 <span></span>
             </div>
         </div>
+        <div class="profile">
+            <img id=profpic src="img/avatar/user.png" />
+        </div>
+        <div class='info'>
+            <p id='username'>Name</p>
+            <p id='regno'>regNo</p>
+            <p id='emailaddr'>email address</p>
+        </div>
     </div>
 
-
-
+    <a href="#popup1">
+        <p class='link'>Change your name</p>
+    </a>
+    <a href="#popup2">
+        <p class='link'>Change your profile picture</p>
+    </a>
+    <a id="start" href="#popup3">
+        <p class="link">Test your camera</p>
+    </a>
 
 
     <!-- pop ups -->

@@ -1,18 +1,8 @@
 const { ipcRenderer } = require('electron')
 const ipc = ipcRenderer
 
+
 const date = require('date-and-time');
-
-
-const contextMenuBtn = document.getElementById("show_notifications")
-contextMenuBtn.addEventListener('click', () => {
-    ipc.send('notification')
-})
-
-const MenuBtn = document.getElementById("badge")
-MenuBtn.addEventListener('click', () => {
-    ipc.send('notification')
-})
 
 var btn = document.getElementById("list").getElementsByTagName('li')
 var btncount = btn.length;
@@ -112,11 +102,11 @@ function updateOnlineStatus(event) {
         time.style.display = "none";
         timeindicator.style.display = "none";
 
-        status.style.background = "rgba(255, 0, 0, 0.678)";
+        status.style.background = "rgb(187, 10, 10)";
         status.innerHTML = "YOU ARE OFFLINE !";
 
     } else {
-        status.style.background = "#1eb119bd";
+        status.style.background = "#63cc26";
         status.innerHTML = "YOU ARE ONLINE !";
         setTimeout(function() {
             status.style.display = "none";
@@ -141,7 +131,7 @@ window.addEventListener("load", function() {
         time.style.display = "none";
         timeindicator.style.display = "none";
 
-        status.style.background = "rgba(255, 0, 0, 0.678)";
+        status.style.background = "rgb(187, 10, 10)";
         status.innerHTML = "YOU ARE OFFLINE";
     }
 })
@@ -154,10 +144,10 @@ window.addEventListener("load", function() {
     document.getElementById("avatar").src = data[0].avatar
 })*/
 
-if (typeof(Storage) !== "undefined" && localStorage.username) {
-    var username = document.getElementById("user_name");
-    username.innerHTML = localStorage.getItem("username");
-}
+
+var username = document.getElementById("user_name");
+username.innerHTML = sessionStorage.getItem("name");
+
 
 if (typeof(Storage) !== "undefined" && localStorage.useravatar) {
     var useravatar = document.getElementById("avatar");
@@ -181,6 +171,22 @@ function closePopup() {
     a.click();
     setTimeout(() => {
         document.body.removeChild(a);
+    }, 200);
+}
+
+function closenRefresh() {
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = '#';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+        document.body.removeChild(a);
         location.reload();
     }, 200);
+
+}
+
+function refresh() {
+    location.reload();
 }
