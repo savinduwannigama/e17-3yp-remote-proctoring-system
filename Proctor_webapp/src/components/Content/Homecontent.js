@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-
+import Grid from '@mui/material/Grid';
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -26,7 +26,7 @@ function renderer ()  {
       const roomname = t[0]["room_name"];
       console.log(roomname)
       return(
-        <Card sx={{width: "30%", height:"60vh" ,color:"black",margin:"auto",backgroundColor:"#00666633",padding:"15px",fontSize:"15px",borderRadius:"32px"}}>
+        <Card sx={{width: "45%", height:"60vh" ,color:"black",margin:"auto",marginBottom:"40px", backgroundColor:"#00666633",padding:"15px",fontSize:"15px",borderRadius:"32px", display:"inline"}}>
             <div className="card-body" >
                 <h4 className="card-title">{t[1]['name']}</h4>
                 <Stack>
@@ -56,9 +56,13 @@ function renderer ()  {
       )
     })
     return(
-      <Stack direction="row" >
-        {trail}
-      </Stack>
+      <Box sx={{ flexGrow:1 }}>
+      <Grid container rowSpacing={6} >
+        
+          {trail}
+        
+        </Grid>
+    </Box>
     )
   }
 }

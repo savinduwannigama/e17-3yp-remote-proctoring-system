@@ -4,7 +4,14 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import "../css/Admin.css"
 import NavBar from './AdminAppBar';
 import Box from '@mui/material/Box';
+import axios from 'axios';
 function adminhome() {
+    axios.get("http://143.244.139.140:5000/api/admin/courses/all").then(resp=>{
+        console.log(resp.data)
+    })
+    axios.get("http://143.244.139.140:5000/api/admin/proctors/all").then(resp=>{
+        console.log(resp.data)
+    })
     return (
        
         <div className="admin-main">
@@ -25,7 +32,7 @@ function adminhome() {
             
             </ButtonGroup>
             <ButtonGroup  orientation="vertical">
-            <Adminbtn btnname="Add Proctors" value="proctors"/>
+            <Adminbtn btnname="Add Proctors" value="proctors" url="proctors/multiple"/>
             </ButtonGroup>
             </Box>
             
