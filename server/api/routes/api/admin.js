@@ -60,12 +60,13 @@ router.post('/register', (req, res) => {
             if(admin) {  // given email exists as a admin
                 // checks whether the email is set or not. to check whether the admin has already registered or not
                 console.log(admin);
-                if(admin.password == '') {  // admin not yet register
+                if(admin.isRegistered == false) {  // admin not yet register
                     bcrypt.genSalt(10, (err, salt) => {  //ADD ERROR HANDLING FOR THE genSalt() FUNCTION
                         bcrypt.hash(password0, salt, (err, hash) => {
                             if(err) throw err;  // HANDLE WHAT HAPPENS HERE
                             // setting admin's password to hashed value
                             admin.password = hash;
+                            admin.isRegistered = true;
                             // saving the admin with the new password hash
                             admin.save()
                             .then(() => {
@@ -581,7 +582,7 @@ router.post('/courses/single', (req, res) => {
     // res.redirect('/*path of the page to redirect to after regitering */'); 
 });
 
-// add multiple courses from a mastersheet 
+// add multiple courses from a mpasswordastersheet 
 // receiving object => {"uploaded file": "courses", "details": [[], [start], [], ..., [end]]}
 router.post('/courses/mastersheet', async (req, res) => {
     const record = req.body;

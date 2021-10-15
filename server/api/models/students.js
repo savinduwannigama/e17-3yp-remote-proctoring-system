@@ -7,6 +7,7 @@ const studentsSchema = new mongoose.Schema({
     regNo: {type: String, required: true, unique: true},
     email: {type: String, required: true, unique: true},  // student names and emails are required
     password: {type: String, default: '', select: false},
+    isRegistered: {type: Boolean, default: false},
     department: {type: String, default: ''},
     // relationship with the devices (HAS)
     device: {type: String, default: 'No device given'}  // FK | maps to the device that the student has

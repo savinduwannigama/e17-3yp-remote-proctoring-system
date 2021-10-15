@@ -81,12 +81,13 @@ router.post('/register', (req, res) => {
         .then(student => {
             if(student) {  // given email exists as a student
                 // checks whether the email is set or not. to check whether the student has already registered or not
-                if(student.password == '') {  // student not yet register
+                if(student.isRegistered == false) {  // student not yet register
                     bcrypt.genSalt(10, (err, salt) => {
                         bcrypt.hash(password0, salt, (err, hash) => {
                             if(err) throw err;  // HANDLE WHAT HAPPENS HERE
                             // setting student's password to hashed value
                             student.password = hash;
+                            student.isRegistered = true;
                             // saving the student with the new password hash
                             student.save()
                             .then(() => {

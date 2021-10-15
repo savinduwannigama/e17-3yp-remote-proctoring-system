@@ -79,12 +79,13 @@ router.post('/register', (req, res) => {
         .then(proctor => {
             if(proctor) {  // given email exists as a proctor
                 // checks whether the email is set or not. to check whether the proctor has already registered or not
-                if(proctor.password == '') {  // proctor not yet register
+                if(proctor.isRegistered == false) {  // proctor not yet register
                     bcrypt.genSalt(10, (err, salt) => {
                         bcrypt.hash(password0, salt, (err, hash) => {
                             if(err) throw err;  // HANDLE WHAT HAPPENS HERE
                             // setting proctor's password to hashed value
                             proctor.password = hash;
+                            proctor.isRegistered = true;
                             // saving the proctor with the new password hash
                             proctor.save()
                             .then(() => {
