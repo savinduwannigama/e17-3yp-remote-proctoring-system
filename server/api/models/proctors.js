@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken');
 const proctorsSchema = new mongoose.Schema({
     name: {type: String, required: true},  // used as the PK for now | must change PK to email
     email: {type: String, required: true, unique: true},
-    password: {type: String, default: '', select: false}
+    password: {type: String, default: '', select: false},
+    isRegistered: {type: Boolean, default: false}
     
 }, {collection: 'proctors'})
 
@@ -29,6 +30,8 @@ proctorsSchema.methods.matchPasswords = async function(enteredPassword) {
 
 proctorsSchema.methods.getSignedToken = function(cb) {
     // signing a JWT token with the user _id
+    // uses the HS256 algorithm to sign
+    // uses the use id as the payload
     return jwt.sign({ id: this._id }, process.env.JWT_SECRET_STUDENT, {expiresIn: process.env.JWT_EXPIRE_STUDENT});
 }
 
