@@ -29,6 +29,8 @@ proctorsSchema.methods.matchPasswords = async function(enteredPassword) {
 
 proctorsSchema.methods.getSignedToken = function(cb) {
     // signing a JWT token with the user _id
+    // uses the HS256 algorithm to sign
+    // uses the use id as the payload
     return jwt.sign({ id: this._id }, process.env.JWT_SECRET_STUDENT, {expiresIn: process.env.JWT_EXPIRE_STUDENT});
 }
 
