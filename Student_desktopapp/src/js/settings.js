@@ -1,5 +1,6 @@
-/*global media recorder */
+const axios = require('axios');
 
+/*global media recorder */
 let mediaRecorder;
 let recordedBlobs;
 
@@ -115,7 +116,7 @@ document.querySelector('#close').addEventListener('click', async() => {
     recordedVideo.pause();
     recordedVideo.currentTime = 0;
     recordedVideo.srcObject = null;
-    closePopup();
+    closenRefresh();
 
 });
 
@@ -135,7 +136,7 @@ img.addEventListener('click', function(event) {
 
 document.getElementById("changeavtr").addEventListener("click", () => {
     localStorage.setItem("useravatar", def.src);
-    closePopup();
+    closenRefresh();
 })
 
 
@@ -184,18 +185,56 @@ function countlength() {
 
 }
 
-if (typeof(Storage) !== "undefined" && localStorage.username) {
-    var username = document.getElementById("name");
-    username.defaultValue = localStorage.getItem("username");
-}
+
+/******************** user info *****************/
+var username = sessionStorage.getItem("name");
+var useremail = sessionStorage.getItem("email");
+var regno = sessionStorage.getItem('regNo');
+var department = sessionStorage.getItem("department");
+var device = sessionStorage.getItem("device");
+
+document.getElementById("name").defaultValue = username;
+document.getElementById("username").innerHTML = username;
+document.getElementById("emailaddr").innerHTML = useremail;
+document.getElementById("regno").innerHTML = regno;
+
+var userpic = document.getElementById("profpic");
+userpic.src = localStorage.getItem('useravatar')
 
 
+/*************** change name *******************************/
 document.getElementById("entername").addEventListener("click", () => {
 
     var newname = document.getElementById("name").value;
     if (newname.length != 0) {
-        localStorage.setItem("username", newname);
+        console.log(newname);
+        sessionStorage.setItem("name", newname);
+        axios({
+                method: 'put',
+                url: 'http://143.244.139.140:5000/api/student/students/self',
+                responseType: 'json',
+                headers: {
+                    'Authorization': "BEARER " + sessionStorage.getItem('token'),
+                },
+                data: {
+                    "name": newname,
+                    "regNo": sessionStorage.getItem('regNo'),
+                    "email": useremail,
+                    "department": department,
+                    "device": device,
+                },
+            })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch(function(error) {
+                if (error.response) {
+                    console.log(error.response.message);
+
+                };
+            });
+
     }
-    closePopup();
+    closenRefresh();
 
 })

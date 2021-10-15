@@ -130,9 +130,11 @@ mark {
     padding-right: 10px;
     font-size: 20px;
     right: 0px;
-    top: 45px;
+    top: 40px;
     color: white;
     background: transparent;
+    border-top: 5px solid var(--bg-color);
+    border-bottom: 5px solid var(--bg-color);
 }
 
 .timeindicator {
@@ -161,7 +163,7 @@ mark {
     background-color: var(--bg-color);
     position: fixed;
     margin-top: 40px;
-    height: 55px !important;
+    height: 50px !important;
 }
 
 .timestamp p {
@@ -263,8 +265,13 @@ mark {
 
 .container2 {
     position: absolute;
-    left: 300px;
-    width: 250px;
+    top: 5px;
+    right: 120px;
+    width: 30px;
+    height: 30px;
+    background-image: url(../img/icons/refresh.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 .container3 {
@@ -272,7 +279,7 @@ mark {
     top: 9px;
     display: inline-block;
     width: 100px;
-    right: 50px;
+    right: 0px;
 }
 
 .container4 {
@@ -350,38 +357,6 @@ mark {
 }
 
 
-/******************* notifications ************/
-
-.notification {
-    background-color: transparent;
-    position: relative;
-    display: inline-block;
-    margin-top: 4px;
-}
-
-.notification img {
-    margin-top: 2px;
-    width: 30px;
-    cursor: pointer;
-}
-
-.notification .badge {
-    position: absolute;
-    top: 0;
-    right: -7px;
-    width: 20px;
-    height: 20px;
-    padding: 1px;
-    border-radius: 100%;
-    background: red;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
-    text-align: center;
-    font-size: 15px;
-}
-
-
 /********** hamburger menu ************/
 
 main {
@@ -422,7 +397,7 @@ main {
 }
 
 .offline {
-    border: 4px solid rgb(255, 0, 0);
+    border: 4px solid rgb(187, 10, 10);
 }
 
 .menu .avatar h2 {
@@ -486,6 +461,10 @@ main {
 
 .menu ul li.icon-help {
     background-image: url("../img/icons/help.png");
+}
+
+.menu ul li.icon-logout {
+    background-image: url("../img/icons/logout.png");
 }
 
 .menu ul li:hover {
@@ -562,6 +541,7 @@ main {
     .menu .avatar {
         padding: 0.5em;
         position: relative;
+        min-height: 68px;
     }
     .menu .avatar img {
         width: 60px;
@@ -578,7 +558,7 @@ main {
         transform: translate3d(-20px, -50%, 0);
         transition: all 0.15s ease-in-out;
     }
-    .menu .avatar:hover h2 {
+    .menu .avatar:hover p {
         opacity: 1;
         transform: translate3d(0px, -50%, 0);
     }
@@ -615,6 +595,12 @@ main {
     .menu ul li:hover span {
         opacity: 1;
         transform: translate3d(0px, -50%, 0);
+    }
+    .container3 {
+        right: 90px;
+    }
+    .container2 {
+        right: 210px;
     }
 }
 
