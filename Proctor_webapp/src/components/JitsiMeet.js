@@ -21,18 +21,64 @@ class JitsiComponent extends Component {
         const options = {
             //roomName: this.state.room,
             roomName: this.props.name,
-            height:'500px',
-            configOverwrite: { prejoinPageEnabled: false },
+            height:'100%',
+            configOverwrite: { 
+                prejoinPageEnabled: false,
+                startWithAudioMuted: true,
+                startWithVideoMuted: true,
+                readOnlyName: true,
+               /* toolbarButtons: [  'camera', 'chat','closedcaptions', 'desktop',
+                      'download', 'embedmeeting','etherpad', 'feedback',  'filmstrip',
+                      'fullscreen', 'hangup', 'help', 'invite','livestreaming',
+                      'microphone', 'mute-everyone', 'mute-video-everyone',
+                      'participants-pane','profile','raisehand',
+                      'recording', 'security', 'select-background', 'settings',
+                      'shareaudio', 'sharedvideo', 'shortcuts',  'stats',   'tileview',
+                      'toggle-camera', 'videoquality', '__end','localrecording'
+                   ],
+                   localRecording: {
+                    // Enables local recording.
+                    // Additionally, 'localrecording' (all lowercase) needs to be added to
+                    // the `toolbarButtons`-array for the Local Recording button to show up
+                    // on the toolbar.
+                    //
+                     enabled: true,
+                    //
+                
+                    // The recording format, can be one of 'ogg', 'flac' or 'wav'.
+                        format: 'wav'
+                    //
+                
+                 },*/
+                //toolbarButtons: [],
+                //toolbarConfig: {
+                    //     // Moved from interfaceConfig.INITIAL_TOOLBAR_TIMEOUT
+                    //     // The initial numer of miliseconds for the toolbar buttons to be visible on screen.
+                    //     initialTimeout: 0,
+                    //     // Moved from interfaceConfig.TOOLBAR_TIMEOUT
+                    //     // Number of miliseconds for the toolbar buttons to be visible on screen.
+                    //   timeout: 0,
+                    //     // Moved from interfaceConfig.TOOLBAR_ALWAYS_VISIBLE
+                    //     // Whether toolbar should be always visible or should hide after x miliseconds.
+                    //     alwaysVisible: false
+                // },
+
+            },
             interfaceConfigOverwrite: {
                 // overwrite interface properties
+                DISABLE_DOMINANT_SPEAKER_INDICATOR: true
             },
             parentNode: document.querySelector('#jitsi-iframe'),
+            
             userInfo: {
-                displayName: this.state.user.name
+                displayName: this.state.user.name + "_Invigilator"
             },
             interfaceConfigOverwrite: {
                 filmStripOnly: false,
                 SHOW_JITSI_WATERMARK: false,
+                DISABLE_JOIN_LEAVE_NOTIFICATIONS: false,
+                VIDEO_LAYOUT_FIT: 'both'
+
             },
             
         }
@@ -119,11 +165,9 @@ class JitsiComponent extends Component {
         const { isAudioMuted, isVideoMuted } = this.state;
         return (
             <>
-            <header className="nav-bar">
-                <p className="item-left heading">Jitsi React</p>
-            </header>
-            <div id="jitsi-iframe"></div>
-            <div class="item-center">
+            
+            <div id="jitsi-iframe" style={{height:"100%"}}></div>
+            {/*<div class="item-center">
                 <span>Custom Controls</span>
             </div>
             <div class="item-center">
@@ -132,7 +176,7 @@ class JitsiComponent extends Component {
                 <i onClick={ () => this.executeCommand('hangup') } className="fas fa-phone-slash fa-2x red-color" aria-hidden="true" title="Leave"></i>
                 <i onClick={ () => this.executeCommand('toggleVideo') } className={`fas fa-2x grey-color ${isVideoMuted ? 'fa-video-slash' : 'fa-video'}`} aria-hidden="true" title="Start / Stop camera"></i>
                 <i onClick={ () => this.executeCommand('toggleShareScreen') } className="fas fa-film fa-2x grey-color" aria-hidden="true" title="Share your screen"></i>
-            </div>
+        </div>*/}
 
             </>
         );

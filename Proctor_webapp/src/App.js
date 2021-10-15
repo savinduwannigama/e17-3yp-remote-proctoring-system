@@ -13,7 +13,7 @@ import Courses from './components/Courses';
 import Settings from './components/Settings';
 import Help from './components/Help';
 import Meeting from './components/Meeting';
-
+import Adminregister from './components/Adminregister';
 function App() {
   return (
     <div className="App">
@@ -25,6 +25,9 @@ function App() {
           </Route>
           <Route path="/adminsignin" exact>
             <Adminlogin/>
+          </Route>
+          <Route path="/adminreg" exact>
+            <Adminregister/>
           </Route>
           <Route path="/adminhome" exact>
             <Adminhome/>
