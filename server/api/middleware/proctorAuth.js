@@ -27,7 +27,7 @@ exports.protectProctor = (req, res, next) => {
             req.proctor = proctor;
             next();
         })
-        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find proctor during authentication'}));
+        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find proctor during authentication', error: String(err)}));
 
     }
     catch(error) {
