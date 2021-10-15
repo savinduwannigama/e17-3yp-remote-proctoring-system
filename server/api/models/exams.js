@@ -37,7 +37,7 @@ examsSchema.statics.addExamRooms = function(info) {  // HAVE TO HANDLE ERRORS
     info.distinct_exam_rooms.forEach(room => {  // loops once for each distinct exam room
         // if(errorOccured)
         //     break;
-        var room_name = '"' + exam + '"_' + room;  // CHANGE THE FORMAT OF THE ROOM NAME
+        var room_name = exam + ' room ' + room;  // CHANGE THE FORMAT OF THE ROOM NAME
         var room_students = [];
         // getting the chief invigilator and the invigilator from the function argument
         var chief_invigilator = info.chief_invigilators.find(obj => obj.exam_room === room).name;

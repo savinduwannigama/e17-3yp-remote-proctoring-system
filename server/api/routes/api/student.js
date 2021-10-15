@@ -302,6 +302,38 @@ router.get('/courses/self', protectStudent, (req, res) => {
         res.status(400).json({status: 'failure', message: 'Error occured while trying to find the student RegNo from given ID', error: String(err)});
     });
 });
+
+// API call to update the student's disconnections to exam_rooms (collection) --> room_students (an array of objects) --> disconnections (an array of strings)
+router.put('/exam_rooms/disconnections', protectStudent, (req, res) => {
+    students.findById(req.student.id)  // the student with the given id will always be in the students collection
+    .then(result1 => {
+        // console.log('result1.regNo: ' + result1.regNo);
+        // const StudentRegNo = result1.regNo;
+        exam_rooms.findOne({room_name: req.body.roomName})
+        .then(async room => {
+            if(room == null) {  // checking if the exam room with the given name exists
+                return res.status(400).json({status: 'failure', message: 'No exam room with the given roomName'});
+            }
+            else {
+                const student1 = await room.room_students.find(student => student.regNo == result1.regNo);
+                
+                student1.disconnections = req.body.disconnections;  // setting the disconnections sent in the request body
+                // saving the changes to the exam_room
+                room.save()
+                .then(() => res.json({status: 'success', message: 'Updated the student disconnections', updatedEntry: room}))
+                .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save the updated exam_room', error: String(err)}));
+            }
+        })
+        .catch(err => {
+            console.log("Error occured while trying to find the exam_rooms for the given student regNo");
+            res.status(400).json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given student regNo', error: String(err)});
+        });
+    })
+    .catch(err => {
+        console.log("Error occured while trying to find the student RegNo from given ID");
+        res.status(400).json({status: 'failure', message: 'Error occured while trying to find the student RegNo from given ID', error: String(err)});
+    });
+});
 /////////////////////////////////////////////////////////////////////////////////////////
 
 module.exports = router;
