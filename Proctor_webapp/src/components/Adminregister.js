@@ -22,7 +22,7 @@ const Register = () => {
     return (
       <div className="Main">
         <div className="login-reg">
-        <Button property={'/signin'}/>
+        <Button property={'/adminsignin'}/>
         {/* <div align="right" className="login-button">
             <span class="switcher switcher-1">
                 <input type="checkbox" id="switcher-1" ></input>
@@ -33,7 +33,11 @@ const Register = () => {
         
         
         <div className = 'box'>
-          <div className='box-title'><h3>WELCOME PROCTOR!</h3></div>
+          <div className='box-title'>
+              <h3>WELCOME ADMIN!</h3>
+              <p style={{textAlign:"center",fontSize:"15px"}}>Please access the portal with your authorized email address</p>
+    
+          </div>
           <div className='box-item'>
           
          
@@ -54,7 +58,7 @@ const Register = () => {
               
             <Divider>Or</Divider>
             
-            <Validation next={'/signin'}/>
+            <Validation next={'/adminsignin'}/>
             <p style={{textAlign:"left",fontSize:'15px'}}>Already logged in?<Link to='/signin'> Sign in!</Link></p>
             </div>
             
@@ -73,4 +77,3 @@ const Register = () => {
 }
 
 export default Register
-

@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const admins = require('../models/admins');
 
-exports.protectAdmin = (req, res, next) => {
+exports.protectAdmin = async (req, res, next) => {
     const authHeader = req.headers.authorization;
     // console.log(authHeader);
     const token = authHeader && authHeader.split(" ")[1];
@@ -51,7 +51,7 @@ exports.protectAdmin = (req, res, next) => {
             // console.log('buhahahahhahaaa');
 
         })
-        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find admin during authentication'}));
+        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find admin during authentication', error: String(err)}));
 
     }
     catch(error) {

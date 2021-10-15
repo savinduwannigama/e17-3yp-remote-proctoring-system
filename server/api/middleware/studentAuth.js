@@ -26,7 +26,7 @@ exports.protectStudent = (req, res, next) => {
             req.student = student;
             next();
         })
-        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find student during authentication'}));
+        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find student during authentication', error: String(err)}));
 
     }
     catch(error) {

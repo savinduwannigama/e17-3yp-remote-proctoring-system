@@ -6,6 +6,7 @@ const adminsSchema = new mongoose.Schema({
     name: {type: String, required: true},
     email: {type: String, required: true, unique: true},  // student names and emails are required
     password: {type: String, default: '', select: false},
+    isRegistered: {type: Boolean, default: false},
     role: {type: String, required: true}
 
 }, {collection: 'admins'})
@@ -27,6 +28,8 @@ adminsSchema.methods.matchPasswords = async function(enteredPassword) {
 
 adminsSchema.methods.getSignedToken = function(cb) {
     // signing a JWT token with the user _id
+    // uses the HS256 algorithm to sign
+    // uses the use id as the payload
     return jwt.sign({ id: this._id }, process.env.JWT_SECRET_ADMIN, {expiresIn: process.env.JWT_EXPIRE_ADMIN});
 }
 
