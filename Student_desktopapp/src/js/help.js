@@ -7,14 +7,13 @@ var api;
 
 /****************** variables **********************/
 
-const userName = localStorage.getItem("username");
-const userEmail = localStorage.getItem("email");
+const userName = sessionStorage.getItem("username");
+const userEmail = sessionStorage.getItem("email");
 
 var record = false;
 
-
 /************* online offline array ***************/
-var roomInfoJSON = '{"name":"CO321 MID"}';
+var roomInfoJSON = '{"name":"CO323 MID"}';
 var roomInfoArray = JSON.parse(roomInfoJSON);
 
 var offlineStart = -1,
@@ -43,7 +42,6 @@ const options = {
         startWithVideoMuted: false,
         enableWelcomePage: false,
         prejoinPageEnabled: false,
-        logoImageUrl: 'hi',
         toolbarButtons: ['camera', 'chat',
             'microphone', 'raisehand'
         ],
@@ -102,7 +100,7 @@ downloadButton.addEventListener('click', () => {
     examdetails['endTime'] = date.format(new Date(), 'DD MMM YYYY HH-mm-ss');
 
     var time = date.format(new Date(), 'DD MMM YYYY HH_mm_ss');
-    var name = time;
+    var name = localStorage.getItem('email') + time;
     mediaRecorder.resume();
     stopRecording();
 
