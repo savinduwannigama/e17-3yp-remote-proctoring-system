@@ -8,6 +8,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import axios from 'axios';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 const theme = createTheme({
@@ -35,6 +36,8 @@ class Validationlogin extends React.Component {
     this.state = {
       input: {'email':'','password':''},
       errors: {'email':'','password':''},
+      reqfail:'',
+      failure: '',
       amount: '',
       password: '',
       weight: '',
@@ -78,23 +81,47 @@ class Validationlogin extends React.Component {
     
   }
      
-    handleSubmit(event) {
+   async handleSubmit(event) {
     event.preventDefault();
   
     if(this.validate()){
+        let input = this.state.input;
+        const semail= input["email"];
+        const spw0= input["password"];
+   
+        const url = `http://143.244.139.140:5000/api/${this.props.path}`
+        await axios.post(url, {
+        email:semail,password:spw0}).then(resp => {
+          console.log(resp.data);
+        }).catch(error => {
+        this.setState({
+          reqfail:1,
+          failure:error.response.data["message"]
+        })
+        console.log(this.state.reqfail)
+        console.log(error.response)
+        console.log(error.response.data["message"])
+
+        });
+        
+        if(this.state.reqfail!==1){
         const rememberMe = this.state.rememberMe;
-        //console.log(this.state);
+        console.log(this.state);
+
         localStorage.setItem('rememberMe',rememberMe);
         localStorage.setItem('user', rememberMe? this.state.input['email']: '')
-        let input = {};
+        
+        input = {};
         
         input["email"] = rememberMe? this.state.input['email']: '';
         input["password"] = "";
         
-        this.setState({input:input});
+        
         
         
         this.props.history.push(this.props.next);
+        }
+        this.setState({input:input});
     }
   }
     
@@ -176,6 +203,8 @@ class Validationlogin extends React.Component {
               autoComplete="off"
               onSubmit={this.handleSubmit}
         >
+           {this.state.reqfail && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please register using an authorized email</p></div>}
+        
           <ThemeProvider theme={theme}>   
             <TextField 
             color="neutral"

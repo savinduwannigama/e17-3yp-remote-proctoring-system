@@ -53,7 +53,7 @@ function Login ()  {
             <Divider>Or</Divider>
             <br/>
             </div>
-            <Validationlogin next={'/home'}/>
+            <Validationlogin next={'/home'} path={'proctor/login'}/>
            
             
           
