@@ -33,16 +33,6 @@
     border-radius: 5px;
 }
 
-
-/* .sortBtn:hover:not(.header) {
-    border: 2px solid white;
-} */
-
-
-/* .cards li:nth-child(2n+0) {
-    background-color: rgba(107, 210, 219, 0.67);
-} */
-
 .cards li:nth-child(2n+1) {
     background-color: var(--main-color1);
 }
@@ -51,23 +41,13 @@
     background-color: var(--main-color2);
 }
 
-
-/* .cards li:nth-child(4n+3) {
-    background-color: rgba(156, 72, 177, 0.54);
-} */
-
 #cards li p {
     display: block;
-    /* Make it into a block element to fill the whole list */
 }
 
-
-/*  #cards li:hover:not(.header) {
-    background-color: #ffff
-    /* Add a hover effect to all links, except for headers 
-
-
-} */
+table {
+    text-align: left;
+}
 
 #myInput {
     width: 200px;

@@ -7,7 +7,7 @@ var api;
 
 /****************** variables **********************/
 
-const userName = sessionStorage.getItem("username");
+const userName = sessionStorage.getItem("name");
 const userEmail = sessionStorage.getItem("email");
 
 var record = false;
@@ -198,11 +198,10 @@ startButton.addEventListener('click', async() => {
     }
     startButton.disabled = true;
     goBack.style.display = "none";
-    const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
     const constraints = {
         audio: {
             echoCancellation: {
-                exact: hasEchoCancellation
+                exact: true,
             }
         },
         video: {

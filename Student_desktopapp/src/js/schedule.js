@@ -1,9 +1,8 @@
 const axios = require('axios');
 
 var showevent = document.getElementById("show-event");
-var showtitle = document.getElementById("show-title");
-var showstarttime = document.getElementById("show-starttime");
-var showendtime = document.getElementById("show-endtime");
+var popup = document.getElementById("popup");
+var span = popup.getElementsByTagName('span')
 
 var examArray = [{
     title: "CO321",
@@ -46,9 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
         eventColor: 'orange',
         events: examArray,
         eventClick: function(info) {
-            showtitle.innerHTML = info.event.title
-            showstarttime.innerHTML = info.event.start
-            showendtime.innerHTML = info.event.end
+            span[0].innerHTML = info.event.title
+            span[1].innerHTML = info.event.start
+            span[2].innerHTML = info.event.end
             showevent.click()
 
         },

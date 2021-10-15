@@ -11,10 +11,6 @@
     display: none;
 }
 
-#popup span {
-    color: var(--header-color);
-}
-
 #popup table {
     color: var(--font-color);
     text-align: left;
