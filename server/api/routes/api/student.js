@@ -132,7 +132,7 @@ router.post('/login', (req, res) => {
         if(!student){
             return res.status(404).json({status: 'failure', message: "Email does not exist"});
         }
-        else if(student.password == '') {  // to check if the user has not yet registered
+        else if(student.isRegistered == false) {  // to check if the user has not yet registered
             return res.status(400).json({status: 'failure', message: "Student has not registered"});
         }
         

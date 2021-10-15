@@ -130,7 +130,7 @@ router.post('/login', (req, res) => {
         if(!proctor){
             return res.status(404).json({status: 'failure', message: "Email does not exist"});
         }
-        else if(proctor.password == '') {  // to check if the user has not yet registered
+        else if(proctor.isRegistered == false) {  // to check if the user has not yet registered
             return res.status(400).json({status: 'failure', message: "Proctor has not registered"});
         }
         
