@@ -205,6 +205,10 @@ userpic.src = localStorage.getItem('useravatar')
 /*************** change name *******************************/
 document.getElementById("entername").addEventListener("click", () => {
 
+    if (!(navigator.onLine)) {
+        closePopup();
+        return;
+    }
     var newname = document.getElementById("name").value;
     if (newname.length != 0) {
         console.log(newname);
