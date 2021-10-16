@@ -114,6 +114,7 @@ class Validationlogin extends React.Component {
         await axios.post(url, {
         email:semail,password:spw0}).then(resp => {
           console.log(resp.data);
+          localStorage.setItem(this.props.user==='proctor'? "ptoken":"atoken",resp.data["token"] )
         }).catch(error => {
         this.setState({
           reqfail:1,
