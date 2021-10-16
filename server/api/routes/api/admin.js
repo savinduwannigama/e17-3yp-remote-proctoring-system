@@ -831,7 +831,7 @@ router.post('/exams/mastersheet', async (req, res) => {
     console.log(startTime);
     /////////////////////////////////////////////////
     // const name = record.details[0][2];  // OLD MASTERSHEET
-    const name = record.details[0][3]; 
+    const name = record.details[0][3];  // full name of the exam
 
     // const startTime: {type: Date, required: true},  // it is a must that a exam has a start time 2023-12-10T10:00:00
     // const duration = record.details[3][3];  // OLD MASTERSHEET
@@ -842,6 +842,7 @@ router.post('/exams/mastersheet', async (req, res) => {
 
     // const chief_invigilators = [];  // record.details[14][5];  // OLD MASTERSHEET
     // const invigilators = [];  // record.details[14][6];  // OLD MASTERSHEET
+    const recordedStudentVideosAt = [];  // record.details[15][4]
     const chief_invigilators = [];  // record.details[15][5];
     const invigilators = [];  // record.details[15][6];
 
@@ -864,16 +865,22 @@ router.post('/exams/mastersheet', async (req, res) => {
         }
         for (let i = 15; i < record.details.length; i++) {  // STARTS WITH i=14 FOR OLD MASTERSHEET
             if(record.details[i].length ==  12) {  // skips an entire record if it doesn't have 5 fields
+                // student regNo
                 const regNo = record.details[i][1];
+                // student eligibility
                 var eligible = false;
                 if(record.details[i][2] == "TRUE") {
                     eligible = true;
                 }
+                // student exam room
                 const exam_room = record.details[i][3];
     
                 // adding a new distinct exam room 
                 if(!distinct_exam_rooms.includes(exam_room)) {  // 
                     distinct_exam_rooms.push(exam_room); 
+
+                    // adding the locally recorded video upload link for a new room
+                    recordedStudentVideosAt.push({exam_room, link: record.details[i][4]});
                     // adding a chief invigilator and an invigilator for a new room
                     chief_invigilators.push({exam_room, name: record.details[i][5]});  
                     invigilators.push({exam_room, name: record.details[i][6]});
@@ -885,6 +892,7 @@ router.post('/exams/mastersheet', async (req, res) => {
 
         // this is a schema method of exams
         // takes the distinct exam rooms as the arguments
+        // console.log(students.length);
         const newExam = new exams({name, startTime, duration, course_coordinator, chief_invigilators, invigilators, total_students, students, course});
 
         // saving the new exam
@@ -894,7 +902,7 @@ router.post('/exams/mastersheet', async (req, res) => {
 
             // calling the function to create exam rooms
             // will return true if successfully creates the rooms, and else will return false
-            const exam_rooms_created = await exams.addExamRooms({distinct_exam_rooms, name, students, chief_invigilators, invigilators});
+            const exam_rooms_created = await exams.addExamRooms({distinct_exam_rooms, name, students, chief_invigilators, invigilators, recordedStudentVideosAt});
             // updates the relevant course according to the new exam
             // will return true if the courses were updated successfully, and else will return false.
             const courses_updated = await exams.updateExamOnCourses({course, students, course_coordinator});
