@@ -43,7 +43,7 @@ function createWindow() {
     const mainWindow = new BrowserWindow({
         width: 800,
         height: 480,
-        minimizable: false,
+        //minimizable: false,
         //maximizable: false,
         //resizable: false,
         //movable: false,
@@ -54,7 +54,7 @@ function createWindow() {
             contextIsolation: false,
             enableRemoteModule: true,
             //devTools: true,
-            devTools: false,
+            //devTools: false,
         }
 
 
@@ -94,7 +94,7 @@ function createWindow() {
     mainWindow.loadFile('src/loginpage.html')
 
     // Open the DevTools.
-    //mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 
     ipc.on('Register', () => { mainWindow.loadFile('src/registerpage.html') })
     ipc.on('Login', () => { mainWindow.loadFile('src/loginpage.html') })
@@ -129,7 +129,8 @@ function createWindow() {
     });
 
     ipc.on("googleDriveUpload", async(event, { fileName }) => {
-        uploadFile(event, fileName)
+        var file = localStorage.getItem("email") + fileName;
+        uploadFile(event, file)
     })
 
 

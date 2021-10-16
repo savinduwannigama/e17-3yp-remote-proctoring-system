@@ -54,7 +54,7 @@ const Register = () => {
               
             <Divider>Or</Divider>
             
-            <Validation next={'/signin'}/>
+            <Validation next={'/signin'} path={'proctor/register'}/>
             <p style={{textAlign:"left",fontSize:'15px'}}>Already logged in?<Link to='/signin'> Sign in!</Link></p>
             </div>
             
