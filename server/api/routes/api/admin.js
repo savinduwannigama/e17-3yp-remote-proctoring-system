@@ -812,25 +812,46 @@ router.post('/exams/mastersheet', async (req, res) => {
 
     // console.log(record.details[0][0]);
     /////////////////////////////////////////////////
-    // creating the date+time string
-    const year = record.details[1][3].substr(6, 4);
-    const month = record.details[1][3].substr(3, 2);
-    const date = record.details[1][3].substr(0, 2);
-    const hours = record.details[2][3].substr(0, 2); 
-    const mins = record.details[2][3].substr(3, 2); 
+    // // creating the date+time string --> OLD MASTERSHEET
+    // const year = record.details[1][3].substr(6, 4);
+    // const month = record.details[1][3].substr(3, 2);
+    // const date = record.details[1][3].substr(0, 2);
+    // const hours = record.details[2][3].substr(0, 2); 
+    // const mins = record.details[2][3].substr(3, 2); 
+
+     // creating the date+time string --> NEW MASTERSHEET
+     const year = record.details[2][3].substr(6, 4);
+     const month = record.details[2][3].substr(3, 2);
+     const date = record.details[2][3].substr(0, 2);
+     const hours = record.details[3][3].substr(0, 2); 
+     const mins = record.details[3][3].substr(3, 2); 
+     
     
     const startTime = year+"-"+month+"-"+date+"T"+hours+":"+mins+":00";
-    // console.log(startTime);
+    console.log(startTime);
     /////////////////////////////////////////////////
-    const name = record.details[0][2];
+    // const name = record.details[0][2];  // OLD MASTERSHEET
+    const name = record.details[0][3]; 
+
     // const startTime: {type: Date, required: true},  // it is a must that a exam has a start time 2023-12-10T10:00:00
-    const duration = record.details[3][3];
-    const course_coordinator = record.details[4][4];
-    const chief_invigilators = [];  // record.details[14][5];
-    const invigilators = [];  // record.details[14][6];
-    const total_students = record.details[10][5];
+    // const duration = record.details[3][3];  // OLD MASTERSHEET
+    const duration = record.details[4][3];
+
+    // const course_coordinator = record.details[4][4];  // OLD MASTERSHEET
+    const course_coordinator = record.details[5][4];
+
+    // const chief_invigilators = [];  // record.details[14][5];  // OLD MASTERSHEET
+    // const invigilators = [];  // record.details[14][6];  // OLD MASTERSHEET
+    const chief_invigilators = [];  // record.details[15][5];
+    const invigilators = [];  // record.details[15][6];
+
+    // const total_students = record.details[10][5];  // OLD MASTERSHEET
+    const total_students = record.details[11][5];  
+
     const students = [];
-    const course = name.split(" ")[0] + '-' + year;
+    // const course = name.split(" ")[0] + '-' + year;  // OLD MASTERSHEET
+    const course = record.details[1][3];  
+
 
     // checking if the course is in the courses collection
     // and if not, returning without adding the exam
@@ -841,7 +862,7 @@ router.post('/exams/mastersheet', async (req, res) => {
             // course_not_found = true;
             return res.json({status: 'failure', message: 'The course ' + course + ' does not exist in the database under the courses collection.'});
         }
-        for (let i = 14; i < record.details.length; i++) {
+        for (let i = 15; i < record.details.length; i++) {  // STARTS WITH i=14 FOR OLD MASTERSHEET
             if(record.details[i].length ==  12) {  // skips an entire record if it doesn't have 5 fields
                 const regNo = record.details[i][1];
                 var eligible = false;
