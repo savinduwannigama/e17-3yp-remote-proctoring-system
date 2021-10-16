@@ -705,39 +705,84 @@ router.post('/courses/single', (req, res) => {
 router.post('/courses/mastersheet', async (req, res) => {
     const record = req.body;
     // console.log('Request body: ' + record);
-    var createdEntries = [];
-    var errorOccured = false;
+    var createdEntry = [];
+    // var errorOccured = false;
     // console.log(record.details[0][0]);
+    const totalItr = record.details.length - 1; 
+    // console.log(totalItr);
+    var succItr = 0;
+    var failItr = 0;
+    var emptyLines = 0;
 
+    
     for (let i = 1; i < record.details.length; i++) {  // ADD ERROR HANDLING TO CHECK WHETHER A COURSE ALREADY EXISTS BEFORE ADDING, AND ONLY ADD IF NOT
-        if(errorOccured)
-            break; // breaking the loop if atleast a single error happens
+        // if(errorOccured)
+        //     break; // breaking the loop if atleast a single error happens
+        if (record.details[i].length ==  4) {
+            const shortname = record.details[i][0];
+            const fullname = record.details[i][1];
+            const department = record.details[i][2];
+            const semester = record.details[i][3];
 
-        const shortname = record.details[i][0];
-        const fullname = record.details[i][1];
-        const department = record.details[i][2];
-        const semester = record.details[i][3];
+            // courses.findOne({shortname})
+            // .then(result => {
+            //     if(result == null){  // if the course does not already exist in the courses collection
 
-        // const response = await courses.create({shortname, fullname, department, semester});  // response is the return value from mongoDB
-        // console.log('Created new course entry (' + i + '): ' + response);
-        const newCourse = new courses({shortname, fullname, department, semester});
-        // saves the new student
-        newCourse.save()  // without the await, the loop will carry on without waiting for the save().then().catch()
-        .then(() => {
-            // console.log('Created new course entry: ' + newCourse);
-            createdEntries.push(newCourse);
-            // console.log(i);
-            // res.json({status: 'Addded new student to the database'});
-        })
-        .catch(err => {
-            console.log(i);
-            // res.status(400).json({status: 'failure', message: 'Following error occured while trying to create a course', error: String(err)});
-            // return true;
-            console.log("Error occured: " + err);
-            errorOccured = true;
-            // next();
-        });  // MIGHT GIVE AN ERROR 
-    }   // WRITE CODE TO DELETE THE PREVIOUSLY ADDED COURSES FROM THIS MASTERSHEET (MAKE ADDING FROM MASTERSHEET ATOMIC)
+            //     }
+            //     else {
+
+            //     }
+            // })
+
+            const newCourse = new courses({shortname, fullname, department, semester});
+            // saves the new student
+            newCourse.save()  // without the await, the loop will carry on without waiting for the save().then().catch()
+            .then(() => {
+                // console.log('Created new course entry: ' + newCourse);
+                createdEntry.push(newCourse);
+                succItr += 1;
+                // console.log({num: record.details[i][0], succItr, failItr, emptyLines});
+                // res.json({status: 'Addded new student to the database'});
+                if((succItr + failItr + emptyLines) >= totalItr) {
+                    if(failItr == 0) {
+                        res.json({status: 'success', message: 'Added ' + succItr + ' courses', createdEntry})
+                    }
+                    else {
+                        res.json({status: 'failure', message: 'Added ' + succItr + ' courses, failed to add ' + failItr + ' courses.', createdEntry})
+                    }
+                }
+            })
+            .catch(err => {
+                console.log(i);
+                // res.status(400).json({status: 'failure', message: 'Following error occured while trying to create a course', error: String(err)});
+                // return true;
+                console.log("Error occured: " + err);
+                // errorOccured = true;
+                failItr += 1;
+                if((succItr + failItr + emptyLines) >= totalItr) {
+                    if(failItr == 0) {
+                        res.json({status: 'success', message: 'Added ' + succItr + ' courses', createdEntry})
+                    }
+                    else {
+                        res.json({status: 'failure', message: 'Added ' + succItr + ' courses, failed to add ' + failItr + ' courses.', createdEntry})
+                    }
+                }
+                // next();
+            });  
+        }
+        else {
+            emptyLines += 1;
+            // console.log({emptyline: 'yes', num: record.details[i][0], succItr, failItr, emptyLines});
+            if((succItr + failItr + emptyLines) >= totalItr) {
+                if(failItr == 0) {
+                    res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
+                }
+                else {
+                    res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                }
+            }
+        }
+    }  
     /**
      * have to handle errors of => adding an already existing course, trying to add a course without a required field
      */
