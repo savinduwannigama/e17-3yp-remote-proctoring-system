@@ -6,7 +6,8 @@ const proctorsSchema = new mongoose.Schema({
     name: {type: String, required: true},  // used as the PK for now | must change PK to email
     email: {type: String, required: true, unique: true},
     password: {type: String, default: '', select: false},
-    isRegistered: {type: Boolean, default: false}
+    isRegistered: {type: Boolean, default: false},
+    department: {type: String, default: ''}
     
 }, {collection: 'proctors'})
 

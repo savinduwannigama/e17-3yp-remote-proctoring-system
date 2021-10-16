@@ -1,13 +1,7 @@
 // main.js
 
 // Modules to control application life and create native browser window
-const {
-    BrowserWindow,
-    Menu,
-    MenuItem,
-    ipcMain,
-    app
-} = require('electron')
+const { BrowserWindow, Menu, MenuItem, ipcMain, app } = require('electron')
 const path = require('path')
 const { download } = require("electron-dl");
 const ipc = ipcMain
@@ -21,7 +15,7 @@ const CLIENT_ID = '541047315053-7bibru42slsvqs7pbg6gjg0o5udemasb.apps.googleuser
 const CLIENT_SECRET = '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';
 const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
 
-const REFRESH_TOKEN = '1//04tZJFIBNTtPVCgYIARAAGAQSNwF-L9IrHhA9F1EffRHqqeRjErHm3WBoNjfpuYEG1Wkm0UdSLEowNhzl6vMOkAZqxWQfeGvtc-E';
+const REFRESH_TOKEN = '1//047hvcj36cyxyCgYIARAAGAQSNwF-L9Ir_EX7QMnaMIiqXKNfz-9iQs2XT63RHe5wYM97X0UGZDb0V7FWp5cnjP0Avyh1PYmNTbA';
 
 const oauth2Client = new google.auth.OAuth2(
     CLIENT_ID,
@@ -35,8 +29,6 @@ const drive = google.drive({
     version: 'v3',
     auth: oauth2Client,
 });
-
-
 
 function createWindow() {
     // Create the browser window.
@@ -71,8 +63,8 @@ function createWindow() {
             callback(false)
         }
     })
-    mainWindow.on('close', function(e) {
-        /*const choice = require('electron').dialog.showMessageBoxSync(this, {
+    ipcMain.on('open', function(e) {
+        const choice = require('electron').dialog.showMessageBoxSync(this, {
             type: 'none',
             buttons: ['Yes', 'No'],
             noLink: true,
@@ -84,7 +76,7 @@ function createWindow() {
         });
         if (choice === 1) {
             e.preventDefault();
-        }*/
+        }
         app.quit;
     });
 
@@ -129,8 +121,7 @@ function createWindow() {
     });
 
     ipc.on("googleDriveUpload", async(event, { fileName }) => {
-        var file = localStorage.getItem("email") + fileName;
-        uploadFile(event, file)
+        uploadFile(event, fileName)
     })
 
 
