@@ -43,7 +43,8 @@ class Validationlogin extends React.Component {
       weight: '',
       weightRange: '',
       showPassword: false,
-      rememberMe:false
+      prememberMe:false,
+      arememberMe:false,
 
     };
 
@@ -56,19 +57,39 @@ class Validationlogin extends React.Component {
     componentDidMount() {
         let input = this.state.input;
         
-    const rememberMe = localStorage.getItem('rememberMe') === 'true';
-    input['email'] = rememberMe ? localStorage.getItem('user') : '';
+    const prememberMe = localStorage.getItem('prememberMe') === 'true';
+    const arememberMe = localStorage.getItem('arememberMe') === 'true';
+   
+    if(this.props.user==='proctor'){
+      input['email'] = prememberMe ? localStorage.getItem('user') : '';
+    }
+    else if(this.props.user==='admin'){
+      input['email'] = arememberMe ? localStorage.getItem('adminuser') : '';
+    }
+    
     this.setState({ 
         input,
-        rememberMe: rememberMe });
+        prememberMe: prememberMe,
+        arememberMe: arememberMe
+      });
     }
     handleChange(event) {
-    if(event.target.type === 'checkbox'){
+    if(event.target.type === 'checkbox' ){
+      console.log(this.props.user)
+      if(this.props.user==='proctor' ){
         this.setState({
-            rememberMe: event.target.checked
+          prememberMe: event.target.checked
+      })
+      }
+      else if(this.props.user==='admin'){
+        console.log(this.props.user)
+        this.setState({
+          arememberMe: event.target.checked
         })
+      }
         
     }
+    
     else{
         let input = this.state.input;
         input[event.target.name] = event.target.value;
@@ -93,6 +114,7 @@ class Validationlogin extends React.Component {
         await axios.post(url, {
         email:semail,password:spw0}).then(resp => {
           console.log(resp.data);
+          localStorage.setItem(this.props.user==='proctor'? "ptoken":"atoken",resp.data["token"] )
         }).catch(error => {
         this.setState({
           reqfail:1,
@@ -105,22 +127,35 @@ class Validationlogin extends React.Component {
         });
         
         if(this.state.reqfail!==1){
-        const rememberMe = this.state.rememberMe;
+        const prememberMe = this.state.prememberMe;
+        const arememberMe = this.state.arememberMe;
         console.log(this.state);
 
-        localStorage.setItem('rememberMe',rememberMe);
-        localStorage.setItem('user', rememberMe? this.state.input['email']: '')
         
-        input = {};
-        
-        input["email"] = rememberMe? this.state.input['email']: '';
-        input["password"] = "";
-        
-        
+        if(this.props.user==='proctor'){
+          localStorage.setItem('user', this.state.input['email'])
+          localStorage.setItem('prememberMe',prememberMe);
+        }
+        else if(this.props.user==='admin'){
+          localStorage.setItem('adminuser',this.state.input['email'])
+          localStorage.setItem('arememberMe',arememberMe);
+        }
         
         
         this.props.history.push(this.props.next);
         }
+
+        input = {};
+        if(this.props.user==='proctor'){
+          input["email"] = this.state.prememberMe? this.state.input['email']: '';
+        }
+        else if(this.props.user==='admin'){
+          input["email"] = this.state.arememberMe? this.state.input['email']: '';
+        }
+       // input["email"] = this.state.rememberMe? this.state.input['email']: '';
+        input["password"] = "";
+        
+        
         this.setState({input:input});
     }
   }
@@ -251,7 +286,7 @@ class Validationlogin extends React.Component {
       
       />        
        
-        <FormControlLabel control={<Checkbox color="neutral" name="rememberMe" checked={this.state.rememberMe} onChange={this.handleChange} type="checkbox" />} label="Remember me" />
+        <FormControlLabel control={<Checkbox color="neutral" name="rememberMe" checked={this.props.user==='proctor'?this.state.prememberMe:this.state.arememberMe} onChange={this.handleChange} type="checkbox" />} label="Remember me" />
        
                  
          <div style={{paddingLeft:"20px",

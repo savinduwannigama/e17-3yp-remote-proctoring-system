@@ -86,7 +86,7 @@ function Adminlogin() {
     <Divider>Or</Divider>
     <br/>
     </div>
-    <Validationlogin next={'/adminhome'} path={'admin/login'}/>
+    <Validationlogin next={'/adminhome'} path={'admin/login'} user={'admin'}/>
    
     
   

@@ -96,17 +96,18 @@ class Validation extends React.Component {
        
   
         if(this.state.reqfail!==1){
-          console.log(this.state.reqfail)
+          //console.log(this.state.reqfail)
+          //console.log(typeof this.props.next);
           this.props.history.push(this.props.next);
-          input = {};
-        
-          input["email"] = "";
-          input["password"] = "";
-          input["confirm_password"] = "";
-          this.setState({input:input});
+         
           
         }
+        input = {};
         
+        input["email"] = "";
+        input["password"] = "";
+        input["confirm_password"] = "";
+        this.setState({input:input});
         //this.props.history.push('/signin');
     }
   }
