@@ -19,16 +19,14 @@ const mongoose = require('mongoose');
  * refer the following link to try and make custom connections
  * https://mongoosejs.com/docs/models.html#:~:text=If%20you%20create%20a-,custom%20connection,-%2C%20use%20that%20connection%27s
  */
-mongoose.connect('mongodb://localhost:27017/remote_proctoring_system');
+// mongoose.connect('mongodb://localhost:27017/remote_proctoring_system');
 
 ////////////////////////////////
 // to connect to atlas mongoDB
-////////////////////////////////
-// // DB config
-// const db = require('./config/keys').MongoURI
-
-// // connect to mongoDB II
-// mongoose.connect(db, {useNewUrlParser: true})
+mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true});
+const db = mongoose.connection;
+db.on('error', error => console.error(error));
+db.once('open', () => console.log('Connected to mongoose...'));
 // .then(() => console.log('Connected to atlas MongoDB...'))
 // .catch(err => console.log(err));
 
