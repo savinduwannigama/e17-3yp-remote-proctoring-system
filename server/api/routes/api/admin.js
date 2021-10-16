@@ -788,7 +788,7 @@ router.post('/courses/mastersheet', async (req, res) => {
      */
     // console.log('going to send success response');
     // if(!errorOccured)
-    res.json({status: 'response under construction'});
+    // res.json({status: 'response under construction'});
 });
 
 // call to read all courses
@@ -869,7 +869,7 @@ router.delete('/courses/all', (req, res) => {
             .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find all the courses", error: String(err)}));
         }
         else {  
-            console.log(result);
+            // console.log(result);
             res.status(400).json({status: 'failure', message: 'Tried to delete a all course when there are scheduled exams'})
         }
     })
