@@ -17,17 +17,20 @@ const coursesSchema = new mongoose.Schema({
 
 // method to remove a given array of students from a course
 coursesSchema.methods.removeStudents = async function (toRemove) {
-    
-    for (let i = 0; i < this.students.length; i++) {
-        const element = this.students[i];
+    var totalRemoved = 0;
+    for (let i = 0; i < toRemove.length; i++) {
+        const element = toRemove[i];
 
-        const found = await toRemove.find(x => x === element);  // checking whether the student is in the list of students to be removed
-        console.log({found});
-        if (found != undefined) {
-            const spliced = this.student.splice(i, 1);
-        console.log({spliced});
+        const found = await this.students.findIndex(x => x === element.regNo);  // checking whether the student is in the list of students to be removed
+        // console.log({found});
+        if (found >= 0) {  // found will be equal to -1 if not found
+            const spliced = this.students.splice(found, 1);
+            totalRemoved += 1;
+            // console.log({spliced});
         }
     }
+    console.log('\tRemoved ' + totalRemoved + ' students of the exam from the relevant course...');
+    return totalRemoved;
 
 }
 const model = mongoose.model('coursesModel', coursesSchema)

@@ -991,7 +991,7 @@ router.post('/exams/mastersheet', async (req, res) => {
      
     
     const startTime = year+"-"+month+"-"+date+"T"+hours+":"+mins+":00";
-    console.log(startTime);
+    // console.log(startTime);
     /////////////////////////////////////////////////
     // const name = record.details[0][2];  // OLD MASTERSHEET
     const name = record.details[0][3];  // full name of the exam
@@ -1057,15 +1057,20 @@ router.post('/exams/mastersheet', async (req, res) => {
         // takes the distinct exam rooms as the arguments
         // console.log(students.length);
         const newExam = new exams({name, startTime, duration, course_coordinator, chief_invigilators, invigilators, total_students, students, course});
-
+        
         // saving the new exam
         newExam.save()
         .then(async () => {
+            console.log('Created new exam...');
             // console.log('Created new exam entry: ' + newExam);
 
             // calling the function to create exam rooms
             // will return true if successfully creates the rooms, and else will return false
             const exam_rooms_created = await exams.addExamRooms({distinct_exam_rooms, name, students, chief_invigilators, invigilators, recordedStudentVideosAt});
+            // console.log({exam_rooms_created});
+            // if(exam_rooms_created) {
+            console.log('\tCreated all relevant exam_rooms...');
+            // }
             // updates the relevant course according to the new exam
             // will return true if the courses were updated successfully, and else will return false.
             const courses_updated = await exams.updateExamOnCourses({course, students, course_coordinator});
@@ -1182,19 +1187,23 @@ router.delete('/exams/single/:name', (req, res) => {
     exams.findOneAndDelete({name: req.params.name})
     .then(deleted => {
         if(deleted == null)
-            res.status(400).json({status: 'failure', message: 'Exam with given shortname does not exist'});
+            res.status(400).json({status: 'failure', message: 'Exam with given name does not exist'});
         else {
+            console.log('Deleted exam...');
             // deleting the exam rooms of the deleted exam
             exam_rooms.deleteMany({exam: deleted.name})
             .then(deleteCount => {
-                // changing the hasExam = false for the relevant course f the deleted exam
+                console.log('\tDeleted exam_rooms of the deleted exam...');
+                // changing the hasExam = false for the relevant course of the deleted exam
                 courses.findOne({shortname: deleted.course})
-                .then(course => {
-                    course.hasExam = false
-
+                .then(async course => {
+                    course.hasExam = false;
+                    // console.log(deleted.students);
+                    const removedStudents = await course.removeStudents(deleted.students)
+                    // console.log({removedStudents});
                     course.save()    
                     .then(() => {
-                        console.log(course.shortname + '.hasExam set to false after deleting the exam');
+                        console.log('\t' + course.shortname + '.hasExam set to false after deleting the exam');
                         res.json({status: 'success', message: 'Deleted exam, deleted relevant exam rooms and hasExam of relevant course set to false', deletedExamEntry: deleted, numberOfExamRoomsDeleted: deleteCount});
                     })
                     .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to set hasExam of course to false', error: String(err)}));

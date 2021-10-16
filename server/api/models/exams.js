@@ -33,7 +33,7 @@ examsSchema.statics.addExamRooms = function(info) {  // HAVE TO HANDLE ERRORS
     // students: [{regNo: String, participation: Boolean, joined_at: Date}] 
     // exams.addExamRooms({distinct_exam_rooms, name, students, chief_invigilators, invigilators});
     // students.push({regNo, eligible, exam_room});
-
+    var itrCount = 0;
     info.distinct_exam_rooms.forEach(room => {  // loops once for each distinct exam room, room = --> A, B, C, ...
         // if(errorOccured)
         //     break;
@@ -63,7 +63,12 @@ examsSchema.statics.addExamRooms = function(info) {  // HAVE TO HANDLE ERRORS
         newExamRoom.save()  // waiting until the exam room finishes creating 
         .then(() => {
             // console.log('Created new exam_room: ' + newExamRoom);
-            return true;
+            // console.log();
+            // return true;
+            itrCount += 1;
+            if(itrCount >= info.distinct_exam_rooms.length) {
+                return true;
+            }
         })
         .catch(err => {
             // res.status(400).json({status: 'failure', message: 'Following error occured when trying to make an exam room', error: err});
@@ -101,7 +106,7 @@ examsSchema.statics.updateExamOnCourses = function(info) {
         
         result.save()
         .then(() => {
-            console.log("Updated the courses collections " + shortname + "-->\n\tchecked and updated the course coordinator\n\tadded the new students to the course.");
+            console.log("\tUpdated the courses collections " + shortname + "-->\n\t\tchecked and updated the course coordinator\n\t\tadded the new students to the course\n\t\thasExam set to true");
             return true;
         })
         .catch(err => {
