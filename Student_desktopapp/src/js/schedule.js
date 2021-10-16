@@ -1,6 +1,7 @@
 const axios = require('axios');
 const datentime = require('date-and-time');
 
+var displayName = document.getElementById('display-name');
 var showevent = document.getElementById("show-event");
 var popup = document.getElementById("popup");
 var span = popup.getElementsByTagName('span');
@@ -20,13 +21,15 @@ axios({
     .then((response) => {
         examArray = response.data
         addEvents(examArray);
-        console.log(response.data)
     })
     .catch(function(error) {
         if (error.response) {
             console.log(error.response)
 
         };
+        if (error.response.data.error = "TokenExpiredError: jwt expired") {
+            ipc.send('timeOut');
+        }
     });
 
 function createEvents() {
@@ -46,6 +49,8 @@ function createEvents() {
             span[4].innerHTML = examArray[id][0].room_name
             span[5].innerHTML = examArray[id][0].chief_invigilator
             span[6].innerHTML = examArray[id][0].invigilator
+            displayName.value = sessionStorage.getItem('name')
+            sessionStorage.setItem('roomName', examArray[id][0].room_name)
             showevent.click()
 
         },
@@ -64,4 +69,9 @@ function addEvents(array) {
         eventArray.push({ title: array[i][0].exam, start: array[i][1].startTime.split('Z')[0], id: i });
     }
     createEvents();
+}
+
+function joinExam() {
+    sessionStorage.setItem('displayName', displayName.value);
+    ipc.send('exam room')
 }

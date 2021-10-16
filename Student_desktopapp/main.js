@@ -5,6 +5,8 @@ const { BrowserWindow, Menu, MenuItem, ipcMain, app } = require('electron')
 const path = require('path')
 const { download } = require("electron-dl");
 const ipc = ipcMain
+const { dialog } = require('electron')
+
 
 
 const { google } = require('googleapis');
@@ -63,22 +65,37 @@ function createWindow() {
             callback(false)
         }
     })
-    ipcMain.on('open', function(e) {
-        const choice = require('electron').dialog.showMessageBoxSync(this, {
-            type: 'none',
-            buttons: ['Yes', 'No'],
-            noLink: true,
-            title: 'Confirm',
-            message: 'Are you sure you want to exit?',
-            icon: 'src/img/appicon3_YGz_icon.ico'
+    mainWindow.on('close', function(e) {
+        // const choice = require('electron').dialog.showMessageBoxSync(this, {
+        //     type: 'none',
+        //     buttons: ['Yes', 'No'],
+        //     noLink: true,
+        //     title: 'Confirm',
+        //     message: 'Are you sure you want to exit?',
+        //     icon: 'src/img/appicon3_YGz_icon.ico'
 
 
-        });
-        if (choice === 1) {
-            e.preventDefault();
-        }
+        // });
+        // if (choice === 1) {
+        //     e.preventDefault();
+        // }
         app.quit;
     });
+
+    ipcMain.on('timeOut', async() => {
+        const confirm = await dialog.showMessageBox(mainWindow, {
+            title: "",
+            type: 'none',
+            noLink: true,
+            message: 'The session has timed out. Do you want log in again?',
+            buttons: ["Log in", "Cancel"],
+            icon: 'src/img/appicon3_YGz_icon.ico'
+        })
+        if (confirm.response === 0) {
+            mainWindow.loadFile('src/loginpage.html')
+        }
+    })
+
 
 
     mainWindow.setMenu(null);
@@ -90,8 +107,6 @@ function createWindow() {
 
     ipc.on('Register', () => { mainWindow.loadFile('src/registerpage.html') })
     ipc.on('Login', () => { mainWindow.loadFile('src/loginpage.html') })
-    ipc.on('Authentication', () => { mainWindow.loadFile('src/authentication.html') })
-    ipc.on('verify', () => { mainWindow.loadFile('src/loginpage.html') })
 
     ipc.on('home', () => { mainWindow.loadFile('src/home.html') })
     ipc.on('dashboard', () => { mainWindow.loadFile('src/dashboard.html') })
@@ -101,6 +116,7 @@ function createWindow() {
     ipc.on('notification', () => { mainWindow.loadFile('src/notifications.html') })
     ipc.on('settings', () => { mainWindow.loadFile('src/settings.html') })
     ipc.on('help', () => { mainWindow.loadFile('src/help.html') })
+    ipc.on('exam room', () => { mainWindow.loadFile('src/examroom.html') })
 
 
     ipcMain.on("download", async(event, { url, fileName }) => {

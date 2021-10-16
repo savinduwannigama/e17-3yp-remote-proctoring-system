@@ -29,6 +29,9 @@ axios({
             console.log(error.response)
 
         };
+        if (error.response.data.error = "TokenExpiredError: jwt expired") {
+            ipc.send('timeOut');
+        }
     });
 
 

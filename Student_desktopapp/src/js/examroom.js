@@ -7,36 +7,33 @@ var api;
 var savedVideo = 'No saved video'
 
 /****************** variables **********************/
-
-const userName = sessionStorage.getItem("name");
+const roomName = sessionStorage.getItem('roomName');
+const displayName = sessionStorage.getItem("displayName");
 const userEmail = sessionStorage.getItem("email");
 
 var record = false;
 
 /************* online offline array ***************/
-var roomInfoJSON = '{"name":"CO323 MID"}';
-var roomInfoArray = JSON.parse(roomInfoJSON);
 
 var offlineStart = -1,
     offlineEnd = -1;
 var statusArray = [];
-
 var examdetails = {};
 
 
-/************ jitsi room settings *********************/
+/************ jitsi room configurations *********************/
 
-examdetails['roomName'] = roomInfoArray.name;
+examdetails['roomName'] = "roomName";
 
 
 const domain = 'meet.jit.si';
 const options = {
-    roomName: roomInfoArray.name,
-    width: 750,
-    height: 400,
+    roomName: "roomName 3585",
+    width: 800,
+    height: 480,
     userInfo: {
         email: userEmail,
-        displayName: userName,
+        displayName: displayName,
     },
     configOverwrite: {
         startWithAudioMuted: false,
@@ -68,9 +65,7 @@ let recordedBlobs;
 
 const errorMsgElement = document.querySelector('span#errorMsg');
 const downloadButton = document.querySelector('button#download');
-const startButton = document.querySelector('button#start');
 const status = document.querySelector('#status')
-const goBack = document.querySelector('#goBack');
 
 
 window.addEventListener('offline', () => {
@@ -89,10 +84,6 @@ window.addEventListener('online', () => {
     mediaRecorder.pause();
     status.style.background = "#1eb119bd";
     status.innerHTML = "You are online."
-})
-
-goBack.addEventListener('click', () => {
-    ipc.send("home");
 })
 
 downloadButton.addEventListener('click', () => {
@@ -195,15 +186,10 @@ async function init(constraints) {
     }
 }
 
-startButton.addEventListener('click', async() => {
 
-    if (!(navigator.onLine)) {
-        status.style.background = "rgba(255, 0, 0, 0.678)";
-        status.innerHTML = "You are offline."
-        return;
-    }
-    startButton.disabled = true;
-    goBack.style.display = "none";
+/****************** join to the exam room **************************/
+
+document.addEventListener('DOMContentLoaded', async() => {
     const constraints = {
         audio: {
             echoCancellation: {
@@ -231,8 +217,6 @@ startButton.addEventListener('click', async() => {
 function additem(data) {
 
     var items = JSON.parse(localStorage.getItem('examdetails'));
-    //var data = document.getElementById('data').value;
-
     if (!items) {
         localStorage.setItem('examdetails', JSON.stringify([data]));
     } else {
