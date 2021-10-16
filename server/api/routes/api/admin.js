@@ -409,10 +409,10 @@ router.post('/students/multiple', async (req, res, next) => {
             // console.log({emptyline: 'yes', num: record.details[i][0], succItr, failItr, emptyLines});
             if((succItr + failItr + emptyLines) >= totalItr) {
                 if(failItr == 0) {
-                    res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
+                    res.json({status: 'success', message: 'Added ' + succItr + ' students', createdEntry})
                 }
                 else {
-                    res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                    res.json({status: 'failure', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
                 }
             }
         }
