@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect } from "react";
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import jsonData from '../jsonfiles/exams.json';
@@ -7,6 +7,8 @@ import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
+import axios from "axios";
+
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -14,13 +16,51 @@ const Item = styled(Paper)(({ theme }) => ({
   color: "black",
 }));
 
-function renderer ()  {
-  
+function Renderer ()  {
+  const [data, setData] = useState('');
+  const [inv,setInv]=useState('');
+  useEffect(() => {
+    axios.get('http://143.244.139.140:5000/api/proctor/exams/chief_invigilator/self',
+    { headers: {
+       'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
+     }}
+    ).then(resp => {
+   
+     console.log("chief invig exams",resp.data);
+     setData(resp.data);
+    
+    }).catch(error=>{
+     console.log("Error response",error.response.data["error"])
+      
+    });
+    axios.get('http://143.244.139.140:5000/api/proctor/exams/invigilator/self',
+    { headers: {
+       'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
+     }}
+    ).then(resp => {
+   
+     console.log("invig exams",resp.data);
+     setInv(resp.data);
+    
+    }).catch(error=>{
+     console.log("Error response",error.response.data["error"])
+      
+    });
+    // Run! Like go get some data from an API.
+  }, []);
   console.log("Exams", jsonData)
+  console.log("JSON DATA FROM API",data)
+  let arraydata= [data]
+  console.log(arraydata)
+  //sort json data
+  if(data.chief_invigilating_exams){
+    data.chief_invigilating_exams.sort((a, b) =>Date.parse(new Date(a[1]['startTime'])) - Date.parse(new Date(b[1]['startTime'])));
+  console.log("Sorted",data)
+  }
   
-  if(jsonData.chief_invigilating_exams){
-    const trail= jsonData.chief_invigilating_exams.map(t => {
-      console.log(t.exam_room);
+  if(data.chief_invigilating_exams){
+    const trail= data.chief_invigilating_exams.map(t => {
+      //console.log(t.exam_room);
       const starttime = t[1]['startTime'];
       const utctime = new Date(starttime).toUTCString()
       const roomname = t[0]["room_name"];
@@ -28,7 +68,7 @@ function renderer ()  {
       return(
         <Card sx={{width: "45%", height:"60vh" ,color:"black",margin:"auto",marginBottom:"40px", backgroundColor:"#00666633",padding:"15px",fontSize:"15px",borderRadius:"32px", display:"inline"}}>
             <div className="card-body" >
-                <h4 className="card-title">{t[1]['name']}</h4>
+                <h4 className="card-title">{t[0]['exam']}</h4>
                 <Stack>
                   <Item> Course: {t[1]['course']}</Item>
                   <Item> Duty: Chief invigilator</Item>
@@ -60,11 +100,18 @@ function renderer ()  {
       <Grid container rowSpacing={6} >
         
           {trail}
-        
+           
         </Grid>
+        
     </Box>
     )
   }
+  else{
+    return(
+      <div style={{textAlign:"center"}}>Please wait for data to load</div>
+    )
+  }
+  
 }
 /*function renderer(config) {
   if (typeof KeysToComponentMap[config.component] !== "undefined") {
@@ -81,4 +128,4 @@ function renderer ()  {
   }
 }*/
 
-export default renderer;
+export default Renderer;

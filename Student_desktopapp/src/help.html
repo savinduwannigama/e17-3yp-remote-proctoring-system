@@ -8,6 +8,18 @@
     <script defer src="js/help.js"></script>
     <title>Virtual examination room</title>
     <style>
+         ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+         ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px grey;
+        }
+        
+         ::-webkit-scrollbar-thumb {
+            background: rgba(38, 168, 170, 0.22)
+        }
+        
         #start,
         #download,
         #goBack {
@@ -51,7 +63,7 @@
             padding-right: 10px;
             font-size: 15px;
             right: 0px;
-            top: 35px;
+            top: 5px;
             color: white;
             background: transparent;
         }
@@ -63,18 +75,14 @@
 </head>
 
 <body>
+    <div id="status"></div>
+    <div id="meet"></div>
+    <br>
     <div id="btns">
         <button id="goBack">Go back</button>
         <button id="start">Join meeting</button>
         <button id="download" disabled>Leave meeting</button>
     </div>
-    <br>
-    <div id="status"></div>
-    <div id="meet"></div>
-
-    <p>
-        Echo cancellation: <input type="checkbox" id="echoCancellation" />
-    </p>
 
     <div>
         <span id="errorMsg"></span>

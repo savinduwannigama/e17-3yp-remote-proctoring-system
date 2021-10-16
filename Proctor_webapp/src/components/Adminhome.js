@@ -6,12 +6,12 @@ import NavBar from './AdminAppBar';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 function adminhome() {
-    axios.get("http://143.244.139.140:5000/api/admin/courses/all").then(resp=>{
+    /*axios.get("http://143.244.139.140:5000/api/admin/courses/all").then(resp=>{
         console.log(resp.data)
     })
     axios.get("http://143.244.139.140:5000/api/admin/proctors/all").then(resp=>{
         console.log(resp.data)
-    })
+    })*/
     return (
        
         <div className="admin-main">

@@ -59,7 +59,7 @@ export default class Adminbtn extends React.Component {
     const fd = new FormData();
     const name = this.id;
     //Add the path dynamically by appending this.id
-    const url = `http://143.244.139.140:5000/api/admin/${this.path}`
+    const url ="abc.com"//`http://143.244.139.140:5000/api/admin/${this.path}`
     fd.append(this.id, this.state.selectedFile,this.state.selectedFile.name);
     Papa.parse(this.state.selectedFile, 
       {

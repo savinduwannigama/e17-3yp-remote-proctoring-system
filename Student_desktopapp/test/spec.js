@@ -57,30 +57,6 @@ const path = require('path')
 
 //     })
 
-//     it('Authenticate', async() => {
-//         var input = await app.client.$('#first');
-//         await input.setValue('1');
-//         await sleep(100);
-//         input = await app.client.$('#second');
-//         await input.setValue('2');
-//         await sleep(100);
-//         input = await app.client.$('#third');
-//         await input.setValue('3');
-//         await sleep(100);
-//         input = await app.client.$('#fourth');
-//         await input.setValue('4');
-//         await sleep(100);
-//         input = await app.client.$('#fifth');
-//         await input.setValue('5');
-//         await sleep(100);
-//         input = await app.client.$('#sixth');
-//         await input.setValue('6 ');
-//         await sleep(100);
-//         const title = await app.client.$("h1");
-//         const h1Text = await title.getText();
-//         assert.equal(h1Text, "Login")
-//         await sleep(1000);
-//     })
 
 //     it('Login', async() => {
 //         const input = await app.client.$('#log-email');
@@ -130,12 +106,12 @@ describe('Application launch', function() {
 
     it('Navigate', async() => {
         const input = await app.client.$('#log-email');
-        await input.setValue('hello@gmail.com');
+        await input.setValue('e17190@eng.pdn.ac.lk');
         await sleep(1000);
         //email = await input.getText();
         //assert.equal(email, "hello@gmail.com");
         const input2 = await app.client.$('#log-password');
-        await input2.setValue('hello12345');
+        await input2.setValue('sashini1234');
         await sleep(1000);
         element = await app.client.$("button[name='Log in']")
         await element.click();
@@ -164,7 +140,7 @@ describe('Application launch', function() {
         await element.click();
         await sleep(1000);
         element = await app.client.$('#name');
-        await element.setValue('Sashini Liyanage');
+        await element.setValue('Sashini');
         await sleep(2000);
         element = await app.client.$('button[name="savename"');
         await element.click();
@@ -242,18 +218,6 @@ describe('Application launch', function() {
 
     })
 
-    // it('Notification', async() => {
-    //     trigger = await app.client.$(".smartphone-menu-trigger");
-    //     await trigger.click();
-    //     await sleep(1000);
-    //     page = await app.client.$("#notification");
-    //     await page.click();
-    //     title = await app.client.$("#title");
-    //     h1Text = await title.getText();
-    //     assert.equal(h1Text, "Notifications")
-    //     await sleep(1000);
-    // })
-
     it('Meeting room', async() => {
         trigger = await app.client.$(".smartphone-menu-trigger");
         await trigger.click();
@@ -299,7 +263,3 @@ describe('Application launch', function() {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-
-
-// <li tabindex="0" id="settings" class="icon-settings"><span>Settings</span></li>
-// <li tabindex="0" id="help" class="icon-
