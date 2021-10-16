@@ -1,0 +1,36 @@
+#uploadbtn:disabled,
+#uploadcancle:disabled {
+    background-color: rgb(173, 173, 173);
+    cursor: not-allowed;
+}
+
+#uploadStatus {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#errorMsg {
+    text-align: center;
+}
+
+#saved-files {
+    padding: 10px;
+}
+
+#saved-files p {
+    background-color: var(--sub-color);
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#saved-files p:before {
+    content: '\1F3A5';
+    padding-right: 10px;
+}
+
+#saved-files h4 {
+    color: var(--header-color);
+    font-weight: normal;
+    margin-top: 0px;
+}

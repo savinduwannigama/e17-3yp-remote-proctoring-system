@@ -113,8 +113,8 @@ login.addEventListener('click', function(e) {
         .then((response) => {
             sessionStorage.setItem("email", logemail.value);
             sessionStorage.setItem('token', response.data.token);
-            //localStorage.setItem("token", response.data.token);
-            ipc.send('home');
+
+            saveData();
         })
         .catch(function(error) {
             if (error.response) {
