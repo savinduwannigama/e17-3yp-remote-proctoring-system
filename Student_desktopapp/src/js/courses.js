@@ -1,31 +1,35 @@
 const axios = require('axios');
 
 
-var courseJSON = '[{"shortname": "E20-2023","fullname": "CO321-2021 : Embedded systems","department": "CO", "coordinator": "Dr.ABC EFG","semester": 5,"hasExam": true},{"shortname": "E17-2021","fullname": "CO322-2021 : Data Structure and Algorithms","department": "CO", "coordinator": "Dr.ABC EFG","semester": 5,"hasExam": true}]'
-var courseArray = JSON.parse(courseJSON);
-
-console.log(courseArray[0]);
+//var courseJSON = '[{"shortname": "E20-2023","fullname": "CO321-2021 : Embedded systems","department": "CO", "coordinator": "Dr.ABC EFG","semester": 5,"hasExam": true},{"shortname": "E17-2021","fullname": "CO322-2021 : Data Structure and Algorithms","department": "CO", "coordinator": "Dr.ABC EFG","semester": 5,"hasExam": true}]'
+var courseArray //= JSON.parse(courseJSON);
+var popup = document.getElementById("popup");
+var span = popup.getElementsByTagName('span')
+var link = document.getElementById("show")
+var btn, btncount
 
 /******************* save token and direct to home page ************************/
 
-// axios({
-//         method: 'get',
-//         url: 'http://143.244.139.140:5000/api/student/courses/self',
-//         responseType: 'json',
-//         headers: {
-//             'Authorization': "BEARER " + sessionStorage.getItem('token'),
-//         }
+axios({
+        method: 'get',
+        url: 'http://143.244.139.140:5000/api/student/courses/self',
+        responseType: 'json',
+        headers: {
+            'Authorization': "BEARER " + sessionStorage.getItem('token'),
+        }
 
-//     })
-//     .then((response) => {
-//         console.log(response)
-//     })
-//     .catch(function(error) {
-//         if (error.response) {
-//             console.log(error.response)
+    })
+    .then((response) => {
+        console.log(response);
+        courseArray = response.data
+        makeCourseList();
+    })
+    .catch(function(error) {
+        if (error.response) {
+            console.log(error.response)
 
-//         };
-//     });
+        };
+    });
 
 
 function sortCourse() {
@@ -106,24 +110,20 @@ function makeCourseList() {
         list.appendChild(item);
     }
 
-}
 
-makeCourseList();
+    /********************** popup details ****************************/
+    btn = document.getElementById("cards").getElementsByTagName('li')
+    btncount = btn.length
+    for (var i = 0; i < btncount; i += 1) {
+        btn[i].onclick = function() {
+            ipc.send('open')
+            span[0].innerHTML = courseArray[this.id].fullname;
+            span[1].innerHTML = courseArray[this.id].department;
+            span[2].innerHTML = courseArray[this.id].semester;
+            span[3].innerHTML = courseArray[this.id].coordinator;
+            link.click()
 
-
-/********************** popup details ****************************/
-var popup = document.getElementById("popup");
-var span = popup.getElementsByTagName('span')
-var link = document.getElementById("show")
-var btn = document.getElementById("cards").getElementsByTagName('li')
-var btncount = btn.length;
-for (var i = 0; i < btncount; i += 1) {
-    btn[i].onclick = function() {
-        span[0].innerHTML = courseArray[this.id].fullname;
-        span[1].innerHTML = courseArray[this.id].department;
-        span[2].innerHTML = courseArray[this.id].semester;
-        span[3].innerHTML = courseArray[this.id].coordinator;
-        link.click()
-
+        }
     }
+
 }

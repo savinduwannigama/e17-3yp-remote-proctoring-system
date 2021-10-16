@@ -10,8 +10,3 @@
 #show-event {
     display: none;
 }
-
-#popup table {
-    color: var(--font-color);
-    text-align: left;
-}

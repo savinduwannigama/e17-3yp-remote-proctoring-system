@@ -1,22 +1,12 @@
 const axios = require('axios');
+const datentime = require('date-and-time');
 
 var showevent = document.getElementById("show-event");
 var popup = document.getElementById("popup");
-var span = popup.getElementsByTagName('span')
-
-var examArray = [{
-    title: "CO321",
-    start: '2021-11-10T10:00:00',
-    end: '2021-11-10T16:00:00',
-    display: 'block',
-    id: 'CO321exam',
-
-}, {
-    title: "CO322",
-    start: '2021-11-12T10:00:00',
-    end: '2021-11-12T16:00:00',
-    display: 'block',
-}]
+var span = popup.getElementsByTagName('span');
+var examArray = [];
+var eventArray = [];
+var nextExam;
 
 axios({
         method: 'get',
@@ -28,7 +18,9 @@ axios({
 
     })
     .then((response) => {
-        console.log(response)
+        examArray = response.data
+        addEvents(examArray);
+        console.log(response.data)
     })
     .catch(function(error) {
         if (error.response) {
@@ -37,17 +29,23 @@ axios({
         };
     });
 
-document.addEventListener('DOMContentLoaded', function() {
+function createEvents() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         height: 350,
         initialView: 'dayGridMonth',
         eventColor: 'orange',
-        events: examArray,
+        events: eventArray,
+        //eventDisplay: 'block',
         eventClick: function(info) {
-            span[0].innerHTML = info.event.title
-            span[1].innerHTML = info.event.start
-            span[2].innerHTML = info.event.end
+            var id = info.event.id
+            span[0].innerHTML = examArray[id][0].exam
+            span[1].innerHTML = examArray[id][1].course
+            span[2].innerHTML = info.event.start
+            span[3].innerHTML = examArray[id][1].duration
+            span[4].innerHTML = examArray[id][0].room_name
+            span[5].innerHTML = examArray[id][0].chief_invigilator
+            span[6].innerHTML = examArray[id][0].invigilator
             showevent.click()
 
         },
@@ -58,4 +56,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     calendar.render();
-});
+};
+
+function addEvents(array) {
+    array[0][1].startTime
+    for (var i = 0; i < array.length; i++) {
+        eventArray.push({ title: array[i][0].exam, start: array[i][1].startTime.split('Z')[0], id: i });
+    }
+    createEvents();
+}

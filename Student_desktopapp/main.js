@@ -1,13 +1,7 @@
 // main.js
 
 // Modules to control application life and create native browser window
-const {
-    BrowserWindow,
-    Menu,
-    MenuItem,
-    ipcMain,
-    app
-} = require('electron')
+const { BrowserWindow, Menu, MenuItem, ipcMain, app } = require('electron')
 const path = require('path')
 const { download } = require("electron-dl");
 const ipc = ipcMain
@@ -35,8 +29,6 @@ const drive = google.drive({
     version: 'v3',
     auth: oauth2Client,
 });
-
-
 
 function createWindow() {
     // Create the browser window.
@@ -71,8 +63,8 @@ function createWindow() {
             callback(false)
         }
     })
-    mainWindow.on('close', function(e) {
-        /*const choice = require('electron').dialog.showMessageBoxSync(this, {
+    ipcMain.on('open', function(e) {
+        const choice = require('electron').dialog.showMessageBoxSync(this, {
             type: 'none',
             buttons: ['Yes', 'No'],
             noLink: true,
@@ -84,7 +76,7 @@ function createWindow() {
         });
         if (choice === 1) {
             e.preventDefault();
-        }*/
+        }
         app.quit;
     });
 

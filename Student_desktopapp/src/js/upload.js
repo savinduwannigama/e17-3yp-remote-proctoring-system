@@ -8,31 +8,22 @@ const uploadbtn = document.getElementById('uploadbtn')
 const canclebtn = document.getElementById('uploadcancle')
 
 for (var i = 0; i < files.length; i++) {
-
-
     var item = document.createElement('p');
     item.setAttribute("id", i.toString());
     item.innerHTML = files[i];
-    // fs.stat('src/recordedVideo/' + files[i], (err, stats) => {
-    //     console.log(stats)
-    // });
-
     list.appendChild(item);
-
-
 }
 
 
-var popup = document.getElementById("popup");
 var link = document.getElementById("show")
 var btn = document.getElementById("saved-files").getElementsByTagName('p')
+var data = document.getElementById("data").getElementsByTagName('span')
 var btncount = btn.length;
+
 for (var i = 0; i < btncount; i += 1) {
     btn[i].onclick = function() {
-        var data = document.getElementById("data").getElementsByTagName('span')
         var video = document.getElementById(this.id);
         fs.stat('src/recordedVideo/' + video.innerHTML, (err, stats) => {
-            //console.log(stats)
             data[0].innerHTML = video.innerHTML;
             data[1].innerHTML = stats.birthtime;
             data[2].innerHTML = Math.round(stats.size / 10000) / 100;
@@ -48,14 +39,8 @@ function cancle() {
     uploadbtn.disabled = false;
     errorMsg.innerHTML = '';
     uploadStatus.src = '';
-    //ipc.send('upload');
-    const a = document.createElement('a');
-    a.style.display = 'none';
-    a.href = '#';
-    document.body.appendChild(a);
-    a.click();
+    closePopup();
     setTimeout(() => {
-        document.body.removeChild(a);
         location.reload();
     }, 200);
 
@@ -78,9 +63,7 @@ function upload() {
         fileName: filename,
     })
 
-    ipc.on("done", async(event, {
-        errormsg
-    }) => {
+    ipc.on("done", async(event, { errormsg }) => {
         canclebtn.disabled = false;
         if (errormsg == 'noError') {
             errorMsg.innerHTML = "Video Uploaded Successfully";
@@ -90,8 +73,6 @@ function upload() {
                 console.log(err);
 
             });
-
-
         } else {
             errorMsg.innerHTML = errormsg;
             uploadStatus.src = 'img/icons/fail.png'
