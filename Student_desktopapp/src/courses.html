@@ -63,8 +63,8 @@
     </nav>
     <!--body starts here-->
     <div class="separator3"></div>
-    <button class="sortBtn" onclick="sortListDir()">Sort by Course Code</button>
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for a course name...">
+    <button class="sortBtn" onclick="sortCourse()">Sort by Course Code</button>
+    <input type="text" id="myInput" onkeyup="findCourse()" placeholder="Search for a course name...">
 
     <div class="cards-bg">
         <ul class="cards" id="cards"></ul>
@@ -81,15 +81,19 @@
             <!--body starts here-->
             <table id="course-content">
                 <tr>
-                    <th>Course code: </th>
-                    <th><span>null</span></th>
-                </tr>
-                <tr>
                     <th>Course name: </th>
                     <th><span>null</span></th>
                 </tr>
                 <tr>
                     <th>Department : </th>
+                    <th><span>null</span></th>
+                </tr>
+                <tr>
+                    <th>Semester : </th>
+                    <th><span>null</span></th>
+                </tr>
+                <tr>
+                    <th>Course coordinator : </th>
                     <th><span>null</span></th>
                 </tr>
 

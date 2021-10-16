@@ -1,32 +1,34 @@
 const axios = require('axios');
 
 
-var courseJSON = '{"code":["CO227","CO321","CO322","CO323","CO324","CO325","EE386"], "name":["Computer Engineering Project", "Embedded System", "Data Structure and Algorithm","Computer Communication","Network and Web Application","Computer and Network Security","Ellectronic II"]}';
+var courseJSON = '[{"shortname": "E20-2023","fullname": "CO321-2021 : Embedded systems","department": "CO", "coordinator": "Dr.ABC EFG","semester": 5,"hasExam": true},{"shortname": "E17-2021","fullname": "CO322-2021 : Data Structure and Algorithms","department": "CO", "coordinator": "Dr.ABC EFG","semester": 5,"hasExam": true}]'
 var courseArray = JSON.parse(courseJSON);
+
+console.log(courseArray[0]);
 
 /******************* save token and direct to home page ************************/
 
-axios({
-        method: 'get',
-        url: 'http://143.244.139.140:5000/api/student/courses/self',
-        responseType: 'json',
-        headers: {
-            'Authorization': "BEARER " + sessionStorage.getItem('token'),
-        }
+// axios({
+//         method: 'get',
+//         url: 'http://143.244.139.140:5000/api/student/courses/self',
+//         responseType: 'json',
+//         headers: {
+//             'Authorization': "BEARER " + sessionStorage.getItem('token'),
+//         }
 
-    })
-    .then((response) => {
-        console.log(response)
-    })
-    .catch(function(error) {
-        if (error.response) {
-            console.log(error.response)
+//     })
+//     .then((response) => {
+//         console.log(response)
+//     })
+//     .catch(function(error) {
+//         if (error.response) {
+//             console.log(error.response)
 
-        };
-    });
+//         };
+//     });
 
 
-function sortListDir() {
+function sortCourse() {
     var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
     list = document.getElementById("cards");
     switching = true;
@@ -63,7 +65,7 @@ function sortListDir() {
 }
 
 
-function myFunction() {
+function findCourse() {
     // Declare variables
     var input, filter, ul, li, name, i, txtValue;
     input = document.getElementById('myInput');
@@ -83,13 +85,10 @@ function myFunction() {
     }
 }
 
-
 function makeCourseList() {
-    var array = courseArray;
-    // Create the list element:
     var list = document.getElementById('cards');
 
-    for (var i = 0; i < array.code.length; i++) {
+    for (var i = 0; i < courseArray.length; i++) {
         // Create the list item:
         var item = document.createElement('li');
         var code = document.createElement('p');
@@ -98,8 +97,8 @@ function makeCourseList() {
         item.setAttribute("id", i.toString());
         // Set its contents:
         item.className = 'card'
-        code.innerHTML = array.code[i];
-        name.innerHTML = array.name[i];
+        code.innerHTML = courseArray[i].shortname;
+        name.innerHTML = courseArray[i].fullname;
         item.appendChild(code);
         item.appendChild(name);
 
@@ -112,6 +111,7 @@ function makeCourseList() {
 makeCourseList();
 
 
+/********************** popup details ****************************/
 var popup = document.getElementById("popup");
 var span = popup.getElementsByTagName('span')
 var link = document.getElementById("show")
@@ -119,8 +119,10 @@ var btn = document.getElementById("cards").getElementsByTagName('li')
 var btncount = btn.length;
 for (var i = 0; i < btncount; i += 1) {
     btn[i].onclick = function() {
-        span[0].innerHTML = courseArray.code[this.id];
-        span[1].innerHTML = courseArray.name[this.id];
+        span[0].innerHTML = courseArray[this.id].fullname;
+        span[1].innerHTML = courseArray[this.id].department;
+        span[2].innerHTML = courseArray[this.id].semester;
+        span[3].innerHTML = courseArray[this.id].coordinator;
         link.click()
 
     }
