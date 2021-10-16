@@ -88,7 +88,9 @@ export default class Adminbtn extends React.Component {
         }).then(resp => {
 
           console.log(resp.data);
-        });
+        }).catch(error => {
+          console.log(error.response);
+        })
        }}
      )
     

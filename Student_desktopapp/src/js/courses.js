@@ -1,3 +1,31 @@
+const axios = require('axios');
+
+
+var courseJSON = '{"code":["CO227","CO321","CO322","CO323","CO324","CO325","EE386"], "name":["Computer Engineering Project", "Embedded System", "Data Structure and Algorithm","Computer Communication","Network and Web Application","Computer and Network Security","Ellectronic II"]}';
+var courseArray = JSON.parse(courseJSON);
+
+/******************* save token and direct to home page ************************/
+
+axios({
+        method: 'get',
+        url: 'http://143.244.139.140:5000/api/student/courses/self',
+        responseType: 'json',
+        headers: {
+            'Authorization': "BEARER " + sessionStorage.getItem('token'),
+        }
+
+    })
+    .then((response) => {
+        console.log(response)
+    })
+    .catch(function(error) {
+        if (error.response) {
+            console.log(error.response)
+
+        };
+    });
+
+
 function sortListDir() {
     var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
     list = document.getElementById("cards");
@@ -55,9 +83,6 @@ function myFunction() {
     }
 }
 
-
-var courseJSON = '{"code":["CO227","CO321","CO322","CO323","CO324","CO325","EE386"], "name":["Computer Engineering Project", "Embedded System", "Data Structure and Algorithm","Computer Communication","Network and Web Application","Computer and Network Security","Ellectronic II"]}';
-var courseArray = JSON.parse(courseJSON);
 
 function makeCourseList() {
     var array = courseArray;

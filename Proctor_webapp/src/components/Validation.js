@@ -8,6 +8,9 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 const theme = createTheme({
     status: {
       danger: '#e53e3e',
@@ -28,12 +31,14 @@ class Validation extends React.Component {
    
     
     
-    constructor() {
-    super();
+    constructor(props) {
+    super(props);
+    this.path=props.path;
     this.state = {
       input: {'email':'','password':'','confirm_password':''},
       errors: {'email':'','password':'','confirm_password':''},
-      amount: '',
+      reqfail:'',
+      failure: '',
       password: '',
       weight: '',
       weightRange: '',
@@ -56,21 +61,53 @@ class Validation extends React.Component {
     });
   }
      
-    handleSubmit(event) {
+    
+    async handleSubmit(event) {
     event.preventDefault();
   
     if(this.validate()){
-        //console.log(this.state);
+      let input = this.state.input;
+      
+      const semail= input["email"];
+      const spw0= input["password"];
+      const spw1= input["confirm_password"];
+      const load = {email:semail,password0:spw0,password1:spw1}
+      console.log(load)
+      //const url = "http://143.244.139.140:5000/api/admin/login"
+      const data =JSON.stringify({"email":input["email"],"password": input["password"]},null,4) 
+
+      console.log(load);
+      
+      await axios.post(`http://143.244.139.140:5000/api/${this.props.path}`, {
+        email:semail,password0:spw0,password1:spw1
+      }).then(resp => {
+          console.log(resp.data);
+      }).catch(error => {
+        this.setState({
+          reqfail:1,
+          failure:error.response.data["message"]
+        })
+        console.log(this.state.reqfail)
+        console.log(error.response)
+        console.log(error.response.data["message"])
+
+      });
+      
+       
   
-        let input = {};
+        if(this.state.reqfail!==1){
+          console.log(this.state.reqfail)
+          this.props.history.push(this.props.next);
+          input = {};
         
-        input["email"] = "";
-        input["password"] = "";
-        input["confirm_password"] = "";
-        this.setState({input:input});
-  
+          input["email"] = "";
+          input["password"] = "";
+          input["confirm_password"] = "";
+          this.setState({input:input});
+          
+        }
         
-        this.props.history.push('/signin');
+        //this.props.history.push('/signin');
     }
   }
     
@@ -150,6 +187,9 @@ class Validation extends React.Component {
   }
      
   render() {
+    /*axios.get("http://143.244.139.140:5000/api/admin/admins/all").then(resp=>{
+        console.log(resp.data)
+      });*/
     return (
       
         <Box
@@ -161,6 +201,11 @@ class Validation extends React.Component {
               autoComplete="off"
               onSubmit={this.handleSubmit}
         >
+          {this.state.reqfail && this.state.failure!=='Admin has already been registered' && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please register using an authorized email</p></div>}
+          {this.state.reqfail && this.state.failure==='Admin has already been registered' && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please <Link to={this.props.next}> sign in</Link> using your authorized email</p></div>}
+         
+          
+          
           <ThemeProvider theme={theme}>
             <TextField 
             color="neutral"

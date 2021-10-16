@@ -5,7 +5,7 @@ import { useHistory,Link } from 'react-router-dom';
 
 import '../css/reg.css';
 import Divider from '@mui/material/Divider';
-
+import axios from 'axios';
 import Validation from './Validation'
 const Register = () => {
     const history = useHistory();
@@ -19,6 +19,9 @@ const Register = () => {
     const failureHandle = (response) => {
       setName("Authorization Unsuccessfull!");
     }
+    /*axios.get("http://143.244.139.140:5000/api/admin/admins/all").then(resp=>{
+        console.log(resp.data)
+      });*/
     return (
       <div className="Main">
         <div className="login-reg">
@@ -58,8 +61,7 @@ const Register = () => {
               
             <Divider>Or</Divider>
             
-            <Validation next={'/adminsignin'}/>
-            <p style={{textAlign:"left",fontSize:'15px'}}>Already logged in?<Link to='/signin'> Sign in!</Link></p>
+            <Validation next={'/adminsignin'} path={'admin/register'}/>
             </div>
             
             

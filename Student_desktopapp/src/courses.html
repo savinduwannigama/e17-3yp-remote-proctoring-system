@@ -5,8 +5,9 @@
     <title>Connexa</title>
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/courses.css">
-    <script defer src="js/courses.js"></script>
     <script defer src="js/header.js"></script>
+    <script defer src="js/courses.js"></script>
+
 </head>
 
 <body onload="display_ct();">
@@ -16,14 +17,7 @@
                 <span id='title'>Courses</span>
             </div>
         </div>
-        <!--<div class="container2">
-            <div class="search">
-                <input type="text" class="searchTerm" placeholder="search">
-                <button type="submit" id="searchbtn" class="searchButton">
-                 <i class="fa fa-search"></i>
-              </button>
-            </div>
-        </div>-->
+        <div class="container2" onclick="refresh();"></div>
         <div class="container3">
             <div class="battery">
                 <div class="container">
@@ -36,12 +30,6 @@
                 </div>
                 <p id="batteryLevelOutput"></p>
             </div>
-        </div>
-        <div class="container4">
-            <div class="notification">
-                <img id="show_notifications" src="img/icons/notification.png">
-                <span id="badge" class="badge">7</span>
-            </div>
         </div>
     </div>
 
@@ -69,7 +57,6 @@
             <li tabindex="0" id="course" class="icon-courses"><span>Courses</span></li>
             <li tabindex="0" id="schedule" class="icon-schedule"><span>Exam Schedule</span></li>
             <li tabindex="0" id="upload" class="icon-upload"><span>Upoad Videos</span></li>
-            <li tabindex="0" id="notification" class="icon-notifications"><span>Notifications</span></li>
             <li tabindex="0" id="settings" class="icon-settings"><span>Settings</span></li>
             <li tabindex="0" id="help" class="icon-help"><span>Help</span></li>
         </ul>
@@ -80,12 +67,7 @@
     <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for a course name...">
 
     <div class="cards-bg">
-        <ul class="cards" id="cards">
-            <!-- <li class='card' id='hi' name='C11'>
-                <p>code</p>
-                <p>yelloooo</p>
-            </li> -->
-        </ul>
+        <ul class="cards" id="cards"></ul>
     </div>
 
 

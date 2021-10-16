@@ -1,5 +1,7 @@
 const { ipcRenderer } = require('electron')
 const ipc = ipcRenderer
+const axios = require('axios');
+
 
 const textBoxes = document.getElementsByTagName("input");
 
@@ -7,6 +9,8 @@ var check = document.querySelector("input[name=checkbox]");
 
 var loginpage = document.getElementById('sign-in');
 var regpage = document.getElementById('sign-up')
+var logerror = document.getElementById('log-error');
+var regerror = document.getElementById('reg-error');
 
 check.addEventListener('change', function() {
     if (this.checked) {
@@ -55,18 +59,12 @@ function validatePassword(p) {
         return false
     }
     if (p.value.length < 8) {
-        p.value = "";
-        p.placeholder = "Should contain at least 8 characters";
         return false
     }
     if (p.value.search(/[a-z]/i) < 0) {
-        p.value = "";
-        p.placeholder = "Should contain at least one letter";
         return false
     }
     if (p.value.search(/[0-9]/) < 0) {
-        p.value = "";
-        p.placeholder = "Should contain at least one digit";
         return false
     }
     return true;
@@ -83,29 +81,47 @@ function validateEmail(e) {
 
 
 var login = document.getElementById("login");
-var OK;
+
 login.addEventListener('click', function(e) {
     e.preventDefault()
-    OK = "true"
+
 
 
     var logemail = document.getElementById("log-email");
     if (!(validateEmail(logemail.value))) {
-        logemail.value = "";
-        logemail.placeholder = "Enter a valid Email";
-        changePlaceholderColor(textBoxes);
-        OK = "false";
+        logerror.innerText = "Enter a valid email";
+        return;
     }
 
     var logpassword = document.getElementById("log-password");
     if (!(validatePassword(logpassword))) {
-        changePlaceholderColor(textBoxes);
-        OK = "false";
+        logerror.innerText = "Incorrect password";
+        return;
     }
 
-    if (OK == "true") {
-        ipc.send('home')
-    }
+    /******************* save token and direct to home page ************************/
+
+    axios({
+            method: 'post',
+            url: 'http://143.244.139.140:5000/api/student/login',
+            responseType: 'json',
+            data: {
+                "email": logemail.value,
+                "password": logpassword.value,
+            },
+        })
+        .then((response) => {
+            sessionStorage.setItem("email", logemail.value);
+            sessionStorage.setItem('token', response.data.token);
+            //localStorage.setItem("token", response.data.token);
+            ipc.send('home');
+        })
+        .catch(function(error) {
+            if (error.response) {
+                logerror.innerHTML = "* " + error.response.data.message;
+
+            };
+        });
 
 })
 
@@ -115,40 +131,52 @@ var register = document.getElementById("register");
 
 register.addEventListener('click', function(e) {
     e.preventDefault()
-    OK = "true"
 
     var regemail = document.getElementById("reg-email");
     var regpassword = document.getElementById("reg-password");
     var confirmpassword = document.getElementById("confirm-password");
 
     if (!(validateEmail(regemail.value))) {
-        regemail.value = "";
-        regemail.placeholder = "Enter a valid Email";
-        changePlaceholderColor(textBoxes);
-        OK = "false";
+        regerror.innerText = "Enter a valid Email"
+        return;
     }
 
     if (!(validatePassword(regpassword))) {
-        changePlaceholderColor(textBoxes);
-        OK = "false";
+        regerror.innerText = "Password should contain atleast 8 characters and one number"
+        return;
     }
 
     if (confirmpassword.value.length == 0) {
-        confirmpassword.placeholder = "Re-enter your password"
-        changePlaceholderColor(textBoxes);
-        OK = "false";
+        regerror.innerText = "Re-enter your password"
+        return;
     }
     if (regpassword.value != confirmpassword.value) {
-        confirmpassword.value = ""
-        confirmpassword.placeholder = "Passwords doesn't match"
-        changePlaceholderColor(textBoxes);
-        OK = "false";
+        regerror.innerText = "Passwords don't match";
+        return;
     }
+    /******************* save token and direct to home page ************************/
+
+    axios({
+            method: 'post',
+            url: 'http://143.244.139.140:5000/api/student/register',
+            responseType: 'json',
+            data: {
+                "email": regemail.value,
+                "password0": regpassword.value,
+                "password1": regpassword.value,
+            },
+        })
+        .then((response) => {
+
+            ipc.send('Login');
+        })
+        .catch(function(error) {
+            if (error.response) {
+                regerror.innerHTML = "* " + error.response.data.message;
+            };
+        });
 
 
-    if (OK == "true") {
-        ipc.send('Authentication')
-    }
 
 })
 
