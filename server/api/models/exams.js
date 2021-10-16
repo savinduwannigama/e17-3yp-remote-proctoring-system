@@ -66,7 +66,7 @@ examsSchema.statics.addExamRooms = function(info) {  // HAVE TO HANDLE ERRORS
             // console.log();
             // return true;
             itrCount += 1;
-            if(itrCount >= info.distinct_exam_rooms.length) {
+            if(itrCount >= info.distinct_exam_rooms.length) {  // does not work for now --> TRY TO MAKE THIS WORK
                 return true;
             }
         })

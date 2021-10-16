@@ -1196,17 +1196,25 @@ router.delete('/exams/single/:name', (req, res) => {
                 console.log('\tDeleted exam_rooms of the deleted exam...');
                 // changing the hasExam = false for the relevant course of the deleted exam
                 courses.findOne({shortname: deleted.course})
-                .then(async course => {
-                    course.hasExam = false;
-                    // console.log(deleted.students);
-                    const removedStudents = await course.removeStudents(deleted.students)
-                    // console.log({removedStudents});
-                    course.save()    
-                    .then(() => {
-                        console.log('\t' + course.shortname + '.hasExam set to false after deleting the exam');
-                        res.json({status: 'success', message: 'Deleted exam, deleted relevant exam rooms and hasExam of relevant course set to false', deletedExamEntry: deleted, numberOfExamRoomsDeleted: deleteCount});
+                .then(fcourse => {
+                    // checking whether this course has any other scheduled exams
+                    exams.findOne({course: fcourse.shortname})
+                    .then(anotherExam => {
+                        if(anotherExam == null) {  // if this course has no other scheduled exams
+                            fcourse.hasExam = false;
+                        }
+                        const removedStudents = fcourse.removeStudents(deleted.students);  // returns the number of deleted students
+                        fcourse.save()    
+                        .then(() => {
+                            console.log('\t' + fcourse.shortname + '.hasExam set to false after deleting the exam');
+                            res.json({status: 'success', message: 'Deleted exam, deleted relevant exam rooms and hasExam of relevant course set to false, deleted exam students from course', deletedExamEntry: deleted, numberOfExamRoomsDeleted: deleteCount});
+                        })
+                        .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to set hasExam of course to false', error: String(err)}));
+
                     })
-                    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to set hasExam of course to false', error: String(err)}));
+                    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to find other exams of the course of the deleted exam', error: String(err)}));
+                    // console.log(deleted.students);
+                    // console.log({removedStudents});
                 })
                 .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find the course relevant to the deleted exam", error: String(err)}));
             })

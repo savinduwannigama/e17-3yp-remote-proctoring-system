@@ -16,6 +16,8 @@ const coursesSchema = new mongoose.Schema({
 
 
 // method to remove a given array of students from a course
+// THIS METHOD DOES NOT CHECK WHETHER THERE ARE OTHER EXAMS FOR THIS COURSE, WHICH HAS THE SAME STUDENTS AS THE DELETED EXAMS
+//                                        THEREFORE PROBLEM IF THE SAME STUDENT(S) IS IN 2 EXAMS SCHEDULED FOR THE SAME COURSE.
 coursesSchema.methods.removeStudents = async function (toRemove) {
     var totalRemoved = 0;
     for (let i = 0; i < toRemove.length; i++) {
