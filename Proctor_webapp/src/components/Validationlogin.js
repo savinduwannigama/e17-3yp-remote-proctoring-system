@@ -111,16 +111,15 @@ class Validationlogin extends React.Component {
         localStorage.setItem('rememberMe',rememberMe);
         localStorage.setItem('user', rememberMe? this.state.input['email']: '')
         
+        this.props.history.push(this.props.next);
+        }
+
         input = {};
         
-        input["email"] = rememberMe? this.state.input['email']: '';
+        input["email"] = this.state.rememberMe? this.state.input['email']: '';
         input["password"] = "";
         
         
-        
-        
-        this.props.history.push(this.props.next);
-        }
         this.setState({input:input});
     }
   }
