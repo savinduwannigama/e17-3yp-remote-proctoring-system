@@ -34,16 +34,19 @@ examsSchema.statics.addExamRooms = function(info) {  // HAVE TO HANDLE ERRORS
     // exams.addExamRooms({distinct_exam_rooms, name, students, chief_invigilators, invigilators});
     // students.push({regNo, eligible, exam_room});
 
-    info.distinct_exam_rooms.forEach(room => {  // loops once for each distinct exam room
+    info.distinct_exam_rooms.forEach(room => {  // loops once for each distinct exam room, room = --> A, B, C, ...
         // if(errorOccured)
         //     break;
         var room_name = exam + ' room ' + room;  // CHANGE THE FORMAT OF THE ROOM NAME
         var room_students = [];
+
+        // getting the the video upload link from the function argument
+        var recordedStudentVideosAt = info.recordedStudentVideosAt.find(obj => obj.exam_room === room).link;
         // getting the chief invigilator and the invigilator from the function argument
         var chief_invigilator = info.chief_invigilators.find(obj => obj.exam_room === room).name;
         var invigilator = info.invigilators.find(obj => obj.exam_room === room).name;
 
-        info.students.forEach(student => {  // loops once for each student 
+        info.students.forEach(student => {  // loops once for each student, will check all the students for all the exams
             if(student.exam_room == room){
                 var tempStudent = {
                     regNo: student.regNo,
@@ -55,7 +58,7 @@ examsSchema.statics.addExamRooms = function(info) {  // HAVE TO HANDLE ERRORS
 
         // PROBLEM IF THE PROGRAM EXECUTES THE FOLLOWING BEFORE COMPLETING THE PREVIOUS
         
-        const newExamRoom = new exam_rooms({exam, room_name, room_students, chief_invigilator, invigilator});
+        const newExamRoom = new exam_rooms({exam, room_name, room_students, chief_invigilator, invigilator, recordedStudentVideosAt});
 
         newExamRoom.save()  // waiting until the exam room finishes creating 
         .then(() => {
