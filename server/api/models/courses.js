@@ -14,6 +14,22 @@ const coursesSchema = new mongoose.Schema({
     hasExam: {type: Boolean, default: false}  // cannot be edited by admin
 }, {collection: 'courses'})
 
+
+// method to remove a given array of students from a course
+coursesSchema.methods.removeStudents = async function (toRemove) {
+    
+    for (let i = 0; i < this.students.length; i++) {
+        const element = this.students[i];
+
+        const found = await toRemove.find(x => x === element);  // checking whether the student is in the list of students to be removed
+        console.log({found});
+        if (found != undefined) {
+            const spliced = this.student.splice(i, 1);
+        console.log({spliced});
+        }
+    }
+
+}
 const model = mongoose.model('coursesModel', coursesSchema)
 
 module.exports = model
