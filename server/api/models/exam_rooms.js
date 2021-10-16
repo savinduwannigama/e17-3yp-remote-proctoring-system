@@ -21,7 +21,8 @@ const exam_roomsSchema = new mongoose.Schema({
     // update to true when the student joins the room and also update joined_at
     room_students: [{regNo: String, participation: {type: Boolean, default: false}, disconnections: [{type: String, default: ['no disconnections']}], joined_at: Date}],  // FK | maps the students joining an exam room | has multiple students
     chief_invigilator: String,
-    invigilator: String
+    invigilator: String,
+    recordedStudentVideosAt: String
 }, {collection: 'exam_rooms'})
 
 const model = mongoose.model('exam_roomsModel', exam_roomsSchema)

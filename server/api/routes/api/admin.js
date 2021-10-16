@@ -349,6 +349,12 @@ router.post('/students/multiple', async (req, res, next) => {
     console.log('Request body: ' + record);
     // console.log(record.details[0][0]);
     const createdEntry = [];
+
+    const totalItr = record.details.length - 2; 
+    // console.log(totalItr);
+    var succItr = 0;
+    var failItr = 0;
+    var emptyLines = 0;
     
     for (let i = 2; i < record.details.length; i++) {  // ADD CODE TO CHECK DATABASE FOR ALREADY EXISTING STUDENT, AND ONLY TRY TO ADD IF NOT
         if(record.details[i].length ==  5) {  // skips an entire record if it doesn't have 5 fields
@@ -371,30 +377,51 @@ router.post('/students/multiple', async (req, res, next) => {
             .then(() => {
                 // console.log('Created new student entry: ' + newStudent);
                 createdEntry.push(newStudent);
+                succItr += 1;
+                // console.log({num: record.details[i][0], succItr, failItr, emptyLines});
                 // res.json({status: 'Addded new student to the database'});
+                if((succItr + failItr + emptyLines) >= totalItr) {
+                    if(failItr == 0) {
+                        res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
+                    }
+                    else {
+                        res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                    }
+                }
             })
             .catch(err => {
                 console.log(i);
                 console.log("Error occured: " + err);
+                failItr += 1;
+                if((succItr + failItr + emptyLines) >= totalItr) {
+                    if(failItr == 0) {
+                        res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
+                    }
+                    else {
+                        res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                    }
+                }
 
             });  
-                // }
-                // else{
-                //     console.log(i);
-                //     console.log('Tried to enter already existing student');
-                // }
-            // })
-            // .catch(err => {
-            //     console.log('Error occured while trying to find student in the students collection:\n' + err);
-            // });
-
+        }
+        else{
+            emptyLines += 1;
+            // console.log({emptyline: 'yes', num: record.details[i][0], succItr, failItr, emptyLines});
+            if((succItr + failItr + emptyLines) >= totalItr) {
+                if(failItr == 0) {
+                    res.json({status: 'success', message: 'Added ' + succItr + ' students', createdEntry})
+                }
+                else {
+                    res.json({status: 'failure', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
+                }
+            }
         }
     }
     /**
      * have to handle errors of =>  trying to add a student without a required field
      */
     // console.log('enddd');
-    res.json({status: 'response under construction'});
+    // res.json({status: 'response under construction'});
 });
 
 // call to read all students
@@ -461,6 +488,97 @@ router.delete('/students/all', (req, res) => {
 /**
  * API calls to the proctors collection
  */
+
+// add multiple proctors from a sheet 
+// receiving object => {"uploaded_file": "students", "details": [[], [], [start], ..., [end]]}
+router.post('/proctors/multiple', (req, res, next) => {
+    const record = req.body;
+    // console.log('Request body: ' + record);
+    // console.log(record.details[0][0]);
+    const createdEntry = [];
+    const totalItr = record.details.length - 2; 
+    // console.log(totalItr);
+    var succItr = 0;
+    var failItr = 0;
+    var emptyLines = 0;
+    
+    for (let i = 2; i < record.details.length; i++) {  // ADD CODE TO CHECK DATABASE FOR ALREADY EXISTING STUDENT, AND ONLY TRY TO ADD IF NOT
+        if(record.details[i].length ==  4) {  // skips an entire record if it doesn't have 5 fields
+            // const regNo = record.details[i][1];
+            const name = record.details[i][1];
+            const email = record.details[i][2];
+            const department = record.details[i][3];
+
+            // const response = await students.create({regNo, name, email, department});  // response is the return value from mongoDB
+            // console.log('Created new student entry (' + i-1 + '): ' + response);
+
+            // checking of the student already exist in the database
+            // students.findOne({regNo: regNo})
+            // .then(result => {
+                // if(result == null) {
+                // console.log('onna creating new entry');
+            const newProctor = new proctors({name, email, department});
+            // saves the new student
+            newProctor.save()
+            .then(() => {
+                // console.log('Created new student entry: ' + newStudent);
+                createdEntry.push(newProctor);
+                succItr += 1;
+                // console.log({num: record.details[i][0], succItr, failItr, emptyLines});
+                // res.json({status: 'Addded new student to the database'});
+                if((succItr + failItr + emptyLines) >= totalItr) {
+                    if(failItr == 0) {
+                        res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
+                    }
+                    else {
+                        res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                    }
+                }
+            })
+            .catch(err => {
+                console.log(i);
+                console.log("Error occured: " + err);
+                failItr += 1;
+                if((succItr + failItr + emptyLines) >= totalItr) {
+                    if(failItr == 0) {
+                        res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
+                    }
+                    else {
+                        res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                    }
+                }
+            });  
+        }
+        else {
+            emptyLines += 1;
+            // console.log({emptyline: 'yes', num: record.details[i][0], succItr, failItr, emptyLines});
+            if((succItr + failItr + emptyLines) >= totalItr) {
+                if(failItr == 0) {
+                    res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
+                }
+                else {
+                    res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                }
+            }
+        }
+        // // console.log({succItr, failItr});
+        // if((succItr + failItr + emptyLines) >= totalItr) {
+        //     if(failItr == 0) {
+        //         res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
+        //     }
+        //     else {
+        //         res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+        //     }
+        // }
+    }
+    /**
+     * have to handle errors of =>  trying to add a proctor without a required field
+     */
+    // console.log('enddd');
+    // res.json({status: 'response under construction'});
+});
+
+
 // add a new proctor to the database
 router.post('/proctors/single', (req, res) => {
     // method to add a new entry to the user relation in the database
@@ -587,45 +705,90 @@ router.post('/courses/single', (req, res) => {
 router.post('/courses/mastersheet', async (req, res) => {
     const record = req.body;
     // console.log('Request body: ' + record);
-    var createdEntries = [];
-    var errorOccured = false;
+    var createdEntry = [];
+    // var errorOccured = false;
     // console.log(record.details[0][0]);
+    const totalItr = record.details.length - 1; 
+    // console.log(totalItr);
+    var succItr = 0;
+    var failItr = 0;
+    var emptyLines = 0;
 
+    
     for (let i = 1; i < record.details.length; i++) {  // ADD ERROR HANDLING TO CHECK WHETHER A COURSE ALREADY EXISTS BEFORE ADDING, AND ONLY ADD IF NOT
-        if(errorOccured)
-            break; // breaking the loop if atleast a single error happens
+        // if(errorOccured)
+        //     break; // breaking the loop if atleast a single error happens
+        if (record.details[i].length ==  4) {
+            const shortname = record.details[i][0];
+            const fullname = record.details[i][1];
+            const department = record.details[i][2];
+            const semester = record.details[i][3];
 
-        const shortname = record.details[i][0];
-        const fullname = record.details[i][1];
-        const department = record.details[i][2];
-        const semester = record.details[i][3];
+            // courses.findOne({shortname})
+            // .then(result => {
+            //     if(result == null){  // if the course does not already exist in the courses collection
 
-        // const response = await courses.create({shortname, fullname, department, semester});  // response is the return value from mongoDB
-        // console.log('Created new course entry (' + i + '): ' + response);
-        const newCourse = new courses({shortname, fullname, department, semester});
-        // saves the new student
-        newCourse.save()  // without the await, the loop will carry on without waiting for the save().then().catch()
-        .then(() => {
-            // console.log('Created new course entry: ' + newCourse);
-            createdEntries.push(newCourse);
-            // console.log(i);
-            // res.json({status: 'Addded new student to the database'});
-        })
-        .catch(err => {
-            console.log(i);
-            // res.status(400).json({status: 'failure', message: 'Following error occured while trying to create a course', error: String(err)});
-            // return true;
-            console.log("Error occured: " + err);
-            errorOccured = true;
-            // next();
-        });  // MIGHT GIVE AN ERROR 
-    }   // WRITE CODE TO DELETE THE PREVIOUSLY ADDED COURSES FROM THIS MASTERSHEET (MAKE ADDING FROM MASTERSHEET ATOMIC)
+            //     }
+            //     else {
+
+            //     }
+            // })
+
+            const newCourse = new courses({shortname, fullname, department, semester});
+            // saves the new student
+            newCourse.save()  // without the await, the loop will carry on without waiting for the save().then().catch()
+            .then(() => {
+                // console.log('Created new course entry: ' + newCourse);
+                createdEntry.push(newCourse);
+                succItr += 1;
+                // console.log({num: record.details[i][0], succItr, failItr, emptyLines});
+                // res.json({status: 'Addded new student to the database'});
+                if((succItr + failItr + emptyLines) >= totalItr) {
+                    if(failItr == 0) {
+                        res.json({status: 'success', message: 'Added ' + succItr + ' courses', createdEntry})
+                    }
+                    else {
+                        res.json({status: 'failure', message: 'Added ' + succItr + ' courses, failed to add ' + failItr + ' courses.', createdEntry})
+                    }
+                }
+            })
+            .catch(err => {
+                console.log(i);
+                // res.status(400).json({status: 'failure', message: 'Following error occured while trying to create a course', error: String(err)});
+                // return true;
+                console.log("Error occured: " + err);
+                // errorOccured = true;
+                failItr += 1;
+                if((succItr + failItr + emptyLines) >= totalItr) {
+                    if(failItr == 0) {
+                        res.json({status: 'success', message: 'Added ' + succItr + ' courses', createdEntry})
+                    }
+                    else {
+                        res.json({status: 'failure', message: 'Added ' + succItr + ' courses, failed to add ' + failItr + ' courses.', createdEntry})
+                    }
+                }
+                // next();
+            });  
+        }
+        else {
+            emptyLines += 1;
+            // console.log({emptyline: 'yes', num: record.details[i][0], succItr, failItr, emptyLines});
+            if((succItr + failItr + emptyLines) >= totalItr) {
+                if(failItr == 0) {
+                    res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
+                }
+                else {
+                    res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                }
+            }
+        }
+    }  
     /**
      * have to handle errors of => adding an already existing course, trying to add a course without a required field
      */
     // console.log('going to send success response');
     // if(!errorOccured)
-    res.json({status: 'response under construction'});
+    // res.json({status: 'response under construction'});
 });
 
 // call to read all courses
@@ -706,7 +869,7 @@ router.delete('/courses/all', (req, res) => {
             .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to find all the courses", error: String(err)}));
         }
         else {  
-            console.log(result);
+            // console.log(result);
             res.status(400).json({status: 'failure', message: 'Tried to delete a all course when there are scheduled exams'})
         }
     })
@@ -812,25 +975,47 @@ router.post('/exams/mastersheet', async (req, res) => {
 
     // console.log(record.details[0][0]);
     /////////////////////////////////////////////////
-    // creating the date+time string
-    const year = record.details[1][3].substr(6, 4);
-    const month = record.details[1][3].substr(3, 2);
-    const date = record.details[1][3].substr(0, 2);
-    const hours = record.details[2][3].substr(0, 2); 
-    const mins = record.details[2][3].substr(3, 2); 
+    // // creating the date+time string --> OLD MASTERSHEET
+    // const year = record.details[1][3].substr(6, 4);
+    // const month = record.details[1][3].substr(3, 2);
+    // const date = record.details[1][3].substr(0, 2);
+    // const hours = record.details[2][3].substr(0, 2); 
+    // const mins = record.details[2][3].substr(3, 2); 
+
+     // creating the date+time string --> NEW MASTERSHEET
+     const year = record.details[2][3].substr(6, 4);
+     const month = record.details[2][3].substr(3, 2);
+     const date = record.details[2][3].substr(0, 2);
+     const hours = record.details[3][3].substr(0, 2); 
+     const mins = record.details[3][3].substr(3, 2); 
+     
     
     const startTime = year+"-"+month+"-"+date+"T"+hours+":"+mins+":00";
-    // console.log(startTime);
+    console.log(startTime);
     /////////////////////////////////////////////////
-    const name = record.details[0][2];
+    // const name = record.details[0][2];  // OLD MASTERSHEET
+    const name = record.details[0][3];  // full name of the exam
+
     // const startTime: {type: Date, required: true},  // it is a must that a exam has a start time 2023-12-10T10:00:00
-    const duration = record.details[3][3];
-    const course_coordinator = record.details[4][4];
-    const chief_invigilators = [];  // record.details[14][5];
-    const invigilators = [];  // record.details[14][6];
-    const total_students = record.details[10][5];
+    // const duration = record.details[3][3];  // OLD MASTERSHEET
+    const duration = record.details[4][3];
+
+    // const course_coordinator = record.details[4][4];  // OLD MASTERSHEET
+    const course_coordinator = record.details[5][4];
+
+    // const chief_invigilators = [];  // record.details[14][5];  // OLD MASTERSHEET
+    // const invigilators = [];  // record.details[14][6];  // OLD MASTERSHEET
+    const recordedStudentVideosAt = [];  // record.details[15][4]
+    const chief_invigilators = [];  // record.details[15][5];
+    const invigilators = [];  // record.details[15][6];
+
+    // const total_students = record.details[10][5];  // OLD MASTERSHEET
+    const total_students = record.details[11][5];  
+
     const students = [];
-    const course = name.split(" ")[0] + '-' + year;
+    // const course = name.split(" ")[0] + '-' + year;  // OLD MASTERSHEET
+    const course = record.details[1][3];  
+
 
     // checking if the course is in the courses collection
     // and if not, returning without adding the exam
@@ -841,18 +1026,24 @@ router.post('/exams/mastersheet', async (req, res) => {
             // course_not_found = true;
             return res.json({status: 'failure', message: 'The course ' + course + ' does not exist in the database under the courses collection.'});
         }
-        for (let i = 14; i < record.details.length; i++) {
+        for (let i = 15; i < record.details.length; i++) {  // STARTS WITH i=14 FOR OLD MASTERSHEET
             if(record.details[i].length ==  12) {  // skips an entire record if it doesn't have 5 fields
+                // student regNo
                 const regNo = record.details[i][1];
+                // student eligibility
                 var eligible = false;
                 if(record.details[i][2] == "TRUE") {
                     eligible = true;
                 }
+                // student exam room
                 const exam_room = record.details[i][3];
     
                 // adding a new distinct exam room 
                 if(!distinct_exam_rooms.includes(exam_room)) {  // 
                     distinct_exam_rooms.push(exam_room); 
+
+                    // adding the locally recorded video upload link for a new room
+                    recordedStudentVideosAt.push({exam_room, link: record.details[i][4]});
                     // adding a chief invigilator and an invigilator for a new room
                     chief_invigilators.push({exam_room, name: record.details[i][5]});  
                     invigilators.push({exam_room, name: record.details[i][6]});
@@ -864,6 +1055,7 @@ router.post('/exams/mastersheet', async (req, res) => {
 
         // this is a schema method of exams
         // takes the distinct exam rooms as the arguments
+        // console.log(students.length);
         const newExam = new exams({name, startTime, duration, course_coordinator, chief_invigilators, invigilators, total_students, students, course});
 
         // saving the new exam
@@ -873,7 +1065,7 @@ router.post('/exams/mastersheet', async (req, res) => {
 
             // calling the function to create exam rooms
             // will return true if successfully creates the rooms, and else will return false
-            const exam_rooms_created = await exams.addExamRooms({distinct_exam_rooms, name, students, chief_invigilators, invigilators});
+            const exam_rooms_created = await exams.addExamRooms({distinct_exam_rooms, name, students, chief_invigilators, invigilators, recordedStudentVideosAt});
             // updates the relevant course according to the new exam
             // will return true if the courses were updated successfully, and else will return false.
             const courses_updated = await exams.updateExamOnCourses({course, students, course_coordinator});
