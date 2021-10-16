@@ -27,8 +27,8 @@ export default function PrimarySearchAppBar() {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   //stuff added to store details
-  const rememberMe = localStorage.getItem('rememberMe') === 'true';
-  const user = rememberMe ? localStorage.getItem('user') : '';
+  const rememberMe = localStorage.getItem('arememberMe') === 'true';
+  const user = localStorage.getItem('adminuser') ;
   const username = localStorage.getItem('username') ? localStorage.getItem('username') : '';
   const img = localStorage.getItem('profileimage') ? localStorage.getItem('profileimage') : '';
   const history = useHistory();
@@ -51,7 +51,10 @@ export default function PrimarySearchAppBar() {
   };
 
   const handleLogout =()=>{
-    localStorage.removeItem("username");
+    if(!rememberMe){
+      localStorage.removeItem("adminuser");
+    }
+    
     localStorage.removeItem("profileimage");
     history.push('/');
   }
@@ -169,7 +172,7 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <Avatar src={img} />
-              <div style={{paddingLeft:"10px",  fontSize:"15px",fontFamily:"Sansita"}}>{username}</div>
+              <div style={{paddingLeft:"10px",  fontSize:"15px",fontFamily:"Sansita"}}>{user}</div>
               
             </IconButton>
           </Box>

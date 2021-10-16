@@ -124,9 +124,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function PersistentDrawerLeft(props) {
-  const rememberMe = localStorage.getItem('rememberMe') === 'true';
-  const user = rememberMe ? localStorage.getItem('user') : '';
-  const username = localStorage.getItem('username') ? localStorage.getItem('username') : '';
+  const rememberMe = localStorage.getItem('prememberMe') === 'true';
+  const user =  localStorage.getItem('user') ;
+ // const username = localStorage.getItem('username') ? localStorage.getItem('username') : '';
   const img = localStorage.getItem('profileimage') ? localStorage.getItem('profileimage') : '';
   const history = useHistory();
   const theme = useTheme();
@@ -164,7 +164,11 @@ export default function PersistentDrawerLeft(props) {
   };
 
   const handleLogout =()=>{
-    localStorage.removeItem("username");
+    if(!rememberMe){
+      localStorage.removeItem("user");
+
+    }
+    
     localStorage.removeItem("profileimage");
     history.push('/');
   }
@@ -299,7 +303,7 @@ export default function PersistentDrawerLeft(props) {
               color="inherit"
             >
               <Avatar src={img} />
-              <div style={{paddingLeft:"10px",  fontSize:"15px",fontFamily:"Sansita"}}>{username}</div>
+              <div style={{paddingLeft:"10px",  fontSize:"15px",fontFamily:"Sansita"}}>{user}</div>
               
             </IconButton>
           </Box>
