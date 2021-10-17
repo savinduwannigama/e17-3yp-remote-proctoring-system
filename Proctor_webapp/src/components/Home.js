@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect } from 'react';
 import ProctorAppBar from './ProctorAppBar';
 import HomeIcon from '@mui/icons-material/Home';
 import { useHistory } from 'react-router-dom';
@@ -15,18 +15,24 @@ function Home() {
   const img = localStorage.getItem('profileimage');
   const [fail, setfail] = useState('');
   //console.log(jsonData);
-  axios.get('http://143.244.139.140:5000/api/proctor/proctors/self',
+  useEffect(() => {
+    axios.get('http://143.244.139.140:5000/api/proctor/proctors/self',
    { headers: {
       'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
     }}
   ).then(resp => {
-
+    
+    
     console.log("Response from api",resp.data);
+    localStorage.setItem("username",resp.data['name']);
+    sessionStorage.setItem("department",resp.data['department'])
   }).catch(error=>{
     console.log("Error response",error.response.data["error"])
     setfail(1);
     console.log(fail);
   });
+  }, []);
+  
   
   /*const rememberMe = localStorage.getItem('rememberMe') === 'true';
   const user = rememberMe ? localStorage.getItem('user') : '';*/
