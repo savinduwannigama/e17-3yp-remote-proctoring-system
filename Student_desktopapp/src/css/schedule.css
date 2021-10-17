@@ -10,3 +10,20 @@
 #show-event {
     display: none;
 }
+
+#join-exam {
+    background-color: rgb(40, 192, 73);
+}
+
+#display-name {
+    width: 200px;
+    border: 2px solid rgb(40, 192, 73);
+    padding: 5px;
+    height: 12px;
+    border-radius: 5px;
+    outline: none;
+}
+
+::placeholder {
+    color: rgba(40, 192, 73, 0.61);
+}
