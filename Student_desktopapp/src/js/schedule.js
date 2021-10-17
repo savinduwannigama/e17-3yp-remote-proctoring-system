@@ -1,12 +1,9 @@
-const axios = require('axios');
-const datentime = require('date-and-time');
-
+var displayName = document.getElementById('display-name');
 var showevent = document.getElementById("show-event");
 var popup = document.getElementById("popup");
 var span = popup.getElementsByTagName('span');
 var examArray = [];
 var eventArray = [];
-var nextExam;
 
 axios({
         method: 'get',
@@ -20,13 +17,19 @@ axios({
     .then((response) => {
         examArray = response.data
         addEvents(examArray);
-        console.log(response.data)
+        nextExam(examArray);
+
+
     })
     .catch(function(error) {
         if (error.response) {
             console.log(error.response)
+            if (error.response.data.error = "TokenExpiredError: jwt expired") {
+                ipc.send('timeOut');
+            }
 
         };
+
     });
 
 function createEvents() {
@@ -46,6 +49,9 @@ function createEvents() {
             span[4].innerHTML = examArray[id][0].room_name
             span[5].innerHTML = examArray[id][0].chief_invigilator
             span[6].innerHTML = examArray[id][0].invigilator
+            displayName.value = sessionStorage.getItem('name')
+            sessionStorage.setItem('roomName', examArray[id][0].room_name)
+            sessionStorage.setItem('videoPath', examArray[id][0].recordedStudentVideosAt)
             showevent.click()
 
         },
@@ -59,9 +65,41 @@ function createEvents() {
 };
 
 function addEvents(array) {
-    array[0][1].startTime
+    console.log(array)
     for (var i = 0; i < array.length; i++) {
-        eventArray.push({ title: array[i][0].exam, start: array[i][1].startTime.split('Z')[0], id: i });
+
+        eventArray.push({ title: array[i][0].exam, start: array[i][1].startTime.split('Z')[0], id: i, allDay: false });
     }
     createEvents();
+}
+
+function joinExam() {
+    sessionStorage.setItem('displayName', displayName.value);
+    ipc.send('exam room')
+}
+
+/************** update next exam ************************/
+
+function nextExam(array) {
+    var now = new Date()
+    var examIndex;
+    var nextexam, exam;
+    console.log(array)
+    if (array.length == 0) {
+        sessionStorage.setItem('nextExamAt', '-1');
+        sessionStorage.setItem('nextExam', 'no exam');
+        return
+    }
+    nextexam = new Date(array[0][1].startTime)
+
+    for (var i = 0; i < array.length; i++) {
+        exam = new Date(array[i][1].startTime)
+        if (exam - now > 0 && exam < nextexam) {
+            nextexam = exam;
+            examIndex = i;
+        }
+    }
+
+    sessionStorage.setItem('nextExamAt', nextexam / 1000);
+    sessionStorage.setItem('nextExam', array[examIndex][0].exam)
 }

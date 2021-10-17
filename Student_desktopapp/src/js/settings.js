@@ -1,5 +1,3 @@
-const axios = require('axios');
-
 /*global media recorder */
 let mediaRecorder;
 let recordedBlobs;
@@ -236,6 +234,9 @@ document.getElementById("entername").addEventListener("click", () => {
                     console.log(error.response.message);
 
                 };
+                if (error.response.data.error = "TokenExpiredError: jwt expired") {
+                    ipc.send('timeOut');
+                }
             });
 
     }

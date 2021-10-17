@@ -27,10 +27,11 @@ for (var i = 0; i < btncount; i += 1) {
             data[0].innerHTML = video.innerHTML;
             data[1].innerHTML = stats.birthtime;
             data[2].innerHTML = Math.round(stats.size / 10000) / 100;
-            data[3].innerHTML = Math.ceil((stats.size / navigator.connection.downlink) / 60000000);
             console.log(navigator.connection.downlink);
         });
         link.click()
+
+
     }
 }
 
@@ -52,15 +53,27 @@ function upload() {
         return;
     }
 
+    var filename = document.getElementById('filename').innerHTML;
+    var array = JSON.parse(localStorage.getItem('examdetails'));
+    var drivepath;
+
     uploadbtn.disabled = true;
     canclebtn.disabled = true;
-    var filename = document.getElementById('filename').innerHTML;
     errorMsg.innerHTML = 'Uploading....';
     uploadStatus.style.display = 'block'
     uploadStatus.src = 'img/icons/uploading.gif';
 
+    for (var i = 0; i < array.length; i++) {
+        if (array[i].savedvideo + '.mp4' === filename) {
+            drivepath = array[i].videoPath
+        }
+
+    }
+
+    console.log(drivepath)
     ipc.send("googleDriveUpload", {
         fileName: filename,
+        drivePath: drivepath,
     })
 
     ipc.on("done", async(event, { errormsg }) => {

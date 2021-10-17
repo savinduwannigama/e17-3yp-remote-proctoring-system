@@ -13,7 +13,8 @@ function saveData() {
             sessionStorage.setItem('regNo', response.data.regNo);
             sessionStorage.setItem('department', response.data.department);
             sessionStorage.setItem('device', response.data.device);
-            ipc.send('home');
+            getExam();
+
         })
         .catch(function(error) {
             if (error.response) {

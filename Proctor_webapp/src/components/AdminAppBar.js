@@ -29,8 +29,8 @@ export default function PrimarySearchAppBar() {
   //stuff added to store details
   const rememberMe = localStorage.getItem('arememberMe') === 'true';
   const user = localStorage.getItem('adminuser') ;
-  const username = localStorage.getItem('username') ? localStorage.getItem('username') : '';
-  const img = localStorage.getItem('profileimage') ? localStorage.getItem('profileimage') : '';
+  const username = localStorage.getItem('ausername') ? localStorage.getItem('ausername') : '';
+  const img = localStorage.getItem('aprofileimage') ? localStorage.getItem('aprofileimage') : '';
   const history = useHistory();
 
   const handleProfileMenuOpen = (event) => {
@@ -55,7 +55,8 @@ export default function PrimarySearchAppBar() {
       localStorage.removeItem("adminuser");
     }
     
-    localStorage.removeItem("profileimage");
+    localStorage.removeItem("aprofileimage");
+    localStorage.removeItem("atoken");
     history.push('/');
   }
   const menuId = 'primary-search-account-menu';
