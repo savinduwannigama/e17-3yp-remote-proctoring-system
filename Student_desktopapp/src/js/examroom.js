@@ -40,9 +40,12 @@ const options = {
         startWithVideoMuted: false,
         enableWelcomePage: false,
         prejoinPageEnabled: false,
+        startSilent: true,
+        startAudioMuted: 2,
         toolbarButtons: ['camera', 'chat',
             'microphone', 'raisehand'
         ],
+        //disabledSounds: ['NOISY_AUDIO_INPUT_SOUND', 'PARTICIPANT_JOINED_SOUND', 'PARTICIPANT_LEFT_SOUND']
 
     },
     interfaceConfigOverwrite: {
@@ -65,7 +68,7 @@ let recordedBlobs;
 
 const errorMsgElement = document.querySelector('span#errorMsg');
 const downloadButton = document.querySelector('button#download');
-const status = document.querySelector('#status')
+
 
 
 window.addEventListener('offline', () => {
@@ -73,8 +76,7 @@ window.addEventListener('offline', () => {
     offlineEnd = 0;
     record = true;
     mediaRecorder.resume();
-    status.style.background = "rgba(255, 0, 0, 0.678)";
-    status.innerHTML = "You are offline. We keep recording"
+
 
 })
 
@@ -82,12 +84,11 @@ window.addEventListener('online', () => {
     offlineEnd = date.format(new Date(), 'MMMDD HH-mm-ss')
     statusArray.push(offlineStart + " to " + offlineEnd);
     mediaRecorder.pause();
-    status.style.background = "#1eb119bd";
-    status.innerHTML = "You are online."
+
 })
 
 downloadButton.addEventListener('click', () => {
-    downloadButton.disabled = true;
+    downloadButton.style.display = 'none';
     api.dispose();
     examdetails['endTime'] = date.format(new Date(), 'DD MMM YYYY HH-mm-ss');
 
@@ -114,9 +115,6 @@ downloadButton.addEventListener('click', () => {
             });
             const url = window.URL.createObjectURL(blob);
 
-            status.innerHTML = "Video Saving...";
-            status.style.background = "rgba(255, 0, 0, 0.678)";
-
             ipc.send("download", {
                 url: url,
                 fileName: name
@@ -127,8 +125,6 @@ downloadButton.addEventListener('click', () => {
             })
 
         } else {
-            status.innerHTML = "Please wait...";
-            status.style.background = "rgba(255, 0, 0, 0.678)";
             ipc.send('dashboard');
         }
 
@@ -228,4 +224,11 @@ function additem(data) {
         }
     }
 
+}
+
+
+/************************ change theme ***********************/
+if (typeof(Storage) !== "undefined" && localStorage.theme) {
+    var Theme = localStorage.getItem('theme');
+    document.documentElement.setAttribute('data-theme', Theme);
 }

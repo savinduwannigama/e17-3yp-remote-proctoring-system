@@ -13,11 +13,11 @@ const { google } = require('googleapis');
 //const path = require('path');
 const fs = require('fs');
 
-const CLIENT_ID = '541047315053-7bibru42slsvqs7pbg6gjg0o5udemasb.apps.googleusercontent.com';
-const CLIENT_SECRET = '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';
+const CLIENT_ID = '1030032301297-iu6nhih0fg4p7temv1b653egltob6n6r.apps.googleusercontent.com';
+const CLIENT_SECRET = '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';
 const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
 
-const REFRESH_TOKEN = '1//047hvcj36cyxyCgYIARAAGAQSNwF-L9Ir_EX7QMnaMIiqXKNfz-9iQs2XT63RHe5wYM97X0UGZDb0V7FWp5cnjP0Avyh1PYmNTbA';
+const REFRESH_TOKEN = '1//043IXKpbcf0dSCgYIARAAGAQSNwF-L9Irqozyp_l7TW8PMmmFejJwWk7GqNib5gHapWHBv-lJq5uqiAohfyckL3du1q51FvPT4YM';
 
 const oauth2Client = new google.auth.OAuth2(
     CLIENT_ID,
@@ -113,9 +113,8 @@ function createWindow() {
     ipc.on('course', () => { mainWindow.loadFile('src/courses.html') })
     ipc.on('schedule', () => { mainWindow.loadFile('src/schedule.html') })
     ipc.on('upload', () => { mainWindow.loadFile('src/upload.html') })
-    ipc.on('notification', () => { mainWindow.loadFile('src/notifications.html') })
     ipc.on('settings', () => { mainWindow.loadFile('src/settings.html') })
-    ipc.on('help', () => { mainWindow.loadFile('src/help.html') })
+    ipc.on('help', () => { mainWindow.loadFile('src/examroom.html') })
     ipc.on('exam room', () => { mainWindow.loadFile('src/examroom.html') })
 
 

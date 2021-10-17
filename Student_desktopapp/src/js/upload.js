@@ -27,7 +27,6 @@ for (var i = 0; i < btncount; i += 1) {
             data[0].innerHTML = video.innerHTML;
             data[1].innerHTML = stats.birthtime;
             data[2].innerHTML = Math.round(stats.size / 10000) / 100;
-            data[3].innerHTML = Math.ceil((stats.size / navigator.connection.downlink) / 60000000);
             console.log(navigator.connection.downlink);
         });
         link.click()

@@ -1,96 +1,76 @@
+<!DOCTYPE html>
 <html>
 
 <head>
     <title>Connexa</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src='https://meet.jit.si/external_api.js'></script>
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/help.css">
+
+    <script defer src="js/header.js"></script>
     <script defer src="js/help.js"></script>
-    <title>Virtual examination room</title>
-    <style>
-         ::-webkit-scrollbar {
-            width: 10px;
-        }
-        
-         ::-webkit-scrollbar-track {
-            box-shadow: inset 0 0 5px grey;
-        }
-        
-         ::-webkit-scrollbar-thumb {
-            background: rgba(38, 168, 170, 0.22)
-        }
-        
-        #start,
-        #download,
-        #goBack {
-            border-radius: 5px;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-left: 10px;
-            padding-right: 10px;
-            border: 0;
-            width: 120px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            justify-content: center;
-        }
-        
-        #start:disabled,
-        #download:disabled {
-            background-color: rgb(185, 183, 183);
-        }
-        
-        #start {
-            background-color: rgb(62, 167, 53);
-        }
-        
-        #download {
-            background-color: rgb(228, 18, 18);
-        }
-        
-        #goBack {
-            background-color: #26a8aa;
-        }
-        
-        #status {
-            display: initial;
-            text-align: center;
-            width: 100%;
-            height: 20px;
-            position: fixed;
-            padding-top: 10px;
-            padding-right: 10px;
-            font-size: 15px;
-            right: 0px;
-            top: 5px;
-            color: white;
-            background: transparent;
-        }
-        
-        #btns {
-            text-align: center;
-        }
-    </style>
+
 </head>
 
-<body>
+<body onload="display_ct();">
+    <div class="header">
+        <div class="container1">
+            <div class="title">
+                <span id='title'>Help</span>
+            </div>
+        </div>
+        <div class="container2" onclick="refresh();"></div>
+        <div class="container3">
+            <div class="battery">
+                <div class="container">
+                    <div id="batBody">
+                        <div id="indicator"></div>
+                    </div>
+                    <div class="batEnd">
+                        <div></div>
+                    </div>
+                </div>
+                <p id="batteryLevelOutput"></p>
+            </div>
+        </div>
+    </div>
 
-    <div id="status"></div>
-    <div id='exam_details'>
-        <input id='examinee-name'></input>
-        <p></p>
+    <div class="timestamp" id="timestamp">
+        <p>TIME TO HIT THE BOOKS! YOUR NEXT EXAM BEGINS IN:</p>
     </div>
-    <div id="meet"></div>
-    <br>
-    <div>
-        <span id="errorMsg"></span>
+
+    <div class="status" id="status"></div>
+
+    <div class="timeindicator" id="timeindicator">
+        <p class="time"><span id="currenttime"></span></p>
+        <p>DAYS : HOURS : MINUTES : SECONDS</p>
     </div>
-    <div id="btns">
-        <button id="goBack">Go back</button>
-        <button id="start">Join meeting</button>
-        <button id="download" disabled>Leave meeting</button>
+
+    <!--hamburger menu-->
+    <nav class="menu" tabindex="0">
+        <div class="smartphone-menu-trigger"></div>
+        <header class="avatar">
+            <img id="avatar" class="online" src="img/user.jpg" />
+            <h2 id="user_name">USER</h2>
+        </header>
+        <ul id="list">
+            <li tabindex="0" id="home" class="icon-home"><span>Home</span></li>
+            <li tabindex="0" id="dashboard" class="icon-dashboard"><span>Dashboard</span></li>
+            <li tabindex="0" id="course" class="icon-courses"><span>Courses</span></li>
+            <li tabindex="0" id="schedule" class="icon-schedule"><span>Exam Schedule</span></li>
+            <li tabindex="0" id="upload" class="icon-upload"><span>Upoad Videos</span></li>
+            <li tabindex="0" id="settings" class="icon-settings"><span>Settings</span></li>
+            <li tabindex="0" id="help" class="icon-help"><span>Help</span></li>
+            <li tabindex="0" id="Login" class="icon-logout"><span>Log out</span></li>
+        </ul>
+    </nav>
+    <!--body starts here-->
+    <div class="separator2"></div>
+
+    <div class='collapse'>
+        <div class='collapse-title'>Upload saved videos</div>
+        <div class='collapse-body'>Go to 'Upload Videos' tab on the menu and click aiyooooo click krl blnnaa.... eeta psse ena pop up window eken upload krnna. okath ahanna deyakda???</div>
     </div>
+
 
 
 </body>
