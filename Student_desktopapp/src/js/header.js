@@ -1,27 +1,18 @@
 const { ipcRenderer } = require('electron')
 const ipc = ipcRenderer
 const date = require('date-and-time');
+const axios = require('axios');
 
 function display_c() {
     var refresh = 1000; // Refresh rate in milli seconds
-    mytime = setTimeout('display_ct()', refresh);
-    mybattery = setTimeout('battery()', refresh);
+    var mytime = setTimeout('display_ct()', refresh);
+    var mybattery = setTimeout('battery()', refresh);
 
 
 }
 
 
-/***************** current time ******************/
-
-// function display_ct() {
-//     var x = new Date()
-//     var hours = x.getHours();
-//     var min = x.getMinutes();
-//     var sec = x.getSeconds();
-//     document.getElementById('currenttime').innerHTML = hours + " : " + min + " : " + sec;
-//     display_c();
-
-// }
+/******************* time for the next exam ************************/
 
 var nextExamDate = sessionStorage.getItem('nextExamAt');
 var now, seconds;
@@ -31,7 +22,7 @@ const zeroPad = (num, places) => String(num).padStart(places, '0')
 function display_ct() {
     if (nextExamDate != '-1') {
         now = new Date();
-        seconds = Number(nextExamDate) - now / 1000;
+        seconds = Number(nextExamDate) - (now / 1000);
         var d = Math.floor(seconds / (3600 * 24));
         var h = Math.floor(seconds % (3600 * 24) / 3600);
         var m = Math.floor(seconds % 3600 / 60);
@@ -43,7 +34,7 @@ function display_ct() {
 }
 
 
-/**************** menu selection ****************************/
+/*********************** menu selection ****************************/
 var btn = document.getElementById("list").getElementsByTagName('li')
 var btncount = btn.length;
 for (var i = 0; i < btncount; i += 1) {
@@ -52,9 +43,36 @@ for (var i = 0; i < btncount; i += 1) {
     }
 }
 
+/***************** send the disconnections *************************/
+if (typeof(Storage) !== "undefined" && localStorage.disconnections) {
+    axios({
+            method: 'put',
+            url: 'http://143.244.139.140:5000/api/student/exam_rooms/disconnections',
+            responseType: 'json',
+            headers: {
+                'Authorization': "BEARER " + sessionStorage.getItem('token'),
+            },
+            data: JSON.parse(localStorage.getItem('disconnections'))
+
+        })
+        .then((response) => {
+            localStorage.removeItem('disconnections')
 
 
-/************* battery percentage***************/
+        })
+        .catch(function(error) {
+            if (error.response) {
+                console.log(error.response)
+                if (error.response.data.error = "TokenExpiredError: jwt expired") {
+                    ipc.send('timeOut');
+                }
+
+            };
+
+        });
+}
+
+/*********************** battery percentage ************************/
 function battery() {
 
     const batteryLevelOutput = document.getElementById('batteryLevelOutput');
@@ -91,7 +109,8 @@ function battery() {
 }
 
 
-/* online/offline */
+/******************* online/offline ***************************/
+
 window.addEventListener('offline', updateOnlineStatus);
 window.addEventListener('online', updateOnlineStatus);
 
@@ -146,12 +165,7 @@ window.addEventListener("load", function() {
 
 
 
-/* update user details */
-/*fetch("json/user_details.json").then(response => response.json()).then(data => {
-    document.getElementById("user_name").innerHTML = data[0].name
-    document.getElementById("avatar").src = data[0].avatar
-})*/
-
+/***************** display user name and avatar *******************/
 
 var username = document.getElementById("user_name");
 username.innerHTML = sessionStorage.getItem("name");
@@ -164,6 +178,7 @@ if (typeof(Storage) !== "undefined" && localStorage.useravatar) {
 
 
 /******************* set dark/light mode ************************/
+
 if (typeof(Storage) !== "undefined" && localStorage.theme) {
     var Theme = localStorage.getItem('theme');
     document.documentElement.setAttribute('data-theme', Theme);
@@ -171,6 +186,7 @@ if (typeof(Storage) !== "undefined" && localStorage.theme) {
 
 
 /************************** close popup**************************/
+
 function closePopup() {
     const a = document.createElement('a');
     a.style.display = 'none';

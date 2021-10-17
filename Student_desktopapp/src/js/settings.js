@@ -1,5 +1,3 @@
-const axios = require('axios');
-
 /*global media recorder */
 let mediaRecorder;
 let recordedBlobs;
