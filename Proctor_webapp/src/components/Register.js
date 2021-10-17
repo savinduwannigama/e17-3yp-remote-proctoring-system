@@ -2,20 +2,54 @@ import React, {useState }  from 'react'
 import Button from './Button';
 import GoogleLogin from 'react-google-login';
 import { useHistory,Link } from 'react-router-dom';
-
+import logo from '../appicon3.png'
 import '../css/reg.css';
 import Divider from '@mui/material/Divider';
-
+import axios from 'axios';
 import Validation from './Validation'
 const Register = () => {
     const history = useHistory();
     const[name,setName] = useState("");
+    const[email,setEmail]= useState("");
+    const[pwd,setPwd]=useState("");
+    const[cpwd,setCpwd] = useState("");
+    const[reqfail,setReq]=useState("");
+    const[failure,setFailure]=useState("");
     const responseGoogle = (response) => {
-      setName(response.profileObj.name);
+      setEmail(response.profileObj.email);
+      setPwd(response.profileObj.googleId);
+      setCpwd(response.profileObj.googleId);
       /*setEmail(response.profileObj.email);
       setUrl(response.profileObj.imageUrl);*/
-      history.push("/signin")
+      //history.push("/signin")
      }
+     //<p style={{textAlign:"left",fontSize:'15px'}}>Already logged in?<Link to='/signin'> Sign in!</Link></p>
+           
+     if(email!=='' && pwd !==''){
+      const url = `http://143.244.139.140:5000/api/proctor/register`
+      
+      console.log("email set",email);
+      console.log("password set",pwd);
+      axios.post(url, {
+        email:email,password0:pwd,password1:cpwd}).then(resp => {
+          setReq('');
+          setFailure('')
+          console.log(resp.data);
+          /*localStorage.setItem("ptoken",resp.data["token"] )
+          localStorage.setItem('rememberMe','true');
+          localStorage.setItem('user',email);
+          localStorage.setItem("username",name);
+          localStorage.setItem("profileimage",img);*/
+          history.push('/signin');
+        }).catch(error => {
+          setReq(1);
+          setFailure(error.response.data["message"])
+        console.log(reqfail)
+        console.log(error.response)
+        console.log(error.response.data["message"])
+
+        });
+    }
     const failureHandle = (response) => {
       setName("Authorization Unsuccessfull!");
     }
@@ -33,11 +67,22 @@ const Register = () => {
         
         
         <div className = 'box'>
-          <div className='box-title'><h3>WELCOME PROCTOR!</h3></div>
+          <div className='box-title'>
+          <div class="container">
+          
+          <span class="react-logo">
+          
+            <span class="nucleo"><img className="connexa" src={logo} alt="logo"/></span>
+          </span>
+
+          </div>
+                   
+          
+          </div>
           <div className='box-item'>
           
          
-            <h4>Register</h4>
+            <h4>Proctor Registeration</h4>
             
             
             <div style={{textAlign:'center'}}>
@@ -49,13 +94,18 @@ const Register = () => {
                onFailure={failureHandle}
                cookiePolicy={'single_host_origin'}
             />
+            {reqfail && <p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{failure}</p>}
+        
             </div>
             <div>
               
             <Divider>Or</Divider>
             
             <Validation next={'/signin'} path={'proctor/register'}/>
-            <p style={{textAlign:"left",fontSize:'15px'}}>Already logged in?<Link to='/signin'> Sign in!</Link></p>
+            <Link to="/" style={{fontSize:"15px", color:"#3b3a3a"}}>Return to Portal</Link>
+            <br/><br/><br/>
+            
+            
             </div>
             
             

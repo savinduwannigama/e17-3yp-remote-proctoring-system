@@ -206,8 +206,9 @@ class Validation extends React.Component {
               autoComplete="off"
               onSubmit={this.handleSubmit}
         >
-          {this.state.reqfail && this.state.failure!=='Admin has already been registered' && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please register using an authorized email</p></div>}
+          {this.state.reqfail && this.state.failure!=='Admin has already been registered' && this.state.failure!=='Proctor has already been registered' && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please register using an authorized email</p></div>}
           {this.state.reqfail && this.state.failure==='Admin has already been registered' && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please <Link to={this.props.next}> sign in</Link> using your authorized email</p></div>}
+          {this.state.reqfail && this.state.failure==='Proctor has already been registered' && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please <Link to={this.props.next}> sign in</Link> using your authorized email</p></div>}
          
           
           
