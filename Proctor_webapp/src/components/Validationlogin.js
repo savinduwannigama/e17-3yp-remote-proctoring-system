@@ -113,6 +113,10 @@ class Validationlogin extends React.Component {
         const url = `http://143.244.139.140:5000/api/${this.props.path}`
         await axios.post(url, {
         email:semail,password:spw0}).then(resp => {
+          this.setState({
+            reqfail:'',
+            failure:''
+          })
           console.log(resp.data);
           localStorage.setItem(this.props.user==='proctor'? "ptoken":"atoken",resp.data["token"] )
         }).catch(error => {
@@ -156,7 +160,11 @@ class Validationlogin extends React.Component {
         input["password"] = "";
         
         
-        this.setState({input:input});
+        this.setState({
+          input:input,
+          
+        
+        });
     }
   }
     
@@ -232,7 +240,7 @@ class Validationlogin extends React.Component {
         <Box
               component="form"
               sx={{
-                '& > :not(style)': { m: 1, width: '25ch' },
+                '& > :not(style)': { m: 1, width: '24ch' },
               }}
               noValidate
               autoComplete="off"

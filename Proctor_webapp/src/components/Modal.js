@@ -12,6 +12,8 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import {Link} from 'react-router-dom';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
 import JitsiMeetComponent from './JitsiMeet';
 const theme = createTheme({
   
@@ -28,27 +30,35 @@ class Modal extends React.Component{
   constructor(props){
     super(props);
   }
+  
   render(){
     return (
       this.props.open? ReactDOM.createPortal(
         <div className = 'modal'>
           
           <Card variant="outlined" sx={{bgcolor:"#006666",color:'white'}}>
+          <IconButton
+              edge="end"
+              color="inherit"
+              onClick={this.props.close}
+              aria-label="close"
+              sx={{paddingLeft:"460px",paddingTop:"20px"}}
+            >
+              <CloseIcon />
+            </IconButton>
           <CardContent>
           Examination: {this.props.einfo['title']}
           <br/>
           Start:{this.props.einfo['start'].toString()}
           <br/>
-          End : {this.props.einfo['end'].toString()}
+          {this.props.einfo['end'].toString()&& <p>End : {this.props.einfo['end'].toString()}</p>}
           <br/>
-          Url : <a href={this.props.einfo['url']} style={{color:'white'}}>{this.props.einfo['url']}</a>
-          <br/>
-          
-          <Link to={{pathname:'/meeting',state:{roomname:this.props.einfo['title']}}} className="nav-link">Join Meeting</Link>
-          <br/>
+          {this.props.einfo['end'].toString()&& <p>Url : <a href={this.props.einfo['url']} style={{color:'white'}}>{this.props.einfo['url']}</a></p>}
+                    
           <div className ="closebtn">
-            <ThemeProvider theme={theme}>
-          <Button color= "neutral" size="small" variant="contained" onClick={this.props.close} sx={{bgcolor:"white",color:'#006666',margin:'auto'}}>CLOSE</Button>
+          <ThemeProvider theme={theme}>
+          <Button color= "neutral" size="medium" variant="contained"  sx={{bgcolor:"white",color:'#006666',margin:'auto'}}> <Link to={{pathname:'/meeting',state:{roomname:this.props.einfo['title']}}}  style={{ textDecoration: 'none', color:"#006666"}}>Join Meeting</Link>
+         </Button>
           </ThemeProvider>
           </div>
           </CardContent>

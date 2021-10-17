@@ -9,3 +9,5 @@ document.getElementById('examschedule').addEventListener('click', () => {
     ipc.send("schedule")
 
 })
+
+document.getElementById('next-exam').innerHTML = sessionStorage.getItem('nextExam');
