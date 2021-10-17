@@ -37,10 +37,10 @@ function createWindow() {
     const mainWindow = new BrowserWindow({
         width: 800,
         height: 480,
-        //minimizable: false,
-        //maximizable: false,
-        //resizable: false,
-        //movable: false,
+        minimizable: false,
+        maximizable: false,
+        resizable: false,
+        movable: false,
         icon: "src/img/appicon3_YGz_icon.ico",
 
         webPreferences: {
@@ -48,7 +48,7 @@ function createWindow() {
             contextIsolation: false,
             enableRemoteModule: true,
             //devTools: true,
-            //devTools: false,
+            devTools: false,
         }
 
 
@@ -66,19 +66,19 @@ function createWindow() {
         }
     })
     mainWindow.on('close', function(e) {
-        // const choice = require('electron').dialog.showMessageBoxSync(this, {
-        //     type: 'none',
-        //     buttons: ['Yes', 'No'],
-        //     noLink: true,
-        //     title: 'Confirm',
-        //     message: 'Are you sure you want to exit?',
-        //     icon: 'src/img/appicon3_YGz_icon.ico'
+        const choice = require('electron').dialog.showMessageBoxSync(this, {
+            type: 'none',
+            buttons: ['Yes', 'No'],
+            noLink: true,
+            title: 'Confirm',
+            message: 'Are you sure you want to exit?',
+            icon: 'src/img/appicon3_YGz_icon.ico'
 
 
-        // });
-        // if (choice === 1) {
-        //     e.preventDefault();
-        // }
+        });
+        if (choice === 1) {
+            e.preventDefault();
+        }
         app.quit;
     });
 
@@ -103,7 +103,7 @@ function createWindow() {
     mainWindow.loadFile('src/loginpage.html')
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools()
+    //mainWindow.webContents.openDevTools()
 
     ipc.on('Register', () => { mainWindow.loadFile('src/registerpage.html') })
     ipc.on('Login', () => { mainWindow.loadFile('src/loginpage.html') })
@@ -135,8 +135,9 @@ function createWindow() {
 
     });
 
-    ipc.on("googleDriveUpload", async(event, { fileName }) => {
-        uploadFile(event, fileName)
+    ipc.on("googleDriveUpload", async(event, { fileName, drivePath }) => {
+        console.log(fileName, drivePath)
+        uploadFile(event, fileName, drivePath.split('/folders/')[1])
     })
 
 
@@ -190,7 +191,7 @@ app.on('window-all-closed', function() {
 
 
 
-async function uploadFile(event, file) {
+async function uploadFile(event, file, folderpath) {
     try {
         const filePath = path.join(__dirname, 'src/recordedVideo/' + file);
         const response = await drive.files.create({
@@ -201,7 +202,7 @@ async function uploadFile(event, file) {
             },
             resource: {
                 'name': file,
-                parents: ['1rOuZ_anPJkpU1AAvFAzjpXetwhT0YnXe']
+                parents: [folderpath]
             },
             fields: 'id'
 

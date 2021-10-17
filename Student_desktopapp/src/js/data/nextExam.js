@@ -30,10 +30,11 @@ function getExam() {
 
 function nextExam(array) {
     var now = new Date()
-    var nextexam, exam;
+    var nextexam, exam, examIndex;
     console.log(array)
     if (array.length == 0) {
-        sessionStorage.setItem('nextexam', '-1');
+        sessionStorage.setItem('nextExamAt', '-1');
+        sessionStorage.sertItem('nextExam', 'no exam')
         ipc.send('home')
         return
     }
@@ -43,9 +44,11 @@ function nextExam(array) {
         exam = new Date(array[i][1].startTime)
         if (exam - now > 0 && exam < nextexam) {
             nextexam = exam;
+            examIndex = i;
         }
     }
 
-    sessionStorage.setItem('nextexam', nextexam / 1000);
+    sessionStorage.setItem('nextExamAt', nextexam / 1000);
+    sessionStorage.setItem('nextExam', array[examIndex][0].exam);
     ipc.send('home')
 }

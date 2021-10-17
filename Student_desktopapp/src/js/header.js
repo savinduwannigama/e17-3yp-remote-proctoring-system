@@ -23,7 +23,7 @@ function display_c() {
 
 // }
 
-var nextExamDate = sessionStorage.getItem('nextexam');
+var nextExamDate = sessionStorage.getItem('nextExamAt');
 var now, seconds;
 var time = document.getElementById('currenttime')
 const zeroPad = (num, places) => String(num).padStart(places, '0')

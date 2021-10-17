@@ -53,6 +53,7 @@ function createEvents() {
             span[6].innerHTML = examArray[id][0].invigilator
             displayName.value = sessionStorage.getItem('name')
             sessionStorage.setItem('roomName', examArray[id][0].room_name)
+            sessionStorage.setItem('videoPath', examArray[id][0].recordedStudentVideosAt)
             showevent.click()
 
         },
@@ -83,10 +84,12 @@ function joinExam() {
 
 function nextExam(array) {
     var now = new Date()
+    var examIndex;
     var nextexam, exam;
     console.log(array)
     if (array.length == 0) {
-        sessionStorage.setItem('nextexam', '-1');
+        sessionStorage.setItem('nextExamAt', '-1');
+        sessionStorage.setItem('nextExam', 'no exam');
         return
     }
     nextexam = new Date(array[0][1].startTime)
@@ -95,8 +98,10 @@ function nextExam(array) {
         exam = new Date(array[i][1].startTime)
         if (exam - now > 0 && exam < nextexam) {
             nextexam = exam;
+            examIndex = i;
         }
     }
 
-    sessionStorage.setItem('nextexam', nextexam / 1000);
+    sessionStorage.setItem('nextExamAt', nextexam / 1000);
+    sessionStorage.setItem('nextExam', array[examIndex][0].exam)
 }

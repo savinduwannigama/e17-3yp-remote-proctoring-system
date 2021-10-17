@@ -108,6 +108,7 @@ downloadButton.addEventListener('click', () => {
     }
     examdetails['status'] = statusArray;
     examdetails['savedvideo'] = savedVideo;
+    examdetails['videoPath'] = sessionStorage.getItem('videoPath');
     additem(examdetails);
 
     setTimeout(function() {
