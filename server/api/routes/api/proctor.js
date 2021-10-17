@@ -181,6 +181,77 @@ router.post('/login', (req, res) => {
  * proctor can only read scheduled exams which he/she proctors
  */
 
+
+// isuri illapu call eka
+// response --> [{exam_name, exam_startTime, course_shortname, exam_room_name, duty}, {}, ..., {}]
+router.get('/exams/self', protectProctor, (req, res) => {
+    proctors.findById(req.proctor.id)
+    .then(async result1 => {
+        // const StudentRegNo = result1.regNo;
+        // const chief_invigilating_exams = [];
+        const all_exams = [];
+        console.log({name: result1.name});
+        // var exam_name, exam_startTime, course_shortname, exam_room_name, duty;
+        // const tempArray = [];
+
+        try {
+            const result2 = await exam_rooms.find({$or:[{invigilator: result1.name}, {chief_invigilator: result1.name}]});  // {$or:[{invigilator: result1.name, chief_invigilator: result1.name}]}
+            // console.log(result2);
+            console.log({result2});
+            const res2len = result2.length;
+
+            if (res2len == 0)  // returning if there are no exam_rooms for the proctor
+                return res.json({all_exams});
+                 
+            var itrCounter = 0
+            result2.forEach(room => {
+                // var tempArray = [];
+                const exam_name = room.exam;
+                const exam_room_name = room.room_name;
+                var duty = '';
+                if(room.chief_invigilator == result1.name)
+                    duty = 'Chief Invigilator';
+                else   
+                    duty = 'Invigilator';
+                // tempArray.push(room);
+
+                exams.findOne({name: room.exam})
+                .then(result3 => {
+                    const exam_startTime = result3.startTime;
+                    const course_shortname = result3.course;
+                    // tempArray.push(result3);
+                    // adding the array [exam_room, exam] as an element to the returning array
+                    all_exams.push({exam_name, exam_startTime, course_shortname, exam_room_name, duty});
+                    itrCounter += 1;
+                    // console.log({chief_invigilating_exams});
+                    if (itrCounter >= res2len)  // sending the response if the loop has iterated through all the exam_rooms 
+                        return res.json({all_exams});
+                    // clearing the tempArray for the next iteration
+                    // tempArray = [];
+
+                })
+                .catch(err => {
+                    console.log("Error occured while trying to find the exam of the given exam_room");
+                    // returns from the entire API call sending the error as the response
+                    return res.status(400).json({status: failure, message: 'Error occured while trying to find the exam of the given exam_room', error: String(err)});
+                });
+                // // adding the array [exam_room, exam] as an element to the returning array
+                // chief_invigilating_exams.push(tempArray);
+                // // clearing the tempArray for the next iteration
+                // tempArray = [];
+            });
+        }
+        catch (err) {
+            console.log("Error occured while trying to find the exam_rooms for the given proctor name");
+            res.json({status: 'failure', message: 'Error occured while trying to find the exam_rooms for the given proctor name', error: String(err)});
+        }
+
+    })
+    .catch(err => {
+        console.log("Error occured while trying to find the proctor name from given ID");
+        res.json({status: 'failure', message: 'Error occured while trying to find the proctor name from given ID', error: String(err)});
+    });
+});
 // to get acheduled exams relevant to the proctor
 // response --> {chief_invigilating_exams: [[{exam_room}, {exam}], [], ..., []]}
 router.get('/exams/chief_invigilator/self', protectProctor, (req, res) => {
