@@ -3,8 +3,10 @@ import Calendar from './Calendar'
 import ProctorAppBar from './ProctorAppBar'
 import UpcomingIcon from '@mui/icons-material/Upcoming';
 import axios from "axios";
+import Errorcomp from './Content/Error'
 function Schedule() {
     const [data, setData] = useState('');
+    const [fail, setfail] = useState('');
     var events = [];
     useEffect(() => {
         axios.get('http://143.244.139.140:5000/api/proctor/exams/chief_invigilator/self',
@@ -17,7 +19,9 @@ function Schedule() {
          setData(resp.data);
         
         }).catch(error=>{
-         console.log("Error response",error.response)//.data["error"])
+         console.log("Error response",error.response.data["error"])
+         setfail(1);
+         console.log(fail);
           
     })},[]);
     if(data.chief_invigilating_exams){
@@ -44,6 +48,7 @@ function Schedule() {
             <div className="calendar" >
             <Calendar events= {jsondata}/>
             </div>
+            {fail && <Errorcomp/>}
            </ProctorAppBar>
            
         </div>

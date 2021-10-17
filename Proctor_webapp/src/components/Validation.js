@@ -81,6 +81,10 @@ class Validation extends React.Component {
       await axios.post(`http://143.244.139.140:5000/api/${this.props.path}`, {
         email:semail,password0:spw0,password1:spw1
       }).then(resp => {
+          this.setState({
+          reqfail:'',
+          failure:''
+          })
           console.log(resp.data);
       }).catch(error => {
         this.setState({
