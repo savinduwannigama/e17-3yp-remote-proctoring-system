@@ -56,6 +56,7 @@ export default function PrimarySearchAppBar() {
     }
     
     localStorage.removeItem("profileimage");
+    localStorage.removeItem("atoken");
     history.push('/');
   }
   const menuId = 'primary-search-account-menu';

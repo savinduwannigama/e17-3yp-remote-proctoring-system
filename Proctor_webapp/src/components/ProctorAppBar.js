@@ -170,6 +170,7 @@ export default function PersistentDrawerLeft(props) {
     }
     
     localStorage.removeItem("profileimage");
+    localStorage.removeItem("ptoken");
     history.push('/');
   }
   const menuId = 'primary-search-account-menu';
