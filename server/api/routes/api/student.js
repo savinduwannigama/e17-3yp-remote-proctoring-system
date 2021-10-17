@@ -261,9 +261,10 @@ router.get('/courses/self', protectStudent, (req, res) => {
                 // const tempArray = [];
                 const numberOfRooms = result2.length;
                 var itrCount = 0;
-                var tempArray = [];
+                // var tempArray = [];
                 // console.log(numberOfRooms);
                 result2.forEach(room => {
+                    var tempArray = [];
                     tempArray.push(room);
                     exams.findOne({name: room.exam})
                     .then(result3 => {
@@ -271,7 +272,7 @@ router.get('/courses/self', protectStudent, (req, res) => {
                         // adding the array [exam_room, exam] as an element to the returning array
                         retArray.push(tempArray);
                         // clearing the tempArray for the next iteration
-                        tempArray = [];  
+                        // tempArray = [];  
                         itrCount++;
                         // console.log('hererererere');
                         if(itrCount >= numberOfRooms)  // sends the response if the loop has iterated once for each room

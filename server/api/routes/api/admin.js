@@ -382,10 +382,10 @@ router.post('/students/multiple', async (req, res, next) => {
                 // res.json({status: 'Addded new student to the database'});
                 if((succItr + failItr + emptyLines) >= totalItr) {
                     if(failItr == 0) {
-                        res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
+                        res.json({status: 'success', message: 'Added ' + succItr + ' students', createdEntry})
                     }
                     else {
-                        res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                        res.json({status: 'failure', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
                     }
                 }
             })
@@ -395,10 +395,10 @@ router.post('/students/multiple', async (req, res, next) => {
                 failItr += 1;
                 if((succItr + failItr + emptyLines) >= totalItr) {
                     if(failItr == 0) {
-                        res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
+                        res.json({status: 'success', message: 'Added ' + succItr + ' students', createdEntry})
                     }
                     else {
-                        res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                        res.json({status: 'failure', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
                     }
                 }
 
@@ -990,7 +990,7 @@ router.post('/exams/mastersheet', async (req, res) => {
      const mins = record.details[3][3].substr(3, 2); 
      
     
-    const startTime = year+"-"+month+"-"+date+"T"+hours+":"+mins+":00";
+    const startTime = year+"-"+month+"-"+date+"T"+hours+":"+mins+":00z";
     // console.log(startTime);
     /////////////////////////////////////////////////
     // const name = record.details[0][2];  // OLD MASTERSHEET
