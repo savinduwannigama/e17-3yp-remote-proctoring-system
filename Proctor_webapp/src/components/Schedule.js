@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from 'react'
 import Calendar from './Calendar'
 import ProctorAppBar from './ProctorAppBar'
-import UpcomingIcon from '@mui/icons-material/Upcoming';
+import UpcomingIcon from '@mui/icons-material/CalendarToday';
 import axios from "axios";
 import Errorcomp from './Content/Error'
 function Schedule() {
@@ -43,7 +43,7 @@ function Schedule() {
     
     return (
         <div style={{color:"black"}}>
-           <ProctorAppBar  item="Upcoming Exams" icon = {< UpcomingIcon/>}>
+           <ProctorAppBar  item="Calendar" icon = {< UpcomingIcon/>}>
             <h2>Examination Schedule</h2>
             <div className="calendar" >
             <Calendar events= {jsondata}/>
