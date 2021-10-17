@@ -50,8 +50,8 @@ function Renderer ()  {
   }, []);
   console.log("Exams", jsonData)
   console.log("JSON DATA FROM API",data)
-  let arraydata= [data]
-  console.log(arraydata)
+  //let arraydata= [data]
+  //console.log(arraydata)
   //sort json data
   if(data.chief_invigilating_exams){
     data.chief_invigilating_exams.sort((a, b) =>Date.parse(new Date(a[1]['startTime'])) - Date.parse(new Date(b[1]['startTime'])));

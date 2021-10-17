@@ -9,29 +9,7 @@ import Errorcomp from './Content/Error'
 import jsonData from './jsonfiles/exams.json';
 import Container from '@mui/material/Container';
 import axios from "axios";
-const CardConfig = [
-  { chief_invigilating_exams: 
-    [
-      [
-        {exam_room:"CO325"},
-        {examname: "C0325",
-         date: "Wednesday Apr 3,2021",
-         starttime: "8.00 am",
-         duration:"3hrs"
-      
-        }
-      ]
-    ],
-   /* component: "card",
-    children: [
-      {
-        component: "text",
-        children: "Wednesday Apr 3,2021 8.00 am - GP106"
-      },
-    ]*/
-  },
-  
-];
+
 function Home() {
   const history = useHistory();
   const img = localStorage.getItem('profileimage');
@@ -64,7 +42,7 @@ function Home() {
     <Box sx={{ bgcolor: '#00666633',width:"100%",margin:"auto",borderRadius:"32px"  }} >
       <br/>
      <h3 style={{textAlign:"center"}}>Upcoming Examinations</h3>
-      <br/>
+      <br/><br/>
     <Homecontent />
     <br/>
     </Box>
