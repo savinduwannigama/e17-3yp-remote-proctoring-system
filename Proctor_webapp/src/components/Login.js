@@ -41,7 +41,7 @@ function Login ()  {
              
             <div style={{textAlign:'center'}}>
             <GoogleLogin
-               clientId="75011686800-cetim0bpgbit8r00u1umppb8oh0rcivj.apps.googleusercontent.com"
+               clientId="1030032301297-iu6nhih0fg4p7temv1b653egltob6n6r.apps.googleusercontent.com"
                buttonText="Sign in with Google"
                onSuccess={responseGoogle}
                onFailure={failureHandle}

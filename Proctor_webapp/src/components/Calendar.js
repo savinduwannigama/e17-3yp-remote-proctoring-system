@@ -30,8 +30,8 @@ const styles = {
 //const Toggle = () => setModal(!modal);
 export default class Calendar extends Component {
 
-    constructor(){
-      super();
+    constructor(props){
+      super(props);
       this.state={
         showModal:false,
         info: {}
@@ -41,7 +41,7 @@ export default class Calendar extends Component {
       let info = this.state.info;
       info['title'] = eventInfo.event.title;
       info['start'] = eventInfo.event.start;
-      info['end'] = eventInfo.event.end;
+      info['end'] = eventInfo.event.end? eventInfo.event.end:'';
       info['url'] = eventInfo.event.extendedProps.description;
       this.setState({showModal:!this.state.showModal});
       this.setState({
@@ -54,7 +54,7 @@ export default class Calendar extends Component {
       this.setState({showModal:!this.state.showModal});
     }
     render(){
-       
+       console.log("events from calendar",this.props.events )
         return (
             <div className="main-box">
                <FullCalendar
@@ -65,13 +65,28 @@ export default class Calendar extends Component {
                         center: 'title',
                         right: 'dayGridMonth,timeGridWeek,timeGridDay'
                       }}
-                    events={[
-                        { title: 'CO321 MID', start: '2021-09-28T02:30:00',end:'2021-09-28T05:30:00',allDay: false,display:'block' ,description: "https://meet.jit.si/"},
+                    events={
+                      /*[
+                        { allDay: false,display:'block' ,title: 'CO321 MID', start: '2021-09-28T02:30:00',description: "https://meet.jit.si/"},
                         { title: 'event 2', start: '2021-10-02T13:30:00',end:'2021-10-03T05:30:00',allDay: false , display:'block'},
                       
 
-                      ]}
+                      ]*/
+                     /*[{"title":"CE594-2021 END SEMESTER EXAMINATION","start":"2021-12-10T03:00:00","allDay":false,"display":"block"},
+                      {"title":"EE401-2021 END SEMESTER EXAMINATION","start":"2021-12-16T01:00:00","allDay":false,"display":"block"},
+                      {"title":"PR521-2023 MID SEMESTER EXAMINATION","start":"2023-12-10T10:00:00","allDay":false,"display":"block"},
+                      {"title":"CE532-2021 END SEMESTER EXAMINATION","start":"2021-12-11T10:00:00","allDay":false,"display":"block"}]
                     
+                    */
+                      this.props.events
+                    
+                    }
+                    eventTimeFormat= {{ // like '14:30:00'
+                      hour: 'numeric',
+                      minute: '2-digit',
+                      meridiem: 'short'
+                    }}
+                    //events = {this.props.events}
                     eventColor = "#006666"
                     eventClick={this.handleClick}
                    

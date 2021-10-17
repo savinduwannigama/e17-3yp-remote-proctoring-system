@@ -8,7 +8,7 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import axios from "axios";
-
+import Loader from "../Content/Loader"
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -50,8 +50,8 @@ function Renderer ()  {
   }, []);
   console.log("Exams", jsonData)
   console.log("JSON DATA FROM API",data)
-  let arraydata= [data]
-  console.log(arraydata)
+  //let arraydata= [data]
+  //console.log(arraydata)
   //sort json data
   if(data.chief_invigilating_exams){
     data.chief_invigilating_exams.sort((a, b) =>Date.parse(new Date(a[1]['startTime'])) - Date.parse(new Date(b[1]['startTime'])));
@@ -108,7 +108,9 @@ function Renderer ()  {
   }
   else{
     return(
-      <div style={{textAlign:"center"}}>Please wait for data to load</div>
+      <div style={{textAlign:"center"}}>
+        <Loader/>
+      </div>
     )
   }
   
