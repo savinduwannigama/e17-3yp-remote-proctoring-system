@@ -20,7 +20,7 @@ function Renderer ()  {
   const [data, setData] = useState('');
   const [inv,setInv]=useState('');
   useEffect(() => {
-    axios.get('http://143.244.139.140:5000/api/proctor/exams/chief_invigilator/self',
+    axios.get('http://143.244.139.140:5000/api/proctor/exams/self',
     { headers: {
        'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
      }}
@@ -53,28 +53,28 @@ function Renderer ()  {
   //let arraydata= [data]
   //console.log(arraydata)
   //sort json data
-  if(data.chief_invigilating_exams){
-    data.chief_invigilating_exams.sort((a, b) =>Date.parse(new Date(a[1]['startTime'])) - Date.parse(new Date(b[1]['startTime'])));
+  if(data.all_exams){
+    data.all_exams.sort((a, b) =>Date.parse(new Date(a['exam_startTime'])) - Date.parse(new Date(b['exam_startTime'])));
   console.log("Sorted",data)
   }
   
-  if(data.chief_invigilating_exams){
-    const trail= data.chief_invigilating_exams.map(t => {
+  if(data.all_exams){
+    const trail= data.all_exams.map(t => {
       //console.log(t.exam_room);
-      const starttime = t[1]['startTime'];
+      const starttime = t['exam_startTime'];
       const utctime = new Date(starttime).toUTCString()
-      const roomname = t[0]["room_name"];
+      const roomname = t["exam_room_name"];
       console.log(roomname)
       return(
         <Card sx={{width: "45%", height:"60vh" ,color:"black",margin:"auto",marginBottom:"40px", backgroundColor:"#00666633",padding:"15px",fontSize:"15px",borderRadius:"32px", display:"inline"}}>
             <div className="card-body" >
-                <h4 className="card-title">{t[0]['exam']}</h4>
+                <h4 className="card-title">{t['exam_name']}</h4>
                 <Stack>
-                  <Item> Course: {t[1]['course']}</Item>
-                  <Item> Duty: Chief invigilator</Item>
+                  <Item> Course: {t['course_shortname']}</Item>
+                  <Item> Duty: {t['duty']}</Item>
                   <Item> Start time: {utctime}</Item>
-                  <Item>Duration: {t[1]['duration']} </Item>
-                  <Item>Room name: {t[0]["room_name"]}</Item>
+                  <Item>Duration: {t['exam_duration']} </Item>
+                  <Item>Room name: {t["exam_room_name"]}</Item>
                   
                   <Item sx={{textAlign:"center"}}><Link to={{pathname:'/meeting',state:{roomname: roomname}}} className="nav-link" >Join Examination</Link> </Item>
                   
