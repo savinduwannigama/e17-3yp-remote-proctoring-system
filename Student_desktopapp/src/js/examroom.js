@@ -7,6 +7,7 @@ var api;
 var savedVideo = 'No saved video'
 
 /****************** variables **********************/
+
 const roomName = sessionStorage.getItem('roomName');
 const displayName = sessionStorage.getItem("displayName");
 const userEmail = sessionStorage.getItem("email");
@@ -91,24 +92,28 @@ window.addEventListener('online', () => {
 })
 
 downloadButton.addEventListener('click', () => {
-    downloadButton.style.display = 'none';
     api.dispose();
-    examdetails['endTime'] = date.format(new Date(), 'DD MMM YYYY HH-mm-ss');
-
-    if (record) {
-        var time = date.format(new Date(), 'DD MMM YYYY HH_mm_ss');
-        savedVideo = localStorage.getItem('email') + time;
-    }
-
     mediaRecorder.resume();
     stopRecording();
+
+    downloadButton.style.display = 'none';
+    examdetails['endTime'] = date.format(new Date(), 'DD MMM YYYY HH-mm-ss');
+
 
     if (offlineEnd == 0) {
         statusArray.push(offlineStart + " to -");
     }
+    if (record) {
+        var time = date.format(new Date(), 'DD MMM YYYY HH_mm_ss');
+        savedVideo = localStorage.getItem('email') + time;
+        localStorage.setItem('disconnections', JSON.stringify({ "roomName": roomName, "disconnections": statusArray }));
+
+    }
     examdetails['status'] = statusArray;
     examdetails['savedvideo'] = savedVideo;
     examdetails['videoPath'] = sessionStorage.getItem('videoPath');
+
+
     additem(examdetails);
 
     setTimeout(function() {

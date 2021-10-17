@@ -6,12 +6,10 @@ const path = require('path')
 const { download } = require("electron-dl");
 const ipc = ipcMain
 const { dialog } = require('electron')
-
-
-
 const { google } = require('googleapis');
-//const path = require('path');
 const fs = require('fs');
+
+
 
 const CLIENT_ID = '1030032301297-iu6nhih0fg4p7temv1b653egltob6n6r.apps.googleusercontent.com';
 const CLIENT_SECRET = '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';
@@ -19,18 +17,11 @@ const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
 
 const REFRESH_TOKEN = '1//043IXKpbcf0dSCgYIARAAGAQSNwF-L9Irqozyp_l7TW8PMmmFejJwWk7GqNib5gHapWHBv-lJq5uqiAohfyckL3du1q51FvPT4YM';
 
-const oauth2Client = new google.auth.OAuth2(
-    CLIENT_ID,
-    CLIENT_SECRET,
-    REDIRECT_URI
-);
+const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 
 oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
-const drive = google.drive({
-    version: 'v3',
-    auth: oauth2Client,
-});
+const drive = google.drive({ version: 'v3', auth: oauth2Client, });
 
 function createWindow() {
     // Create the browser window.
