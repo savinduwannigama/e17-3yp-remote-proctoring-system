@@ -43,6 +43,7 @@ export default class Calendar extends Component {
       info['start'] = eventInfo.event.start;
       info['end'] = eventInfo.event.end? eventInfo.event.end:'';
       info['url'] = eventInfo.event.extendedProps.description;
+      console.log("description",info['url'])
       this.setState({showModal:!this.state.showModal});
       this.setState({
         info

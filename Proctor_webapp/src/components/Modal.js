@@ -47,14 +47,14 @@ class Modal extends React.Component{
               <CloseIcon />
             </IconButton>
           <CardContent>
-          Examination: {this.props.einfo['title']}
-          <br/>
-          Start:{this.props.einfo['start'].toString()}
-          <br/>
+          <p>Examination: {this.props.einfo['title']}</p>
+          
+          <p>Start:{this.props.einfo['start'].toString()}</p>
+          
           {this.props.einfo['end'].toString()&& <p>End : {this.props.einfo['end'].toString()}</p>}
-          <br/>
-          {this.props.einfo['end'].toString()&& <p>Url : <a href={this.props.einfo['url']} style={{color:'white'}}>{this.props.einfo['url']}</a></p>}
-                    
+          {this.props.einfo['url'].toString()&& <p>Exam room :{this.props.einfo['url']}</p>}
+           
+                  
           <div className ="closebtn">
           <ThemeProvider theme={theme}>
           <Button color= "neutral" size="medium" variant="contained"  sx={{bgcolor:"white",color:'#006666',margin:'auto'}}> <Link to={{pathname:'/meeting',state:{roomname:this.props.einfo['title']}}}  style={{ textDecoration: 'none', color:"#006666"}}>Join Meeting</Link>
