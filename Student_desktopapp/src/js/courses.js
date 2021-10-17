@@ -1,6 +1,3 @@
-const axios = require('axios');
-
-
 //var courseJSON = '[{"shortname": "E20-2023","fullname": "CO321-2021 : Embedded systems","department": "CO", "coordinator": "Dr.ABC EFG","semester": 5,"hasExam": true},{"shortname": "E17-2021","fullname": "CO322-2021 : Data Structure and Algorithms","department": "CO", "coordinator": "Dr.ABC EFG","semester": 5,"hasExam": true}]'
 var courseArray //= JSON.parse(courseJSON);
 var popup = document.getElementById("popup");

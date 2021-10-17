@@ -1,5 +1,3 @@
-const axios = require('axios');
-
 var displayName = document.getElementById('display-name');
 var showevent = document.getElementById("show-event");
 var popup = document.getElementById("popup");
