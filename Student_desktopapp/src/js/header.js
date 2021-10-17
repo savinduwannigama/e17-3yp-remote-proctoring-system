@@ -1,16 +1,6 @@
 const { ipcRenderer } = require('electron')
 const ipc = ipcRenderer
-
-
 const date = require('date-and-time');
-
-var btn = document.getElementById("list").getElementsByTagName('li')
-var btncount = btn.length;
-for (var i = 0; i < btncount; i += 1) {
-    btn[i].onclick = function() {
-        ipc.send(this.id);
-    }
-}
 
 function display_c() {
     var refresh = 1000; // Refresh rate in milli seconds
@@ -20,28 +10,46 @@ function display_c() {
 
 }
 
-/**********************Date and Time **************/
-const monthNames = [" Jan ", " Feb ", " Mar ", " Apr ", " May ", " June ",
-    " July ", " Aug ", " Sep ", " Oct ", " Nov ", " Dec "
-];
-
-function display_date() {
-
-    var x = new Date()
-    var date = x.getDate() + monthNames[x.getMonth()] + x.getFullYear();
-    return date;
-}
-
 
 /***************** current time ******************/
 
+// function display_ct() {
+//     var x = new Date()
+//     var hours = x.getHours();
+//     var min = x.getMinutes();
+//     var sec = x.getSeconds();
+//     document.getElementById('currenttime').innerHTML = hours + " : " + min + " : " + sec;
+//     display_c();
+
+// }
+
+var nextExamDate = sessionStorage.getItem('nextExamAt');
+var now, seconds;
+var time = document.getElementById('currenttime')
+const zeroPad = (num, places) => String(num).padStart(places, '0')
+
 function display_ct() {
-    var x = new Date()
-    var hours = x.getHours();
-    var min = x.getMinutes();
-    var sec = x.getSeconds();
-    document.getElementById('currenttime').innerHTML = hours + " : " + min + " : " + sec;
+    if (nextExamDate != '-1') {
+        now = new Date();
+        seconds = Number(nextExamDate) - now / 1000;
+        var d = Math.floor(seconds / (3600 * 24));
+        var h = Math.floor(seconds % (3600 * 24) / 3600);
+        var m = Math.floor(seconds % 3600 / 60);
+        var s = Math.floor(seconds % 60);
+        time.innerHTML = d + ': ' + zeroPad(h, 2) + ': ' + zeroPad(m, 2) + ': ' + zeroPad(s, 2)
+    }
     display_c();
+
+}
+
+
+/**************** menu selection ****************************/
+var btn = document.getElementById("list").getElementsByTagName('li')
+var btncount = btn.length;
+for (var i = 0; i < btncount; i += 1) {
+    btn[i].onclick = function() {
+        ipc.send(this.id);
+    }
 }
 
 

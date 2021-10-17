@@ -1,10 +1,8 @@
 var examdetailsJSON = localStorage.getItem("examdetails");
 var examArray = []
 
-const examNamedetails = document.getElementById('examName');
-const examStartdetails = document.getElementById('examStart');
-const examEnddetails = document.getElementById('examEnd');
-const examStatusdetails = document.getElementById('examstatus');
+const examdetails = document.getElementById('sec-title-box').getElementsByTagName('span');
+
 
 if (examdetailsJSON) {
     var examArray = JSON.parse(examdetailsJSON);
@@ -15,14 +13,14 @@ if (examdetailsJSON) {
 function makerecentlyAccessedList(array) {
 
     //add recently accessed exam details
-    examNamedetails.innerHTML = examArray[0].roomName;
-    examStartdetails.innerHTML = examArray[0].startTime;
-    examEnddetails.innerHTML = examArray[0].endTime;
-
+    examdetails[0].innerHTML = examArray[0].roomName;
+    examdetails[1].innerHTML = examArray[0].startTime;
+    examdetails[2].innerHTML = examArray[0].endTime;
+    examdetails[3].innerHTML = examArray[0].savedvideo;
     for (var j = 0; j < examArray[0].status.length; j++) {
         var timedif = document.createElement('p');
         timedif.innerHTML = examArray[0].status[j];
-        examStatusdetails.appendChild(timedif);
+        examdetails[4].appendChild(timedif);
     }
 
     // Create the list element:
@@ -39,15 +37,6 @@ function makerecentlyAccessedList(array) {
         examStart.innerHTML = array[i].startTime;
         item.appendChild(examName);
         item.appendChild(examStart);
-
-        // for (var j = 0; j < array[i].status.length; j++) {
-        //     var timedif = document.createElement('li');
-        //     timedif.innerHTML = array[i].status[j];
-        //     examStatus.appendChild(timedif);
-        // }
-        // examStatus.style.fontSize = '10px';
-        // item.appendChild(examStatus);
-        // Add it to the list:
         list.appendChild(item);
     }
 
@@ -58,14 +47,15 @@ var btn = document.getElementById("recent-exams").getElementsByTagName('li')
 var btncount = btn.length;
 for (var i = 0; i < btncount; i += 1) {
     btn[i].onclick = function() {
-        examNamedetails.innerHTML = examArray[this.id].roomName;
-        examStartdetails.innerHTML = examArray[this.id].startTime;
-        examEnddetails.innerHTML = examArray[this.id].endTime;
-        examStatusdetails.innerHTML = '';
+        examdetails[0].innerHTML = examArray[this.id].roomName;
+        examdetails[1].innerHTML = examArray[this.id].startTime;
+        examdetails[2].innerHTML = examArray[this.id].endTime;
+        examdetails[3].innerHTML = examArray[this.id].savedvideo;
+        examdetails[4].innerHTML = '';
         for (var j = 0; j < examArray[this.id].status.length; j++) {
             var timedif = document.createElement('p');
             timedif.innerHTML = examArray[this.id].status[j];
-            examStatusdetails.appendChild(timedif);
+            examdetails[4].appendChild(timedif);
         }
     }
 }

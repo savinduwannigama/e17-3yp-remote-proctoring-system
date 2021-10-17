@@ -1,0 +1,58 @@
+#download:disabled {
+    background-color: rgb(185, 183, 183);
+}
+
+#download {
+    background-color: rgb(228, 18, 18);
+}
+
+#status {
+    display: initial;
+    text-align: center;
+    width: 100%;
+    height: 20px;
+    position: fixed;
+    padding-top: 10px;
+    padding-right: 10px;
+    font-size: 15px;
+    right: 0px;
+    top: 5px;
+    color: white;
+    background: transparent;
+}
+
+.notRec,
+.Rec {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    font-size: 0;
+    background-color: red;
+    border: 0;
+    border-radius: 35px;
+    margin: 18px;
+    outline: none;
+}
+
+.notRec {
+    background-color: rgb(22, 172, 2);
+}
+
+.Rec {
+    animation-name: pulse;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0px 0px 5px 0px rgba(173, 0, 0, .3);
+    }
+    65% {
+        box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, .3);
+    }
+    90% {
+        box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0);
+    }
+}

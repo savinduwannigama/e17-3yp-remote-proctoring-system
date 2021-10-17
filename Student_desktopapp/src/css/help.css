@@ -32,15 +32,3 @@
     padding-top: 3px;
     padding-left: 30px;
 }
-
-#myInput {
-    width: 200px;
-    border: 0;
-    border-bottom: 2px solid #26a8aa;
-    padding: 5px;
-    height: 15px;
-    outline: none;
-    color: #26a8aa;
-    margin: 10px;
-    margin-left: 15px;
-}
