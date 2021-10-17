@@ -990,7 +990,7 @@ router.post('/exams/mastersheet', async (req, res) => {
      const mins = record.details[3][3].substr(3, 2); 
      
     
-    const startTime = year+"-"+month+"-"+date+"T"+hours+":"+mins+":00";
+    const startTime = year+"-"+month+"-"+date+"T"+hours+":"+mins+":00z";
     // console.log(startTime);
     /////////////////////////////////////////////////
     // const name = record.details[0][2];  // OLD MASTERSHEET
