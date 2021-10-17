@@ -43,7 +43,7 @@ function Login ()  {
           setFailure('')
           console.log(resp.data);
           localStorage.setItem("ptoken",resp.data["token"] )
-          localStorage.setItem('rememberMe','true');
+          localStorage.setItem('prememberMe','true');
           localStorage.setItem('user',email);
           localStorage.setItem("username",name);
           localStorage.setItem("profileimage",img);

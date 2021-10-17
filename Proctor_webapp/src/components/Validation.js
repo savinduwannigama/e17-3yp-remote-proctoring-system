@@ -200,7 +200,7 @@ class Validation extends React.Component {
         <Box
               component="form"
               sx={{
-                '& > :not(style)': { m: 1, width: '25ch' },
+                '& > :not(style)': { m: 1, width: '24ch' },
               }}
               noValidate
               autoComplete="off"

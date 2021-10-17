@@ -1,31 +1,65 @@
 
 import React, {useState }from 'react'
 import GoogleLogin from 'react-google-login';
-import { useHistory } from 'react-router-dom';
+import { useHistory,Link } from 'react-router-dom';
 import Loginbtn from './Loginbtn';
 import Divider from '@mui/material/Divider';
 import "../css/Admin.css"
+import logo from '../appicon3.png'
+import axios from 'axios';
 import Validationlogin from './Validationlogin';
 import '../css/login.css';
 
 function Adminlogin() {
     const history = useHistory();
-    const[adminname,setName] = useState("");
-    const[adminimg,setImg] = useState("");
+    const[name,setName] = useState("");
+    const[email,setEmail]= useState("");
+    const[pwd,setPwd]=useState("");
+    const[img,setImg] = useState("");
+    const[reqfail,setReq]=useState("");
+    const[failure,setFailure]=useState("");
     /*const[email,setEmail] = useState("");
     const [url,setUrl] = useState("");*/
 
     const responseGoogle = (response) => {
-        setName(response.profileObj.name);
-        setImg(response.profileObj.imageUrl);
-        localStorage.setItem('rememberMe','true');
+      setEmail(response.profileObj.email);
+      setPwd(response.profileObj.googleId)
+      
+      setName(response.profileObj.name);
+      setImg(response.profileObj.imageUrl);
+        /*localStorage.setItem('rememberMe','true');
         localStorage.setItem('user',response.profileObj.email);
         localStorage.setItem("username",response.profileObj.name);
         localStorage.setItem("profileimage",response.profileObj.imageUrl);
-       
+       */
         /*setEmail(response.profileObj.email);
         setUrl(response.profileObj.imageUrl);*/
-        history.push("/adminhome")
+       // history.push("/adminhome")
+    }
+    if(email!=='' && pwd !==''){
+      const url = `http://143.244.139.140:5000/api/admin/login`
+      
+      console.log("email set",email);
+      console.log("password set",pwd);
+      axios.post(url, {
+        email:email,password:pwd}).then(resp => {
+          setReq('');
+          setFailure('')
+          console.log(resp.data);
+          localStorage.setItem("atoken",resp.data["token"] )
+          localStorage.setItem('arememberMe','true');
+          localStorage.setItem('adminuser',email);
+          localStorage.setItem("ausername",name);
+          localStorage.setItem("aprofileimage",img);
+          history.push('/adminhome');
+        }).catch(error => {
+          setReq(1);
+          setFailure(error.response.data["message"])
+        console.log(reqfail)
+        console.log(error.response)
+        console.log(error.response.data["message"])
+
+        });
     }
     const failureHandle = (response) => {
         setName("Authorization Unsuccessfull!");
@@ -63,12 +97,18 @@ function Adminlogin() {
 
 <div className = 'lbox'>
   <div className='box-title'>
-      <h3>WELCOME ADMIN!</h3>
-      <p style={{textAlign:"center",fontSize:"15px"}}>Please access the portal with your authorized email address</p>
-    
+  <div class="container">
+          
+          <span class="react-logo">
+          
+            <span class="nucleo"><img className="connexa" src={logo} alt="logo"/></span>
+          </span>
+
+      </div>
+     
     </div>
   <div className='box-item'>
-    <h4 style={{textAlign:"left", paddingBottom:"0px"}}>Sign in</h4>
+    <h4 style={{textAlign:"left", paddingBottom:"0px"}}>Admin Sign in</h4>
     
     
     <div style={{textAlign:'center'}}>
@@ -79,7 +119,8 @@ function Adminlogin() {
        onFailure={failureHandle}
        cookiePolicy={'single_host_origin'}
     />
-    
+    {reqfail && <p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{failure}<br/>Please <Link to="/adminreg">register </Link>using an authorized email</p>}
+        
     </div>
     <div>
       
@@ -87,7 +128,8 @@ function Adminlogin() {
     <br/>
     </div>
     <Validationlogin next={'/adminhome'} path={'admin/login'} user={'admin'}/>
-   
+    <Link to="/" style={{fontSize:"15px", color:"#3b3a3a"}}>Return to Portal</Link>
+            <br/><br/><br/>
     
   
   
