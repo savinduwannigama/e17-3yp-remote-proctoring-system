@@ -126,7 +126,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerLeft(props) {
   const rememberMe = localStorage.getItem('prememberMe') === 'true';
-  const user =  localStorage.getItem('user') ;
+  const user =  localStorage.getItem('username') ;
  // const username = localStorage.getItem('username') ? localStorage.getItem('username') : '';
   const img = localStorage.getItem('profileimage') ? localStorage.getItem('profileimage') : '';
   const history = useHistory();
