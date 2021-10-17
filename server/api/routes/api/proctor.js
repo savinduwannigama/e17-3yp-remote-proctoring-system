@@ -183,21 +183,21 @@ router.post('/login', (req, res) => {
 
 
 // isuri illapu call eka
-// response --> [{exam_name, exam_startTime, course_shortname, exam_room_name, duty}, {}, ..., {}]
+// response --> [{exam_name, exam_startTime, exam_duration, course_shortname, exam_room_name, duty}, {}, ..., {}]
 router.get('/exams/self', protectProctor, (req, res) => {
     proctors.findById(req.proctor.id)
     .then(async result1 => {
         // const StudentRegNo = result1.regNo;
         // const chief_invigilating_exams = [];
         const all_exams = [];
-        console.log({name: result1.name});
+        // console.log({name: result1.name});
         // var exam_name, exam_startTime, course_shortname, exam_room_name, duty;
         // const tempArray = [];
 
         try {
             const result2 = await exam_rooms.find({$or:[{invigilator: result1.name}, {chief_invigilator: result1.name}]});  // {$or:[{invigilator: result1.name, chief_invigilator: result1.name}]}
             // console.log(result2);
-            console.log({result2});
+            // console.log({result2});
             const res2len = result2.length;
 
             if (res2len == 0)  // returning if there are no exam_rooms for the proctor
@@ -219,9 +219,10 @@ router.get('/exams/self', protectProctor, (req, res) => {
                 .then(result3 => {
                     const exam_startTime = result3.startTime;
                     const course_shortname = result3.course;
+                    const exam_duration = result3.duration;
                     // tempArray.push(result3);
                     // adding the array [exam_room, exam] as an element to the returning array
-                    all_exams.push({exam_name, exam_startTime, course_shortname, exam_room_name, duty});
+                    all_exams.push({exam_name, exam_startTime, exam_duration, course_shortname, exam_room_name, duty});
                     itrCounter += 1;
                     // console.log({chief_invigilating_exams});
                     if (itrCounter >= res2len)  // sending the response if the loop has iterated through all the exam_rooms 
