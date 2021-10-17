@@ -114,7 +114,7 @@ function createWindow() {
     ipc.on('schedule', () => { mainWindow.loadFile('src/schedule.html') })
     ipc.on('upload', () => { mainWindow.loadFile('src/upload.html') })
     ipc.on('settings', () => { mainWindow.loadFile('src/settings.html') })
-    ipc.on('help', () => { mainWindow.loadFile('src/examroom.html') })
+    ipc.on('help', () => { mainWindow.loadFile('src/help.html') })
     ipc.on('exam room', () => { mainWindow.loadFile('src/examroom.html') })
 
 

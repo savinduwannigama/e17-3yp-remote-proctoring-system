@@ -10,6 +10,7 @@ var savedVideo = 'No saved video'
 const roomName = sessionStorage.getItem('roomName');
 const displayName = sessionStorage.getItem("displayName");
 const userEmail = sessionStorage.getItem("email");
+const bulb = document.getElementById("recButton")
 
 var record = false;
 
@@ -23,14 +24,14 @@ var examdetails = {};
 
 /************ jitsi room configurations *********************/
 
-examdetails['roomName'] = "roomName";
+examdetails['roomName'] = roomName;
 
 
 const domain = 'meet.jit.si';
 const options = {
-    roomName: "roomName 3585",
+    roomName: roomName,
     width: 800,
-    height: 480,
+    height: 440,
     userInfo: {
         email: userEmail,
         displayName: displayName,
@@ -40,8 +41,8 @@ const options = {
         startWithVideoMuted: false,
         enableWelcomePage: false,
         prejoinPageEnabled: false,
-        startSilent: true,
-        startAudioMuted: 2,
+        //startSilent: true,
+        //startAudioMuted: 2,
         toolbarButtons: ['camera', 'chat',
             'microphone', 'raisehand'
         ],
@@ -75,6 +76,7 @@ window.addEventListener('offline', () => {
     offlineStart = date.format(new Date(), 'MMMDD HH-mm-ss')
     offlineEnd = 0;
     record = true;
+    bulb.className = 'Rec'
     mediaRecorder.resume();
 
 
@@ -83,6 +85,7 @@ window.addEventListener('offline', () => {
 window.addEventListener('online', () => {
     offlineEnd = date.format(new Date(), 'MMMDD HH-mm-ss')
     statusArray.push(offlineStart + " to " + offlineEnd);
+    bulb.className = 'notRec'
     mediaRecorder.pause();
 
 })
@@ -117,7 +120,7 @@ downloadButton.addEventListener('click', () => {
 
             ipc.send("download", {
                 url: url,
-                fileName: name
+                fileName: savedVideo
             })
 
             ipc.on("done", () => {
