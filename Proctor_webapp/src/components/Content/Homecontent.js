@@ -17,6 +17,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function Renderer ()  {
+  var exams =[];
   const [data, setData] = useState('');
   const [inv,setInv]=useState('');
   useEffect(() => {
@@ -33,7 +34,7 @@ function Renderer ()  {
      console.log("Error response",error.response.data["error"])
       
     });
-    axios.get('http://143.244.139.140:5000/api/proctor/exams/invigilator/self',
+    /*axios.get('http://143.244.139.140:5000/api/proctor/exams/invigilator/self',
     { headers: {
        'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
      }}
@@ -45,7 +46,7 @@ function Renderer ()  {
     }).catch(error=>{
      console.log("Error response",error.response.data["error"])
       
-    });
+    });*/
     // Run! Like go get some data from an API.
   }, []);
   console.log("Exams", jsonData)
@@ -61,6 +62,11 @@ function Renderer ()  {
   if(data.all_exams){
     const trail= data.all_exams.map(t => {
       //console.log(t.exam_room);
+      
+      const newduty = t['duty'].replace(/\s/g , "_").toLowerCase();
+      //console.log("new duty",newduty)
+      const entry = {exam:t['exam_name'],duty: newduty}
+      exams.push(entry)
       const starttime = t['exam_startTime'];
       const utctime = new Date(starttime).toUTCString()
       const roomname = t["exam_room_name"];
@@ -95,7 +101,11 @@ function Renderer ()  {
         </Card>
       )
     })
+    console.log("exams to be stored",exams)
+    const jsonexams= JSON.stringify(exams)
+    localStorage.setItem("examinations",jsonexams)
     return(
+      
       <Box sx={{ flexGrow:1 }}>
       <Grid container rowSpacing={6} >
         
@@ -105,7 +115,9 @@ function Renderer ()  {
         
     </Box>
     )
+
   }
+  
   else{
     return(
       <div style={{textAlign:"center"}}>

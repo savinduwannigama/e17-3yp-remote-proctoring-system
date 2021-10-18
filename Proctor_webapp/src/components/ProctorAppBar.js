@@ -170,9 +170,13 @@ export default function PersistentDrawerLeft(props) {
 
     }
     
-    localStorage.removeItem("profileimage");
+    //localStorage.removeItem("profileimage");
     localStorage.removeItem("ptoken");
     history.push('/');
+  }
+
+  const gotoSettings=()=>{
+    history.push('/settings');
   }
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -195,7 +199,7 @@ export default function PersistentDrawerLeft(props) {
       }}
     >
       {/*<MenuItem onClick={handleMenuClose} divider="true"><Avatar src={img} /> {username}</MenuItem>*/}
-      <MenuItem onClick={handleMenuClose}divider="true">My Account</MenuItem>
+      <MenuItem onClick={gotoSettings}divider="true">My Account</MenuItem>
       <MenuItem onClick={handleLogout}>Log Out</MenuItem>
     </Menu>
   );
@@ -269,7 +273,7 @@ export default function PersistentDrawerLeft(props) {
           {props.item}
           {props.icon}
           
-          <Search>
+          {/*<Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -277,7 +281,7 @@ export default function PersistentDrawerLeft(props) {
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
             />
-          </Search>
+          </Search>*/}
 
           <Box sx={{ flexGrow: 2 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

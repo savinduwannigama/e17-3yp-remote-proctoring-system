@@ -13,6 +13,7 @@ import Errorcomp from "./Error"
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { margin } from '@mui/system';
+import InputAdornment from '@mui/material/InputAdornment';
 const Input = styled('input')({
     display: 'none',
   });
@@ -35,7 +36,7 @@ const Input = styled('input')({
 export default function ImageAvatars() {
     const history = useHistory();
     const [data, setData] = useState('');
-    const [name,setName] = useState('');
+    const [name,setName] = useState(localStorage.getItem("username"));
     const[success,setSuccess]=useState('');
     const [selected, setselected] = useState('')
     const [fail, setfail] = useState('');
@@ -104,6 +105,7 @@ export default function ImageAvatars() {
         //console.log("inside fileupload handler",selected)
     }*/
     const handleChange= event=> {
+      console.log("event value",event.target.value)
         setName(event.target.value)
         console.log("changed",name)
     }
@@ -120,7 +122,7 @@ export default function ImageAvatars() {
             console.log(resp.data)
             localStorage.setItem("username",name)
             setSuccess(1)
-            //window.location.reload(false);
+            window.location.reload(false);
         }
         ).catch(error=>{
             console.log(error.response)
@@ -171,19 +173,34 @@ export default function ImageAvatars() {
       <TextField
           color="neutral"
           id="filled-read-only-input"
-          label={<><EditIcon/> Full Name</>}
+          label="Full Name"
           defaultValue= {localStorage.getItem("username")}
           onChange={handleChange}
           variant="filled"
+          InputProps={{
+            
+            endAdornment:(
+              <InputAdornment position="end">
+                <EditIcon/>
+              </InputAdornment>
+            )
+          }}
         />
+
+
        
         <TextField
         color="neutral"
           id="filled-read-only-input"
-          label={<><EditOffIcon/>Department</>}
+          label="Department"
           defaultValue= {sessionStorage.getItem("department")}
           InputProps={{
             readOnly: true,
+            endAdornment:(
+              <InputAdornment position="end">
+                <EditOffIcon/>
+              </InputAdornment>
+            )
           }}
           variant="filled"
         />
@@ -191,16 +208,21 @@ export default function ImageAvatars() {
         <TextField
         color="neutral"
           id="filled-read-only-input"
-          label={<><EditOffIcon/>Email Address</>}
+          label="Email Address"
           defaultValue={localStorage.getItem("user")}
           InputProps={{
             readOnly: true,
+            endAdornment:(
+              <InputAdornment position="end">
+                <EditOffIcon/>
+              </InputAdornment>
+            )
           }}
           variant="filled"
         />
      
       <br/><br/>
-      <div style={{margin:"auto", paddingLeft:"100px"}}>
+      <div style={{justifyContent:"right"}}>
       <Button  color="neutral" variant="contained" component="span" size="medium" onClick={handleClick}>
          Save Changes
          </Button>
