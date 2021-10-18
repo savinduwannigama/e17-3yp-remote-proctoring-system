@@ -100,7 +100,7 @@ function makeCourseList() {
         //item.id = i.toString();
         item.setAttribute("id", i.toString());
         // Set its contents:
-        item.className = 'card'
+        item.className = 'card waves-effect waves-light'
         code.innerHTML = courseArray[i].shortname;
         name.innerHTML = courseArray[i].fullname;
         item.appendChild(code);

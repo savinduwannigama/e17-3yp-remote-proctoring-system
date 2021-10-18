@@ -5,8 +5,11 @@
     <title>Connexa</title>
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/courses.css">
+    <link rel="stylesheet" href="css/components/default-button.css">
     <script defer src="js/header.js"></script>
     <script defer src="js/courses.js"></script>
+    <script defer src="js/components/default-button.js"></script>
+
 
 </head>
 
@@ -48,7 +51,7 @@
     <nav class="menu" tabindex="0">
         <div class="smartphone-menu-trigger"></div>
         <header class="avatar">
-            <img id="avatar" class="online" src="img/user.jpg" />
+            <img id="avatar" class="online" src="img/avatar/user.png" />
             <h2 id="user_name">USER</h2>
         </header>
         <ul id="list">
@@ -64,7 +67,7 @@
     </nav>
     <!--body starts here-->
     <div class="separator3"></div>
-    <button class="sortBtn" onclick="sortCourse()">Sort by Course Code</button>
+    <button type="button" class="btn btn-default waves-effect waves-light" onclick="sortCourse()">Sort by Course Code</button>
     <input type="text" id="myInput" onkeyup="findCourse()" placeholder="Search for a course name...">
 
     <div class="cards-bg">
@@ -82,25 +85,25 @@
             <!--body starts here-->
             <table>
                 <tr>
-                    <th>Course name: </th>
+                    <th>COURSE NAME: </th>
                     <th><span>null</span></th>
                 </tr>
                 <tr>
-                    <th>Department : </th>
+                    <th>DEPARTMENT: </th>
                     <th><span>null</span></th>
                 </tr>
                 <tr>
-                    <th>Semester : </th>
+                    <th>SEMESTER : </th>
                     <th><span>null</span></th>
                 </tr>
                 <tr>
-                    <th>Course coordinator : </th>
+                    <th>COURSE COORDINATOR: </th>: </th>
                     <th><span>null</span></th>
                 </tr>
 
             </table>
             <div class="center">
-                <button class="button" name='close' onclick="closePopup()">Close</button>
+                <button class="btn btn-default waves-effect waves-light" name='close' onclick="closePopup()">Close</button>
             </div>
         </div>
     </div>
