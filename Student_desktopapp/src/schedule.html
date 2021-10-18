@@ -6,9 +6,11 @@
     <meta name="viewport" content="initial-scale=1, width=device-width" />
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/schedule.css">
+    <link rel="stylesheet" href="css/components/default-button.css">
+
     <script defer src="js/header.js"></script>
     <script defer src="js/schedule.js"></script>
-
+    <script defer src="js/components/default-button.js"></script>
 
     <meta charset='utf-8' />
     <link href='calendar/lib/main.css' rel='stylesheet' />
@@ -54,7 +56,7 @@
     <nav class="menu" tabindex="0">
         <div class="smartphone-menu-trigger"></div>
         <header class="avatar">
-            <img id="avatar" class="online" src="img/user.jpg" />
+            <img id="avatar" class="online" src="img/avatar/user.png" />
             <h2 id="user_name">USER</h2>
         </header>
         <ul id="list">
@@ -70,7 +72,7 @@
     </nav>
     <!--body starts here-->
     <div class="separator2"></div>
-    <a class="button" id="show-event" href="#popup">Test</a>
+    <a id="show-event" href="#popup">open popup</a>
 
 
     <div id="popup" class="overlay">
@@ -78,39 +80,39 @@
             <!--body starts here-->
             <table id="course-content">
                 <tr>
-                    <th>Exam :</th>
+                    <th>EXAM :</th>
                     <th><span></span></th>
                 </tr>
                 <tr>
-                    <th>Course :</th>
+                    <th>COURSE :</th>
                     <th><span></span></th>
                 </tr>
                 <tr>
-                    <th>Start time :</th>
+                    <th>START TIME :</th>
                     <th><span></span></th>
                 </tr>
                 <tr>
-                    <th>Duration :</th>
+                    <th>DURATION :</th>
                     <th><span></span></th>
                 </tr>
                 <tr>
-                    <th>Room name :</th>
+                    <th>ROOM NAME :</th>
                     <th><span></span></th>
                 </tr>
                 <tr>
-                    <th>chief invigilator :</th>
+                    <th>CHIEF INVIGILATOR : </th>
                     <th><span></span></th>
                 </tr>
                 <tr>
-                    <th>Invigilator :</th>
+                    <th>INVIGILATOR :</th>
                     <th><span></span></th>
                 </tr>
             </table>
             <br>
             <div class="center">
                 <input id='display-name' placeholder='enter your name to join'>
-                <button class="button" id='join-exam' onclick="joinExam()">Join</button>
-                <button class="button" name='close' onclick="closePopup()">Close</button>
+                <button class="btn btn-green waves-effect waves-light" id='join-exam' onclick="joinExam()">Join</button>
+                <button class="btn btn-default waves-effect waves-light" name='close' onclick="closePopup()">Close</button>
             </div>
         </div>
     </div>

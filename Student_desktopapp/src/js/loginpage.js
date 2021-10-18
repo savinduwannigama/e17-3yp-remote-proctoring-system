@@ -167,7 +167,7 @@ register.addEventListener('click', function(e) {
             },
         })
         .then((response) => {
-
+            localStorage.setItem('email', regemail.value);
             ipc.send('Login');
         })
         .catch(function(error) {

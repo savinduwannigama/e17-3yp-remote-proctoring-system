@@ -5,8 +5,12 @@
     <title>Connexa</title>
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/upload.css">
+    <link rel="stylesheet" href="css/components/default-button.css">
+
     <script defer src="js/header.js"></script>
     <script defer src="js/upload.js"></script>
+    <script defer src="js/components/default-button.js"></script>
+
 </head>
 
 <body onload="display_ct();">
@@ -47,7 +51,7 @@
     <nav class="menu" tabindex="0">
         <div class="smartphone-menu-trigger"></div>
         <header class="avatar">
-            <img id="avatar" class="online" src="img/user.jpg" />
+            <img id="avatar" class="online" src="img/avatar/user.png" />
             <h2 id="user_name">USER</h2>
         </header>
         <ul id="list">
@@ -62,9 +66,12 @@
     </nav>
     <!--body starts here-->
     <div class="separator2"></div>
-    <div id='saved-files'>
-        <h4>Click on the videos to upload them</h4>
+    <div class='body'>
+        <div id='saved-files'>
+            <h4>Click on the videos to upload them</h4>
+        </div>
     </div>
+
 
     <a id="show" href="#popup"></a>
 
@@ -91,8 +98,8 @@
             <img id='uploadStatus' src='' style=" display: none" />
             <p id='errorMsg'></p>
             <div class="center">
-                <button class="button" name='upload' id='uploadbtn' onclick="upload()">Upload</button>
-                <button class="button" name='close' id='uploadcancle' onclick="cancle()">Close</button>
+                <button class='btn btn-default waves-effect waves-light' name='upload' id='uploadbtn' onclick="upload()">Upload</button>
+                <button class='btn btn-default waves-effect waves-light' name='close' id='uploadcancle' onclick="cancle()">Close</button>
             </div>
 
         </div>

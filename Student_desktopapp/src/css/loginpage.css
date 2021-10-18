@@ -1,4 +1,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Sansita&display=swap');
+@font-face {
+    font-family: DancingScript;
+    src: url('../fonts/DancingScript-Regular.ttf');
+}
+
+.welcome {
+    position: absolute;
+    height: 400px;
+    width: 722px;
+}
+
+.logo {
+    position: absolute;
+    left: 200px;
+    top: 190px;
+}
+
+.logo img {
+    z-index: 10;
+    /* width: 70px;
+    height: 70px; */
+}
+
+.appName {
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    z-index: 10;
+    font-family: DancingScript;
+    text-shadow: 3px 3px rgb(175, 201, 219);
+    color: #109696;
+    font-weight: bold;
+    font-size: 70px!important;
+}
+
+#frontimg {
+    position: absolute;
+    width: 300px;
+    height: 320px;
+    top: 70px;
+}
+
 body {
     background: url("../img/icons/desktop1.jpeg");
     background-size: cover;
@@ -13,25 +55,13 @@ body {
     margin-right: -50%;
     transform: translate(-50%, -50%);
     min-height: 400px;
-    min-width: 700px;
+    min-width: 722px;
     border-radius: 20px;
-    background: url("../img/icons/desktop2.jpeg");
+    background: url("../img/background.PNG") left bottom no-repeat;
 }
 
 #inner {
     position: relative;
-}
-
-#welcome {
-    position: absolute;
-    left: 60px;
-    top: 120px;
-}
-
-#welcome p {
-    padding: 0;
-    margin: 0;
-    font-size: 50px;
 }
 
 .switch {
@@ -47,10 +77,11 @@ body {
     position: absolute;
     left: 300px;
     top: 10px;
-    width: 390px;
+    width: 410px;
     height: 380px;
+    z-index: 10;
     border-radius: 20px;
-    color: rgb(46, 46, 46);
+    color: rgb(133, 133, 133);
     background-color: rgb(235, 235, 235, 0.46);
 }
 
@@ -68,7 +99,7 @@ body {
 #log-error,
 #reg-error {
     color: red;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 #sign-in {
@@ -81,7 +112,7 @@ body {
 
 h1 {
     margin-top: 0px;
-    color: #109696;
+    color: rgb(158, 158, 158);
 }
 
 .staylogged {
@@ -94,11 +125,12 @@ span {
 }
 
 .user-input {
-    width: 250px;
+    width: 320px;
+    height: 25px;
     padding-bottom: 5px;
     padding-top: 5px;
     padding-left: 10px;
-    font-size: 12px;
+    font-size: 15px;
     cursor: pointer;
     border: 0;
     border-radius: 10px;
@@ -114,10 +146,11 @@ button:focus {
 .submit {
     position: absolute;
     bottom: 10px;
-    left: 170px;
+    left: 130px;
 }
 
-.submit button {
+
+/* .submit button {
     background-color: #19adad;
     min-width: 100px;
     height: 2rem;
@@ -130,11 +163,11 @@ button:focus {
     color: white;
     font-weight: bold;
     cursor: pointer;
-}
+} */
 
 span {
     font-weight: normal;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .separator {
@@ -196,7 +229,7 @@ label {
 }
 
 .names {
-    width: 83%;
+    width: 80%;
     margin: 0;
     padding-left: 15px;
     position: absolute;

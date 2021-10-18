@@ -228,7 +228,7 @@ function additem(data) {
         items.unshift(data);
         localStorage.setItem('examdetails', JSON.stringify(items));
         if (items.length === 11) {
-            items.pop(); //the last item in the array is removed. So length is 3
+            items.pop(); //the last item in the array is removed. So length is 10
             localStorage.setItem('examdetails', JSON.stringify(items));
         }
     }

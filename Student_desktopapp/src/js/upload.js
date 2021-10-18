@@ -11,6 +11,7 @@ for (var i = 0; i < files.length; i++) {
     var item = document.createElement('p');
     item.setAttribute("id", i.toString());
     item.innerHTML = files[i];
+    item.className = 'filelist'
     list.appendChild(item);
 }
 
@@ -24,10 +25,10 @@ for (var i = 0; i < btncount; i += 1) {
     btn[i].onclick = function() {
         var video = document.getElementById(this.id);
         fs.stat('src/recordedVideo/' + video.innerHTML, (err, stats) => {
+            console.log(stats)
             data[0].innerHTML = video.innerHTML;
             data[1].innerHTML = stats.birthtime;
             data[2].innerHTML = Math.round(stats.size / 10000) / 100;
-            console.log(navigator.connection.downlink);
         });
         link.click()
 

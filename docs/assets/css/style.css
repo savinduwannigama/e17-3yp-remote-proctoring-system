@@ -10,6 +10,11 @@
 # General
 --------------------------------------------------------------*/
 
+@font-face {
+    font-family: DancingScript;
+    src: url('../../font/DancingScript-Regular.ttf');
+}
+
 body {
     font-family: "Open Sans", sans-serif;
     background: rgb(2, 17, 39);
@@ -83,6 +88,43 @@ h6 {
         transform: rotate(0deg);
     }
     100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/*----------------------------------------------------------------
+# rotating icon
+-----------------------------------------------------------------*/
+
+.image {
+    top: 20%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    margin: -60px 0 0 -60px;
+    user-select: none;
+    -webkit-animation: spin 16s linear infinite;
+    -moz-animation: spin 16s linear infinite;
+    animation: spin 16s linear infinite;
+}
+
+@-moz-keyframes spin {
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
 }
@@ -521,28 +563,48 @@ h6 {
     }
 }
 
-#hero h1 {
-    margin: 0;
-    font-size: 48px;
-    font-weight: 700;
-    line-height: 56px;
-    /*color: rgb(2, 17, 39);*/
-    color: while;
-    font-family: "Poppins", sans-serif;
+#hero p {
+    color: rgb(135, 148, 158);
 }
 
-#hero h1 span {
-    /* color: rgb(2, 17, 39);
-    text-shadow: 0 0 5px rgb(2, 26, 63);*/
-    color: rgb(168, 27, 211);
-    text-shadow: 0 0 5px rgb(1, 19, 46);
+#hero h1 {
+    font-family: DancingScript;
+    color: #006666;
+    filter: brightness(150%)!important;
+    font-size: 100px;
+    font-weight: 700;
+    text-shadow: 3px 3px rgb(135, 148, 158);
+    color: #006666;
+    filter: brightness(150%)!important;
 }
 
 #hero h2 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 56px;
+    /*color: rgb(2, 17, 39);*/
+    /* color: while; */
+    color: rgb(135, 148, 158);
+    filter: brightness(150%)!important;
+    font-family: "Poppins", sans-serif;
+}
+
+#hero h2 span {
+    /* color: rgb(2, 17, 39);
+    text-shadow: 0 0 5px rgb(2, 26, 63);*/
+    /* color: rgb(168, 27, 211); */
+    color: rgb(135, 148, 158);
+    filter: brightness(150%)!important;
+    text-shadow: 0 0 5px rgb(1, 19, 46);
+}
+
+
+/* #hero h2 {
     color: rgb(51, 116, 212);
     margin-bottom: 10px 0 0 0;
     font-size: 22px;
-}
+} */
 
 #hero .btns {
     margin-top: 30px;
@@ -578,7 +640,7 @@ h6 {
 #hero .play-btn {
     width: 94px;
     height: 94px;
-    background: radial-gradient(rgb(2, 17, 39) 50%, white 52%);
+    background: radial-gradient(rgb(2, 17, 39) 50%, rgb(191, 208, 221) 52%);
     border-radius: 50%;
     display: block;
     position: relative;
@@ -661,6 +723,12 @@ h6 {
     #hero .play-btn {
         margin-top: 30px;
     }
+    .image {
+        top: 150px;
+        left: 80%;
+        width: 80px;
+        height: 80px;
+    }
 }
 
 @media (max-height: 500px) {
@@ -675,6 +743,12 @@ h6 {
         padding-top: 130px;
         padding-bottom: 60px;
     }
+    .image {
+        top: 100px;
+        left: 80%;
+        width: 80px;
+        height: 80px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -683,12 +757,24 @@ h6 {
         height: 70vh;
     }
     #hero h1 {
-        font-size: 28px;
-        line-height: 36px;
+        font-size: 50px;
+        line-height: 60px;
+        text-shadow: 1px 1px rgb(135, 148, 158);
+        font-family: DancingScript;
+        color: #006666;
+        filter: brightness(150%)!important;
     }
     #hero h2 {
         font-size: 18px;
         line-height: 24px;
+        color: rgb(135, 148, 158);
+        filter: brightness(150%)!important;
+    }
+    .image {
+        top: 30%;
+        left: 80%;
+        width: 40px;
+        height: 40px;
     }
 }
 
