@@ -126,6 +126,7 @@ export default function ImageAvatars() {
         }
         ).catch(error=>{
             console.log(error.response)
+            setfail(1);
         })
       
   }

@@ -11,9 +11,13 @@ import Container from '@mui/material/Container';
 import axios from "axios";
 
 function Home() {
+  
   const history = useHistory();
   const img = localStorage.getItem('profileimage');
   const [fail, setfail] = useState('');
+  const [invig,setinvig]=useState('');
+  const [cinvig,setcinvig]=useState('');
+  const[courses,setCourses]=useState('')
   //console.log(jsonData);
   useEffect(() => {
     axios.get('http://143.244.139.140:5000/api/proctor/proctors/self',
@@ -31,8 +35,47 @@ function Home() {
     setfail(1);
     console.log(fail);
   });
+
+  axios.get('http://143.244.139.140:5000/api/proctor/courses/invigilating/self',
+   { headers: {
+      'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
+    }}
+  ).then(resp => {
+    
+    
+    console.log("Invigilating courses from api",resp.data['invigilating_courses']);
+    setinvig(resp.data)
+   // localStorage.setItem("username",resp.data['name']);
+    //sessionStorage.setItem("department",resp.data['department'])
+  }).catch(error=>{
+    console.log("Error response",error.response.data["error"])
+    setfail(1);
+    console.log(fail);
+  });
+  
+  axios.get('http://143.244.139.140:5000/api/proctor/courses/chief_invigilating/self',
+   { headers: {
+      'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
+    }}
+  ).then(resp => {
+    
+    
+    console.log("Chief Invigilating courses from api",resp.data['chief_invigilating_courses']);
+   // localStorage.setItem("username",resp.data['name']);
+    //sessionStorage.setItem("department",resp.data['department'])
+    setcinvig(resp.data)
+  }).catch(error=>{
+    console.log("Error response",error.response.data["error"])
+    setfail(1);
+    console.log(fail);
+  });
   }, []);
   
+  
+  const invigjson = JSON.stringify(invig)
+  const chiefjson =JSON.stringify(cinvig)
+  localStorage.setItem("invig courses",invigjson);
+  localStorage.setItem("chief_invig courses",chiefjson)
   
   /*const rememberMe = localStorage.getItem('rememberMe') === 'true';
   const user = rememberMe ? localStorage.getItem('user') : '';*/
