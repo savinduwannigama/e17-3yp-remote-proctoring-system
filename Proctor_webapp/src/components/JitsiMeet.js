@@ -118,7 +118,8 @@ class JitsiComponent extends Component {
 
     handleVideoConferenceLeft = () => {
         console.log("handleVideoConferenceLeft");
-        this.props.history.push('/home');
+        localStorage.setItem("most recent exam",this.props.name)
+        this.props.history.push('/dashboard');
     }
 
     handleMuteStatus = (audio) => {

@@ -269,7 +269,7 @@ export default function PersistentDrawerLeft(props) {
           {props.item}
           {props.icon}
           
-          <Search>
+          {/*<Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -277,7 +277,7 @@ export default function PersistentDrawerLeft(props) {
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
             />
-          </Search>
+          </Search>*/}
 
           <Box sx={{ flexGrow: 2 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
