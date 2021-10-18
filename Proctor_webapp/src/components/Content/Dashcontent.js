@@ -10,6 +10,7 @@ import {Link} from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Loader from "../Content/Loader"
 import { createTheme,ThemeProvider } from '@mui/material/styles';
+import Errorcomp from './Error'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -30,6 +31,8 @@ const theme = createTheme({
   
 function Dashcontent() {
     const [data, setData] = useState('')
+    const [fail, setfail] = useState('');
+  
     let recent = localStorage.getItem("most recent exam");
     let duty='',name='';
     recent= recent.slice(0, -6).trim();
@@ -62,7 +65,7 @@ function Dashcontent() {
         
         }).catch(error=>{
          console.log("Error response",error.response.data["error"])
-          
+         setfail(1);
         })},[])
    //var items = JSON.parse(localStorage.getItem("examinations"));
     //console.log("exams stored in local",items)
@@ -146,7 +149,8 @@ function Dashcontent() {
               {trail}
                
             </Grid>
-            
+            {fail && <Errorcomp/>}
+    
         </Box>
         )
       }
@@ -154,6 +158,8 @@ function Dashcontent() {
         return(
           <div style={{textAlign:"center"}}>
             <Loader/>
+            {fail && <Errorcomp/>}
+    
           </div>
         )
       }

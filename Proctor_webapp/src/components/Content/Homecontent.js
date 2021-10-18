@@ -85,17 +85,7 @@ function Renderer ()  {
                   <Item sx={{textAlign:"center"}}><Link to={{pathname:'/meeting',state:{roomname: roomname}}} className="nav-link" >Join Examination</Link> </Item>
                   
                 </Stack>
-                 {/* <h2 className="card-text">{t.location} </h2>
-                    <h4 className="card-text">{t.summary} </h4>
-<ul className="list-group list-group-flush">
-            <li className="list-group-item">Difficulty: {t.difficulty}</li>
-            <li className="list-group-item">Length: {t.length} miles</li>
-            <li className="list-group-item">Ascent: {t.ascent} ft, Descent: {t.descent} ft</li>
-            <li className="list-group-item">Conditions: {t.conditionStatus}, {t.conditionDetails} </li>
-            <li className="list-group-item">High: {t.high} ft, Low: {t.low}</li>
-            <li className="list-group-item">Stars: {t.stars}</li>
-            <li className="list-group-item"><a href={t.url} target="_blank" rel="noopener noreferrer" className="card-link">Trail Information</a></li>
-      </ul>*/}
+                
             </div>
        
         </Card>

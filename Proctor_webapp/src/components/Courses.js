@@ -1,10 +1,12 @@
 import React from 'react'
+import Coursecontent from './Content/Coursecontent'
 import ProctorAppBar from './ProctorAppBar'
 function Courses() {
     return (
         <div style={{color:"black"}}>
            <ProctorAppBar> 
-           Courses
+           
+           <Coursecontent/>
            </ProctorAppBar>
           
         </div>
