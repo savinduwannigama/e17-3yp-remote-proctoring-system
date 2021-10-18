@@ -95,6 +95,7 @@ mark {
     height: 40px !important;
     background-color: var(--header-color);
     width: 100%;
+    z-index: 10;
     margin-top: 0;
     margin-bottom: 0;
     position: fixed;
@@ -129,6 +130,7 @@ mark {
     padding-top: 10px;
     padding-right: 10px;
     font-size: 20px;
+    z-index: 10;
     right: 0px;
     top: 40px;
     color: white;
@@ -138,6 +140,7 @@ mark {
 }
 
 .timeindicator {
+    z-index: 10;
     color: black;
     width: fit-content;
     position: fixed;
@@ -160,6 +163,7 @@ mark {
 
 .timestamp {
     width: 100%;
+    z-index: 10;
     background-color: var(--bg-color);
     position: fixed;
     margin-top: 40px;
@@ -374,7 +378,7 @@ main {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 5;
+    z-index: 15;
     outline: none;
 }
 

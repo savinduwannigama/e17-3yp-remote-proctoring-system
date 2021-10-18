@@ -3,7 +3,9 @@
 .test {
     vertical-align: middle;
     width: 50%;
+    height: 120px!important;
     text-align: center;
+    text-transform: uppercase;
 }
 
 .test img {
@@ -11,16 +13,6 @@
     cursor: pointer;
     width: 50px;
 }
-
-
-/* #testcam {
-    text-align: center;
-    border-radius: 0px;
-    width: 64px;
-    height: 64px;
-    background-color: transparent;
-    background-image: url("../img/icons/video-camera (1).png");
-} */
 
 .test p {
     font-size: 15px;
@@ -55,10 +47,10 @@
     color: var(--font-color);
 }
 
-.exams li:nth-child(2n+1) {
+.exams li:nth-child(2n+0) {
     background-color: var(--main-color1);
 }
 
-.exams li:nth-child(2n+2) {
+.exams li:nth-child(2n+1) {
     background-color: var(--main-color2);
 }

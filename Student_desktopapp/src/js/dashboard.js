@@ -30,11 +30,13 @@ function makerecentlyAccessedList(array) {
         // Create the list item:
         var item = document.createElement('li');
         var examName = document.createElement('p');
-        var examStart = document.createElement('p');
+        var examStart = document.createElement('span');
         // Set its contents:
         item.setAttribute("id", i.toString());
         examName.innerHTML = array[i].roomName;
         examStart.innerHTML = array[i].startTime;
+
+        item.className = 'waves-effect waves-light'
         item.appendChild(examName);
         item.appendChild(examStart);
         list.appendChild(item);

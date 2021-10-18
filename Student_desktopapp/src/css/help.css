@@ -1,11 +1,17 @@
+.body {
+    padding: 15px;
+}
+
 .collapse {
     background: var(--bg-color);
-    padding: 0.5rem 1rem;
     margin-bottom: 0.3rem;
 }
 
 .collapse-title {
-    padding: 10px;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
     cursor: pointer;
     user-select: none;
     background-color: rgba(38, 168, 170, 0.22);
@@ -20,6 +26,7 @@
 .collapse-title::before {
     content: attr(data-after);
     padding-right: 10px;
+    padding-left: 10px;
     font-weight: 900;
 }
 
