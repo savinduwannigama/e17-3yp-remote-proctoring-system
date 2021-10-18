@@ -4,6 +4,8 @@ import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import { CardActionArea } from '@mui/material';
 import Loader from "../Content/Loader"
+import {Link} from 'react-router-dom';
+
 function Coursecontent() {
     const handleclick =course=>{
         console.log("card clicked",course)
@@ -18,8 +20,8 @@ function Coursecontent() {
             return(
                 <Card sx={{width:"20%",height:"30vh",color:"black",marginBottom:"40px", backgroundColor:"#00666633",padding:"15px",fontSize:"15px",borderRadius:"32px", display:"inline",margin:"auto"}}>
                     
-                        <h3 style={{textAlign:"center",marginTop:"20%",color:"#035252"}}>{t}</h3>     
-                    
+                      <Link to={`/courses/${t}`} style={{ textDecoration: 'none', color:"#006666"}}> <h3 style={{textAlign:"center",marginTop:"20%",color:"#035252"}}>{t}</h3>     
+                      </Link> 
                 </Card>
             )
         })
@@ -28,8 +30,9 @@ function Coursecontent() {
             return(
                 <Card  sx={{width:"20%",height:"30vh",color:"black",marginBottom:"40px", backgroundColor:"#00666633",padding:"15px 15px 15px 15px",fontSize:"15px",borderRadius:"32px", display:"inline",margin:"auto"}}>
                      
-                        <h3 style={{textAlign:"center",marginTop:"20%",color:"#035252"}}>{t}</h3>     
-                      
+                     <Link to={`/courses/${t}`} style={{ textDecoration: 'none', color:"#006666"}}>
+                             <h3 style={{textAlign:"center",marginTop:"20%",color:"#035252"}}>{t}</h3>     
+                      </Link>
                 </Card>
             )
         })

@@ -14,13 +14,14 @@ import Settings from './components/Settings';
 import Help from './components/Help';
 import Meeting from './components/Meeting';
 import Adminregister from './components/Adminregister';
+import CoursePage from './components/CoursePage';
 function App() {
   return (
     <div className="App">
      
      <Router>
         <Switch>
-          <Route path="/" exact>
+          <Route exact path="/" exact>
             <Portal/>
           </Route>
           <Route path="/adminsignin" exact>
@@ -53,6 +54,7 @@ function App() {
           <Route path="/courses" exact>
             <Courses/>
           </Route>
+          <Route path="/courses/:courseId" component={CoursePage} />
 
           <Route path="/settings" exact>
             <Settings/>
