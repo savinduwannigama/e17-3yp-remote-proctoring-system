@@ -193,7 +193,8 @@ export default class Adminbtn extends React.Component {
       </Stack>
       {this.state.isError && <p style={{color:"red"}}>Error occurred while uploading. {this.state.message}</p>}
       {this.state.message ==="Please select a file to upload" && <p style={{color:"red"}}>{this.state.message}</p>}
-      {this.state.message !=='' && !this.state.isError && <p style={{color:"green"}}>{this.state.message}. Please Proceed to next step</p>}
+      {this.state.message !=='' && !this.state.isError && this.id!=='mastersheet' && <p style={{color:"green"}}>{this.state.message}. Please Proceed to next step</p>}
+      {this.state.message !=='' && !this.state.isError && this.id==='mastersheet' && <p style={{color:"green"}}>{this.state.message}. To add another exam start from step 1</p>}
      
       </>
     );

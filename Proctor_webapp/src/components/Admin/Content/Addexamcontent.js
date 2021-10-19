@@ -14,6 +14,8 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import AdminSettings from '../AdminSettings';
 import Addproctor from './Addproctor';
 import AddStudent from './AddStudent'
+import Addcourse from './Addcourse';
+import Addexam from './Addmastersheet';
 
 //import PropTypes from "prop-types";
 const theme = createTheme({
@@ -39,22 +41,32 @@ function getSteps() {
     switch (step) {
       case 0:
         return (
-            <div style={{margin:"auto", border:"1px solid red",}}>
-                Step 1
+            <div style={{margin:"auto"}}>
+               <p style={{fontSize:"15px"}}>Step 1</p>
                 <Addproctor/>
             </div>
         );
       case 1:
         return (
-          <div style={{margin:"auto", border:"1px solid red",}}>
-                Step 2
+          <div style={{margin:"auto"}}>
+                <p style={{fontSize:"15px"}}>Step 2</p>
                 <AddStudent/>
             </div>
         )
       case 2:
-        return "do step 3";
+        return (
+          <div style={{margin:"auto"}}>
+                <p style={{fontSize:"15px"}}>Step 3</p>
+               <Addcourse/>
+            </div>
+        )
       case 3:
-        return "do step 4";
+        return (
+          <div style={{margin:"auto"}}>
+                <p style={{fontSize:"15px"}}>Step 4</p>
+               <Addexam/>
+            </div>
+        )
       default:
         return "unknown step";
     }

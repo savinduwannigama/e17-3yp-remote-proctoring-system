@@ -120,7 +120,7 @@ function Addproctor() {
             >
             Proctors already added to the system : Total ({proctors.length})
             </AccordionSummary>
-            <AccordionDetails>
+            {proctors.length!==0 && <AccordionDetails>
               {proc = proctors.map(p=>{
                   return(
                     <Accordion>
@@ -143,7 +143,7 @@ function Addproctor() {
                     </Accordion>
                   )
               })}
-              </AccordionDetails>
+              </AccordionDetails>}
           </Accordion>
           </div>
           <br/>

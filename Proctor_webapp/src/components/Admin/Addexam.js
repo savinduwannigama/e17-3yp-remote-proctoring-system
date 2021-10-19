@@ -6,7 +6,7 @@ function Addexam() {
     return (
         <div style={{color:"black"}}>
             <AdminAppBar item="Add Exam" icon = {<FileUploadIcon/>}>
-            Add exam
+           <p style={{fontSize:"20px"}}>Follow the steps to add exams</p>
             <Addexamcontent/>
             </AdminAppBar>
         </div>

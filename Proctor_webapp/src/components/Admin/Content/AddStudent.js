@@ -27,7 +27,7 @@ const theme = createTheme({
     },
   },
 });
-function Addproctor() {
+function Addstudent() {
   const [reqfail,setReqfail]=useState('')
   const [failure,setFail] = useState('')
   const [suc,setSuc]=useState('')
@@ -303,4 +303,4 @@ function Addproctor() {
     )
 }
 
-export default Addproctor
+export default Addstudent

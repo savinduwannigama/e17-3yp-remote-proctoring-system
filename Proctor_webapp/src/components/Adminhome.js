@@ -9,6 +9,8 @@ function Adminhome() {
     const [fail, setfail] = useState('');
     const [proctors,setProctors]=useState('');
     const [students,setStudents] =useState('');
+    const [courses,setCourses] =useState('');
+    const [adminexams,setExams] = useState('');
     //first get all the proctors
     useEffect(() => {
         axios.get('http://143.244.139.140:5000/api/admin/proctors/all'
@@ -42,11 +44,40 @@ function Adminhome() {
        console.log("Error response",error.response.data["error"])
        setfail(1);
        console.log(fail);
-     })
-    
-     
-    
-    
+     });
+     axios.get('http://143.244.139.140:5000/api/admin/courses/all'
+      /*,{ headers: {
+         'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
+       }}*/
+     ).then(resp => {
+       
+       
+       console.log("Response from api",resp.data);
+       setCourses(resp.data)
+       //localStorage.setItem("username",resp.data['name']);
+       //sessionStorage.setItem("department",resp.data['department'])
+     }).catch(error=>{
+       console.log("Error response",error.response.data["error"])
+       setfail(1);
+       console.log(fail);
+     });
+     axios.get('http://143.244.139.140:5000/api/admin/exams/all'
+      /*,{ headers: {
+         'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
+       }}*/
+     ).then(resp => {
+       
+       
+       console.log("Response from api",resp.data);
+       setExams(resp.data)
+       //localStorage.setItem("username",resp.data['name']);
+       //sessionStorage.setItem("department",resp.data['department'])
+     }).catch(error=>{
+       console.log("Error response",error.response.data["error"])
+       setfail(1);
+       console.log(fail);
+     });
+      
     
     },[]);
     /*axios.get("http://143.244.139.140:5000/api/admin/courses/all").then(resp=>{
@@ -56,9 +87,13 @@ function Adminhome() {
         console.log(resp.data)
     })*/
     const jsonProctors = JSON.stringify(proctors);
-    const jsonStudents =JSON.stringify(students)
+    const jsonStudents =JSON.stringify(students);
+    const jsonCourses =JSON.stringify(courses);
+    const jsonExams = JSON .stringify(adminexams);
     localStorage.setItem("Proctors",jsonProctors)
     localStorage.setItem("Students",jsonStudents);
+    localStorage.setItem("Admincourses",jsonCourses);
+    localStorage.setItem("Adminexams",jsonExams)
     return (
        
         <div className="admin-main">
