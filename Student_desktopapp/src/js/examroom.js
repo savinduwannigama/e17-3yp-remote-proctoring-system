@@ -101,7 +101,7 @@ downloadButton.addEventListener('click', () => {
 
 
     if (offlineEnd == 0) {
-        statusArray.push(offlineStart + " to -");
+        statusArray.push(offlineStart + " to until end");
     }
     if (record) {
         var time = date.format(new Date(), 'DD MMM YYYY HH_mm_ss');
