@@ -171,6 +171,9 @@ export default function PersistentDrawerLeft(props) {
     
     //localStorage.removeItem("profileimage");
     localStorage.removeItem("ptoken");
+    localStorage.removeItem("chief_invig courses")
+    localStorage.removeItem("invig courses")
+    localStorage.removeItem("examinations")
     history.push('/');
   }
 
