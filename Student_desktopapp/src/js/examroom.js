@@ -32,14 +32,14 @@ const domain = 'meet.jit.si';
 const options = {
     roomName: roomName,
     width: 800,
-    height: 440,
+    height: 400,
     userInfo: {
         email: userEmail,
         displayName: displayName,
     },
     configOverwrite: {
         startWithAudioMuted: false,
-        startWithVideoMuted: false,
+        startWithVideoMuted: true,
         enableWelcomePage: false,
         prejoinPageEnabled: false,
         //startSilent: true,
