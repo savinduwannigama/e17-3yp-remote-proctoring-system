@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -13,6 +13,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import GroupsIcon from '@mui/icons-material/Groups';
 import AdminSettings from '../AdminSettings';
 import Addproctor from './Addproctor';
+import AddStudent from './AddStudent'
 
 //import PropTypes from "prop-types";
 const theme = createTheme({
@@ -39,12 +40,17 @@ function getSteps() {
       case 0:
         return (
             <div style={{margin:"auto", border:"1px solid red",}}>
-                step 1
+                Step 1
                 <Addproctor/>
             </div>
         );
       case 1:
-        return "do step 2";
+        return (
+          <div style={{margin:"auto", border:"1px solid red",}}>
+                Step 2
+                <AddStudent/>
+            </div>
+        )
       case 2:
         return "do step 3";
       case 3:
@@ -54,9 +60,13 @@ function getSteps() {
     }
   }
   export default function Addexamcontent() {
+    
+
+
     const [activeStep, setActiveStep] = React.useState(0);
     const [completed, setCompleted] = React.useState({});
     const steps = getSteps();
+    
     const totalSteps = () => {
       return steps.length;
     };
@@ -160,7 +170,7 @@ function getSteps() {
                 </Button>
                 {activeStep !== steps.length &&
                   (completed[activeStep] ? (
-                    `Step {activeStep + 1} already completed`
+                    `Step ${activeStep + 1} already completed`
                   ) : (
                     <Button
                       variant="contained"

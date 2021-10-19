@@ -108,34 +108,39 @@ function Addproctor() {
     }
   }
 
-  let proctors = localStorage.getItem('Proctors')? localStorage.getItem("Proctors"):''
-  let proc = ''
-  proctors =proctors?  JSON.parse(proctors):''
+  let students = localStorage.getItem('Students')? localStorage.getItem("Students"):''
+  let stud = ''
+  students =students?  JSON.parse(students):''
   return (
         <div style={{textAlign:"center", fontSize:"15px"}}>
           <div style={{width:"50%", display: 'flex',margin:"auto"}}>
+              
          <Accordion style={{display:"block",marginLeft: "auto",  marginRight: "auto"}}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
             >
-            Proctors already added to the system : Total ({proctors.length})
+            
+            Students already added to the system : Total ({students.length})
             </AccordionSummary>
-            <AccordionDetails>
-              {proc = proctors.map(p=>{
+
+            {students.length!==0 && <AccordionDetails>
+              {stud = students.map(s=>{
                   return(
                     <Accordion>
                       <AccordionSummary
                           expandIcon={<ExpandMoreIcon />}
                       >
-                      {p['name']}
+                      {s['name']}
                      </AccordionSummary>
                      <AccordionDetails style={{justifyContent:"flex-start"}}>
                        <Typography align="left" sx={{fontFamily:"Sansita"}}>
-                      Email address :  {p['email']}
+                        Registration number : {s['regNo']}
+                        <br/>
+                      Email address :  {s['email']}
                       <br/>
-                      Department : {p['department']}
+                      Department : {s['department']}
                       <br/>
-                      Already registered : {p['isRegistered']===false? 'No':'Yes'}
+                      Already registered : {s['isRegistered']===false? 'No':'Yes'}
                      </Typography>
                      </AccordionDetails>
                      
@@ -143,16 +148,14 @@ function Addproctor() {
                     </Accordion>
                   )
               })}
-              </AccordionDetails>
+              </AccordionDetails>}
           </Accordion>
           </div>
           <br/>
-          <p>If the proctors of the exam to be scheduled is not in the above list please add the proctors to the system here.</p>
-          <p>If the proctors are already in the list please proceed to the next step.</p>
-          
+          <p>If any of the students sitting for the exam to be scheduled is not in the above list please add them to the system here.</p>
           <br/>
           <hr style={{background:"#006666",height:"5px"}}/>
-          To add Proctors in bulk Please upload the CSV file in correct format.
+          To add Students in bulk Please upload the CSV file in correct format.
 
         <Box
       sx={{
@@ -164,11 +167,11 @@ function Addproctor() {
       }}
     >
            <ButtonGroup  orientation="vertical" sx={{display:"block",marginLeft: "auto",  marginRight: "auto"}}>
-            <Adminbtn btnname="Add Proctors" value="proctors" url="proctors/multiple"/>
+           <Adminbtn btnname="Add students" value="students" url="students/multiple"/>
             </ButtonGroup>
         </Box>
         <hr style={{background:"#006666",height:"5px"}}/>
-        To add a single proctors please fill the form below.
+        To add a single student please fill the form below.
 
         <Box
               component="form"
@@ -212,14 +215,14 @@ function Addproctor() {
             />
             {console.log(items)}
             <Button color="neutral" variant="contained" type="submit" value="Submit" size="medium" >
-                    ADD PROCTOR
+                    ADD STUDENT
             </Button>
            
             </ThemeProvider>
            
         </Box>
 
-        {suc && <p style={{textAlign:"center"}}>Proctor Added successfully. Please proceed to next step</p>}
+        {suc && <p style={{textAlign:"center"}}>Student Added successfully. Please proceed to next step</p>}
 
 
 

@@ -134,6 +134,8 @@ export default function PrimarySearchAppBar(props) {
     
     localStorage.removeItem("aprofileimage");
     localStorage.removeItem("atoken");
+    localStorage.removeItem("Proctors")
+    localStorage.removeItem("Students")
     history.push('/');
   }
   const gotoSettings=()=>{
