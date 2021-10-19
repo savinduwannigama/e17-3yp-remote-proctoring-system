@@ -599,6 +599,11 @@ h6 {
     text-shadow: 0 0 5px rgb(1, 19, 46);
 }
 
+h1 a {
+    font-family: DancingScript;
+    text-transform: none;
+}
+
 
 /* #hero h2 {
     color: rgb(51, 116, 212);
