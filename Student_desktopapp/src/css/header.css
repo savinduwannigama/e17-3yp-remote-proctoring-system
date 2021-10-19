@@ -667,6 +667,7 @@ hr {
 .popup h4 {
     color: var(--header-color);
     font-weight: bold;
+    margin: 0 0 2px 2px;
 }
 
 #popup table {
@@ -678,4 +679,8 @@ hr {
 
 .center {
     text-align: center;
+}
+
+.popup table {
+    margin: 0;
 }

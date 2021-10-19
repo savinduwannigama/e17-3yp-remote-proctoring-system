@@ -86,7 +86,7 @@ const path = require('path')
 
 // })
 describe('Application launch', function() {
-    this.timeout(30000)
+    this.timeout(100000)
     let app;
 
     before(function() {
@@ -104,18 +104,20 @@ describe('Application launch', function() {
     })
 
 
-    it('Navigate', async() => {
+    it('Log in', async() => {
         const input = await app.client.$('#log-email');
         await input.setValue('e17190@eng.pdn.ac.lk');
         await sleep(1000);
-        //email = await input.getText();
-        //assert.equal(email, "hello@gmail.com");
         const input2 = await app.client.$('#log-password');
         await input2.setValue('sashini1234');
         await sleep(1000);
         element = await app.client.$("button[name='Log in']")
         await element.click();
-        title = await app.client.$("#title");
+        var element = title = await app.client.$("#title");
+        if (!element) {
+            await sleep(5000);
+        }
+        element = title = await app.client.$("#title");
         h1Text = await title.getText();
         assert.equal(h1Text, "Home")
         await sleep(3000);
@@ -140,11 +142,25 @@ describe('Application launch', function() {
         await element.click();
         await sleep(1000);
         element = await app.client.$('#name');
-        await element.setValue('Sashini');
+        await element.setValue('LIYANAGE S N');
         await sleep(2000);
         element = await app.client.$('button[name="savename"');
         await element.click();
         await sleep(1000);
+        var element = await app.client.$('#changeavatar');
+        if (!element) {
+            await sleep(3000);
+        }
+        element = await app.client.$('#changeavatar');
+        await element.click();
+        await sleep(1000);
+        element = await app.client.$('#temp');
+        await element.click();
+        await sleep(2000);
+        element = await app.client.$('#changeavtr');
+        await element.click();
+        await sleep(1000);
+
     })
 
     it('Course page', async() => {
@@ -159,11 +175,12 @@ describe('Application launch', function() {
         await sleep(3000);
         await app.client.waitUntilWindowLoaded();
         input = await app.client.$('#myInput');
-        await input.setValue('A');
+        await sleep(3000);
+        await input.setValue('CO');
         await sleep(1000);
-        await input.setValue('Al');
+        await input.setValue('COM');
         await sleep(1000);
-        await input.setValue('Algo');
+        await input.setValue('COMPUTER');
         await sleep(1000);
         var element = await app.client.$('li[id="2"]');
         if (!element) {
@@ -199,38 +216,46 @@ describe('Application launch', function() {
         title = await app.client.$("#title");
         h1Text = await title.getText();
         assert.equal(h1Text, "Schedule");
-        await sleep(1000);
+        await sleep(2000);
         element = await app.client.$(".fc-next-button");
         await element.click();
-        await sleep(3000);
-        var element = await app.client.$('.fc-sticky');
+        await sleep(1000);
+        await element.click();
+        await sleep(1000);
+        var element = await app.client.$('.fc-daygrid-dot-event');
         // elementtxt = await element.getHTML();
         //console.log(elementtxt);
-        if (!element) {
-            await sleep(3000);
-        }
-        element = await app.client.$('.fc-sticky');
+        // if (!element) {
+        //     await sleep(3000);
+        // }
+        // element = await app.client.$('.fc-sticky');
         await element.click();
-        await sleep(2000);
-        element = await app.client.$('button[name="close"');
+        var element = await app.client.$('button[name="joinexam"');
+        if (!element) {
+            await sleep(2000);
+        }
+        element = await app.client.$('button[name="joinexam"');
+        input = await app.client.$('#display-name');
+        //await sleep(1000);
+        await input.setValue('E/17/190 LIYANAGE S N');
         await element.click();
         await sleep(1000);
 
     })
 
     it('Meeting room', async() => {
-        trigger = await app.client.$(".smartphone-menu-trigger");
-        await trigger.click();
-        await sleep(1000);
-        page = await app.client.$("#help");
-        await page.click();
-        await sleep(1000);
-        element = await app.client.$('#start');
-        await element.click();
+        // trigger = await app.client.$(".smartphone-menu-trigger");
+        // await trigger.click();
+        //await sleep(1000);
+        //page = await app.client.$("#help");
+        //await page.click();
+        //await sleep(1000);
+        //element = await app.client.$('#start');
+        //await element.click();
+        element = await app.client.$('button[name="download"]');
         await sleep(15000);
-        element = await app.client.$('#download');
         await element.click();
-        await sleep(8000);
+        await sleep(10000);
     })
 
     it('Upload page', async() => {
