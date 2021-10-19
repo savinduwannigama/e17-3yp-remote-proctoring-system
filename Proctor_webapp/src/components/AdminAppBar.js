@@ -5,8 +5,6 @@ import { styled, useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
 import HomeIcon from '@mui/icons-material/Home';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import UpcomingIcon from '@mui/icons-material/CalendarToday';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HelpIcon from '@mui/icons-material/Help';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -28,8 +26,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import MuiAppBar from '@mui/material/AppBar';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-
-
+import StorageIcon from '@mui/icons-material/Storage';
+import FileUploadIcon from '@mui/icons-material/UploadFile';
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
@@ -313,17 +311,17 @@ export default function PrimarySearchAppBar(props) {
             </ListItem>
             
             <Divider sx={{height:'5px', backgroundColor: 'white'}}/>
-            <ListItem button key="Add_exam" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/admin/addexam')}>
+            <ListItem button key="Add Exam" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/admin/addexam')}>
               <ListItemIcon sx={{ color: 'white' }}>
-                <DashboardIcon/>
+                <FileUploadIcon/>
               </ListItemIcon>
-              <ListItemText primary="Add_exam" />
+              <ListItemText primary="Add Exam" />
             </ListItem>
 
             <Divider sx={{height:'5px', backgroundColor: 'white'}} />
             <ListItem button key="Database" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/admin/database')}>
               <ListItemIcon sx={{ color: 'white' }}>
-                <UpcomingIcon/>
+                <StorageIcon/>
               </ListItemIcon>
               <ListItemText primary="Database" />
             </ListItem>
