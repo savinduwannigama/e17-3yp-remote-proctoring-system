@@ -116,7 +116,6 @@ function makeCourseList() {
     btncount = btn.length
     for (var i = 0; i < btncount; i += 1) {
         btn[i].onclick = function() {
-            ipc.send('open')
             span[0].innerHTML = courseArray[this.id].fullname;
             span[1].innerHTML = courseArray[this.id].department;
             span[2].innerHTML = courseArray[this.id].semester;

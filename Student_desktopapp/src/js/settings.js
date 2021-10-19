@@ -196,9 +196,10 @@ document.getElementById("username").innerHTML = username;
 document.getElementById("emailaddr").innerHTML = useremail;
 document.getElementById("regno").innerHTML = regno;
 
-var userpic = document.getElementById("profpic");
-userpic.src = localStorage.getItem('useravatar')
-
+var userpic = document.getElementById("profilepic");
+if (localStorage.useravatar) {
+    userpic.src = localStorage.getItem('useravatar')
+}
 
 /*************** change name *******************************/
 document.getElementById("entername").addEventListener("click", () => {

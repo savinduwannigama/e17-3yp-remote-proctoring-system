@@ -73,11 +73,12 @@
     <!--body starts here-->
     <div class="separator2"></div>
     <a id="show-event" href="#popup">open popup</a>
-
+    <div id='calendar'></div>
 
     <div id="popup" class="overlay">
         <div class="popup">
             <!--body starts here-->
+            <h4>EXAM ROOM DETAILS</h4>
             <table id="course-content">
                 <tr>
                     <th>EXAM :</th>
@@ -111,13 +112,13 @@
             <br>
             <div class="center">
                 <input id='display-name' placeholder='enter your name to join'>
-                <button class="btn btn-green waves-effect waves-light" id='join-exam' onclick="joinExam()">Join</button>
+                <button class="btn btn-green waves-effect waves-light" name='joinexam' id='join-exam' onclick="joinExam()">Join</button>
                 <button class="btn btn-default waves-effect waves-light" name='close' onclick="closePopup()">Close</button>
             </div>
         </div>
     </div>
 
-    <div id='calendar'></div>
+
 
 
 
