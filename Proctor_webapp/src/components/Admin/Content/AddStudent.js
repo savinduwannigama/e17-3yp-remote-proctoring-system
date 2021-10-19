@@ -10,6 +10,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import axios from 'axios';
 const theme = createTheme({
   status: {
@@ -32,8 +33,8 @@ function Addproctor() {
   const [suc,setSuc]=useState('')
   //const [email,setEmail] = useState('')
   //const [name,setName] = useState('')
-  const [items, setItems] = useState({email:"", name:""});
-  const [errors,setErrors] = useState({email:'',name:''})
+  const [items, setItems] = useState({email:"", name:"", regNo:"", department:"",device:""});
+  const [errors,setErrors] = useState({email:'',name:'',regNo:"", department:"",device:""})
   const handleChange=(event)=>{
    /* let input = [...items];
     input[event.target.name]=event.target.value;
@@ -63,25 +64,37 @@ function Addproctor() {
         var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
         if (!pattern.test(items["email"])) {
           isValid = false;
-          errors["email"] = "Please enter valid email address";
+          errors["email"] = "Please enter a valid email address";
           console.log("inside testing email",errors['email'])
         }
       } 
       if(items.name ===''){
         isValid = false;
-        errors['name'] = "Please enter the proctor's full name"
+        errors['name'] = "Please enter the students's full name"
       }
-      else if(items.name !==''){
-        var namepat = new RegExp(/^(([MDS]r|Ms|Mr|Dr|Prof|Mrs).).*$/)
-        if (!namepat.test(items["name"])) {
-          isValid = false;
-          errors["name"] = "Please add a prefix to the beginning (Dr/Prof/Mr/Miss/Mrs)";
-          console.log("inside testing email",errors['name'])
-        }
-      
-      
+
+      if(items.regNo===''){
+        isValid = false;
+        errors['regNo'] = "Please enter the students's registration number"
       }
-      setErrors(prev=>({ ...prev, "email":errors['email'], "name":errors['name']}))
+      if(items.department===''){
+        isValid = false;
+        errors['department'] = "Please enter the students's department"
+      }
+      if(items.device===''){
+        isValid = false;
+        errors['device'] = "Please enter the students's device ID"
+      }
+
+      
+      setErrors(prev=>({ ...prev,
+         "email":errors['email'],
+          "name":errors['name'],
+        "regNo":errors['regNo'],
+        "department":errors['department'],
+        "device":errors['device']
+        
+        }))
       console.log(isValid)
       return isValid;
   }
@@ -90,17 +103,21 @@ function Addproctor() {
    
     if(validate()){
       
-      console.log("validation done",items)
-      const url = "http://143.244.139.140:5000/api/admin/proctors/single"
+      console.log("validation done",items);
+      const url = "http://143.244.139.140:5000/api/admin/students/single"
       axios.post(url,{
         "name": items['name'],
-        "email": items['email']
+        "regNo": items['regNo'],
+        "email": items['email'],
+        "department": items["department"],
+        "device" : items['device']
+       
     }).then(resp=>{
       setReqfail('')
       setFail('')
       setSuc(1)
       console.log("request successful",resp.data)
-      localStorage.setItem("proctor_added",1)
+     
     }).catch(error=>{
       setReqfail(1);
       setFail(error.response.data["message"])
@@ -176,13 +193,20 @@ function Addproctor() {
         <Box
               component="form"
               sx={{
-                '& > :not(style)': { m: 1, width: '30ch' },
+                  display:'flex',
+                '& > :not(style)': { m: 1, width: '35ch',
+                   
+                },
+                
+                width:'100%',
+                justifyContent:"center"
               }}
               noValidate
               autoComplete="off"
               onSubmit={handleSubmit}
         >
         {reqfail && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{failure}<br/></p></div>}
+        <Stack spacing={2} >
         <ThemeProvider theme={theme}>   
             <TextField 
             color="neutral"
@@ -191,7 +215,7 @@ function Addproctor() {
             variant="outlined" 
             name="email"
             value={items.email}
-            placeholder="Enter the proctor's email" 
+            placeholder="Enter the student's email" 
             size="small" 
             autoComplete='on'
             onChange={handleChange}
@@ -206,20 +230,66 @@ function Addproctor() {
             variant="outlined" 
             name="name"
             value={items.name}
-            placeholder="Enter the proctor's name" 
+            placeholder="Enter the student's name" 
             size="small" 
             autoComplete='on'
             onChange={handleChange}
             {...(errors['name'] && {error:true,helperText:errors['name']})}
            
             />
+            <TextField 
+            color="neutral"
+            id="outlined-basic" 
+            label="Registration Number" 
+            variant="outlined" 
+            name="regNo"
+            value={items.regNo}
+            placeholder="E/XX/XXX" 
+            size="small" 
+            autoComplete='on'
+            onChange={handleChange}
+            {...(errors['regNo'] && {error:true,helperText:errors['regNo']})}
+           
+            />
+
+            <TextField 
+            color="neutral"
+            id="outlined-basic" 
+            label="Department" 
+            variant="outlined" 
+            name="department"
+            value={items.department}
+            placeholder="Enter the student's department" 
+            size="small" 
+            autoComplete='on'
+            onChange={handleChange}
+            {...(errors['department'] && {error:true,helperText:errors['department']})}
+           
+            />
+
+            <TextField 
+            color="neutral"
+            id="outlined-basic" 
+            label="Device" 
+            variant="outlined" 
+            name="device"
+            value={items.device}
+            placeholder="Enter the student's device ID" 
+            size="small" 
+            autoComplete='on'
+            onChange={handleChange}
+            {...(errors['device'] && {error:true,helperText:errors['device']})}
+           
+            />
+
+
             {console.log(items)}
             <Button color="neutral" variant="contained" type="submit" value="Submit" size="medium" >
                     ADD STUDENT
             </Button>
            
             </ThemeProvider>
-           
+           </Stack>
         </Box>
 
         {suc && <p style={{textAlign:"center"}}>Student Added successfully. Please proceed to next step</p>}

@@ -162,25 +162,29 @@ function getSteps() {
             <div>
               {getStepContent(activeStep)}
               <div>
-                <Button disabled={activeStep === 0} onClick={handleBack}>
+              <ThemeProvider theme={theme}>
+                <Button color="neutral" disabled={activeStep === 0} onClick={handleBack}>
                   Back
                 </Button>
-                <Button variant="contained" color="primary" onClick={handleNext}>
+                <Button variant="contained" color="neutral" onClick={handleNext}>
                   Next
                 </Button>
+                </ThemeProvider>
                 {activeStep !== steps.length &&
                   (completed[activeStep] ? (
                     `Step ${activeStep + 1} already completed`
                   ) : (
+                    <ThemeProvider theme={theme}>
                     <Button
                       variant="contained"
-                      color="primary"
+                      color="neutral"
                       onClick={handleComplete}
                     >
                       {completedSteps() === totalSteps() - 1
                         ? "Finish"
                         : "Complete Step"}
                     </Button>
+                    </ThemeProvider>
                   ))}
               </div>
             </div>
