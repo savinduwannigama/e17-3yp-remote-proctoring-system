@@ -15,13 +15,17 @@ import Help from './components/Help';
 import Meeting from './components/Meeting';
 import Adminregister from './components/Adminregister';
 import CoursePage from './components/CoursePage';
+import AdminSettings from './components/Admin/AdminSettings';
+import Addexam from './components/Admin/Addexam'
+import Database from './components/Admin/Database';
+import AdminHelp from './components/Admin/AdminHelp';
 function App() {
   return (
     <div className="App">
      
      <Router>
         <Switch>
-          <Route exact path="/" exact>
+          <Route path="/" exact>
             <Portal/>
           </Route>
           <Route path="/adminsignin" exact>
@@ -30,13 +34,30 @@ function App() {
           <Route path="/adminreg" exact>
             <Adminregister/>
           </Route>
-          <Route path="/adminhome" exact>
+          <Route path="/admin/home" exact>
             <Adminhome/>
+          </Route>
+         <Route path='/admin/addexam' exact>
+            <Addexam/>
+          </Route>
+
+          <Route path='/admin/database' exact>
+            <Database/>
+          </Route>
+
+          <Route path="/admin/settings" exact>
+            <AdminSettings/>
+          </Route>
+
+          <Route path='/admin/help' exact>
+            <AdminHelp/>
           </Route>
 
           <Route path="/register" exact>
             <Register />
           </Route>
+
+          
 
           <Route path="/signin" exact>
             <Login />
