@@ -5,9 +5,7 @@ import axios from "axios";
 import Dashcontent from './Content/Dashcontent';
 
 function Dashboard() {
-   let recent = localStorage.getItem("most recent exam");
-    recent= recent.slice(0, -6);
-
+  
   // recent = localStorage.getItem("most recent exam").replace(' room B', '');
   // recent = localStorage.getItem("most recent exam").replace(' room C', '');
     

@@ -33,10 +33,12 @@ function Dashcontent() {
     const [data, setData] = useState('')
     const [fail, setfail] = useState('');
   
-    let recent = localStorage.getItem("most recent exam");
+    let recent = localStorage.getItem("most recent exam")?localStorage.getItem("most recent exam"):'' ;
     let duty='',name='';
     recent= recent.slice(0, -6).trim();
-    var items = JSON.parse(localStorage.getItem("examinations"));
+    const examinations = localStorage.getItem("examinations")?localStorage.getItem("examinations"):'';
+    console.log("exams in storage",examinations)
+    var items = JSON.parse(examinations);
    // console.log("exams stored in local",items)
   //console.log("recent exam",recent)
     for(var i in items){
@@ -51,6 +53,7 @@ function Dashcontent() {
         }
        
     }
+    
     useEffect(() => {
         axios.get(`http://143.244.139.140:5000/api/proctor/exams/${duty}/self`,
         { headers: {
@@ -65,7 +68,11 @@ function Dashcontent() {
         
         }).catch(error=>{
          console.log("Error response",error.response.data["error"])
-         setfail(1);
+         console.log("Error ",error)
+         if(duty!==''&& name!==''){
+            setfail(1);
+         }
+        
         })},[])
    //var items = JSON.parse(localStorage.getItem("examinations"));
     //console.log("exams stored in local",items)
@@ -154,7 +161,7 @@ function Dashcontent() {
         </Box>
         )
       }
-      else{
+      else if(duty!=='' && name!==''){
         return(
           <div style={{textAlign:"center"}}>
             <Loader/>
@@ -162,6 +169,15 @@ function Dashcontent() {
     
           </div>
         )
+      }
+      else{
+        return(
+            <div style={{textAlign:"center"}}>
+              No recently accessed courses
+              {fail && <Errorcomp/>}
+      
+            </div>
+          )
       }
       
 }
