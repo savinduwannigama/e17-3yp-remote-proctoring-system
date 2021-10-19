@@ -392,6 +392,8 @@ main {
 }
 
 .menu .avatar img {
+    pointer-events: none;
+    user-select: none;
     width: 50px;
     border-radius: 50%;
     position: fixed;
