@@ -17,6 +17,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { fontSize } from '@mui/system';
 import Loader from "./Content/Loader"
+import CourseIcon from '@mui/icons-material/School';
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -128,7 +129,7 @@ function CoursePage({match}) {
         })
         return (
             <div style={{color:"black"}}>
-                <ProctorAppBar> 
+                <ProctorAppBar item={courseId} icon = {<CourseIcon/>}> 
                 <br/><br/>
                 <Box sx={{ flexGrow:1 }}>
                     <Grid container rowSpacing={6} >
@@ -146,8 +147,10 @@ function CoursePage({match}) {
     else{
         return(
           <div style={{textAlign:"center"}}>
+              <ProctorAppBar item={courseId} icon = {<CourseIcon/>}> 
             <Loader/>
             {fail && <Errorcomp/>}
+            </ProctorAppBar>
     
           </div>
         )
