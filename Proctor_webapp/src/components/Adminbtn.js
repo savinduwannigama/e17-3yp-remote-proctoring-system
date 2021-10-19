@@ -32,6 +32,7 @@ export default class Adminbtn extends React.Component {
     this.id = props.value;
     this.btnname = props.btnname;
     this.path = props.url;
+    
     this.state = {
       selectedFile: undefined,
       FileName: "No File Selected",
@@ -40,7 +41,11 @@ export default class Adminbtn extends React.Component {
       message: "",
       isError: false,
       fileInfos: [],
+      
     };
+    this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
+    this.uploadData = this.uploadData.bind(this)
+
   }
   
   fileSelectedHandler = event => {
@@ -52,20 +57,61 @@ export default class Adminbtn extends React.Component {
     })
     
   }
-  
+  uploadData(results){
+    const name = this.id;
+    console.log(this.path)
+    const value =JSON.stringify({"uploaded_file":name,"details":results.data},null,4) 
+   
+    const url =`http://143.244.139.140:5000/api/admin/${this.path}`
+    console.log(value)
+
+    axios.post(url, value,{
+      headers: {
+        // Overwrite Axios's automatically set Content-Type
+        'Content-Type': 'application/json'
+      }
+      }, {
+        onUploadProgress: progressEvent => {
+        console.log(progressEvent.loaded / progressEvent.total)
+    }
+    }).then(resp => {
+      if(resp.data['status']==='failure'){
+        this.setState({
+          isError:true,
+          message: resp.data["message"]
+        })
+      }
+      else{
+        this.setState({
+          isError:false,
+          message: resp.data["message"]
+        })
+      }
+      
+      console.log(resp.data);
+    }).catch(error => {
+      console.log(error);
+      this.setState({
+        isError:true,
+        message: error["message"]
+      })
+      
+    })
+  }
   donothing =()=>{}
   fileUploadHandler = ()=>{
     console.log(this.state.FileName);
     const fd = new FormData();
     const name = this.id;
     //Add the path dynamically by appending this.id
-    const url =`http://143.244.139.140:5000/api/admin/${this.path}`
+    
+    if(this.state.FileName!=="No File Selected"){
     fd.append(this.id, this.state.selectedFile,this.state.selectedFile.name);
     Papa.parse(this.state.selectedFile, 
       {
         
-       complete: function(results) {
-         /*console.log("Finished:", results.data);*/
+       complete: this.uploadData/*function(results) {
+         /*console.log("Finished:", results.data);
          //store the results.data as a json object
         // fd.append("data",JSON.stringify(results.data,null,4));
          const value =JSON.stringify({"uploaded_file":name,"details":results.data},null,4) 
@@ -74,7 +120,7 @@ export default class Adminbtn extends React.Component {
          /*console.log("Printing content of fd")
          for (var pair of fd.entries()) {
             console.log(pair[0]+":"+pair[1])
-        }*/
+        }
         //after conversion send the fd to the server
         axios.post(url, value,{
           headers: {
@@ -86,20 +132,34 @@ export default class Adminbtn extends React.Component {
             console.log(progressEvent.loaded / progressEvent.total)
         }
         }).then(resp => {
-
+          this.setState({
+            isError:false,
+            message: ""
+          })
           console.log(resp.data);
         }).catch(error => {
-          console.log(error.response);
+          console.log(error);
+          this.setState({
+            isError:true,
+            message: error["message"]
+          })*/
         })
-       }}
-     )
-    
+       }//}
+     //)
+   // }
+    else{
+      this.setState({
+        
+        message: "Please select a file to upload"
+      })
+    }
   
     
   }
 
 
   render(){
+    console.log(this.id)
     return (
       <>
       <Stack direction="column" alignItems="left" spacing={1}>
@@ -131,7 +191,11 @@ export default class Adminbtn extends React.Component {
           </ThemeProvider>
       </label>
       </Stack>
-      
+      {this.state.isError && <p style={{color:"red"}}>Error occurred while uploading. {this.state.message}</p>}
+      {this.state.message ==="Please select a file to upload" && <p style={{color:"red"}}>{this.state.message}</p>}
+      {this.state.message !=='' && !this.state.isError && this.id!=='mastersheet' && <p style={{color:"green"}}>{this.state.message}. Please Proceed to next step</p>}
+      {this.state.message !=='' && !this.state.isError && this.id==='mastersheet' && <p style={{color:"green"}}>{this.state.message}. To add another exam start from step 1</p>}
+     
       </>
     );
   }

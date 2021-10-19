@@ -20,7 +20,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import HomeIcon from '@mui/icons-material/Home';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import UpcomingIcon from '@mui/icons-material/CalendarToday';
-//import UpcomingIcon from '@mui/icons-material/Upcoming';
 import SchoolIcon from '@mui/icons-material/School';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HelpIcon from '@mui/icons-material/Help';
@@ -172,6 +171,9 @@ export default function PersistentDrawerLeft(props) {
     
     //localStorage.removeItem("profileimage");
     localStorage.removeItem("ptoken");
+    localStorage.removeItem("chief_invig courses")
+    localStorage.removeItem("invig courses")
+    localStorage.removeItem("examinations")
     history.push('/');
   }
 

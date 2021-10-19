@@ -136,7 +136,7 @@ export default function ImageAvatars() {
     {success && <div><p style={{color:"#006666"}}>Changes Saved Successfully!</p></div>}
       
       <ThemeProvider theme={theme}>
-      <Box  sx={{ '& > :not(style)': { m: 1, width: '23ch' }, bgcolor: '#00666633',width:"40%",height:"100%",borderRadius:"32px", padding:"5% 7%",alignItems:"center" }} alignItems="center" >
+      <Box  sx={{ '& > :not(style)': { m: 1, width: '23ch' }, bgcolor: '#00666633',width:"40%",height:"100%",borderRadius:"32px", padding:"5% 8%" }} alignItems="center" >
       <input
 
         src={img}
@@ -223,8 +223,8 @@ export default function ImageAvatars() {
         />
      
       <br/><br/>
-      <div style={{justifyContent:"right"}}>
-      <Button  color="neutral" variant="contained" component="span" size="medium" onClick={handleClick}>
+      <div style={{ position: "relative"}}>
+      <Button  color="neutral" variant="contained"  size="medium" onClick={handleClick} sx={{left: "25%"}} >
          Save Changes
          </Button>
       </div>
