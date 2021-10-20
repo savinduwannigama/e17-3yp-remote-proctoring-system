@@ -590,6 +590,15 @@ h6 {
     font-family: "Poppins", sans-serif;
 }
 
+#hero h3 {
+    font-family: DancingScript;
+    font-size: 70px;
+    font-weight: 700;
+    color: #006666;
+    text-shadow: 2px 2px rgb(135, 148, 158);
+    filter: brightness(130%)!important;
+}
+
 #hero h2 span {
     /* color: rgb(2, 17, 39);
     text-shadow: 0 0 5px rgb(2, 26, 63);*/
@@ -748,6 +757,9 @@ h1 a {
         padding-top: 130px;
         padding-bottom: 60px;
     }
+    #hero h3 {
+        font-size: 20px;
+    }
     .image {
         top: 100px;
         left: 80%;
@@ -774,6 +786,9 @@ h1 a {
         line-height: 24px;
         color: rgb(135, 148, 158);
         filter: brightness(150%)!important;
+    }
+    #hero h3 {
+        font-size: 40px;
     }
     .image {
         top: 30%;

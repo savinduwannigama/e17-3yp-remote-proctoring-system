@@ -29,9 +29,7 @@ function getExam() {
 }
 
 function nextExam(array) {
-    var now = new Date()
     var nextexam, exam, examIndex;
-    console.log(array)
     if (array.length == 0) {
         sessionStorage.setItem('nextExamAt', '-1');
         sessionStorage.sertItem('nextExam', 'no exam')
@@ -39,10 +37,11 @@ function nextExam(array) {
         return
     }
     nextexam = new Date(array[0][1].startTime)
-
+    examIndex = 0
+    var now = new Date()
     for (var i = 0; i < array.length; i++) {
         exam = new Date(array[i][1].startTime)
-        if (exam - now > 0 && exam < nextexam) {
+        if ((exam > now) && (exam < nextexam)) {
             nextexam = exam;
             examIndex = i;
         }
