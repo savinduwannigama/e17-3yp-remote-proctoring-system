@@ -59,6 +59,7 @@ export default class Calendar extends Component {
         return (
             <div className="main-box">
                <FullCalendar
+                    //timeZone= 'Europe/Greenwich'
                     plugins={[ dayGridPlugin,timeGridPlugin,interactionPlugin ]}
                     initialView="dayGridMonth"
                     headerToolbar={{

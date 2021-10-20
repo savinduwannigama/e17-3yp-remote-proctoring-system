@@ -32,6 +32,22 @@ class Modal extends React.Component{
   }
   
   render(){
+    const minute = 1000 * 60;
+    const hour = minute * 60;
+    const day = hour * 24;
+    const year = day * 365;
+    //previous start time this.props.einfo['start'].toString()
+    const starttime = this.props.einfo['start']? this.props.einfo['start'].toString().replace("+0530 (India Standard Time)",''):'';
+    const utctime = starttime? new Date(starttime).toUTCString():''
+   const newdatestart = starttime? new Date(this.props.einfo['start']):''
+   const currentdate = new Date()
+   const dif = Date.parse(newdatestart) - Date.parse(currentdate)
+    console.log("starttime in GMT",starttime)
+    console.log("starttime in UTC",utctime)
+    console.log("current",currentdate)
+    console.log("new start time", newdatestart)
+    console.log("difference in hours",dif/hour)
+  
     return (
       this.props.open? ReactDOM.createPortal(
         <div className = 'modal'>
@@ -49,16 +65,18 @@ class Modal extends React.Component{
           <CardContent>
           <p>Examination: {this.props.einfo['title']}</p>
           
-          <p>Start:{this.props.einfo['start'].toString()}</p>
+          <p>Start: {starttime}</p>
           
           {this.props.einfo['end'].toString()&& <p>End : {this.props.einfo['end'].toString()}</p>}
           {this.props.einfo['url'].toString()&& <p>Exam room :{this.props.einfo['url']}</p>}
            
-                  
-          <div className ="closebtn">
+           {dif<-2 && <p style = {{color:"yellow"}}>Exam has been already completed</p>}       
+         
+         <div className ="closebtn">
           <ThemeProvider theme={theme}>
+            {  (dif>=-2) &&
           <Button color= "neutral" size="medium" variant="contained"  sx={{bgcolor:"white",color:'#006666',margin:'auto'}}> <Link to={{pathname:'/meeting',state:{roomname:this.props.einfo['url']}}}  style={{ textDecoration: 'none', color:"#006666"}}>Join Meeting</Link>
-         </Button>
+         </Button>}
           </ThemeProvider>
           </div>
           </CardContent>

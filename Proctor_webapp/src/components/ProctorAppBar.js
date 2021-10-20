@@ -32,7 +32,14 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useHistory } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
-
+import { makeStyles } from '@mui/styles';
+import Paper from '@mui/material/Paper';
+const useStyles = makeStyles({
+  paper: {
+    background: 'black',
+    color: 'white'
+  }
+});
 const drawerWidth = 240;
 
 const Search = styled('div')(({ theme }) => ({
@@ -131,6 +138,7 @@ export default function PersistentDrawerLeft(props) {
   const history = useHistory();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const styles = useStyles();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -331,6 +339,7 @@ export default function PersistentDrawerLeft(props) {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+     
       <Drawer
         sx={{
           
@@ -340,7 +349,9 @@ export default function PersistentDrawerLeft(props) {
             width: drawerWidth,
             boxSizing: 'border-box',
           },
+         
         }}
+        classes={{ paper: styles.paper }}
         variant="persistent"
         anchor="left"
         open={open}
@@ -351,50 +362,50 @@ export default function PersistentDrawerLeft(props) {
             {theme.direction === 'ltr' ? <CloseIcon sx={{color: 'white'}}/> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
-        
-        <List sx={{ backgroundColor: '#006666',color: 'white'}}>
+       
+        <List sx={{ backgroundColor: '#006666 !important',color: 'white'}}>
+            <Divider sx={{height:'1px', backgroundColor: 'white'}}/>
             
-            <Divider sx={{height:'5px', backgroundColor: 'white'}}/>
-            <ListItem button key="Home" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/home')}>
+              <ListItem button key="Home" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/home')}>
               <ListItemIcon sx={{ color: 'white' }}>
                 <HomeIcon/>
               </ListItemIcon>
               <ListItemText primary="Home" />
             </ListItem>
-            
-            <Divider sx={{height:'5px', backgroundColor: 'white'}}/>
-            <ListItem button key="Dashboard" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/dashboard')}>
+            <Divider sx={{height:'1px', backgroundColor: 'white'}}/>
+           
+             <ListItem button key="Dashboard" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/dashboard')}>
               <ListItemIcon sx={{ color: 'white' }}>
                 <DashboardIcon/>
               </ListItemIcon>
               <ListItemText primary="Dashboard" />
             </ListItem>
-
-            <Divider sx={{height:'5px', backgroundColor: 'white'}} />
-            <ListItem button key="Upcoming exams" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/schedule')}>
+            <Divider sx={{height:'1px', backgroundColor: 'white'}}/>
+           
+             <ListItem button key="Upcoming exams" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/schedule')}>
               <ListItemIcon sx={{ color: 'white' }}>
                 <UpcomingIcon/>
               </ListItemIcon>
               <ListItemText primary="Calendar" />
             </ListItem>
-
-            <Divider sx={{height:'5px',backgroundColor: 'white'}}/>
+            <Divider sx={{height:'1px', backgroundColor: 'white'}}/>
+           
             <ListItem button key="Courses" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/courses')}>
               <ListItemIcon sx={{ color: 'white' }}>
                 <SchoolIcon/>
               </ListItemIcon>
               <ListItemText primary="Courses" />
             </ListItem>
-
-            <Divider sx={{height:'5px', backgroundColor: 'white'}}/>
-            <ListItem button key="Settings" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/settings')}>
+            <Divider sx={{height:'1px', backgroundColor: 'white'}}/>
+           
+             <ListItem button key="Settings" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/settings')}>
               <ListItemIcon sx={{ color: 'white' }}>
                 <SettingsIcon/>
               </ListItemIcon>
               <ListItemText primary="Settings" />
             </ListItem>
 
-            <Divider sx={{height:'5px', backgroundColor: 'white'}}/>
+            <Divider sx={{height:'1px', backgroundColor: 'white'}}/>
             <ListItem button key="Help" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/help')}>
               <ListItemIcon sx={{ color: 'white' }}>
                 <HelpIcon/>
@@ -402,9 +413,9 @@ export default function PersistentDrawerLeft(props) {
               <ListItemText primary="Help" />
             </ListItem>
 
-            
           
         </List>
+    
         
        
       </Drawer>
