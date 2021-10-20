@@ -41,7 +41,7 @@
 .exams li {
     padding: 20px;
     margin: 3px;
-    border-radius: 5px;
+    border-radius: 5px 5px 25px 25px;
     font-size: 20px;
     cursor: pointer;
     color: var(--font-color);

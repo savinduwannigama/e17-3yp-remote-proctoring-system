@@ -32,7 +32,7 @@ const domain = 'meet.jit.si';
 const options = {
     roomName: roomName,
     width: 800,
-    height: 400,
+    height: 440,
     userInfo: {
         email: userEmail,
         displayName: displayName,
@@ -101,7 +101,7 @@ downloadButton.addEventListener('click', () => {
 
 
     if (offlineEnd == 0) {
-        statusArray.push(offlineStart + " to -");
+        statusArray.push(offlineStart + " to until end");
     }
     if (record) {
         var time = date.format(new Date(), 'DD MMM YYYY HH_mm_ss');
