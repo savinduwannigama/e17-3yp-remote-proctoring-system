@@ -189,8 +189,6 @@ mark {
 
 .mainInner div {
     display: table-cell;
-    /* height: 100%; */
-    height: fit-content;
     border-radius: 40px;
     letter-spacing: 1.25px;
     background-color: rgba(38, 168, 170, 0.22);
@@ -214,6 +212,18 @@ mark {
     cursor: pointer;
     justify-content: center;
     background-color: var(--header-color);
+}
+
+.preloader {
+    top: 0;
+    left: 0;
+    z-index: 8;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
 }
 
 

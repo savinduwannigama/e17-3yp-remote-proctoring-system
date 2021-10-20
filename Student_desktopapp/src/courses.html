@@ -66,8 +66,12 @@
         </ul>
     </nav>
     <!--body starts here-->
+    <div class=preloader>
+        <img src='img/icons/Line-Preloader.gif' style='width:400px; height:auto' />
+    </div>
+
     <div class="separator3"></div>
-    <button type="button" class="btn btn-default waves-effect waves-light" onclick="sortCourse()">Sort by Course Code</button>
+    <button type="button" id='sortbtn' class="btn btn-default waves-effect waves-light" onclick="sortCourse()">Sort by Course Code</button>
     <input type="text" id="myInput" onkeyup="findCourse()" placeholder="Search for a course name...">
 
     <div class="cards-bg">
@@ -107,6 +111,8 @@
             </div>
         </div>
     </div>
+    <script>
+    </script>
 </body>
 
 </html>

@@ -15,42 +15,17 @@ var regerror = document.getElementById('reg-error');
 check.addEventListener('change', function() {
     if (this.checked) {
         setTimeout(function() {
-            resetPlaceholder(textBoxes);
             loginpage.style.display = 'none';
             regpage.style.display = 'block'
         }, 300)
 
     } else {
         setTimeout(function() {
-            resetPlaceholder(textBoxes);
             loginpage.style.display = 'block';
             regpage.style.display = 'none'
         }, 300)
     }
 });
-
-
-/****** change place holder color to red ***************/
-/* see the loginpage.css for the css */
-function changePlaceholderColor(textBoxes) {
-    for (var i = 0; i < textBoxes.length; i++) {
-        if (textBoxes[i].type == "text" || textBoxes[i].type == "password") {
-            if (!textBoxes[i].value) {
-                textBoxes[i].className = "user-input Red";
-            }
-        }
-    }
-}
-
-function resetPlaceholder(textBoxes) {
-    for (var i = 0; i < textBoxes.length; i++) {
-        if (textBoxes[i].type == "text" || textBoxes[i].type == "password") {
-            if (!textBoxes[i].value) {
-                textBoxes[i].className = "user-input Gray";
-            }
-        }
-    }
-}
 
 /********* user input validation ***********/
 function validatePassword(p) {
@@ -85,7 +60,10 @@ var login = document.getElementById("login");
 login.addEventListener('click', function(e) {
     e.preventDefault()
 
-
+    if (!(navigator.onLine)) {
+        logerror.innerText = "You are offline"
+        return;
+    }
 
     var logemail = document.getElementById("log-email");
     if (!(validateEmail(logemail.value))) {
@@ -132,6 +110,10 @@ var register = document.getElementById("register");
 register.addEventListener('click', function(e) {
     e.preventDefault()
 
+    if (!(navigator.onLine)) {
+        regerror.innerText = "You are offline"
+        return;
+    }
     var regemail = document.getElementById("reg-email");
     var regpassword = document.getElementById("reg-password");
     var confirmpassword = document.getElementById("confirm-password");

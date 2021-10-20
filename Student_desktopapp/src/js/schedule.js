@@ -2,35 +2,43 @@ var displayName = document.getElementById('display-name');
 var showevent = document.getElementById("show-event");
 var popup = document.getElementById("popup");
 var span = popup.getElementsByTagName('span');
+var preloader = document.querySelector('.preloader');
+var joinbtn = document.getElementById('join-exam');
+
+var timenow;
 var examArray = [];
 var eventArray = [];
 
-axios({
-        method: 'get',
-        url: 'http://143.244.139.140:5000/api/student/exams/self',
-        responseType: 'json',
-        headers: {
-            'Authorization': "BEARER " + sessionStorage.getItem('token'),
-        }
-
-    })
-    .then((response) => {
-        examArray = response.data
-        addEvents(examArray);
-        nextExam(examArray);
-
-
-    })
-    .catch(function(error) {
-        if (error.response) {
-            console.log(error.response)
-            if (error.response.data.error = "TokenExpiredError: jwt expired") {
-                ipc.send('timeOut');
+if (navigator.onLine) {
+    axios({
+            method: 'get',
+            url: 'http://143.244.139.140:5000/api/student/exams/self',
+            responseType: 'json',
+            headers: {
+                'Authorization': "BEARER " + sessionStorage.getItem('token'),
             }
 
-        };
+        })
+        .then((response) => {
+            examArray = response.data
+            preloader.style.visibility = 'hidden'
+            addEvents(examArray);
+            nextExam(examArray);
 
-    });
+
+        })
+        .catch(function(error) {
+            if (error.response) {
+                console.log(error.response)
+                if (error.response.data.error = "TokenExpiredError: jwt expired") {
+                    ipc.send('timeOut');
+                }
+
+            };
+
+        });
+}
+
 
 function createEvents() {
     var calendarEl = document.getElementById('calendar');
@@ -52,6 +60,13 @@ function createEvents() {
             displayName.value = sessionStorage.getItem('name')
             sessionStorage.setItem('roomName', examArray[id][0].room_name)
             sessionStorage.setItem('videoPath', examArray[id][0].recordedStudentVideosAt)
+            timenow = new Date();
+
+            if (info.event.start - now > 3600000 * 24 * 30) {
+                joinbtn.disabled = true
+            } else {
+                joinbtn.disabled = false
+            }
             showevent.click()
 
         },
@@ -64,16 +79,23 @@ function createEvents() {
     calendar.render();
 };
 
-function addEvents(array) {
-    console.log(array)
-    for (var i = 0; i < array.length; i++) {
+/************** add events to calendar event array ****************/
 
-        eventArray.push({ title: array[i][0].exam, start: array[i][1].startTime.split('Z')[0], id: i, allDay: false });
+function addEvents(array) {
+    for (var i = 0; i < array.length; i++) {
+        timenow = new Date();
+        var examtime = new Date(array[i][1].startTime.split('Z')[0])
+        console.log(examtime)
+        if (examtime > timenow) {
+            eventArray.push({ title: array[i][0].exam, start: array[i][1].startTime.split('Z')[0], id: i, allDay: false });
+        }
     }
     createEvents();
 }
 
+/********************** join exam room *******************/
 function joinExam() {
+    if (!(navigator.onLine)) return;
     sessionStorage.setItem('displayName', displayName.value);
     ipc.send('exam room')
 }
@@ -82,22 +104,29 @@ function joinExam() {
 
 function nextExam(array) {
     var now = new Date()
-    var examIndex;
+    var examIndex = -1;
     var nextexam, exam;
-    console.log(array)
+
     if (array.length == 0) {
         sessionStorage.setItem('nextExamAt', '-1');
         sessionStorage.setItem('nextExam', 'no exam');
         return
     }
-    nextexam = new Date(array[0][1].startTime)
+
+    nextexam = now.getTime() + 60 * 60 * 24 * 365 * 1000;
 
     for (var i = 0; i < array.length; i++) {
-        exam = new Date(array[i][1].startTime)
-        if (exam - now > 0 && exam < nextexam) {
+        exam = new Date(array[i][1].startTime.split('Z')[0])
+        if (exam > now && exam < nextexam) {
             nextexam = exam;
             examIndex = i;
         }
+    }
+
+    if (examIndex == -1) {
+        sessionStorage.setItem('nextExamAt', '-1');
+        sessionStorage.sertItem('nextExam', 'no exam')
+        return
     }
 
     sessionStorage.setItem('nextExamAt', nextexam / 1000);
