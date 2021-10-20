@@ -17,6 +17,9 @@ function Login ()  {
     const[img,setImg] = useState("");
     const[reqfail,setReq]=useState("");
     const[failure,setFailure]=useState("");
+    if(localStorage.getItem("ptoken")){
+      localStorage.removeItem("ptoken")
+    }
     const responseGoogle = (response) => {
       console.log(response.profileObj)
       

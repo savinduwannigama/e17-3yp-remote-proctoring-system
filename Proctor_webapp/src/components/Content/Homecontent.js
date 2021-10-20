@@ -17,6 +17,10 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function Renderer ()  {
+  const minute = 1000 * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
+  const year = day * 365;
   var exams =[];
   const [data, setData] = useState('');
   const [inv,setInv]=useState('');
@@ -61,18 +65,26 @@ function Renderer ()  {
   
   if(data.all_exams){
     const trail= data.all_exams.map(t => {
-      //console.log(t.exam_room);
+      //console.log(t.exam_room)
+      const currentdate = new Date().toISOString()
+      console.log("current date and time",currentdate)
       
       const newduty = t['duty'].replace(/\s/g , "_").toLowerCase();
       //console.log("new duty",newduty)
       const entry = {exam:t['exam_name'],duty: newduty}
       exams.push(entry)
       const starttime = t['exam_startTime'];
+      console.log("exam name", t['exam_name'])
+      const dif = Date.parse(new Date(starttime)) - Date.parse(new Date(currentdate))
+      console.log("time difference in hours from now to exam",dif/hour)
+      const difinhours = dif/hour;
       const utctime = new Date(starttime).toUTCString()
       const roomname = t["exam_room_name"];
       console.log(roomname)
+      if(difinhours>= -120){
       return(
-        <Card sx={{width: "45%", height:"60vh" ,color:"black",margin:"auto",marginBottom:"40px", backgroundColor:"#00666633",padding:"15px",fontSize:"15px",borderRadius:"32px", display:"inline"}}>
+        
+        <Card sx={{width: "45%",color:"black",margin:"auto",marginBottom:"40px", backgroundColor:"#00666633",padding:"15px",fontSize:"15px",borderRadius:"32px", display:"inline"}}>
             <div className="card-body" >
                 <h4 className="card-title">{t['exam_name']}</h4>
                 <Stack>
@@ -81,15 +93,21 @@ function Renderer ()  {
                   <Item> Start time: {utctime}</Item>
                   <Item>Duration: {t['exam_duration']} </Item>
                   <Item>Room name: {t["exam_room_name"]}</Item>
+                  {difinhours<=502 && 
+                     <Item sx={{textAlign:"center"}}><Link to={{pathname:'/meeting',state:{roomname: roomname}}} className="nav-link" >Join Examination</Link> </Item>
+                  }
+                  {difinhours>502 && 
+                    <Item sx={{textAlign:"center"}}>The link will be available 2 hours before the exam</Item>
+                 
                   
-                  <Item sx={{textAlign:"center"}}><Link to={{pathname:'/meeting',state:{roomname: roomname}}} className="nav-link" >Join Examination</Link> </Item>
-                  
+                  }
+                 
                 </Stack>
                 
             </div>
        
         </Card>
-      )
+      )}
     })
     console.log("exams to be stored",exams)
     const jsonexams= JSON.stringify(exams)
