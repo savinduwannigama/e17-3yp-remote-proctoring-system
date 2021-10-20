@@ -32,7 +32,7 @@ const domain = 'meet.jit.si';
 const options = {
     roomName: roomName,
     width: 800,
-    height: 400,
+    height: 440,
     userInfo: {
         email: userEmail,
         displayName: displayName,

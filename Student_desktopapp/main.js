@@ -24,18 +24,18 @@ function createWindow() {
     const mainWindow = new BrowserWindow({
         width: 800,
         height: 480,
-        minimizable: false,
-        maximizable: false,
-        resizable: false,
-        movable: false,
+        // minimizable: false,
+        // maximizable: false,
+        // resizable: false,
+        // movable: false,
         icon: "src/img/appicon3_YGz_icon.ico",
 
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
             enableRemoteModule: true,
-            //devTools: true,
-            devTools: false,
+            devTools: true,
+            //devTools: false,
         }
     })
     mainWindow.setAlwaysOnTop(true, 'screen');
