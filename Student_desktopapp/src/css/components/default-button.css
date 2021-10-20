@@ -20,6 +20,10 @@
     transition: 0.2s ease-out;
 }
 
+.btn:disabled {
+    background-color: rgb(185, 183, 183);
+}
+
 .z-depth-1,
 .btn,
 .btn-floating {

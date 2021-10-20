@@ -81,7 +81,7 @@ function createWindow() {
     mainWindow.loadFile('src/loginpage.html')
 
     // Open the DevTools.
-    //mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 
     // Load pages
     ipc.on('Login', () => { mainWindow.loadFile('src/loginpage.html') })

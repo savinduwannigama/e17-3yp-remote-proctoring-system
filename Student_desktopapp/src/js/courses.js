@@ -1,42 +1,50 @@
 //var courseJSON = '[{"shortname": "E20-2023","fullname": "CO321-2021 : Embedded systems","department": "CO", "coordinator": "Dr.ABC EFG","semester": 5,"hasExam": true},{"shortname": "E17-2021","fullname": "CO322-2021 : Data Structure and Algorithms","department": "CO", "coordinator": "Dr.ABC EFG","semester": 5,"hasExam": true}]'
 var courseArray //= JSON.parse(courseJSON);
 var popup = document.getElementById("popup");
-var span = popup.getElementsByTagName('span')
-var link = document.getElementById("show")
+var span = popup.getElementsByTagName('span');
+var link = document.getElementById("show");
+var preloader = document.querySelector('.preloader');
 var btn, btncount
 
 /******************* save token and direct to home page ************************/
-
-axios({
-        method: 'get',
-        url: 'http://143.244.139.140:5000/api/student/courses/self',
-        responseType: 'json',
-        headers: {
-            'Authorization': "BEARER " + sessionStorage.getItem('token'),
-        }
-
-    })
-    .then((response) => {
-        console.log(response);
-        courseArray = response.data
-        makeCourseList();
-    })
-    .catch(function(error) {
-        if (error.response) {
-            console.log(error.response)
-            if (error.response.data.error = "TokenExpiredError: jwt expired") {
-                ipc.send('timeOut');
+if (navigator.onLine) {
+    axios({
+            method: 'get',
+            url: 'http://143.244.139.140:5000/api/student/courses/self',
+            responseType: 'json',
+            headers: {
+                'Authorization': "BEARER " + sessionStorage.getItem('token'),
             }
-        };
 
-    });
+        })
+        .then((response) => {
+            console.log(response);
+            courseArray = response.data
+            preloader.style.visibility = 'hidden'
+            makeCourseList();
+        })
+        .catch(function(error) {
+            if (error.response) {
+                console.log(error.response)
+                if (error.response.data.error = "TokenExpiredError: jwt expired") {
+                    ipc.send('timeOut');
+                }
+            };
 
+        });
+
+}
 
 function sortCourse() {
     var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
     list = document.getElementById("cards");
+    b = document.getElementsByTagName("Li");
+
     switching = true;
     dir = "asc";
+
+    if (!b) return
+
     while (switching) {
         switching = false;
         b = list.getElementsByTagName("LI");
@@ -77,6 +85,7 @@ function findCourse() {
     ul = document.getElementById("cards");
     li = ul.getElementsByTagName('li');
 
+    if (!b) return;
     // Loop through all list items, and hide those who don't match the search query
     for (i = 0; i < li.length; i++) {
         name = li[i].getElementsByTagName("p")[1];
