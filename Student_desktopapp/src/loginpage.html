@@ -11,6 +11,7 @@
 
     <script defer src="js/data/userdetails.js"></script>
     <script defer src="js/data/nextExam.js"></script>
+    <script defer src="js/data/serverselection.js"></script>
     <script defer src="js/loginpage.js"></script>
     <script defer src="js/components/default-button.js"></script>
 
@@ -24,6 +25,12 @@
                 <div id='frontimg'>
                     <img src='img/frontimg.png'>
                 </div>
+            </div>
+            <div id='server-connection'>
+                <p id='display-server'></p>
+                <!-- <button onclick='changeServer()'>Change server</button>
+                <button onclick="refresh()">refresh</button> -->
+
             </div>
             <!-- <div class="logo">
                 <img class="image" src="img/appicon3.png">
@@ -86,8 +93,27 @@
                     </form>
                 </div>
             </div>
+            <div id='server-selection'>
+                <h3>Select or add the server you want to connect</h3>
+                <div id='connections'></div>
+
+
+                <div id='new-server' style='display:none'>
+                    <input maxlength="50" id='server-name' placeholder='Enter a name for the server'></input>
+                    <button type="button" id='add'><i class='bi bi-plus'></i></button>
+                    <input maxlength="128" id='server-url' placeholder='Enter a URL for the server'></input>
+                    <button type="button" id='cancle'><i class='bi bi-x'></i></button>
+                </div>
+                <div class='submit'>
+                    <button id='addbtn' class='btn btn-default waves-effect waves-light'>Add new Server</button>
+                </div>
+
+            </div>
         </div>
     </div>
+    </div>
+    <script>
+    </script>
 </body>
 
 </html>
