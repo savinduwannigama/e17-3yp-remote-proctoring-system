@@ -110,7 +110,7 @@ const handlesuccess=()=>{
                   
                      <div style={{float:"right"}}>
                          
-                        <IconButton aria-label="delete" color="neutral" size="large" id={s['email']} onClick={handleClick} name={s['name']}>
+                        <IconButton aria-label="delete" color="neutral" size="large" id={s['email']} onClick={handleClick} name={s['name']}> 
                             <DeleteIcon />
                         </IconButton>
                         
@@ -126,7 +126,7 @@ const handlesuccess=()=>{
               })}
               </AccordionDetails>}
           </Accordion>
-          <Confirm open={open} name={name} close={handleClose} email={email} success={handlesuccess} user="student"/>
+          <Confirm open={open} name={name} close={handleClose} email={email} success={handlesuccess} user="student" label="Email Address"/>
           </div>
           
           <hr style={{background:"#006666",height:"5px"}}/>

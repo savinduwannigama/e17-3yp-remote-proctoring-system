@@ -31,7 +31,7 @@ const theme = createTheme({
     },
   },
 });
-function Showproctor() {
+function Showcourses() {
   const [reqfail,setReqfail]=useState('')
   const [failure,setFail] = useState('')
   const [suc,setSuc]=useState('')
@@ -71,13 +71,12 @@ const handlesuccess=()=>{
  const handleClose=()=>{
      setOpen(false);
  }
-  let proctors = localStorage.getItem('Proctors')? localStorage.getItem("Proctors"):''
-  let proc = ''
-  proctors =proctors?  JSON.parse(proctors):''
-  return (
+ let courses = localStorage.getItem('Admincourses')? localStorage.getItem("Admincourses"):''
+ let cour = ''
+ courses =courses?  JSON.parse(courses):''
+ return (
         <div style={{textAlign:"center", fontSize:"15px"}}>
-          
-             {suc && <div  style={{textAlign:"center",color:"#006666"}}>Proctor Deleted successfully!</div>}
+             {suc && <div  style={{textAlign:"center",color:"#006666"}}>Course Deleted successfully!</div>}
 
           <div style={{width:"50%", display: 'flex',margin:"auto"}}>
          
@@ -86,30 +85,32 @@ const handlesuccess=()=>{
                 expandIcon={<ExpandMoreIcon />}
             >
             
-            Proctors already added to the system : Total ({proctors.length})
-            </AccordionSummary>
-            {proctors.length!==0 && <AccordionDetails>
-              {proc = proctors.map(p=>{
+            Courses already added to the system : Total ({courses.length})
+           </AccordionSummary>
+            {courses.length!==0  && <AccordionDetails>
+              {cour = courses.map(c=>{
                   return(
-                    <Accordion id = {p['name']}>
+                    <Accordion id = {c['shortname']}>
                       <AccordionSummary
                           expandIcon={<ExpandMoreIcon />}
                       >
-                      {p['name']}
+                      {c['shortname']}
                      </AccordionSummary>
                      <AccordionDetails style={{justifyContent:"flex-start"}}>
                        <Typography align="left" sx={{fontFamily:"Sansita"}}>
-                      Email address :  {p['email']}
+                      Course code : {c['shortname']}
+                        <br/>
+                     Full name :  {c['fullname']}
                       <br/>
-                      Department : {p['department']}
+                      Department : {c['department']}
                       <br/>
-                      Already registered : {p['isRegistered']===false? 'No':'Yes'}
+                      Has scheduled exams : {c['hasExam']===false? 'No':'Yes'}
                      </Typography>
                      <ThemeProvider theme={theme}>
                   
                      <div style={{float:"right"}}>
                          
-                        <IconButton aria-label="delete" color="neutral" size="large" id={p['email']} onClick={handleClick} name={p['name']}>
+                        <IconButton aria-label="delete" color="neutral" size="large" id={c['shortname']} onClick={handleClick} name={c['fullname']}> 
                             <DeleteIcon />
                         </IconButton>
                         
@@ -125,7 +126,7 @@ const handlesuccess=()=>{
               })}
               </AccordionDetails>}
           </Accordion>
-          <Confirm open={open} name={name} close={handleClose} email={email} success={handlesuccess} user="proctor" label="Email Address"/>
+          <Confirm open={open} name={name} close={handleClose} email={email} success={handlesuccess} user="course" label="Course code"/>
           </div>
           
           <hr style={{background:"#006666",height:"5px"}}/>
@@ -140,4 +141,4 @@ const handlesuccess=()=>{
     )
 }
 
-export default Showproctor
+export default Showcourses

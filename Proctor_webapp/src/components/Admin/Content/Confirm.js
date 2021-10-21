@@ -34,7 +34,8 @@ export default function FormDialog(props) {
     
   const [proctors,setProctors]=useState('');
   const [students,setStudents] = useState('');
-  console.log("pathfile",path[0]['path'])
+  const [courses,setCourses] = useState('')
+  //console.log("pathfile",path[0]['path'])
   const[email,setEmail] = useState('')
   const[error,setError] = useState('')
   const[suc,setSuc]=useState('')
@@ -42,11 +43,20 @@ export default function FormDialog(props) {
  
   const handleConfirm = () => {
     console.log("confirm clicked")
-    if(email ==='' ){
-        setError("Please confirm the email address")
+    if(props.label==="Email Address" && email ==='' ){
+        
+            setError("Please confirm the email address")
+       
     }
-    else if(email !== props.email){
+    else if(props.label==="Email Address" && email !== props.email){
         setError("Emails don't match")
+    }
+   
+    else if(props.label==="Course code" && email === ''){
+        setError("Please confirm the course code")
+    }
+    else if(props.label==="Course code" && email !== props.email){
+        setError("Course codes don't match. Please recheck the spaces and case of the letters in the code you entered")
     }
 
     
@@ -68,6 +78,9 @@ export default function FormDialog(props) {
              }
              else if(props.user ==='student'){
                 setStudents(resp.data)
+             }
+             else if(props.user === 'course'){
+                 setCourses(resp.data)
              }
              
             // handlesuccess();
@@ -98,17 +111,25 @@ export default function FormDialog(props) {
     console.log("json proctors",jsonProctors)
     localStorage.setItem("Proctors",jsonProctors)
 }
-if(suc===1 && props.user==='student'){
+else if(suc===1 && props.user==='student'){
     const jsonStudents = JSON.stringify(students);
     console.log("json students",jsonStudents)
     localStorage.setItem("Students",jsonStudents)
+}
+else if(suc===1 && props.user==='course'){
+    const jsonCourses = JSON.stringify(courses);
+    console.log("json courses",jsonCourses)
+    localStorage.setItem("Admincourses",jsonCourses)
 }
 
 
 
   const handleChange=(event)=>{
-    setEmail(event.target.value)
-    console.log(email)
+      
+        setEmail(event.target.value)
+        console.log(email)
+      
+   
 
   }
   
@@ -123,14 +144,14 @@ if(suc===1 && props.user==='student'){
             Are you sure you want to delete the {props.user} with the following details? <br/>
             <div style ={{paddingLeft:"10%",color:"black"}}>
             Name: {props.name}<br/>
-            Email address: {props.email} <br/>
+            {props.label}: {props.email} <br/>
             
            </div>
            
             </div>
             <br/>
            <DialogContentText sx={{fontFamily:"Sansita", color:"black", textAlign:"center"}}>
-               Please re-confirm your decision by typing the email address of the {props.user} to be deleted.
+               Please re-confirm your decision by typing the {props.label.toLowerCase()} of the {props.user} to be deleted.
            </DialogContentText>
            <ThemeProvider theme={theme}>   
           <TextField
@@ -138,7 +159,7 @@ if(suc===1 && props.user==='student'){
             autoFocus
             margin="dense"
             id="name"
-            label="Email Address"
+            label={props.label}
             type="email"
             fullWidth
             variant="standard"
