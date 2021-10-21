@@ -404,8 +404,8 @@ router.post('/students/multiple', async (req, res, next) => {
                     if(failItr == 0) {
                         res.json({status: 'success', message: 'Added ' + succItr + ' students', createdEntry})
                     }
-                    else {
-                        res.json({status: 'failure', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
+                    else {  // if it comes here, there's atleast one successful addition
+                        res.json({status: 'success', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
                     }
                 }
             })
@@ -414,11 +414,14 @@ router.post('/students/multiple', async (req, res, next) => {
                 console.log("Error occured: " + err);
                 failItr += 1;
                 if((succItr + failItr + emptyLines) >= totalItr) {
-                    if(failItr == 0) {
+                    if(failItr == 0) {  // no failures
                         res.json({status: 'success', message: 'Added ' + succItr + ' students', createdEntry})
                     }
-                    else {
-                        res.json({status: 'failure', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
+                    else if (succItr != 0){  // both failures and succeses
+                        res.json({status: 'success', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
+                    }
+                    else {  // no successes, all failures
+                        res.json({status: 'failure', message: 'All entered students are duplicate entries'})
                     }
                 }
 
@@ -428,11 +431,14 @@ router.post('/students/multiple', async (req, res, next) => {
             emptyLines += 1;
             // console.log({emptyline: 'yes', num: record.details[i][0], succItr, failItr, emptyLines});
             if((succItr + failItr + emptyLines) >= totalItr) {
-                if(failItr == 0) {
+                if(failItr == 0) {  // no failures
                     res.json({status: 'success', message: 'Added ' + succItr + ' students', createdEntry})
                 }
-                else {
-                    res.json({status: 'failure', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
+                else if (succItr != 0){  // both failures and succeses
+                    res.json({status: 'success', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
+                }
+                else {  // no successes, all failures
+                    res.json({status: 'failure', message: 'All entered students are duplicate entries'})
                 }
             }
         }
