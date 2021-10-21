@@ -57,7 +57,7 @@ export default function FormDialog(props) {
         axios.delete(`${path[0]['path']}admin/proctors/single/${props.email}`).then(resp=>{
             console.log("response after deleting",resp.data)
             setSuc(1)
-            axios.get('http://143.244.139.140:5000/api/admin/proctors/all'
+            axios.get(`${path[0]['path']}admin/proctors/all`
             /*,{ headers: {
                'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
              }}*/
