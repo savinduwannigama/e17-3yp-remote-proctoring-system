@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const path = require('path');
+
 
 // importing the mongoose models ///////////////////////////////////////////////////////////////////////////////
 
@@ -178,6 +180,13 @@ router.post('/profilePicture', protectStudent, (req, res) => {
             return res.status(400).json({status: 'failure', message: 'Error occured when trying to upload image', error: String(err)});  
         }
         else {
+            if(req.file == undefined) {
+                return res.status(400).json({status: 'failure', message: 'File object undefined. Please upload an image'}); 
+            }
+            const extens = path.extname(req.file.originalname);  // extension of the uploaded file
+            if(extens != '.png' && extens != '.jpeg' && extens != '.jpg') {
+                return res.status(400).json({status: 'failure', message: 'Invalid file extension. Please upload an image with extension .jpeg/.jpg/.png'}); 
+            }
             req.student.profile_picture = '/profile_pictures/' + req.file.filename;
             req.student.save()
             .then(() => {
@@ -186,7 +195,7 @@ router.post('/profilePicture', protectStudent, (req, res) => {
             })
             .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying the update the user s profile_picture field', error: String(err)}))
         }
-    })
+    });
 });
 
 
