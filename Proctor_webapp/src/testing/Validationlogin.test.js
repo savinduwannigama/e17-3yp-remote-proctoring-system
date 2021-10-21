@@ -1,5 +1,5 @@
 import React from "react";
-import {render, fireEvent} from "@testing-library/react";
+import {render, fireEvent, screen} from "@testing-library/react";
 import Validatelogin from "../components/Validationlogin";
 import { shallow, mount, configure} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -84,8 +84,8 @@ describe("login",()=>{
         const pwdError3 = getByText("Password should contain at least one digit");
         expect(pwdError3).toBeInTheDocument();
     });
-    /*test("Input fields are in correct format",()=>{
-        const {getByLabelText,getByText} = mount(<Validatelogin.WrappedComponent history={historyMock} next={'/home'} path={'proctor/login'} user={'proctor'}/>);
+    /*test("Password validation",()=>{
+        const {getByLabelText,getByText} = render(<Validatelogin.WrappedComponent />)//history={historyMock} next={'/home'} path={'proctor/login'} user={'proctor'}/>);
         
         const emailInputNode = getByLabelText("Email");
         const passwordInput = getByLabelText("Password");
@@ -93,10 +93,13 @@ describe("login",()=>{
         expect(passwordInput.value).toMatch("");
 
         fireEvent.change(emailInputNode,{target:{value:"proctor1@eng.pdn.ac.lk"}});
-        fireEvent.change(passwordInput,{target:{value:"12345678a"}});
+        fireEvent.change(passwordInput,{target:{value:"123456789a"}});
         const button = getByText("SIGN IN");
         fireEvent.click(button);
-        expect(historyMock.push.mock.calls[0]).toEqual(['/home' ]);
+        
+        await screen.findByText("Invalid credentials");
+        //expect(pwdError).toBeInTheDocument();
+        //expect(historyMock.push.mock.calls[0]).toEqual(['/home' ]);
         //expect(mockHistoryPush).toHaveBeenCalledWith('/home');
     });*/
 

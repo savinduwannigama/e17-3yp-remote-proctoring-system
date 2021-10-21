@@ -12,6 +12,7 @@ import Addproctor from './Addproctor';
 import AddStudent from './AddStudent'
 import Addcourse from './Addcourse';
 import Addexam from './Addmastersheet';
+import Showproctor from './ShowProctor';
 
 //import PropTypes from "prop-types";
 const theme = createTheme({
@@ -38,28 +39,28 @@ function getSteps() {
       case 0:
         return (
             <div style={{margin:"auto"}}>
-               <p style={{fontSize:"15px"}}>Step 1</p>
-                <Addproctor/>
+               <p style={{fontSize:"15px"}}></p>
+                <Showproctor/>
             </div>
         );
       case 1:
         return (
           <div style={{margin:"auto"}}>
-                <p style={{fontSize:"15px"}}>Step 2</p>
+                <p style={{fontSize:"15px"}}></p>
                 <AddStudent/>
             </div>
         )
       case 2:
         return (
           <div style={{margin:"auto"}}>
-                <p style={{fontSize:"15px"}}>Step 3</p>
+                <p style={{fontSize:"15px"}}></p>
                <Addcourse/>
             </div>
         )
       case 3:
         return (
           <div style={{margin:"auto"}}>
-                <p style={{fontSize:"15px"}}>Step 4</p>
+                <p style={{fontSize:"15px"}}></p>
                <Addexam/>
             </div>
         )
@@ -120,7 +121,7 @@ function getSteps() {
                 onClick={handleStep(0)}
                 completed={completed[0]}
               >
-                Add Proctors
+                Show/Delete Proctors
               </StepButton>
               </ThemeProvider>
             </Step>
@@ -131,7 +132,7 @@ function getSteps() {
                 onClick={handleStep(1)}
                 completed={completed[1]}
               >
-                Add Students
+                Show/Delete Students
               </StepButton>
               </ThemeProvider>
             </Step>
@@ -142,7 +143,7 @@ function getSteps() {
                 onClick={handleStep(2)}
                 completed={completed[2]}
               >
-                Add Course
+                Show/Delete Courses
               </StepButton>
               </ThemeProvider>
             </Step>
@@ -154,13 +155,14 @@ function getSteps() {
                 onClick={handleStep(3)}
                 completed={completed[3]}
               >
-                Schedule Exam
+                Show/Delete Exams
               </StepButton>
               </ThemeProvider>
             </Step>
           
         </Stepper>
-        <div>
+        {getStepContent(activeStep)}
+       { /*<div>
           {allStepsCompleted() ? (
             <div>
               All steps completed - you&apos;re finished
@@ -197,7 +199,7 @@ function getSteps() {
               </div>
             </div>
           )}
-        </div>
+                      </div>*/}
       </div>
     );
   }

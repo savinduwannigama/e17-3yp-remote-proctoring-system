@@ -5,6 +5,7 @@ import "../css/Admin.css"
 import NavBar from './AdminAppBar';
 import Box from '@mui/material/Box';
 import axios from 'axios';
+import Errorcomp from '../components/Content/Error'
 function Adminhome() {
     const [fail, setfail] = useState('');
     const [proctors,setProctors]=useState('');
@@ -117,7 +118,7 @@ function Adminhome() {
             <Adminbtn btnname="Add Proctors" value="proctors" url="proctors/multiple"/>
             </ButtonGroup>
             </Box>
-            
+            {fail && <Errorcomp/>}
         </div>
         
     )

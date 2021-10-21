@@ -246,8 +246,10 @@ class Validationlogin extends React.Component {
               autoComplete="off"
               onSubmit={this.handleSubmit}
         >
-           {this.state.reqfail && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please register using an authorized email</p></div>}
+           {this.state.reqfail && this.state.failure!=='Invalid credentials' &&<div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please Sign in using an authorized email</p></div>}
+           {this.state.reqfail && this.state.failure==='Invalid credentials'  && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Email or Password is incorrect</p></div>}
         
+      
           <ThemeProvider theme={theme}>   
             <TextField 
             color="neutral"
