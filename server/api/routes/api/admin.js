@@ -183,6 +183,20 @@ router.post('/login', (req, res) => {
 
 });
 
+// API call to upload profile picture
+router.post('/profilePicture', (req, res) => {
+    upload(req, res, (err) => {
+        if(err) {
+            console.log('Error occured when calling the upload function');
+            return res.status(400).json({status: 'failure', message: 'Error occured when trying to upload image', error: String(err)});  
+        }
+        else {
+            console.log(req.file);
+            res.json({status: 'success', message: 'Uploaded profile picture', createdEntry: req.file});
+        }
+    })
+});
+
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
