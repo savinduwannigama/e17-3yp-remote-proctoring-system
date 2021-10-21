@@ -12,16 +12,20 @@
 }
 
 #join-exam {
-    background-color: rgb(40, 192, 73);
+    margin-left: 0px !important;
+    border-radius: 0px 5px 5px 0px;
 }
 
 #display-name {
     width: 200px;
     border: 2px solid rgb(40, 192, 73);
+    border-radius: 5px 0px 0px 5px;
     padding: 5px;
-    height: 12px;
-    border-radius: 5px;
+    height: 26px;
+    margin-right: 0px;
     outline: none;
+    background-color: var(--bg-color);
+    color: var(--font-color);
 }
 
 ::placeholder {

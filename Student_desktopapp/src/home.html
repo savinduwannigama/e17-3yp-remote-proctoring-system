@@ -5,8 +5,12 @@
     <title>Connexa</title>
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/components/default-button.css">
+
     <script defer src="js/header.js"></script>
     <script defer src="js/home.js"></script>
+    <script defer src="js/components/default-button.js"></script>
+
 </head>
 
 <body onload="display_ct();">
@@ -47,7 +51,7 @@
     <nav class="menu" tabindex="0">
         <div class="smartphone-menu-trigger"></div>
         <header class="avatar">
-            <img id="avatar" class="online" src="img/user.jpg" />
+            <img id="avatar" class="online" src="img/avatar/user.png" />
             <h2 id="user_name">USER</h2>
         </header>
         <ul id="list">
@@ -65,21 +69,24 @@
     <div class="separator2"></div>
     <div class="mainInner">
 
-        <div class="test">
+        <div class="test waves-effect waves-light">
             <img id='testcam' src="img/icons/video-camera (1).png">
             <img id='testmic' src="img/icons/microphone (1).png">
             <p>Test Your Equipments</p>
         </div>
-        <div class="test">
+        <div class="test waves-effect waves-light">
             <img id='examschedule' src="img/icons/event (1).png">
             <p>See Your Exam Schedule</p>
         </div>
     </div>
     <div class="mainInner">
-        <div class="exams">
+        <div class="exams waves-effect waves-light" id='exams'>
             <p class=sec-title>up coming exam</p>
             <hr>
-            <p id='next-exam'></p>
+            <ul>
+                <li id='next-exam'></li>
+            </ul>
+
         </div>
 
     </div>

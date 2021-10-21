@@ -2,10 +2,6 @@
     background-color: rgb(185, 183, 183);
 }
 
-#download {
-    background-color: rgb(228, 18, 18);
-}
-
 #status {
     display: initial;
     text-align: center;
@@ -23,7 +19,10 @@
 
 .notRec,
 .Rec {
-    position: absolute;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 10;
     width: 15px;
     height: 15px;
     font-size: 0;

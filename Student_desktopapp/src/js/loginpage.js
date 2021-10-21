@@ -15,42 +15,17 @@ var regerror = document.getElementById('reg-error');
 check.addEventListener('change', function() {
     if (this.checked) {
         setTimeout(function() {
-            resetPlaceholder(textBoxes);
             loginpage.style.display = 'none';
             regpage.style.display = 'block'
         }, 300)
 
     } else {
         setTimeout(function() {
-            resetPlaceholder(textBoxes);
             loginpage.style.display = 'block';
             regpage.style.display = 'none'
         }, 300)
     }
 });
-
-
-/****** change place holder color to red ***************/
-/* see the loginpage.css for the css */
-function changePlaceholderColor(textBoxes) {
-    for (var i = 0; i < textBoxes.length; i++) {
-        if (textBoxes[i].type == "text" || textBoxes[i].type == "password") {
-            if (!textBoxes[i].value) {
-                textBoxes[i].className = "user-input Red";
-            }
-        }
-    }
-}
-
-function resetPlaceholder(textBoxes) {
-    for (var i = 0; i < textBoxes.length; i++) {
-        if (textBoxes[i].type == "text" || textBoxes[i].type == "password") {
-            if (!textBoxes[i].value) {
-                textBoxes[i].className = "user-input Gray";
-            }
-        }
-    }
-}
 
 /********* user input validation ***********/
 function validatePassword(p) {
@@ -85,7 +60,15 @@ var login = document.getElementById("login");
 login.addEventListener('click', function(e) {
     e.preventDefault()
 
+    if (!(navigator.onLine)) {
+        logerror.innerText = "You are offline"
+        return;
+    }
 
+    if (!localStorage.serverIP) {
+        logerror.innerText = "select the server you want to log in"
+        return
+    }
 
     var logemail = document.getElementById("log-email");
     if (!(validateEmail(logemail.value))) {
@@ -100,10 +83,11 @@ login.addEventListener('click', function(e) {
     }
 
     /******************* save token and direct to home page ************************/
+    var serverIP = localStorage.getItem('serverIP')
 
     axios({
             method: 'post',
-            url: 'http://143.244.139.140:5000/api/student/login',
+            url: 'http://' + serverIP + '/api/student/login',
             responseType: 'json',
             data: {
                 "email": logemail.value,
@@ -120,11 +104,14 @@ login.addEventListener('click', function(e) {
             if (error.response) {
                 logerror.innerHTML = "* " + error.response.data.message;
 
-            };
+            } else {
+                logerror.innerHTML = "* " + error
+            }
         });
 
-})
 
+
+});
 /************** registration validation ****************/
 
 var register = document.getElementById("register");
@@ -132,6 +119,14 @@ var register = document.getElementById("register");
 register.addEventListener('click', function(e) {
     e.preventDefault()
 
+    if (!(navigator.onLine)) {
+        regerror.innerText = "You are offline"
+        return;
+    }
+    if (!localStorage.serverIP) {
+        regerror.innerText = "select the server you want to sign in"
+        return
+    }
     var regemail = document.getElementById("reg-email");
     var regpassword = document.getElementById("reg-password");
     var confirmpassword = document.getElementById("confirm-password");
@@ -155,10 +150,10 @@ register.addEventListener('click', function(e) {
         return;
     }
     /******************* save token and direct to home page ************************/
-
+    var serverIP = localStorage.getItem('serverIP')
     axios({
             method: 'post',
-            url: 'http://143.244.139.140:5000/api/student/register',
+            url: 'http://' + serverIP + '/api/student/login',
             responseType: 'json',
             data: {
                 "email": regemail.value,
@@ -167,14 +162,18 @@ register.addEventListener('click', function(e) {
             },
         })
         .then((response) => {
-
+            localStorage.setItem('email', regemail.value);
             ipc.send('Login');
         })
         .catch(function(error) {
             if (error.response) {
                 regerror.innerHTML = "* " + error.response.data.message;
-            };
+            } else {
+                regerror.innerHTML = "* " + error
+            }
         });
+
+
 
 
 

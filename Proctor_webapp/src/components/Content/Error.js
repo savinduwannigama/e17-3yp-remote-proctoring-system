@@ -20,7 +20,16 @@ export default function AlertDialogSlide(props) {
   };
 
   const handleClose = () => {
+    const rememberMe = localStorage.getItem('prememberMe') === 'true';
     //setOpen(false);
+    if(!rememberMe){
+      localStorage.removeItem("user");
+
+    }
+    localStorage.removeItem("ptoken");
+    localStorage.removeItem("chief_invig courses")
+    localStorage.removeItem("invig courses")
+    localStorage.removeItem("examinations")
     history.push('/signin')
 
   };

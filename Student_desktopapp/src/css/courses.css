@@ -21,6 +21,7 @@
     border-radius: 20px;
     margin: 20px;
     padding: 20px;
+    min-height: 50px;
 }
 
 .sortBtn {
@@ -49,7 +50,7 @@
     width: 200px;
     border: 2px solid var(--header-color);
     padding: 5px;
-    height: 15px;
+    height: 25px;
     border-radius: 5px;
     outline: none;
     color: var(--header-color);
@@ -57,4 +58,8 @@
 
 #show {
     display: none;
+}
+
+.btn {
+    margin-left: 20px!important;
 }

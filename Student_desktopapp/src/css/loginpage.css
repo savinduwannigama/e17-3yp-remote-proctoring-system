@@ -1,4 +1,60 @@
 @import url('https://fonts.googleapis.com/css2?family=Sansita&display=swap');
+@font-face {
+    font-family: DancingScript;
+    src: url('../fonts/DancingScript-Regular.ttf');
+}
+
+.welcome {
+    position: absolute;
+    height: 400px;
+    width: 722px;
+}
+
+.logo {
+    position: absolute;
+    left: 200px;
+    top: 190px;
+}
+
+.logo img {
+    z-index: 10;
+    user-select: none;
+    /* width: 70px;
+    height: 70px; */
+}
+
+.appName {
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    z-index: 10;
+    font-family: DancingScript;
+    text-shadow: 3px 3px rgb(175, 201, 219);
+    color: #109696;
+    font-weight: bold;
+    font-size: 70px!important;
+}
+
+#frontimg {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    width: 300px;
+    height: 320px;
+    top: 70px;
+}
+
+#server-connection {
+    position: absolute;
+    cursor: pointer;
+    z-index: 25;
+    color: rgb(110, 110, 110);
+    width: 200px;
+    height: 60px;
+    left: 50px;
+    top: 80px;
+}
+
 body {
     background: url("../img/icons/desktop1.jpeg");
     background-size: cover;
@@ -13,25 +69,13 @@ body {
     margin-right: -50%;
     transform: translate(-50%, -50%);
     min-height: 400px;
-    min-width: 700px;
+    min-width: 722px;
     border-radius: 20px;
-    background: url("../img/icons/desktop2.jpeg");
+    background: url("../img/background.PNG") left bottom no-repeat;
 }
 
 #inner {
     position: relative;
-}
-
-#welcome {
-    position: absolute;
-    left: 60px;
-    top: 120px;
-}
-
-#welcome p {
-    padding: 0;
-    margin: 0;
-    font-size: 50px;
 }
 
 .switch {
@@ -43,15 +87,23 @@ body {
 
 /************login section***********/
 
-#sign-in-up {
+#sign-in-up,
+#server-selection {
     position: absolute;
     left: 300px;
     top: 10px;
-    width: 390px;
+    width: 410px;
     height: 380px;
+    z-index: 10;
     border-radius: 20px;
-    color: rgb(46, 46, 46);
+    color: rgb(133, 133, 133);
     background-color: rgb(235, 235, 235, 0.46);
+}
+
+#server-selection {
+    background-color: rgb(235, 235, 235);
+    z-index: 12;
+    display: none;
 }
 
 #sign-in-up p {
@@ -68,7 +120,7 @@ body {
 #log-error,
 #reg-error {
     color: red;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 #sign-in {
@@ -81,7 +133,7 @@ body {
 
 h1 {
     margin-top: 0px;
-    color: #109696;
+    color: rgb(158, 158, 158);
 }
 
 .staylogged {
@@ -94,11 +146,12 @@ span {
 }
 
 .user-input {
-    width: 250px;
+    width: 320px;
+    height: 25px;
     padding-bottom: 5px;
     padding-top: 5px;
     padding-left: 10px;
-    font-size: 12px;
+    font-size: 15px;
     cursor: pointer;
     border: 0;
     border-radius: 10px;
@@ -114,27 +167,12 @@ button:focus {
 .submit {
     position: absolute;
     bottom: 10px;
-    left: 170px;
-}
-
-.submit button {
-    background-color: #19adad;
-    min-width: 100px;
-    height: 2rem;
-    border-radius: 12px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border: 0;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+    left: 130px;
 }
 
 span {
     font-weight: normal;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .separator {
@@ -173,14 +211,14 @@ span {
     /*should change*/
 }
 
-label,
+.switch label,
 .toggle {
     height: 2rem;
     border-radius: 12px;
     float: right;
 }
 
-label {
+.switch label {
     background-color: white;
     border-radius: 12px;
     position: relative;
@@ -196,7 +234,7 @@ label {
 }
 
 .names {
-    width: 83%;
+    width: 80%;
     margin: 0;
     padding-left: 15px;
     position: absolute;
@@ -239,14 +277,7 @@ label {
     color: rgb(82, 80, 80);
 }
 
-.Red::placeholder {
-    color: red;
-    font-size: 12px;
-    word-wrap: normal;
-    /* Most modern browsers support this now. */
-}
-
-.Gray::placeholder {
+::placeholder {
     color: gray;
     font-size: 12px;
     word-wrap: normal;
@@ -260,4 +291,82 @@ form i {
     font-size: 16px;
     margin-left: -35px;
     cursor: pointer;
+}
+
+
+/************ change server ************/
+
+#server-selection h3 {
+    font-weight: normal;
+    padding-left: 20px;
+}
+
+#connections {
+    height: 200px;
+    width: 400px;
+    overflow-y: scroll;
+}
+
+.item {
+    margin: 10px;
+}
+
+.item span {
+    font-size: 12px;
+}
+
+.item p {
+    color: #fff;
+    font-size: 15px;
+    width: 340px;
+    margin: 0;
+    padding: 5px;
+    padding-left: 10px;
+    margin-left: 10px;
+    background-color: #109696;
+}
+
+.serverinfo:active {
+    background-color: red;
+}
+
+.delete {
+    border: none;
+    cursor: pointer;
+}
+
+.item i {
+    font-size: 15px;
+    color: rgb(110, 110, 110);
+}
+
+.item button {
+    margin-left: 15px;
+}
+
+#new-server input {
+    width: 310px;
+    height: 20px;
+    margin: 0 0 5px 20px;
+    border: 2px solid #109696;
+    border-radius: 5px;
+}
+
+#new-server button {
+    border: none;
+    border-radius: 5px;
+}
+
+#new-server i {
+    font-size: 18px;
+    font-weight: bolder;
+    color: #fff;
+}
+
+#add {
+    background-color: rgb(45, 230, 45);
+}
+
+#cancle {
+    background-color: rgb(216, 43, 43);
 }

@@ -9,6 +9,7 @@ import logo from '../appicon3.png'
 import axios from 'axios';
 import Validationlogin from './Validationlogin';
 import '../css/login.css';
+import path from './jsonfiles/path.json'
 
 function Adminlogin() {
     const history = useHistory();
@@ -37,7 +38,7 @@ function Adminlogin() {
        // history.push("/adminhome")
     }
     if(email!=='' && pwd !==''){
-      const url = `http://143.244.139.140:5000/api/admin/login`
+      const url = `${path[0]['path']}admin/login`
       
       console.log("email set",email);
       console.log("password set",pwd);
@@ -127,7 +128,7 @@ function Adminlogin() {
     <Divider>Or</Divider>
     <br/>
     </div>
-    <Validationlogin next={'/adminhome'} path={'admin/login'} user={'admin'}/>
+    <Validationlogin next={'/admin/home'} path={'admin/login'} user={'admin'}/>
     <Link to="/" style={{fontSize:"15px", color:"#3b3a3a"}}>Return to Portal</Link>
             <br/><br/><br/>
     
