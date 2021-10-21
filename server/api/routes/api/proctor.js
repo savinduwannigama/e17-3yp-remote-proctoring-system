@@ -175,6 +175,13 @@ router.post('/profilePicture', protectProctor, (req, res) => {
             return res.status(400).json({status: 'failure', message: 'Error occured when trying to upload image', error: String(err)});  
         }
         else {
+            if(req.file == undefined) {
+                return res.status(400).json({status: 'failure', message: 'File object undefined. Please upload an image'}); 
+            }
+            const extens = path.extname(req.file.originalname);  // extension of the uploaded file
+            if(extens != '.png' && extens != '.jpeg' && extens != '.jpg') {
+                return res.status(400).json({status: 'failure', message: 'Invalid file extension. Please upload an image with extension .jpeg/.jpg/.png'}); 
+            }
             req.proctor.profile_picture = '/profile_pictures/' + req.file.filename;
             req.proctor.save()
             .then(() => {
