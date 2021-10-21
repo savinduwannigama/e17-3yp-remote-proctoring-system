@@ -27,7 +27,8 @@ const { protectAdmin } = require('../../middleware/adminAuth');
 
 const router = express.Router();
 
-
+// requiring the middleware to upload profile pictures
+const upload = require('./../../middleware/uploadProfPic');
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -180,6 +181,25 @@ router.post('/login', (req, res) => {
     //     res.status(406).json({status: 'failure', error: error.message});
     // }
 
+});
+
+// API call to upload profile picture
+router.post('/profilePicture', protectAdmin, (req, res) => {
+    upload(req, res, (err) => {
+        if(err) {
+            console.log('Error occured when calling the upload function');
+            return res.status(400).json({status: 'failure', message: 'Error occured when trying to upload image', error: String(err)});  
+        }
+        else {
+            req.admin.profile_picture = '/profile_pictures/' + req.file.filename;
+            req.admin.save()
+            .then(() => {
+                // console.log(req.file);
+                res.json({status: 'success', message: 'Uploaded profile picture', createdEntry: req.file});
+            })
+            .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying the update the user s profile_picture field', error: String(err)}))
+        }
+    })
 });
 
 
@@ -384,8 +404,8 @@ router.post('/students/multiple', async (req, res, next) => {
                     if(failItr == 0) {
                         res.json({status: 'success', message: 'Added ' + succItr + ' students', createdEntry})
                     }
-                    else {
-                        res.json({status: 'failure', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
+                    else {  // if it comes here, there's atleast one successful addition
+                        res.json({status: 'success', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
                     }
                 }
             })
@@ -394,11 +414,14 @@ router.post('/students/multiple', async (req, res, next) => {
                 console.log("Error occured: " + err);
                 failItr += 1;
                 if((succItr + failItr + emptyLines) >= totalItr) {
-                    if(failItr == 0) {
+                    if(failItr == 0) {  // no failures
                         res.json({status: 'success', message: 'Added ' + succItr + ' students', createdEntry})
                     }
-                    else {
-                        res.json({status: 'failure', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
+                    else if (succItr != 0){  // both failures and succeses
+                        res.json({status: 'success', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
+                    }
+                    else {  // no successes, all failures
+                        res.json({status: 'failure', message: 'All entered students are duplicate entries'})
                     }
                 }
 
@@ -408,11 +431,14 @@ router.post('/students/multiple', async (req, res, next) => {
             emptyLines += 1;
             // console.log({emptyline: 'yes', num: record.details[i][0], succItr, failItr, emptyLines});
             if((succItr + failItr + emptyLines) >= totalItr) {
-                if(failItr == 0) {
+                if(failItr == 0) {  // no failures
                     res.json({status: 'success', message: 'Added ' + succItr + ' students', createdEntry})
                 }
-                else {
-                    res.json({status: 'failure', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
+                else if (succItr != 0){  // both failures and succeses
+                    res.json({status: 'success', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
+                }
+                else {  // no successes, all failures
+                    res.json({status: 'failure', message: 'All entered students are duplicate entries'})
                 }
             }
         }
@@ -540,11 +566,14 @@ router.post('/proctors/multiple', (req, res, next) => {
                 console.log("Error occured: " + err);
                 failItr += 1;
                 if((succItr + failItr + emptyLines) >= totalItr) {
-                    if(failItr == 0) {
+                    if(failItr == 0) {  // no failures
                         res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
                     }
-                    else {
-                        res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                    else if (succItr != 0){  // both failures and succeses
+                        res.json({status: 'success', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                    }
+                    else {  // no successes, all failures
+                        res.json({status: 'failure', message: 'All entered proctors are duplicate entries'})
                     }
                 }
             });  
@@ -553,12 +582,15 @@ router.post('/proctors/multiple', (req, res, next) => {
             emptyLines += 1;
             // console.log({emptyline: 'yes', num: record.details[i][0], succItr, failItr, emptyLines});
             if((succItr + failItr + emptyLines) >= totalItr) {
-                if(failItr == 0) {
-                    res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
-                }
-                else {
-                    res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
-                }
+                    if(failItr == 0) {  // no failures
+                        res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
+                    }
+                    else if (succItr != 0){  // both failures and succeses
+                        res.json({status: 'success', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                    }
+                    else {  // no successes, all failures
+                        res.json({status: 'failure', message: 'All entered proctors are duplicate entries'})
+                    }
             }
         }
         // // console.log({succItr, failItr});
@@ -760,11 +792,14 @@ router.post('/courses/mastersheet', async (req, res) => {
                 // errorOccured = true;
                 failItr += 1;
                 if((succItr + failItr + emptyLines) >= totalItr) {
-                    if(failItr == 0) {
+                    if(failItr == 0) {  // no failures
                         res.json({status: 'success', message: 'Added ' + succItr + ' courses', createdEntry})
                     }
-                    else {
-                        res.json({status: 'failure', message: 'Added ' + succItr + ' courses, failed to add ' + failItr + ' courses.', createdEntry})
+                    else if (succItr != 0){  // both failures and succeses
+                        res.json({status: 'success', message: 'Added ' + succItr + ' courses, failed to add ' + failItr + ' courses.', createdEntry})
+                    }
+                    else {  // no successes, all failures
+                        res.json({status: 'failure', message: 'All entered courses are duplicate entries'})
                     }
                 }
                 // next();
@@ -774,11 +809,14 @@ router.post('/courses/mastersheet', async (req, res) => {
             emptyLines += 1;
             // console.log({emptyline: 'yes', num: record.details[i][0], succItr, failItr, emptyLines});
             if((succItr + failItr + emptyLines) >= totalItr) {
-                if(failItr == 0) {
-                    res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
+                if(failItr == 0) {  // no failures
+                    res.json({status: 'success', message: 'Added ' + succItr + ' courses', createdEntry})
                 }
-                else {
-                    res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                else if (succItr != 0){  // both failures and succeses
+                    res.json({status: 'success', message: 'Added ' + succItr + ' courses, failed to add ' + failItr + ' courses.', createdEntry})
+                }
+                else {  // no successes, all failures
+                    res.json({status: 'failure', message: 'All entered courses are duplicate entries'})
                 }
             }
         }

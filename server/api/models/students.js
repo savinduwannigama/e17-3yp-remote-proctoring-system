@@ -10,7 +10,8 @@ const studentsSchema = new mongoose.Schema({
     isRegistered: {type: Boolean, default: false},
     department: {type: String, default: ''},
     // relationship with the devices (HAS)
-    device: {type: String, default: 'No device given'}  // FK | maps to the device that the student has
+    device: {type: String, default: 'No device given'},  // FK | maps to the device that the student has
+    profile_picture: {type: String, default: 'No profile picture'}
 
 }, {collection: 'students'})
 

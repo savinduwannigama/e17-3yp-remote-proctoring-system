@@ -7,7 +7,8 @@ const proctorsSchema = new mongoose.Schema({
     email: {type: String, required: true, unique: true},
     password: {type: String, default: '', select: false},
     isRegistered: {type: Boolean, default: false},
-    department: {type: String, default: ''}
+    department: {type: String, default: ''},
+    profile_picture: {type: String, default: 'No profile picture'}
     
 }, {collection: 'proctors'})
 

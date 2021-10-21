@@ -18,6 +18,9 @@ const exam_rooms = require('../../models/exam_rooms');  // importing the mongoos
 
 const { protectProctor } = require('../../middleware/proctorAuth');
 
+// requiring the middleware to upload profile pictures
+const upload = require('./../../middleware/uploadProfPic');
+
 const router = express.Router();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -164,6 +167,24 @@ router.post('/login', (req, res) => {
 
 });
 
+// API call to upload profile picture
+router.post('/profilePicture', protectProctor, (req, res) => {
+    upload(req, res, (err) => {
+        if(err) {
+            console.log('Error occured when calling the upload function');
+            return res.status(400).json({status: 'failure', message: 'Error occured when trying to upload image', error: String(err)});  
+        }
+        else {
+            req.proctor.profile_picture = '/profile_pictures/' + req.file.filename;
+            req.proctor.save()
+            .then(() => {
+                // console.log(req.file);
+                res.json({status: 'success', message: 'Uploaded profile picture', createdEntry: req.file});
+            })
+            .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying the update the user s profile_picture field', error: String(err)}))
+        }
+    })
+});
 
 
 

@@ -36,6 +36,9 @@ var usersRouter = require('./routes/users');
 var adminsRouter = require('./routes/api/admin');
 var proctorsRouter = require('./routes/api/proctor');
 var studentsRouter = require('./routes/api/student');
+const { rejects } = require('assert');
+
+
 
 const app = express();
 
