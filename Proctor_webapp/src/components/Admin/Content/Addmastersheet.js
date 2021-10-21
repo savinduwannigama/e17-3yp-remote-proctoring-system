@@ -89,7 +89,7 @@ function Addcourse() {
       }}
     >
            <ButtonGroup  orientation="vertical" sx={{display:"block",marginLeft: "auto",  marginRight: "auto"}}>
-           <Adminbtn btnname="Add MasterSheet" value="mastersheet" url="exams/mastersheet" />
+           <Adminbtn btnname="Add MasterSheet" value="mastersheet" url="exams/mastersheet" user="exams" />
              </ButtonGroup>
         </Box>
         <hr style={{background:"#006666",height:"5px"}}/>

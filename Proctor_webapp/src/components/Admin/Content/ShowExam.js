@@ -1,11 +1,9 @@
 import React,{useState}  from 'react'
 import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
+
 import Confirm from './Confirm'
 import DeleteIcon from '@mui/icons-material/Delete';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Adminbtn from '../../Adminbtn'
-import Box from '@mui/material/Box';
+
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -13,9 +11,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import '../../../css/hide.css';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import axios from 'axios';
+
 const theme = createTheme({
   status: {
     danger: '#e53e3e',
@@ -31,7 +27,7 @@ const theme = createTheme({
     },
   },
 });
-function Showproctor() {
+function Showexams() {
   const [reqfail,setReqfail]=useState('')
   const [failure,setFail] = useState('')
   const [suc,setSuc]=useState('')
@@ -71,13 +67,12 @@ const handlesuccess=()=>{
  const handleClose=()=>{
      setOpen(false);
  }
-  let proctors = localStorage.getItem('Proctors')? localStorage.getItem("Proctors"):''
-  let proc = ''
-  proctors =proctors?  JSON.parse(proctors):''
-  return (
+ let exams = localStorage.getItem('Adminexams')? localStorage.getItem("Adminexams"):''
+  let ex = ''
+  exams =exams?  JSON.parse(exams):''
+ return (
         <div style={{textAlign:"center", fontSize:"15px"}}>
-          
-             {suc && <div  style={{textAlign:"center",color:"#006666"}}>Proctor Deleted successfully!</div>}
+             {suc && <div  style={{textAlign:"center",color:"#006666"}}>Course Deleted successfully!</div>}
 
           <div style={{width:"50%", display: 'flex',margin:"auto"}}>
          
@@ -86,30 +81,34 @@ const handlesuccess=()=>{
                 expandIcon={<ExpandMoreIcon />}
             >
             
-            Proctors already added to the system : Total ({proctors.length})
-            </AccordionSummary>
-            {proctors.length!==0 && <AccordionDetails>
-              {proc = proctors.map(p=>{
+            Exams already added to the system : Total ({exams.length})
+         </AccordionSummary>
+            {exams.length!==0  && <AccordionDetails>
+              {ex = exams.map(e=>{
                   return(
-                    <Accordion id = {p['name']}>
+                    <Accordion id = {e['name']}>
                       <AccordionSummary
                           expandIcon={<ExpandMoreIcon />}
                       >
-                      {p['name']}
+                      {e['name']}
                      </AccordionSummary>
                      <AccordionDetails style={{justifyContent:"flex-start"}}>
                        <Typography align="left" sx={{fontFamily:"Sansita"}}>
-                      Email address :  {p['email']}
+                      Name : {e['name']}
+                        <br/>
+                      Course :  {e['course']}
                       <br/>
-                      Department : {p['department']}
+                      Course coordinator : {e['course_coordinator']}
                       <br/>
-                      Already registered : {p['isRegistered']===false? 'No':'Yes'}
-                     </Typography>
+                      Start date : {new Date(e['startTime']).toUTCString()}
+                      <br/>
+                      Duration : {e['duration']}
+                       </Typography>
                      <ThemeProvider theme={theme}>
                   
                      <div style={{float:"right"}}>
                          
-                        <IconButton aria-label="delete" color="neutral" size="large" id={p['email']} onClick={handleClick} name={p['name']}>
+                        <IconButton aria-label="delete" color="neutral" size="large" id={e['name']} onClick={handleClick} name={e['course']}> 
                             <DeleteIcon />
                         </IconButton>
                         
@@ -125,7 +124,7 @@ const handlesuccess=()=>{
               })}
               </AccordionDetails>}
           </Accordion>
-          <Confirm open={open} name={name} close={handleClose} email={email} success={handlesuccess} user="proctor" label="Email Address" title="Name"/>
+          <Confirm open={open} name={name} close={handleClose} email={email} success={handlesuccess} user="exam" label="Exam name" title = "Course code"/>
           </div>
           
           <hr style={{background:"#006666",height:"5px"}}/>
@@ -140,4 +139,4 @@ const handlesuccess=()=>{
     )
 }
 
-export default Showproctor
+export default Showexams

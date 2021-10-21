@@ -34,7 +34,8 @@ export default function FormDialog(props) {
     
   const [proctors,setProctors]=useState('');
   const [students,setStudents] = useState('');
-  const [courses,setCourses] = useState('')
+  const [courses,setCourses] = useState('');
+  const [exams,setExams] = useState('')
   //console.log("pathfile",path[0]['path'])
   const[email,setEmail] = useState('')
   const[error,setError] = useState('')
@@ -56,9 +57,16 @@ export default function FormDialog(props) {
         setError("Please confirm the course code")
     }
     else if(props.label==="Course code" && email !== props.email){
+        console.log(props.email)
         setError("Course codes don't match. Please recheck the spaces and case of the letters in the code you entered")
     }
-
+    else if(props.label==="Exam name" && email === ''){
+        setError("Please confirm the exam name")
+    }
+    else if(props.label==="Exam name" && email !== props.email){
+        setError("Exam names don't match. Please recheck the spaces and case of the letters in the name you entered")
+    }
+    
     
     else{
         setError('')
@@ -82,7 +90,9 @@ export default function FormDialog(props) {
              else if(props.user === 'course'){
                  setCourses(resp.data)
              }
-             
+             else if(props.user === 'exam'){
+                 setExams(resp.data)
+             }
             // handlesuccess();
             props.success()
             // window. location. reload(false);
@@ -91,7 +101,7 @@ export default function FormDialog(props) {
              //localStorage.setItem("username",resp.data['name']);
              //sessionStorage.setItem("department",resp.data['department'])
            }).catch(error=>{
-             console.log("Error response",error.response.data["error"])
+             console.log("Error response",error.response)
              setfail(1);
              console.log(fail);
            });
@@ -121,6 +131,11 @@ else if(suc===1 && props.user==='course'){
     console.log("json courses",jsonCourses)
     localStorage.setItem("Admincourses",jsonCourses)
 }
+else if(suc===1 && props.user==='exam'){
+    const jsonExams = JSON.stringify(exams);
+    console.log("json exams",jsonExams)
+    localStorage.setItem("Adminexams",jsonExams)
+}
 
 
 
@@ -143,7 +158,7 @@ else if(suc===1 && props.user==='course'){
             <div sx={{fontFamily:"Sansita",paddingLeft:"20px",color:"black"}}>
             Are you sure you want to delete the {props.user} with the following details? <br/>
             <div style ={{paddingLeft:"10%",color:"black"}}>
-            Name: {props.name}<br/>
+            {props.title}: {props.name}<br/>
             {props.label}: {props.email} <br/>
             
            </div>

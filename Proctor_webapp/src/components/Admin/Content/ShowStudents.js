@@ -126,7 +126,7 @@ const handlesuccess=()=>{
               })}
               </AccordionDetails>}
           </Accordion>
-          <Confirm open={open} name={name} close={handleClose} email={email} success={handlesuccess} user="student" label="Email Address"/>
+          <Confirm open={open} name={name} close={handleClose} email={email} success={handlesuccess} user="student" label="Email Address" title="Name"/>
           </div>
           
           <hr style={{background:"#006666",height:"5px"}}/>

@@ -192,7 +192,7 @@ function Addproctor() {
       }}
     >
            <ButtonGroup  orientation="vertical" sx={{display:"block",marginLeft: "auto",  marginRight: "auto"}}>
-            <Adminbtn btnname="Add Proctors" value="proctors" url="proctors/multiple"/>
+            <Adminbtn btnname="Add Proctors" value="proctors" url="proctors/multiple" user="proctors"/>
             </ButtonGroup>
         </Box>
         <hr style={{background:"#006666",height:"5px"}}/>

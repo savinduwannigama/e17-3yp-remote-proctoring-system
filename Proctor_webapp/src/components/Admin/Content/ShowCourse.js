@@ -1,11 +1,9 @@
 import React,{useState}  from 'react'
 import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
+
 import Confirm from './Confirm'
 import DeleteIcon from '@mui/icons-material/Delete';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Adminbtn from '../../Adminbtn'
-import Box from '@mui/material/Box';
+
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -13,9 +11,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import '../../../css/hide.css';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import axios from 'axios';
+
 const theme = createTheme({
   status: {
     danger: '#e53e3e',
@@ -126,7 +122,7 @@ const handlesuccess=()=>{
               })}
               </AccordionDetails>}
           </Accordion>
-          <Confirm open={open} name={name} close={handleClose} email={email} success={handlesuccess} user="course" label="Course code"/>
+          <Confirm open={open} name={name} close={handleClose} email={email} success={handlesuccess} user="course" label="Course code" title="Name"/>
           </div>
           
           <hr style={{background:"#006666",height:"5px"}}/>
