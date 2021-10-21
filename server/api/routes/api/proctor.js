@@ -710,6 +710,22 @@ router.put('/proctors/self', protectProctor, (req, res) => {
     .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to read self proctor record", error: String(err)}));
 });
 
+// API call to set recentExam of proctor
+// replaces the proctor's previous recentExam
+router.post('/proctors/self/recentExam', protectProctor, (req, res) => {
+    if (req.body.recentExam == undefined) {
+        return res.status(400).json({status: 'failure', message: 'recentExam in request body undefined'})
+    }
+    req.proctor.recentExam = req.body.recentExam;
+    
+    // console.log(req.body.recentExam);
+
+    req.proctor.save()
+    .then(() => res.json({status: 'success', message: 'Added new recentExam', updatedEntry: req.proctor.recentExam}))
+    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save the updated recentExam', error: String(err)}));
+   
+});
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module.exports = router;
