@@ -8,7 +8,7 @@ const adminsSchema = new mongoose.Schema({
     password: {type: String, default: '', select: false},
     isRegistered: {type: Boolean, default: false},
     role: {type: String, required: true},
-    profile_picture: String
+    profile_picture: {type: String, default: 'No profile picture'}
 
 }, {collection: 'admins'})
 

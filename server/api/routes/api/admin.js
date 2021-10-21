@@ -184,15 +184,20 @@ router.post('/login', (req, res) => {
 });
 
 // API call to upload profile picture
-router.post('/profilePicture', (req, res) => {
+router.post('/profilePicture', protectAdmin, (req, res) => {
     upload(req, res, (err) => {
         if(err) {
             console.log('Error occured when calling the upload function');
             return res.status(400).json({status: 'failure', message: 'Error occured when trying to upload image', error: String(err)});  
         }
         else {
-            console.log(req.file);
-            res.json({status: 'success', message: 'Uploaded profile picture', createdEntry: req.file});
+            req.admin.profile_picture = '/profile_pictures/' + req.file.filename;
+            req.admin.save()
+            .then(() => {
+                console.log(req.file);
+                res.json({status: 'success', message: 'Uploaded profile picture', createdEntry: req.file});
+            })
+            .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying the update the user s profile_picture field', error: String(err)}))
         }
     })
 });
