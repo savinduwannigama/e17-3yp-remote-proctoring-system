@@ -72,7 +72,7 @@ const handlesuccess=()=>{
   exams =exams?  JSON.parse(exams):''
  return (
         <div style={{textAlign:"center", fontSize:"15px"}}>
-             {suc && <div  style={{textAlign:"center",color:"#006666"}}>Course Deleted successfully!</div>}
+             {suc && <div  style={{textAlign:"center",color:"#006666"}}>Exam Deleted successfully!</div>}
 
           <div style={{width:"50%", display: 'flex',margin:"auto"}}>
          
