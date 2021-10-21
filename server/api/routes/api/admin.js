@@ -373,7 +373,9 @@ router.post('/students/single', (req, res) => {
 // receiving object => {"uploaded file": "students", "details": [[], [], [start], ..., [end]]}
 router.post('/students/multiple', async (req, res, next) => {
     const record = req.body;
-    console.log('Request body: ' + record);
+    // console.log('Request body: ' + record);
+    if(record.uploaded_file != 'students')
+        return res.status(400).json({status: 'failure', message: 'Please upload the correct sheet to add students'});
     // console.log(record.details[0][0]);
     const createdEntry = [];
 
@@ -526,6 +528,9 @@ router.delete('/students/all', (req, res) => {
 // receiving object => {"uploaded_file": "students", "details": [[], [], [start], ..., [end]]}
 router.post('/proctors/multiple', (req, res, next) => {
     const record = req.body;
+    // checking if the uploaded mastersheet is the correct one
+    if(record.uploaded_file != 'proctors')
+        return res.status(400).json({status: 'failure', message: 'Please upload the correct sheet to add proctors'});
     // console.log('Request body: ' + record);
     // console.log(record.details[0][0]);
     const createdEntry = [];
@@ -743,6 +748,11 @@ router.post('/courses/single', (req, res) => {
 // receiving object => {"uploaded file": "courses", "details": [[], [start], [], ..., [end]]}
 router.post('/courses/mastersheet', async (req, res) => {
     const record = req.body;
+
+    // checking if the uploaded mastersheet is the correct one
+    if(record.uploaded_file != 'courses')
+        return res.status(400).json({status: 'failure', message: 'Please upload the correct sheet to add courses'});
+
     // console.log('Request body: ' + record);
     var createdEntry = [];
     // var errorOccured = false;
@@ -1015,6 +1025,11 @@ router.get('/devices/all', (req, res) => {
 // the course of the exam should exist in the courses collection prior to adding an exam
 router.post('/exams/mastersheet', async (req, res) => {
     const record = req.body;
+
+    // checking if the uploaded mastersheet is the correct one
+    if(record.uploaded_file != 'mastersheet')
+        return res.status(400).json({status: 'failure', message: 'Please upload the correct sheet to add exams'});
+
     // console.log('Request body: ' + record);
     var distinct_exam_rooms = [];
 
