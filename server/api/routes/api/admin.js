@@ -792,11 +792,14 @@ router.post('/courses/mastersheet', async (req, res) => {
                 // errorOccured = true;
                 failItr += 1;
                 if((succItr + failItr + emptyLines) >= totalItr) {
-                    if(failItr == 0) {
+                    if(failItr == 0) {  // no failures
                         res.json({status: 'success', message: 'Added ' + succItr + ' courses', createdEntry})
                     }
-                    else {
-                        res.json({status: 'failure', message: 'Added ' + succItr + ' courses, failed to add ' + failItr + ' courses.', createdEntry})
+                    else if (succItr != 0){  // both failures and succeses
+                        res.json({status: 'success', message: 'Added ' + succItr + ' courses, failed to add ' + failItr + ' courses.', createdEntry})
+                    }
+                    else {  // no successes, all failures
+                        res.json({status: 'failure', message: 'All entered courses are duplicate entries'})
                     }
                 }
                 // next();
@@ -806,11 +809,14 @@ router.post('/courses/mastersheet', async (req, res) => {
             emptyLines += 1;
             // console.log({emptyline: 'yes', num: record.details[i][0], succItr, failItr, emptyLines});
             if((succItr + failItr + emptyLines) >= totalItr) {
-                if(failItr == 0) {
-                    res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
+                if(failItr == 0) {  // no failures
+                    res.json({status: 'success', message: 'Added ' + succItr + ' courses', createdEntry})
                 }
-                else {
-                    res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                else if (succItr != 0){  // both failures and succeses
+                    res.json({status: 'success', message: 'Added ' + succItr + ' courses, failed to add ' + failItr + ' courses.', createdEntry})
+                }
+                else {  // no successes, all failures
+                    res.json({status: 'failure', message: 'All entered courses are duplicate entries'})
                 }
             }
         }
