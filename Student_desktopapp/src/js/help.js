@@ -14,7 +14,7 @@ function registerCollapses(collapse) {
         if (cl.classList && cl.classList.contains(collapse.prefix)) {
             let nodeList = [...cl.childNodes].filter((cn) => cn.nodeName == "DIV");
             nodeList[0].dataset.toggle = idCount;
-            nodeList[0].dataset.after = ">";
+            // nodeList[0].dataset.after = ">";
             nodeList[1].dataset.id = idCount;
             idCount++;
         }
@@ -28,7 +28,7 @@ function registerClickHandler(collapse) {
             const id = c.dataset.toggle;
             const body = document.querySelector(`[data-id="${id}"]`);
             [...collapses].forEach((t) => {
-                t.dataset.after = ">";
+                // t.dataset.after = ">";
             });
             const bodies = document.getElementsByClassName(`${collapse.prefix}-body`);
             [...bodies].forEach((b) => {
@@ -36,7 +36,7 @@ function registerClickHandler(collapse) {
             });
             if (body.style.display == "none") {
                 body.style.display = "block";
-                c.dataset.after = "^";
+                // c.dataset.after = "^";
             } else {
                 body.style.display = "none";
             }

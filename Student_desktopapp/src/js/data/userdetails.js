@@ -1,7 +1,8 @@
 function saveData() {
+    var serverIP = localStorage.getItem('serverIP')
     axios({
             method: 'get',
-            url: 'http://143.244.139.140:5000/api/student/students/self',
+            url: 'http://' + serverIP + '/api/student/students/self',
             responseType: 'json',
             headers: {
                 'Authorization': "BEARER " + sessionStorage.getItem('token'),

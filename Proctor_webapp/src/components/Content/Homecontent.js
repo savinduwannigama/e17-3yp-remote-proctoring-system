@@ -9,6 +9,7 @@ import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import axios from "axios";
 import Loader from "../Content/Loader"
+import path from '../jsonfiles/path.json'
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -17,10 +18,15 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function Renderer ()  {
+  const minute = 1000 * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
+  const year = day * 365;
+  var exams =[];
   const [data, setData] = useState('');
   const [inv,setInv]=useState('');
   useEffect(() => {
-    axios.get('http://143.244.139.140:5000/api/proctor/exams/self',
+    axios.get(`${path[0]['path']}proctor/exams/self`,
     { headers: {
        'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
      }}
@@ -33,7 +39,7 @@ function Renderer ()  {
      console.log("Error response",error.response.data["error"])
       
     });
-    axios.get('http://143.244.139.140:5000/api/proctor/exams/invigilator/self',
+    /*axios.get('http://143.244.139.140:5000/api/proctor/exams/invigilator/self',
     { headers: {
        'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
      }}
@@ -45,7 +51,7 @@ function Renderer ()  {
     }).catch(error=>{
      console.log("Error response",error.response.data["error"])
       
-    });
+    });*/
     // Run! Like go get some data from an API.
   }, []);
   console.log("Exams", jsonData)
@@ -60,13 +66,26 @@ function Renderer ()  {
   
   if(data.all_exams){
     const trail= data.all_exams.map(t => {
-      //console.log(t.exam_room);
+      //console.log(t.exam_room)
+      const currentdate = new Date().toISOString()
+      console.log("current date and time",currentdate)
+      
+      const newduty = t['duty'].replace(/\s/g , "_").toLowerCase();
+      //console.log("new duty",newduty)
+      const entry = {exam:t['exam_name'],duty: newduty}
+      exams.push(entry)
       const starttime = t['exam_startTime'];
+      console.log("exam name", t['exam_name'])
+      const dif = Date.parse(new Date(starttime)) - Date.parse(new Date(currentdate))
+      console.log("time difference in hours from now to exam",dif/hour)
+      const difinhours = dif/hour;
       const utctime = new Date(starttime).toUTCString()
       const roomname = t["exam_room_name"];
       console.log(roomname)
+      if(difinhours>= -120){
       return(
-        <Card sx={{width: "45%", height:"60vh" ,color:"black",margin:"auto",marginBottom:"40px", backgroundColor:"#00666633",padding:"15px",fontSize:"15px",borderRadius:"32px", display:"inline"}}>
+        
+        <Card sx={{width: "45%",color:"black",margin:"auto",marginBottom:"40px", backgroundColor:"#00666633",padding:"15px",fontSize:"15px",borderRadius:"32px", display:"inline"}}>
             <div className="card-body" >
                 <h4 className="card-title">{t['exam_name']}</h4>
                 <Stack>
@@ -75,27 +94,27 @@ function Renderer ()  {
                   <Item> Start time: {utctime}</Item>
                   <Item>Duration: {t['exam_duration']} </Item>
                   <Item>Room name: {t["exam_room_name"]}</Item>
+                  {difinhours<=502 && 
+                     <Item sx={{textAlign:"center"}}><Link to={{pathname:'/meeting',state:{roomname: roomname}}} className="nav-link" >Join Examination</Link> </Item>
+                  }
+                  {difinhours>502 && 
+                    <Item sx={{textAlign:"center"}}>The link will be available 2 hours before the exam</Item>
+                 
                   
-                  <Item sx={{textAlign:"center"}}><Link to={{pathname:'/meeting',state:{roomname: roomname}}} className="nav-link" >Join Examination</Link> </Item>
-                  
+                  }
+                 
                 </Stack>
-                 {/* <h2 className="card-text">{t.location} </h2>
-                    <h4 className="card-text">{t.summary} </h4>
-<ul className="list-group list-group-flush">
-            <li className="list-group-item">Difficulty: {t.difficulty}</li>
-            <li className="list-group-item">Length: {t.length} miles</li>
-            <li className="list-group-item">Ascent: {t.ascent} ft, Descent: {t.descent} ft</li>
-            <li className="list-group-item">Conditions: {t.conditionStatus}, {t.conditionDetails} </li>
-            <li className="list-group-item">High: {t.high} ft, Low: {t.low}</li>
-            <li className="list-group-item">Stars: {t.stars}</li>
-            <li className="list-group-item"><a href={t.url} target="_blank" rel="noopener noreferrer" className="card-link">Trail Information</a></li>
-      </ul>*/}
+                
             </div>
        
         </Card>
-      )
+      )}
     })
+    console.log("exams to be stored",exams)
+    const jsonexams= JSON.stringify(exams)
+    localStorage.setItem("examinations",jsonexams)
     return(
+      
       <Box sx={{ flexGrow:1 }}>
       <Grid container rowSpacing={6} >
         
@@ -105,7 +124,9 @@ function Renderer ()  {
         
     </Box>
     )
+
   }
+  
   else{
     return(
       <div style={{textAlign:"center"}}>

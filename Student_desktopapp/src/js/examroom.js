@@ -39,7 +39,7 @@ const options = {
     },
     configOverwrite: {
         startWithAudioMuted: false,
-        startWithVideoMuted: false,
+        startWithVideoMuted: true,
         enableWelcomePage: false,
         prejoinPageEnabled: false,
         //startSilent: true,
@@ -101,7 +101,7 @@ downloadButton.addEventListener('click', () => {
 
 
     if (offlineEnd == 0) {
-        statusArray.push(offlineStart + " to -");
+        statusArray.push(offlineStart + " to until end");
     }
     if (record) {
         var time = date.format(new Date(), 'DD MMM YYYY HH_mm_ss');
@@ -228,7 +228,7 @@ function additem(data) {
         items.unshift(data);
         localStorage.setItem('examdetails', JSON.stringify(items));
         if (items.length === 11) {
-            items.pop(); //the last item in the array is removed. So length is 3
+            items.pop(); //the last item in the array is removed. So length is 10
             localStorage.setItem('examdetails', JSON.stringify(items));
         }
     }

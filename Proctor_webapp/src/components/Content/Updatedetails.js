@@ -12,7 +12,8 @@ import axios from "axios";
 import Errorcomp from "./Error"
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { margin } from '@mui/system';
+import path from '../jsonfiles/path.json'
+import InputAdornment from '@mui/material/InputAdornment';
 const Input = styled('input')({
     display: 'none',
   });
@@ -35,7 +36,7 @@ const Input = styled('input')({
 export default function ImageAvatars() {
     const history = useHistory();
     const [data, setData] = useState('');
-    const [name,setName] = useState('');
+    const [name,setName] = useState(localStorage.getItem("username"));
     const[success,setSuccess]=useState('');
     const [selected, setselected] = useState('')
     const [fail, setfail] = useState('');
@@ -104,13 +105,14 @@ export default function ImageAvatars() {
         //console.log("inside fileupload handler",selected)
     }*/
     const handleChange= event=> {
+      console.log("event value",event.target.value)
         setName(event.target.value)
         console.log("changed",name)
     }
     const handleClick=()=>{
         console.log("inside click",name)
         const email = localStorage.getItem("user")
-        axios.put('http://143.244.139.140:5000/api/proctor/proctors/self',
+        axios.put(`${path[0]['path']}proctor/proctors/self`,
         {name: name,email:email},
         { headers: {
             'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
@@ -120,10 +122,11 @@ export default function ImageAvatars() {
             console.log(resp.data)
             localStorage.setItem("username",name)
             setSuccess(1)
-            //window.location.reload(false);
+            window.location.reload(false);
         }
         ).catch(error=>{
             console.log(error.response)
+            setfail(1);
         })
       
   }
@@ -133,7 +136,7 @@ export default function ImageAvatars() {
     {success && <div><p style={{color:"#006666"}}>Changes Saved Successfully!</p></div>}
       
       <ThemeProvider theme={theme}>
-      <Box  sx={{ '& > :not(style)': { m: 1, width: '23ch' }, bgcolor: '#00666633',width:"40%",height:"100%",borderRadius:"32px", padding:"5% 7%",alignItems:"center" }} alignItems="center" >
+      <Box  sx={{ '& > :not(style)': { m: 1, width: '23ch' }, bgcolor: '#00666633',width:"40%",height:"100%",borderRadius:"32px", padding:"5% 8%" }} alignItems="center" >
       <input
 
         src={img}
@@ -171,19 +174,34 @@ export default function ImageAvatars() {
       <TextField
           color="neutral"
           id="filled-read-only-input"
-          label={<><EditIcon/> Full Name</>}
+          label="Full Name"
           defaultValue= {localStorage.getItem("username")}
           onChange={handleChange}
           variant="filled"
+          InputProps={{
+            
+            endAdornment:(
+              <InputAdornment position="end">
+                <EditIcon/>
+              </InputAdornment>
+            )
+          }}
         />
+
+
        
         <TextField
         color="neutral"
           id="filled-read-only-input"
-          label={<><EditOffIcon/>Department</>}
+          label="Department"
           defaultValue= {sessionStorage.getItem("department")}
           InputProps={{
             readOnly: true,
+            endAdornment:(
+              <InputAdornment position="end">
+                <EditOffIcon/>
+              </InputAdornment>
+            )
           }}
           variant="filled"
         />
@@ -191,17 +209,22 @@ export default function ImageAvatars() {
         <TextField
         color="neutral"
           id="filled-read-only-input"
-          label={<><EditOffIcon/>Email Address</>}
+          label="Email Address"
           defaultValue={localStorage.getItem("user")}
           InputProps={{
             readOnly: true,
+            endAdornment:(
+              <InputAdornment position="end">
+                <EditOffIcon/>
+              </InputAdornment>
+            )
           }}
           variant="filled"
         />
      
       <br/><br/>
-      <div style={{margin:"auto", paddingLeft:"100px"}}>
-      <Button  color="neutral" variant="contained" component="span" size="medium" onClick={handleClick}>
+      <div style={{ position: "relative"}}>
+      <Button  color="neutral" variant="contained"  size="medium" onClick={handleClick} sx={{left: "25%"}} >
          Save Changes
          </Button>
       </div>

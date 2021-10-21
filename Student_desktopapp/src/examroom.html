@@ -4,10 +4,14 @@
     <title>Connexa</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/examroom.css">
+    <link rel="stylesheet" href="css/components/default-button.css">
+
     <script src='https://meet.jit.si/external_api.js'></script>
     <script defer src="js/examroom.js"></script>
+    <script defer src="js/components/default-button.js"></script>
 
 </head>
 
@@ -19,7 +23,7 @@
         <span id="errorMsg"></span>
     </div>
     <div class='center'>
-        <button id="download" class='button' disabled>Leave meeting</button>
+        <button id="download" name='download' class='btn btn-red waves-effect waves-light' disabled>Leave meeting</button>
     </div>
 
 </body>

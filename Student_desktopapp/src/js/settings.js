@@ -196,9 +196,10 @@ document.getElementById("username").innerHTML = username;
 document.getElementById("emailaddr").innerHTML = useremail;
 document.getElementById("regno").innerHTML = regno;
 
-var userpic = document.getElementById("profpic");
-userpic.src = localStorage.getItem('useravatar')
-
+var userpic = document.getElementById("profilepic");
+if (localStorage.useravatar) {
+    userpic.src = localStorage.getItem('useravatar')
+}
 
 /*************** change name *******************************/
 document.getElementById("entername").addEventListener("click", () => {
@@ -213,7 +214,7 @@ document.getElementById("entername").addEventListener("click", () => {
         sessionStorage.setItem("name", newname);
         axios({
                 method: 'put',
-                url: 'http://143.244.139.140:5000/api/student/students/self',
+                url: 'http://' + serverIP + '/api/student/students/self',
                 responseType: 'json',
                 headers: {
                     'Authorization': "BEARER " + sessionStorage.getItem('token'),

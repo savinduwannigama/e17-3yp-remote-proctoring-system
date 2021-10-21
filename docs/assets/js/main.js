@@ -215,10 +215,11 @@
     new Swiper('.events-slider', {
         speed: 600,
         loop: true,
-        autoplay: {
-            delay: 15000,
-            disableOnInteraction: false
-        },
+        // autoplay: {
+        //     delay: 15000,
+        //     disableOnInteraction: false
+        // },
+        autoplay: false,
         slidesPerView: 'auto',
         pagination: {
             el: '.swiper-pagination',
