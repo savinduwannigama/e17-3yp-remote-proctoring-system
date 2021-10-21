@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import Loader from "../Content/Loader"
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import Errorcomp from './Error'
-
+import path from '../jsonfiles/path.json'
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -55,7 +55,7 @@ function Dashcontent() {
     }
     
     useEffect(() => {
-        axios.get(`http://143.244.139.140:5000/api/proctor/exams/${duty}/self`,
+        axios.get(`${path[0]['path']}proctor/exams/${duty}/self`,
         { headers: {
            'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
          }}

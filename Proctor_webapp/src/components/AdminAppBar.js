@@ -36,7 +36,13 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 
 import { useHistory } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
-
+import { makeStyles } from '@mui/styles';
+const useStyles = makeStyles({
+  paper: {
+    background: '#006666',
+    color: 'white'
+  }
+});
 const drawerWidth = 240;
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -91,7 +97,7 @@ export default function PrimarySearchAppBar(props) {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
+  const styles = useStyles();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -293,6 +299,7 @@ export default function PrimarySearchAppBar(props) {
             boxSizing: 'border-box',
           },
         }}
+        classes={{ paper: styles.paper }}
         variant="persistent"
         anchor="left"
         open={open}
@@ -306,7 +313,7 @@ export default function PrimarySearchAppBar(props) {
         
         <List sx={{ backgroundColor: '#006666',color: 'white'}}>
             
-            <Divider sx={{height:'5px', backgroundColor: 'white'}}/>
+            <Divider sx={{height:'1px', backgroundColor: 'white'}}/>
             <ListItem button key="Home" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/admin/home')}>
               <ListItemIcon sx={{ color: 'white' }}>
                 <HomeIcon/>
@@ -314,7 +321,7 @@ export default function PrimarySearchAppBar(props) {
               <ListItemText primary="Home" />
             </ListItem>
             
-            <Divider sx={{height:'5px', backgroundColor: 'white'}}/>
+            <Divider sx={{height:'1px', backgroundColor: 'white'}}/>
             <ListItem button key="Add Exam" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/admin/addexam')}>
               <ListItemIcon sx={{ color: 'white' }}>
                 <FileUploadIcon/>
@@ -322,7 +329,7 @@ export default function PrimarySearchAppBar(props) {
               <ListItemText primary="Add Exam" />
             </ListItem>
 
-            <Divider sx={{height:'5px', backgroundColor: 'white'}} />
+            <Divider sx={{height:'1px', backgroundColor: 'white'}} />
             <ListItem button key="Database" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/admin/database')}>
               <ListItemIcon sx={{ color: 'white' }}>
                 <StorageIcon/>
@@ -330,7 +337,7 @@ export default function PrimarySearchAppBar(props) {
               <ListItemText primary="Database" />
             </ListItem>
 
-            <Divider sx={{height:'5px', backgroundColor: 'white'}}/>
+            <Divider sx={{height:'1px', backgroundColor: 'white'}}/>
             <ListItem button key="Settings" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/admin/settings')}>
               <ListItemIcon sx={{ color: 'white' }}>
                 <SettingsIcon/>
@@ -338,7 +345,7 @@ export default function PrimarySearchAppBar(props) {
               <ListItemText primary="Settings" />
             </ListItem>
 
-            <Divider sx={{height:'5px', backgroundColor: 'white'}}/>
+            <Divider sx={{height:'1px', backgroundColor: 'white'}}/>
             <ListItem button key="Help" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/admin/help')}>
               <ListItemIcon sx={{ color: 'white' }}>
                 <HelpIcon/>

@@ -2,13 +2,14 @@ import React,{useState,useEffect } from 'react';
 import ProctorAppBar from './ProctorAppBar';
 import HomeIcon from '@mui/icons-material/Home';
 import { useHistory } from 'react-router-dom';
-import Button from '@mui/material/Button';
+
 import Box from '@mui/material/Box';
 import Homecontent from './Content/Homecontent';
 import Errorcomp from './Content/Error'
-import jsonData from './jsonfiles/exams.json';
+//import jsonData from './jsonfiles/exams.json';
 import Container from '@mui/material/Container';
 import axios from "axios";
+import path from './jsonfiles/path.json'
 
 function Home() {
   
@@ -20,7 +21,7 @@ function Home() {
   const[courses,setCourses]=useState('')
   //console.log(jsonData);
   useEffect(() => {
-    axios.get('http://143.244.139.140:5000/api/proctor/proctors/self',
+    axios.get(`${path[0]['path']}proctor/proctors/self`,
    { headers: {
       'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
     }}
@@ -36,7 +37,7 @@ function Home() {
     console.log(fail);
   });
 
-  axios.get('http://143.244.139.140:5000/api/proctor/courses/invigilating/self',
+  axios.get(`${path[0]['path']}proctor/courses/invigilating/self`,
    { headers: {
       'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
     }}
@@ -53,7 +54,7 @@ function Home() {
     console.log(fail);
   });
   
-  axios.get('http://143.244.139.140:5000/api/proctor/courses/chief_invigilating/self',
+  axios.get(`${path[0]['path']}proctor/courses/chief_invigilating/self`,
    { headers: {
       'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
     }}

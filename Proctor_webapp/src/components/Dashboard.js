@@ -1,7 +1,7 @@
 import React from 'react'
 import ProctorAppBar from './ProctorAppBar'
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import axios from "axios";
+
 import Dashcontent from './Content/Dashcontent';
 
 function Dashboard() {

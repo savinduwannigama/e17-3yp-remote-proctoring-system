@@ -9,6 +9,7 @@ import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import axios from "axios";
 import Loader from "../Content/Loader"
+import path from '../jsonfiles/path.json'
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -25,7 +26,7 @@ function Renderer ()  {
   const [data, setData] = useState('');
   const [inv,setInv]=useState('');
   useEffect(() => {
-    axios.get('http://143.244.139.140:5000/api/proctor/exams/self',
+    axios.get(`${path[0]['path']}proctor/exams/self`,
     { headers: {
        'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
      }}

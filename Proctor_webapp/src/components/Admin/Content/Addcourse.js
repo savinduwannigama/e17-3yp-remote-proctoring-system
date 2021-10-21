@@ -7,25 +7,9 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { createTheme,ThemeProvider } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import axios from 'axios';
-const theme = createTheme({
-  status: {
-    danger: '#e53e3e',
-  },
-  palette: {
-    primary: {
-      main: '#0971f1',
-      darker: '#053e85',
-    },
-    neutral: {
-      main: '#006666',
-      contrastText: '#fff',
-    },
-  },
-});
+
+
+
 function Addcourse() {
   const [reqfail,setReqfail]=useState('')
   const [failure,setFail] = useState('')

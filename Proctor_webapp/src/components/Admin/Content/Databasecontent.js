@@ -1,17 +1,14 @@
 import React from 'react';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
-import Button from '@mui/material/Button';
+
 import StepButton from '@mui/material/StepButton';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SchoolIcon from '@mui/icons-material/School';
 import GroupsIcon from '@mui/icons-material/Groups';
-import Addproctor from './Addproctor';
-import AddStudent from './AddStudent'
-import Addcourse from './Addcourse';
-import Addexam from './Addmastersheet';
+
 import Showproctor from './ShowProctor';
 import Showstudents from './ShowStudents';
 import Showcourses from './ShowCourse';

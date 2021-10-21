@@ -4,12 +4,13 @@ import ProctorAppBar from './ProctorAppBar'
 import UpcomingIcon from '@mui/icons-material/CalendarToday';
 import axios from "axios";
 import Errorcomp from './Content/Error'
+import path from './jsonfiles/path.json'
 function Schedule() {
     const [data, setData] = useState('');
     const [fail, setfail] = useState('');
     var events = [];
     useEffect(() => {
-        axios.get('http://143.244.139.140:5000/api/proctor/exams/self',
+        axios.get(`${path[0]['path']}proctor/exams/self`,
         { headers: {
            'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
          }}

@@ -8,7 +8,7 @@ import Divider from '@mui/material/Divider';
 import logo from '../appicon3.png'
 import axios from 'axios';
 import Validationlogin from './Validationlogin';
-
+import path from './jsonfiles/path.json'
 function Login ()  {
     const history = useHistory();
     const[name,setName] = useState("");
@@ -36,7 +36,7 @@ function Login ()  {
      }
 
     if(email!=='' && pwd !==''){
-      const url = `http://143.244.139.140:5000/api/proctor/login`
+      const url = `${path[0]['path']}proctor/login`
       
       console.log("email set",email);
       console.log("password set",pwd);

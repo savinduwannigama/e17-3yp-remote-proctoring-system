@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import axios from 'axios';
+import path from './jsonfiles/path.json'
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 const theme = createTheme({
@@ -110,7 +111,7 @@ class Validationlogin extends React.Component {
         const semail= input["email"];
         const spw0= input["password"];
    
-        const url = `http://143.244.139.140:5000/api/${this.props.path}`
+        const url = `${path[0]['path']}${this.props.path}`
         await axios.post(url, {
         email:semail,password:spw0}).then(resp => {
           this.setState({

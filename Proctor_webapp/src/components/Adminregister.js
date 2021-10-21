@@ -6,6 +6,7 @@ import logo from '../appicon3.png'
 import '../css/reg.css';
 import Divider from '@mui/material/Divider';
 import axios from 'axios';
+import path from './jsonfiles/path.json'
 import Validation from './Validation'
 const Register = () => {
     const history = useHistory();
@@ -24,7 +25,7 @@ const Register = () => {
       //history.push("/signin")
      }
      if(email!=='' && pwd !==''){
-      const url = `http://143.244.139.140:5000/api/admin/register`
+      const url = `${path[0]['path']}admin/register`
       
       console.log("email set",email);
       console.log("password set",pwd);

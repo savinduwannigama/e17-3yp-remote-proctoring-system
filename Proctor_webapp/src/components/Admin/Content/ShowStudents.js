@@ -13,9 +13,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import '../../../css/hide.css';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import axios from 'axios';
+
 const theme = createTheme({
   status: {
     danger: '#e53e3e',

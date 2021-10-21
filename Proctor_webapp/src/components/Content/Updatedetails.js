@@ -12,7 +12,7 @@ import axios from "axios";
 import Errorcomp from "./Error"
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { margin } from '@mui/system';
+import path from '../jsonfiles/path.json'
 import InputAdornment from '@mui/material/InputAdornment';
 const Input = styled('input')({
     display: 'none',
@@ -112,7 +112,7 @@ export default function ImageAvatars() {
     const handleClick=()=>{
         console.log("inside click",name)
         const email = localStorage.getItem("user")
-        axios.put('http://143.244.139.140:5000/api/proctor/proctors/self',
+        axios.put(`${path[0]['path']}proctor/proctors/self`,
         {name: name,email:email},
         { headers: {
             'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
