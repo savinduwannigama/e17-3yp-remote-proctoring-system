@@ -223,6 +223,10 @@ router.post('/admins/single', protectAdmin, (req, res) => {
     /**
      * write code to add student to the database
      */
+    // not authorizing if the call is not done by a super-admin
+    if(req.admin.role != 'super-admin') {
+        return res.status(401).json({status: 'failure', message: 'Your admin role is not authorized to add new admins'});
+    }    
 
     const record = req.body;
     // console.log('Request body: ' + record);
@@ -293,6 +297,10 @@ router.put('/admins/self', protectAdmin, (req, res) => {
 // sends the email of the the updated admin as a request parameter
 // front end has to send all the fields of the new entry (both updated and non updated fields)
 router.put('/admins/single/:email',  protectAdmin, (req, res) => {
+    // not authorizing if the call is not done by a super-admin
+    if(req.admin.role != 'super-admin') {
+        return res.status(401).json({status: 'failure', message: 'Your admin role is not authorized to edit other admins'});
+    }   
     admins.findOne({email: req.params.email})
     .then(admin => {
         admin.name = req.body.name;
@@ -310,6 +318,10 @@ router.put('/admins/single/:email',  protectAdmin, (req, res) => {
 // only the super-admin can call this
 // finds an admin by email and deletes
 router.delete('/admins/single/:email', protectAdmin, (req, res) => {
+    // not authorizing if the call is not done by a super-admin
+    if(req.admin.role != 'super-admin') {
+        return res.status(401).json({status: 'failure', message: 'Your admin role is not authorized to delete other admins'});
+    }  
     admins.findOneAndDelete({email: req.params.email})
     .then(deleted => {
         if(deleted == null)
