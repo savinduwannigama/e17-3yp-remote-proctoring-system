@@ -65,6 +65,11 @@ login.addEventListener('click', function(e) {
         return;
     }
 
+    if (!localStorage.serverIP) {
+        logerror.innerText = "select the server you want to log in"
+        return
+    }
+
     var logemail = document.getElementById("log-email");
     if (!(validateEmail(logemail.value))) {
         logerror.innerText = "Enter a valid email";
@@ -78,10 +83,11 @@ login.addEventListener('click', function(e) {
     }
 
     /******************* save token and direct to home page ************************/
+    var serverIP = localStorage.getItem('serverIP')
 
     axios({
             method: 'post',
-            url: 'http://143.244.139.140:5000/api/student/login',
+            url: 'http://' + serverIP + '/api/student/login',
             responseType: 'json',
             data: {
                 "email": logemail.value,
@@ -98,11 +104,14 @@ login.addEventListener('click', function(e) {
             if (error.response) {
                 logerror.innerHTML = "* " + error.response.data.message;
 
-            };
+            } else {
+                logerror.innerHTML = "* " + error
+            }
         });
 
-})
 
+
+});
 /************** registration validation ****************/
 
 var register = document.getElementById("register");
@@ -113,6 +122,10 @@ register.addEventListener('click', function(e) {
     if (!(navigator.onLine)) {
         regerror.innerText = "You are offline"
         return;
+    }
+    if (!localStorage.serverIP) {
+        regerror.innerText = "select the server you want to sign in"
+        return
     }
     var regemail = document.getElementById("reg-email");
     var regpassword = document.getElementById("reg-password");
@@ -137,10 +150,10 @@ register.addEventListener('click', function(e) {
         return;
     }
     /******************* save token and direct to home page ************************/
-
+    var serverIP = localStorage.getItem('serverIP')
     axios({
             method: 'post',
-            url: 'http://143.244.139.140:5000/api/student/register',
+            url: 'http://' + serverIP + '/api/student/login',
             responseType: 'json',
             data: {
                 "email": regemail.value,
@@ -155,8 +168,12 @@ register.addEventListener('click', function(e) {
         .catch(function(error) {
             if (error.response) {
                 regerror.innerHTML = "* " + error.response.data.message;
-            };
+            } else {
+                regerror.innerHTML = "* " + error
+            }
         });
+
+
 
 
 

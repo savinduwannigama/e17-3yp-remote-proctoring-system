@@ -24,17 +24,17 @@ function createWindow() {
     const mainWindow = new BrowserWindow({
         width: 800,
         height: 480,
-        // minimizable: false,
-        // maximizable: false,
-        // resizable: false,
-        // movable: false,
+        //minimizable: false,
+        maximizable: false,
+        resizable: false,
+        //movable: false,
         icon: "src/img/appicon3_YGz_icon.ico",
 
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
             enableRemoteModule: true,
-            devTools: true,
+            //devTools: true,
             //devTools: false,
         }
     })
@@ -81,7 +81,7 @@ function createWindow() {
     mainWindow.loadFile('src/loginpage.html')
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools()
+    //mainWindow.webContents.openDevTools()
 
     // Load pages
     ipc.on('Login', () => { mainWindow.loadFile('src/loginpage.html') })

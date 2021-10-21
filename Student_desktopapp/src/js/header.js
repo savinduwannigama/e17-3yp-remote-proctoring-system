@@ -3,6 +3,8 @@ const ipc = ipcRenderer
 const date = require('date-and-time');
 const axios = require('axios');
 
+const serverIP = localStorage.getItem('serverIP')
+
 function display_c() {
     var refresh = 1000; // Refresh rate in milli seconds
     var mytime = setTimeout('display_ct()', refresh);
@@ -47,7 +49,7 @@ for (var i = 0; i < btncount; i += 1) {
 if (typeof(Storage) !== "undefined" && localStorage.disconnections) {
     axios({
             method: 'put',
-            url: 'http://143.244.139.140:5000/api/student/exam_rooms/disconnections',
+            url: 'http://' + serverIP + '/api/student/exam_rooms/disconnections',
             responseType: 'json',
             headers: {
                 'Authorization': "BEARER " + sessionStorage.getItem('token'),

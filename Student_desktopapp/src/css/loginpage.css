@@ -44,6 +44,17 @@
     top: 70px;
 }
 
+#server-connection {
+    position: absolute;
+    cursor: pointer;
+    z-index: 25;
+    color: rgb(110, 110, 110);
+    width: 200px;
+    height: 60px;
+    left: 50px;
+    top: 80px;
+}
+
 body {
     background: url("../img/icons/desktop1.jpeg");
     background-size: cover;
@@ -76,7 +87,8 @@ body {
 
 /************login section***********/
 
-#sign-in-up {
+#sign-in-up,
+#server-selection {
     position: absolute;
     left: 300px;
     top: 10px;
@@ -86,6 +98,12 @@ body {
     border-radius: 20px;
     color: rgb(133, 133, 133);
     background-color: rgb(235, 235, 235, 0.46);
+}
+
+#server-selection {
+    background-color: rgb(235, 235, 235);
+    z-index: 12;
+    display: none;
 }
 
 #sign-in-up p {
@@ -152,22 +170,6 @@ button:focus {
     left: 130px;
 }
 
-
-/* .submit button {
-    background-color: #19adad;
-    min-width: 100px;
-    height: 2rem;
-    border-radius: 12px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border: 0;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-} */
-
 span {
     font-weight: normal;
     font-size: 13px;
@@ -209,14 +211,14 @@ span {
     /*should change*/
 }
 
-label,
+.switch label,
 .toggle {
     height: 2rem;
     border-radius: 12px;
     float: right;
 }
 
-label {
+.switch label {
     background-color: white;
     border-radius: 12px;
     position: relative;
@@ -275,14 +277,7 @@ label {
     color: rgb(82, 80, 80);
 }
 
-.Red::placeholder {
-    color: red;
-    font-size: 12px;
-    word-wrap: normal;
-    /* Most modern browsers support this now. */
-}
-
-.Gray::placeholder {
+::placeholder {
     color: gray;
     font-size: 12px;
     word-wrap: normal;
@@ -296,4 +291,82 @@ form i {
     font-size: 16px;
     margin-left: -35px;
     cursor: pointer;
+}
+
+
+/************ change server ************/
+
+#server-selection h3 {
+    font-weight: normal;
+    padding-left: 20px;
+}
+
+#connections {
+    height: 200px;
+    width: 400px;
+    overflow-y: scroll;
+}
+
+.item {
+    margin: 10px;
+}
+
+.item span {
+    font-size: 12px;
+}
+
+.item p {
+    color: #fff;
+    font-size: 15px;
+    width: 340px;
+    margin: 0;
+    padding: 5px;
+    padding-left: 10px;
+    margin-left: 10px;
+    background-color: #109696;
+}
+
+.serverinfo:active {
+    background-color: red;
+}
+
+.delete {
+    border: none;
+    cursor: pointer;
+}
+
+.item i {
+    font-size: 15px;
+    color: rgb(110, 110, 110);
+}
+
+.item button {
+    margin-left: 15px;
+}
+
+#new-server input {
+    width: 310px;
+    height: 20px;
+    margin: 0 0 5px 20px;
+    border: 2px solid #109696;
+    border-radius: 5px;
+}
+
+#new-server button {
+    border: none;
+    border-radius: 5px;
+}
+
+#new-server i {
+    font-size: 18px;
+    font-weight: bolder;
+    color: #fff;
+}
+
+#add {
+    background-color: rgb(45, 230, 45);
+}
+
+#cancle {
+    background-color: rgb(216, 43, 43);
 }

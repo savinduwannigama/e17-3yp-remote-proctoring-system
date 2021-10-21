@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .item {
+            height: 30px;
+            background-color: rgb(161, 230, 161);
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='connections'>
+        <div class='item'><input type="radio" name="server">
+            <label>defaul1</label>
+            <button class="delete">delete</button>
+        </div>
+        <div class='item'><input type="radio" name="server">
+            <label>defaul2</label>
+            <button class="delete">delete</button>
+        </div>
+    </div>
+    <div id='new-server' style='display:none'>
+        <input maxlength="50" id='server-name'></input>
+        <input maxlength="128" id='server-url'></input>
+        <button type="button" id='add'>add</button>
+        <button type="button" id='cancle'>cancle</button>
+    </div>
+    <button id='addbtn'>add</button>
+
+
+    <script>
+        var connections = document.getElementById('connections')
+        var newServer = document.getElementById('new-server')
+        var addBtn = document.getElementById('addbtn')
+        var serverName = document.getElementById('server-name')
+        var serverUrl = document.getElementById('server-url')
+        var add = document.getElementById('add')
+        var cancle = document.getElementById('cancle')
+
+        addBtn.addEventListener('click', () => {
+            newServer.style.display = 'block'
+        })
+        cancle.addEventListener('click', () => {
+            newServer.style.display = 'none'
+        })
+
+        add.addEventListener('click', () => {
+            if (serverName.value && serverUrl.value) {
+                connections.innerHTML += `<div class='item'><input type="radio" name="server">
+                <label>${serverName.value}</label>
+                <button class="delete">delete</button>
+                </div>`;
+            }
+            cancle.click()
+
+            var delItem = document.querySelectorAll('.delete');
+
+            for (var i = 0; i < delItem.length; i++) {
+                delItem[i].onclick = function() {
+                    this.parentNode.remove();
+                }
+            }
+        })
+
+        var delItem = document.querySelectorAll('.delete');
+        for (var i = 0; i < delItem.length; i++) {
+            delItem[i].onclick = function() {
+                this.parentNode.remove();
+            }
+        }
+    </script>
+</body>
+
+</html>
