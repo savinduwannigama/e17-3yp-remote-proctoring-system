@@ -11,6 +11,7 @@ import { createTheme,ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from 'axios';
+import path from '../../jsonfiles/path'
 const theme = createTheme({
   status: {
     danger: '#e53e3e',
@@ -30,6 +31,7 @@ function Addproctor() {
   const [reqfail,setReqfail]=useState('')
   const [failure,setFail] = useState('')
   const [suc,setSuc]=useState('')
+  const [localprocs,setProctors]=useState('');
   //const [email,setEmail] = useState('')
   //const [name,setName] = useState('')
   const [items, setItems] = useState({email:"", name:""});
@@ -91,22 +93,48 @@ function Addproctor() {
     if(validate()){
       
       console.log("validation done",items)
-      const url = "http://143.244.139.140:5000/api/admin/proctors/single"
+      const url = `${path[0]['path']}admin/proctors/single`
       axios.post(url,{
         "name": items['name'],
         "email": items['email']
     }).then(resp=>{
       setReqfail('')
       setFail('')
-      setSuc(1)
+      //setSuc(1)
       console.log("request successful",resp.data)
-      localStorage.setItem("proctor_added",1)
+      axios.get(`${path[0]['path']}admin/proctors/all`
+            /*,{ headers: {
+               'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
+             }}*/
+           ).then(resp => {
+             
+             
+             console.log("Response from api",resp.data);
+             setProctors(resp.data)
+            // handlesuccess();
+            
+            // window. location. reload(false);
+             setSuc(1)
+            // window.alert("Proctor deleted successfully!")
+             //localStorage.setItem("username",resp.data['name']);
+             //sessionStorage.setItem("department",resp.data['department'])
+           }).catch(error=>{
+             console.log("Error response",error.response.data["error"])
+             setFail(1);
+             //console.log(ail);
+           });
+      //localStorage.setItem("proctor_added",1)
     }).catch(error=>{
       setReqfail(1);
       setFail(error.response.data["message"])
     })
     }
   }
+  if(suc===1){
+    const jsonProctors = JSON.stringify(localprocs);
+    console.log("json proctors",jsonProctors)
+    localStorage.setItem("Proctors",jsonProctors)
+}
 
   let proctors = localStorage.getItem('Proctors')? localStorage.getItem("Proctors"):''
   let proc = ''
@@ -164,7 +192,7 @@ function Addproctor() {
       }}
     >
            <ButtonGroup  orientation="vertical" sx={{display:"block",marginLeft: "auto",  marginRight: "auto"}}>
-            <Adminbtn btnname="Add Proctors" value="proctors" url="proctors/multiple"/>
+            <Adminbtn btnname="Add Proctors" value="proctors" url="proctors/multiple" user="proctors"/>
             </ButtonGroup>
         </Box>
         <hr style={{background:"#006666",height:"5px"}}/>
@@ -219,7 +247,7 @@ function Addproctor() {
            
         </Box>
 
-        {suc && <p style={{textAlign:"center"}}>Proctor Added successfully. Please proceed to next step</p>}
+        {suc && <p style={{textAlign:"center", fontSize:"15px", color:"#006666"}}>Proctor Added successfully. Please proceed to next step</p>}
 
 
 

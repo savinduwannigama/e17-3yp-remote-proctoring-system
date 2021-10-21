@@ -6,7 +6,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import Stack from '@mui/material/Stack';
 import axios from 'axios';
 import Papa from "papaparse";
-
+import serverpath from '../components/jsonfiles/path.json'
 const Input = styled('input')({
   display: 'none',
 });
@@ -32,7 +32,7 @@ export default class Adminbtn extends React.Component {
     this.id = props.value;
     this.btnname = props.btnname;
     this.path = props.url;
-    
+    this.user = props.user;
     this.state = {
       selectedFile: undefined,
       FileName: "No File Selected",
@@ -41,6 +41,11 @@ export default class Adminbtn extends React.Component {
       message: "",
       isError: false,
       fileInfos: [],
+      exams:'',
+      courses:'',
+      students:'',
+      proctors:'',
+      success:''
       
     };
     this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
@@ -57,12 +62,42 @@ export default class Adminbtn extends React.Component {
     })
     
   }
+  setLocal=()=>{
+    if(this.user==='exams'){
+      console.log(this.state.exams)
+      const jsonExams = JSON .stringify(this.state.exams);
+      localStorage.setItem("Adminexams",jsonExams)
+      window. location. reload(false);
+    }
+    else if(this.user === 'courses'){
+      console.log(this.state.courses)
+      const jsonCourses = JSON .stringify(this.state.courses);
+      localStorage.setItem("Admincourses",jsonCourses)
+      window. location. reload(false);
+ 
+    }
+
+    else if(this.user === 'students'){
+      console.log(this.state.students)
+      const jsonStudents = JSON .stringify(this.state.students);
+      localStorage.setItem("Students",jsonStudents)
+      window. location. reload(false);
+ 
+    }
+    else if(this.user === 'proctors'){
+      console.log(this.state.proctors)
+      const jsonProctors = JSON .stringify(this.state.proctors);
+      localStorage.setItem("Proctors",jsonProctors)
+      window. location. reload(false);
+ 
+    }
+  }
   uploadData(results){
     const name = this.id;
     console.log(this.path)
     const value =JSON.stringify({"uploaded_file":name,"details":results.data},null,4) 
    
-    const url =`http://143.244.139.140:5000/api/admin/${this.path}`
+    const url =`${serverpath[0]['path']}admin/${this.path}`
     console.log(value)
 
     axios.post(url, value,{
@@ -86,6 +121,49 @@ export default class Adminbtn extends React.Component {
           isError:false,
           message: resp.data["message"]
         })
+        axios.get(`${serverpath[0]['path']}admin/${this.user}/all`
+        /*,{ headers: {
+           'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
+         }}*/
+       ).then(resp => {
+         
+         
+         console.log("Response from api",resp.data);
+        if(this.user ==='exams'){
+          this.setState({
+            exams: resp.data,
+            success:1
+          })
+        }
+        else if(this.user ==='courses'){
+          this.setState({
+            courses: resp.data,
+            success:1
+          })
+        }
+
+        else if(this.user ==='students'){
+          this.setState({
+            students: resp.data,
+            success:1
+          })
+        }
+        else if(this.user ==='proctors'){
+          this.setState({
+            proctors: resp.data,
+            success:1
+          })
+        }
+        this.setLocal()
+
+         //localStorage.setItem("username",resp.data['name']);
+         //sessionStorage.setItem("department",resp.data['department'])
+       }).catch(error=>{
+         console.log("Error response",error.response.data["error"])
+       //setfail(1);
+         //console.log(fail);
+       });
+
       }
       
       console.log(resp.data);
@@ -98,6 +176,7 @@ export default class Adminbtn extends React.Component {
       
     })
   }
+ 
   donothing =()=>{}
   fileUploadHandler = ()=>{
     console.log(this.state.FileName);

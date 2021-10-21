@@ -33,10 +33,10 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { useHistory } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import { makeStyles } from '@mui/styles';
-import Paper from '@mui/material/Paper';
+
 const useStyles = makeStyles({
   paper: {
-    background: 'black',
+    background: '#006666',
     color: 'white'
   }
 });

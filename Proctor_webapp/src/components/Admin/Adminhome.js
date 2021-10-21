@@ -1,10 +1,12 @@
 import React,{useState,useEffect } from 'react'
-import Adminbtn from './Adminbtn'
-import ButtonGroup from '@mui/material/ButtonGroup';
-import "../css/Admin.css"
-import NavBar from './AdminAppBar';
-import Box from '@mui/material/Box';
+
+import "../../css/Admin.css"
+import AdminAppBar from '../AdminAppBar';
+import HomeIcon from '@mui/icons-material/Home';
+
+import path from '../jsonfiles/path.json'
 import axios from 'axios';
+import Errorcomp from '../Content/Error'
 function Adminhome() {
     const [fail, setfail] = useState('');
     const [proctors,setProctors]=useState('');
@@ -13,7 +15,7 @@ function Adminhome() {
     const [adminexams,setExams] = useState('');
     //first get all the proctors
     useEffect(() => {
-        axios.get('http://143.244.139.140:5000/api/admin/proctors/all'
+        axios.get(`${path[0]['path']}admin/proctors/all`
        /*,{ headers: {
           'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
         }}*/
@@ -29,7 +31,7 @@ function Adminhome() {
         setfail(1);
         console.log(fail);
       });
-      axios.get('http://143.244.139.140:5000/api/admin/students/all'
+      axios.get(`${path[0]['path']}admin/students/all`
       /*,{ headers: {
          'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
        }}*/
@@ -45,7 +47,7 @@ function Adminhome() {
        setfail(1);
        console.log(fail);
      });
-     axios.get('http://143.244.139.140:5000/api/admin/courses/all'
+     axios.get(`${path[0]['path']}admin/courses/all`
       /*,{ headers: {
          'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
        }}*/
@@ -61,7 +63,7 @@ function Adminhome() {
        setfail(1);
        console.log(fail);
      });
-     axios.get('http://143.244.139.140:5000/api/admin/exams/all'
+     axios.get(`${path[0]['path']}admin/exams/all`
       /*,{ headers: {
          'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
        }}*/
@@ -96,28 +98,11 @@ function Adminhome() {
     localStorage.setItem("Adminexams",jsonExams)
     return (
        
-        <div className="admin-main">
-            <NavBar></NavBar>
-            
-            <h3>Please upload the relevant files in CSV format.</h3>
-            <Box  sx={{ justifyContent:"center", display: 'flex','& > *': { m: 1,}}} >
-            <ButtonGroup  orientation="vertical">
-            <Adminbtn btnname="Add MasterSheet" value="mastersheet" url="exams/mastersheet" />
-            
-            </ButtonGroup>
-            <ButtonGroup  orientation="vertical">
-            <Adminbtn btnname="Add courses" value="courses" url="courses/mastersheet"/>
-            
-            </ButtonGroup>
-            <ButtonGroup  orientation="vertical">
-            <Adminbtn btnname="Add students" value="students" url="students/multiple"/>
-            
-            </ButtonGroup>
-            <ButtonGroup  orientation="vertical">
-            <Adminbtn btnname="Add Proctors" value="proctors" url="proctors/multiple"/>
-            </ButtonGroup>
-            </Box>
-            
+        <div style={{color:"black"}}>
+              <AdminAppBar item="Home" icon = {<HomeIcon/>}>
+            Home page
+           </AdminAppBar>
+            {fail && <Errorcomp/>}
         </div>
         
     )

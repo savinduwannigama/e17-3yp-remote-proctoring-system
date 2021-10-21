@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Register from './components/Register';
 import Portal from './components/Portal';
 import Adminlogin from './components/Adminlogin';
-import Adminhome from './components/Adminhome';
+import Adminhome from './components/Admin/Adminhome';
 import Home from './components/Home';
 import Dashboard from './components/Dashboard';
 import Schedule from './components/Schedule';

@@ -7,23 +7,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { createTheme,ThemeProvider } from '@mui/material/styles';
 
-const theme = createTheme({
-  status: {
-    danger: '#e53e3e',
-  },
-  palette: {
-    primary: {
-      main: '#0971f1',
-      darker: '#053e85',
-    },
-    neutral: {
-      main: '#006666',
-      contrastText: '#fff',
-    },
-  },
-});
 function Addcourse() {
   const [reqfail,setReqfail]=useState('')
   const [failure,setFail] = useState('')
@@ -31,9 +15,7 @@ function Addcourse() {
  
   let exams = localStorage.getItem('Adminexams')? localStorage.getItem("Adminexams"):''
   let ex = ''
-  let cinvig =''
-  let invig = ''
-  let stud =''
+  
   exams =exams?  JSON.parse(exams):''
   return (
         <div style={{textAlign:"center", fontSize:"15px"}}>
@@ -89,7 +71,7 @@ function Addcourse() {
       }}
     >
            <ButtonGroup  orientation="vertical" sx={{display:"block",marginLeft: "auto",  marginRight: "auto"}}>
-           <Adminbtn btnname="Add MasterSheet" value="mastersheet" url="exams/mastersheet" />
+           <Adminbtn btnname="Add MasterSheet" value="mastersheet" url="exams/mastersheet" user="exams" />
              </ButtonGroup>
         </Box>
         <hr style={{background:"#006666",height:"5px"}}/>

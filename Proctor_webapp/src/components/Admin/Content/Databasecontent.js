@@ -1,17 +1,18 @@
 import React from 'react';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
-import Button from '@mui/material/Button';
+
 import StepButton from '@mui/material/StepButton';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SchoolIcon from '@mui/icons-material/School';
 import GroupsIcon from '@mui/icons-material/Groups';
-import Addproctor from './Addproctor';
-import AddStudent from './AddStudent'
-import Addcourse from './Addcourse';
-import Addexam from './Addmastersheet';
+
+import Showproctor from './ShowProctor';
+import Showstudents from './ShowStudents';
+import Showcourses from './ShowCourse';
+import Showexams from './ShowExam';
 
 //import PropTypes from "prop-types";
 const theme = createTheme({
@@ -38,29 +39,29 @@ function getSteps() {
       case 0:
         return (
             <div style={{margin:"auto"}}>
-               <p style={{fontSize:"15px"}}>Step 1</p>
-                <Addproctor/>
+               <p style={{fontSize:"15px"}}></p>
+                <Showproctor/>
             </div>
         );
       case 1:
         return (
           <div style={{margin:"auto"}}>
-                <p style={{fontSize:"15px"}}>Step 2</p>
-                <AddStudent/>
+                <p style={{fontSize:"15px"}}></p>
+                <Showstudents/>
             </div>
         )
       case 2:
         return (
           <div style={{margin:"auto"}}>
-                <p style={{fontSize:"15px"}}>Step 3</p>
-               <Addcourse/>
+                <p style={{fontSize:"15px"}}></p>
+               <Showcourses/>
             </div>
         )
       case 3:
         return (
           <div style={{margin:"auto"}}>
-                <p style={{fontSize:"15px"}}>Step 4</p>
-               <Addexam/>
+                <p style={{fontSize:"15px"}}></p>
+               <Showexams/>
             </div>
         )
       default:
@@ -120,7 +121,7 @@ function getSteps() {
                 onClick={handleStep(0)}
                 completed={completed[0]}
               >
-                Add Proctors
+                Show/Delete Proctors
               </StepButton>
               </ThemeProvider>
             </Step>
@@ -131,7 +132,7 @@ function getSteps() {
                 onClick={handleStep(1)}
                 completed={completed[1]}
               >
-                Add Students
+                Show/Delete Students
               </StepButton>
               </ThemeProvider>
             </Step>
@@ -142,7 +143,7 @@ function getSteps() {
                 onClick={handleStep(2)}
                 completed={completed[2]}
               >
-                Add Course
+                Show/Delete Courses
               </StepButton>
               </ThemeProvider>
             </Step>
@@ -154,13 +155,14 @@ function getSteps() {
                 onClick={handleStep(3)}
                 completed={completed[3]}
               >
-                Schedule Exam
+                Show/Delete Exams
               </StepButton>
               </ThemeProvider>
             </Step>
           
         </Stepper>
-        <div>
+        {getStepContent(activeStep)}
+       { /*<div>
           {allStepsCompleted() ? (
             <div>
               All steps completed - you&apos;re finished
@@ -197,7 +199,7 @@ function getSteps() {
               </div>
             </div>
           )}
-        </div>
+                      </div>*/}
       </div>
     );
   }

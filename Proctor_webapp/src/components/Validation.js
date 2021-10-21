@@ -10,6 +10,7 @@ import { createTheme,ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import path from './jsonfiles/path.json'
 
 const theme = createTheme({
     status: {
@@ -78,7 +79,7 @@ class Validation extends React.Component {
 
       console.log(load);
       
-      await axios.post(`http://143.244.139.140:5000/api/${this.props.path}`, {
+      await axios.post(`${path[0]['path']}${this.props.path}`, {
         email:semail,password0:spw0,password1:spw1
       }).then(resp => {
           this.setState({

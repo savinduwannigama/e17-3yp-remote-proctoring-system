@@ -15,7 +15,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { fontSize } from '@mui/system';
+import path from './jsonfiles/path.json'
 import Loader from "./Content/Loader"
 import CourseIcon from '@mui/icons-material/School';
 
@@ -40,7 +40,7 @@ function CoursePage({match}) {
     } = match;
     console.log("inside dynamic routing", courseId)
     useEffect(() => {
-        axios.get(`http://143.244.139.140:5000/api/proctor/exams/${duty}/self`,
+        axios.get(`${path[0]['path']}proctor/exams/${duty}/self`,
        { headers: {
           'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
         }}

@@ -12,6 +12,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import axios from 'axios';
+import path from '../../jsonfiles/path'
+
 const theme = createTheme({
   status: {
     danger: '#e53e3e',
@@ -33,6 +35,8 @@ function Addstudent() {
   const [suc,setSuc]=useState('')
   //const [email,setEmail] = useState('')
   //const [name,setName] = useState('')
+  const [localstuds,setStudents]=useState('');
+  
   const [items, setItems] = useState({email:"", name:"", regNo:"", department:"",device:""});
   const [errors,setErrors] = useState({email:'',name:'',regNo:"", department:"",device:""})
   const handleChange=(event)=>{
@@ -104,7 +108,7 @@ function Addstudent() {
     if(validate()){
       
       console.log("validation done",items);
-      const url = "http://143.244.139.140:5000/api/admin/students/single"
+      const url =  `${path[0]['path']}admin/students/single`
       axios.post(url,{
         "name": items['name'],
         "regNo": items['regNo'],
@@ -115,8 +119,29 @@ function Addstudent() {
     }).then(resp=>{
       setReqfail('')
       setFail('')
-      setSuc(1)
+      //setSuc(1)
       console.log("request successful",resp.data)
+      axios.get(`${path[0]['path']}admin/students/all`
+      /*,{ headers: {
+         'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
+       }}*/
+     ).then(resp => {
+       
+       
+       console.log("Response from api",resp.data);
+       setStudents(resp.data)
+      // handlesuccess();
+      
+      // window. location. reload(false);
+       setSuc(1)
+      // window.alert("Proctor deleted successfully!")
+       //localStorage.setItem("username",resp.data['name']);
+       //sessionStorage.setItem("department",resp.data['department'])
+     }).catch(error=>{
+       console.log("Error response",error.response.data["error"])
+       setFail(1);
+       //console.log(ail);
+     });
      
     }).catch(error=>{
       setReqfail(1);
@@ -124,6 +149,11 @@ function Addstudent() {
     })
     }
   }
+  if(suc===1){
+    const jsonStudents = JSON.stringify(localstuds);
+    console.log("json students",jsonStudents)
+    localStorage.setItem("Students",jsonStudents)
+}
 
   let students = localStorage.getItem('Students')? localStorage.getItem("Students"):''
   let stud = ''
@@ -184,7 +214,7 @@ function Addstudent() {
       }}
     >
            <ButtonGroup  orientation="vertical" sx={{display:"block",marginLeft: "auto",  marginRight: "auto"}}>
-           <Adminbtn btnname="Add students" value="students" url="students/multiple"/>
+           <Adminbtn btnname="Add students" value="students" url="students/multiple" user="students"/>
             </ButtonGroup>
         </Box>
         <hr style={{background:"#006666",height:"5px"}}/>
