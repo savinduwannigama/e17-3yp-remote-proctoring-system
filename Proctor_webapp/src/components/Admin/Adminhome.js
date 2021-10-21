@@ -1,12 +1,12 @@
 import React,{useState,useEffect } from 'react'
-import Adminbtn from './Adminbtn'
-import ButtonGroup from '@mui/material/ButtonGroup';
-import "../css/Admin.css"
-import NavBar from './AdminAppBar';
-import Box from '@mui/material/Box';
-import path from './jsonfiles/path.json'
+
+import "../../css/Admin.css"
+import AdminAppBar from '../AdminAppBar';
+import HomeIcon from '@mui/icons-material/Home';
+
+import path from '../jsonfiles/path.json'
 import axios from 'axios';
-import Errorcomp from '../components/Content/Error'
+import Errorcomp from '../Content/Error'
 function Adminhome() {
     const [fail, setfail] = useState('');
     const [proctors,setProctors]=useState('');
@@ -98,27 +98,10 @@ function Adminhome() {
     localStorage.setItem("Adminexams",jsonExams)
     return (
        
-        <div className="admin-main">
-            <NavBar></NavBar>
-            
-            <h3>Please upload the relevant files in CSV format.</h3>
-            <Box  sx={{ justifyContent:"center", display: 'flex','& > *': { m: 1,}}} >
-            <ButtonGroup  orientation="vertical">
-            <Adminbtn btnname="Add MasterSheet" value="mastersheet" url="exams/mastersheet" />
-            
-            </ButtonGroup>
-            <ButtonGroup  orientation="vertical">
-            <Adminbtn btnname="Add courses" value="courses" url="courses/mastersheet"/>
-            
-            </ButtonGroup>
-            <ButtonGroup  orientation="vertical">
-            <Adminbtn btnname="Add students" value="students" url="students/multiple"/>
-            
-            </ButtonGroup>
-            <ButtonGroup  orientation="vertical">
-            <Adminbtn btnname="Add Proctors" value="proctors" url="proctors/multiple"/>
-            </ButtonGroup>
-            </Box>
+        <div style={{color:"black"}}>
+              <AdminAppBar item="Home" icon = {<HomeIcon/>}>
+            Home page
+           </AdminAppBar>
             {fail && <Errorcomp/>}
         </div>
         
