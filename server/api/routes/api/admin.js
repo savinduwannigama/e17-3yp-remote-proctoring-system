@@ -218,11 +218,15 @@ router.post('/profilePicture', protectAdmin, (req, res) => {
  * API calls to the admins collection
  */
 // add new admin to the database
-router.post('/admins/single', (req, res) => {
+router.post('/admins/single', protectAdmin, (req, res) => {
     // method to add a new entry to the user relation in the database
     /**
      * write code to add student to the database
      */
+    // not authorizing if the call is not done by a super-admin
+    if(req.admin.role != 'super-admin') {
+        return res.status(401).json({status: 'failure', message: 'Your admin role is not authorized to add new admins'});
+    }    
 
     const record = req.body;
     // console.log('Request body: ' + record);
@@ -247,7 +251,7 @@ router.post('/admins/single', (req, res) => {
 });
 
 // reading all administrators
-router.get('/admins/all', (req, res) => {
+router.get('/admins/all', protectAdmin, (req, res) => {
     const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
@@ -275,8 +279,8 @@ router.get('/admins/self', protectAdmin, (req, res) => {
 
 // updating self info
 // front end has to send all the fields of the new entry (both updated and non updated fields)
-router.put('/admins/self/:id', (req, res) => {
-    admins.findById(req.params.id)
+router.put('/admins/self', protectAdmin, (req, res) => {
+    admins.findById(req.admin.id)
     .then(admin => {
         admin.name = req.body.name;
         admin.email = req.body.email;
@@ -292,7 +296,11 @@ router.put('/admins/self/:id', (req, res) => {
 // updating info of another admin
 // sends the email of the the updated admin as a request parameter
 // front end has to send all the fields of the new entry (both updated and non updated fields)
-router.put('/admins/single/:email', (req, res) => {
+router.put('/admins/single/:email',  protectAdmin, (req, res) => {
+    // not authorizing if the call is not done by a super-admin
+    if(req.admin.role != 'super-admin') {
+        return res.status(401).json({status: 'failure', message: 'Your admin role is not authorized to edit other admins'});
+    }   
     admins.findOne({email: req.params.email})
     .then(admin => {
         admin.name = req.body.name;
@@ -309,7 +317,11 @@ router.put('/admins/single/:email', (req, res) => {
 // deleting an admin
 // only the super-admin can call this
 // finds an admin by email and deletes
-router.delete('/admins/single/:email', (req, res) => {
+router.delete('/admins/single/:email', protectAdmin, (req, res) => {
+    // not authorizing if the call is not done by a super-admin
+    if(req.admin.role != 'super-admin') {
+        return res.status(401).json({status: 'failure', message: 'Your admin role is not authorized to delete other admins'});
+    }  
     admins.findOneAndDelete({email: req.params.email})
     .then(deleted => {
         if(deleted == null)
@@ -340,7 +352,7 @@ router.delete('/admins/single/:email', (req, res) => {
  */
 
 // add new student to the database
-router.post('/students/single', (req, res) => {
+router.post('/students/single', protectAdmin, (req, res) => {
     // method to add a new entry to the user relation in the database
     /**
      * write code to add student to the database
@@ -371,9 +383,11 @@ router.post('/students/single', (req, res) => {
 
 // add multiple stuedents from a sheet 
 // receiving object => {"uploaded file": "students", "details": [[], [], [start], ..., [end]]}
-router.post('/students/multiple', async (req, res, next) => {
+router.post('/students/multiple', protectAdmin, async (req, res, next) => {
     const record = req.body;
-    console.log('Request body: ' + record);
+    // console.log('Request body: ' + record);
+    if(record.uploaded_file != 'students')
+        return res.status(400).json({status: 'failure', message: 'Please upload the correct sheet to add students'});
     // console.log(record.details[0][0]);
     const createdEntry = [];
 
@@ -458,7 +472,7 @@ router.post('/students/multiple', async (req, res, next) => {
 });
 
 // call to read all students
-router.get('/students/all', (req, res) => {
+router.get('/students/all', protectAdmin, (req, res) => {
     const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
@@ -473,7 +487,7 @@ router.get('/students/all', (req, res) => {
 // updating info of a single student
 // sends the email of the the updated student as a request parameter
 // front end has to send all the fields of the new entry (both updated and non updated fields)
-router.put('/students/single/:email', (req, res) => {
+router.put('/students/single/:email', protectAdmin, (req, res) => {
     students.findOne({email: req.params.email})
     .then(student => {
         student.name = req.body.name;
@@ -491,7 +505,7 @@ router.put('/students/single/:email', (req, res) => {
 
 // deleting a single student
 // sends the email of the the updated student as a request parameter
-router.delete('/students/single/:email', (req, res) => {
+router.delete('/students/single/:email', protectAdmin, (req, res) => {
     students.findOneAndDelete({email: req.params.email})
     .then(deleted => {
         if(deleted == null)
@@ -504,7 +518,7 @@ router.delete('/students/single/:email', (req, res) => {
 
 // deleting all students
 // only the super-admin can call this
-router.delete('/students/all', (req, res) => {
+router.delete('/students/all', protectAdmin, (req, res) => {
     students.find()
     .then(result => {
         students.deleteMany({})  // expected to delete all the students
@@ -524,8 +538,11 @@ router.delete('/students/all', (req, res) => {
 
 // add multiple proctors from a sheet 
 // receiving object => {"uploaded_file": "students", "details": [[], [], [start], ..., [end]]}
-router.post('/proctors/multiple', (req, res, next) => {
+router.post('/proctors/multiple', protectAdmin, (req, res, next) => {
     const record = req.body;
+    // checking if the uploaded mastersheet is the correct one
+    if(record.uploaded_file != 'proctors')
+        return res.status(400).json({status: 'failure', message: 'Please upload the correct sheet to add proctors'});
     // console.log('Request body: ' + record);
     // console.log(record.details[0][0]);
     const createdEntry = [];
@@ -619,7 +636,7 @@ router.post('/proctors/multiple', (req, res, next) => {
 
 
 // add a new proctor to the database
-router.post('/proctors/single', (req, res) => {
+router.post('/proctors/single', protectAdmin, (req, res) => {
     // method to add a new entry to the user relation in the database
     /**
      * write code to add student to the database
@@ -649,7 +666,7 @@ router.post('/proctors/single', (req, res) => {
 });
 
 // call to read all proctors
-router.get('/proctors/all', (req, res) => {
+router.get('/proctors/all', protectAdmin, (req, res) => {
     const req_body = req.body;
     console.log('Request body: ' + req_body);
 
@@ -664,7 +681,7 @@ router.get('/proctors/all', (req, res) => {
 // updating info of a single proctor
 // sends the email of the the updated proctor as a request parameter
 // front end has to send all the fields of the new entry (both updated and non updated fields)
-router.put('/proctors/single/:email', (req, res) => {
+router.put('/proctors/single/:email', protectAdmin, (req, res) => {
     proctors.findOne({email: req.params.email})
     .then(proctor => {
         proctor.name = req.body.name;
@@ -679,7 +696,7 @@ router.put('/proctors/single/:email', (req, res) => {
 
 // deleting a single proctor
 // sends the email of the the updated proctor as a request parameter
-router.delete('/proctors/single/:email', (req, res) => {
+router.delete('/proctors/single/:email', protectAdmin, (req, res) => {
     proctors.findOneAndDelete({email: req.params.email})
     .then(deleted => {
         if(deleted == null)
@@ -692,7 +709,7 @@ router.delete('/proctors/single/:email', (req, res) => {
 
 // deleting all proctors
 // only the super-admin can call this
-router.delete('/proctors/all', (req, res) => {
+router.delete('/proctors/all', protectAdmin, (req, res) => {
     proctors.find()
     .then(result => {
         proctors.deleteMany({})  // expected to delete all the proctors
@@ -709,7 +726,7 @@ router.delete('/proctors/all', (req, res) => {
  * API calls to the courses collection
  */
 // add 1 new course to the database
-router.post('/courses/single', (req, res) => {
+router.post('/courses/single', protectAdmin, (req, res) => {
     // method to add a new entry to the user relation in the database
     /**
      * write code to add student to the database
@@ -741,8 +758,13 @@ router.post('/courses/single', (req, res) => {
 
 // add multiple courses from a mpasswordastersheet 
 // receiving object => {"uploaded file": "courses", "details": [[], [start], [], ..., [end]]}
-router.post('/courses/mastersheet', async (req, res) => {
+router.post('/courses/mastersheet', protectAdmin, async (req, res) => {
     const record = req.body;
+
+    // checking if the uploaded mastersheet is the correct one
+    if(record.uploaded_file != 'courses')
+        return res.status(400).json({status: 'failure', message: 'Please upload the correct sheet to add courses'});
+
     // console.log('Request body: ' + record);
     var createdEntry = [];
     // var errorOccured = false;
@@ -837,7 +859,7 @@ router.post('/courses/mastersheet', async (req, res) => {
 });
 
 // call to read all courses
-router.get('/courses/all', (req, res) => {
+router.get('/courses/all', protectAdmin, (req, res) => {
     // const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
@@ -853,7 +875,7 @@ router.get('/courses/all', (req, res) => {
 // updating info of a single course
 // sends the shortname of the the updated course as a request parameter
 // front end has to send all the fields of the new entry (both updated and non updated fields)
-router.put('/courses/single/:shortname', (req, res) => {
+router.put('/courses/single/:shortname', protectAdmin, (req, res) => {
     courses.findOne({shortname: req.params.shortname})
     .then(course => {
         course.name = req.body.shortname;
@@ -873,7 +895,7 @@ router.put('/courses/single/:shortname', (req, res) => {
 
 // deleting a single course
 // sends the shortname of the the updated course as a request parameter
-router.delete('/courses/single/:shortname', (req, res) => {
+router.delete('/courses/single/:shortname', protectAdmin, (req, res) => {
     courses.findOne({shortname: req.params.shortname})
     .then(result => {
         if (result == null) {
@@ -900,7 +922,7 @@ router.delete('/courses/single/:shortname', (req, res) => {
 
 // deleting all courses
 // only the super-admin can call this
-router.delete('/courses/all', (req, res) => {
+router.delete('/courses/all', protectAdmin, (req, res) => {
     // checks whether there's atleast one exam --> if so cannot delete all courses
     exams.findOne()  
     .then(result => {
@@ -931,7 +953,7 @@ router.delete('/courses/all', (req, res) => {
  * API calls to the devices collection
  */
 // add a new device to the database
-router.post('/devices/single', (req, res) => {
+router.post('/devices/single', protectAdmin, (req, res) => {
     // method to add a new entry to the user relation in the database
     /**
      * write code to add device to the database
@@ -961,7 +983,7 @@ router.post('/devices/single', (req, res) => {
 });
 
 // call to read all devices
-router.get('/devices/all', (req, res) => {
+router.get('/devices/all', protectAdmin, (req, res) => {
     const req_body = req.body;
     console.log('Request body: ' + req_body);
 
@@ -1013,8 +1035,13 @@ router.get('/devices/all', (req, res) => {
 // add an exam from the mastersheet 
 // receiving object => {"uploaded file": "mastersheet", "details": [[], [], [], ..., []]}
 // the course of the exam should exist in the courses collection prior to adding an exam
-router.post('/exams/mastersheet', async (req, res) => {
+router.post('/exams/mastersheet', protectAdmin, async (req, res) => {
     const record = req.body;
+
+    // checking if the uploaded mastersheet is the correct one
+    if(record.uploaded_file != 'mastersheet')
+        return res.status(400).json({status: 'failure', message: 'Please upload the correct sheet to add exams'});
+
     // console.log('Request body: ' + record);
     var distinct_exam_rooms = [];
 
@@ -1213,7 +1240,7 @@ router.post('/exams/mastersheet', async (req, res) => {
 });
 
 // call to read all exams
-router.get('/exams/all', (req, res) => {
+router.get('/exams/all', protectAdmin, (req, res) => {
     const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
@@ -1227,7 +1254,7 @@ router.get('/exams/all', (req, res) => {
 
 // deleting a single exam
 // sends the shortname of the the updated course as a request parameter
-router.delete('/exams/single/:name', (req, res) => {
+router.delete('/exams/single/:name', protectAdmin, (req, res) => {
     // console.log(req.params.name);
     exams.findOneAndDelete({name: req.params.name})
     .then(deleted => {
@@ -1280,7 +1307,7 @@ router.delete('/exams/single/:name', (req, res) => {
  */
 
 // call to read all exams_rooms
-router.get('/examrooms/all', (req, res) => {
+router.get('/examrooms/all', protectAdmin, (req, res) => {
     const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
