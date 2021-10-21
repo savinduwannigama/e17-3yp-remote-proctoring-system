@@ -18,6 +18,9 @@ const exam_rooms = require('../../models/exam_rooms');  // importing the mongoos
 
 const { protectProctor } = require('../../middleware/proctorAuth');
 
+// requiring the middleware to upload profile pictures
+const upload = require('./../../middleware/uploadProfPic');
+
 const router = express.Router();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////

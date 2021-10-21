@@ -16,6 +16,9 @@ const { protectStudent } = require('../../middleware/studentAuth');
 const { token } = require('morgan');
 const router = express.Router();
 
+// requiring the middleware to upload profile pictures
+const upload = require('./../../middleware/uploadProfPic');
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // router.post('/register', (req, res) => {  // DUMMY  
 //     // method to add a new entry to the user relation in the database
