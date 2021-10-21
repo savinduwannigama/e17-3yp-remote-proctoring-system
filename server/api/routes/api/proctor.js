@@ -483,7 +483,7 @@ router.get('/exams/invigilator/self', protectProctor, (req, res) => {
 // });
 
 // call to read all courses
-router.get('/courses/all', (req, res) => {
+router.get('/courses/all',  protectProctor, (req, res) => {
     // const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
