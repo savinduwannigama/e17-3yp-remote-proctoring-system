@@ -247,7 +247,7 @@ function Addproctor() {
            
         </Box>
 
-        {suc && <p style={{textAlign:"center"}}>Proctor Added successfully. Please proceed to next step</p>}
+        {suc && <p style={{textAlign:"center", fontSize:"15px", color:"#006666"}}>Proctor Added successfully. Please proceed to next step</p>}
 
 
 

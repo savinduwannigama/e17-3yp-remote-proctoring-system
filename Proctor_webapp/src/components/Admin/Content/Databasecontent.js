@@ -13,6 +13,7 @@ import AddStudent from './AddStudent'
 import Addcourse from './Addcourse';
 import Addexam from './Addmastersheet';
 import Showproctor from './ShowProctor';
+import Showstudents from './ShowStudents';
 
 //import PropTypes from "prop-types";
 const theme = createTheme({
@@ -47,7 +48,7 @@ function getSteps() {
         return (
           <div style={{margin:"auto"}}>
                 <p style={{fontSize:"15px"}}></p>
-                <AddStudent/>
+                <Showstudents/>
             </div>
         )
       case 2:

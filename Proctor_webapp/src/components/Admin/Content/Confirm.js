@@ -33,15 +33,13 @@ export default function FormDialog(props) {
   const [fail, setfail] = useState('');
     
   const [proctors,setProctors]=useState('');
+  const [students,setStudents] = useState('');
   console.log("pathfile",path[0]['path'])
   const[email,setEmail] = useState('')
   const[error,setError] = useState('')
   const[suc,setSuc]=useState('')
 
-  const handlesuccess=()=>{
-      console.log("handling success")
-      
-  }
+ 
   const handleConfirm = () => {
     console.log("confirm clicked")
     if(email ==='' ){
@@ -54,10 +52,10 @@ export default function FormDialog(props) {
     
     else{
         setError('')
-        axios.delete(`${path[0]['path']}admin/proctors/single/${props.email}`).then(resp=>{
+        axios.delete(`${path[0]['path']}admin/${props.user}s/single/${props.email}`).then(resp=>{
             console.log("response after deleting",resp.data)
             setSuc(1)
-            axios.get(`${path[0]['path']}admin/proctors/all`
+            axios.get(`${path[0]['path']}admin/${props.user}s/all`
             /*,{ headers: {
                'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
              }}*/
@@ -65,7 +63,13 @@ export default function FormDialog(props) {
              
              
              console.log("Response from api",resp.data);
-             setProctors(resp.data)
+             if(props.user ==='proctor'){
+                setProctors(resp.data)
+             }
+             else if(props.user ==='student'){
+                setStudents(resp.data)
+             }
+             
             // handlesuccess();
             props.success()
             // window. location. reload(false);
@@ -89,11 +93,19 @@ export default function FormDialog(props) {
   
   };
 
-  if(suc===1){
+  if(suc===1 && props.user==='proctor'){
     const jsonProctors = JSON.stringify(proctors);
     console.log("json proctors",jsonProctors)
     localStorage.setItem("Proctors",jsonProctors)
 }
+if(suc===1 && props.user==='student'){
+    const jsonStudents = JSON.stringify(students);
+    console.log("json students",jsonStudents)
+    localStorage.setItem("Students",jsonStudents)
+}
+
+
+
   const handleChange=(event)=>{
     setEmail(event.target.value)
     console.log(email)
@@ -108,7 +120,7 @@ export default function FormDialog(props) {
         <DialogTitle sx={{fontFamily:"Sansita", color:"red"}} >Confirmation</DialogTitle>
         <DialogContent>
             <div sx={{fontFamily:"Sansita",paddingLeft:"20px",color:"black"}}>
-            Are you sure you want to delete the proctor with the following details? <br/>
+            Are you sure you want to delete the {props.user} with the following details? <br/>
             <div style ={{paddingLeft:"10%",color:"black"}}>
             Name: {props.name}<br/>
             Email address: {props.email} <br/>
@@ -118,7 +130,7 @@ export default function FormDialog(props) {
             </div>
             <br/>
            <DialogContentText sx={{fontFamily:"Sansita", color:"black", textAlign:"center"}}>
-               Please re-confirm your decision by typing the email address of the proctor to be deleted.
+               Please re-confirm your decision by typing the email address of the {props.user} to be deleted.
            </DialogContentText>
            <ThemeProvider theme={theme}>   
           <TextField
