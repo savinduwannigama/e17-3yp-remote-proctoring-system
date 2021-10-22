@@ -156,7 +156,7 @@ export default function ImageAvatars() {
             console.log(error.response)
             setfail(1);
         });
-        //if(filetoupload){
+       /* if(filetoupload){
           console.log("filetoupload",filetoupload)
           axios.post(`${path[0]['path']}proctor/profilePicture`,formData,
         {
@@ -197,8 +197,8 @@ export default function ImageAvatars() {
             console.log("error", error.response)
           }
         })
-      //  }
-        
+       }
+        */
       
   }
 

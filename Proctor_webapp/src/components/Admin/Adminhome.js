@@ -7,6 +7,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import path from '../jsonfiles/path.json'
 import axios from 'axios';
 import Errorcomp from '../Content/Error'
+import HomePage from './Content/Homepage';
 function Adminhome() {
     const [fail, setfail] = useState('');
     const [proctors,setProctors]=useState('');
@@ -15,6 +16,27 @@ function Adminhome() {
     const [adminexams,setExams] = useState('');
     //first get all the proctors
     useEffect(() => {
+      axios.get(`${path[0]['path']}admin/admins/self`
+      ,{ headers: {
+         'Authorization': 'BEARER '+ localStorage.getItem("atoken")
+       }}
+     ).then(resp => {
+       
+       
+       console.log("Self data",resp.data);
+       localStorage.setItem("adminusername",resp.data['name']);
+   
+      
+     }).catch(error=>{
+       if(error.response){
+         console.log("Error response",error.response.data["message"])
+       }
+       else{
+         console.log(error)
+       }
+       setfail(1);
+       console.log(fail);
+     });
         axios.get(`${path[0]['path']}admin/proctors/all`
        ,{ headers: {
           'Authorization': 'BEARER '+ localStorage.getItem("atoken")
@@ -113,7 +135,8 @@ function Adminhome() {
        
         <div style={{color:"black"}}>
               <AdminAppBar item="Home" icon = {<HomeIcon/>}>
-            Home page
+           
+            <HomePage/>
            </AdminAppBar>
             {fail && <Errorcomp next="/adminsignin"/>}
         </div>

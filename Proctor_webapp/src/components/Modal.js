@@ -75,7 +75,8 @@ class Modal extends React.Component{
          <div className ="closebtn">
           <ThemeProvider theme={theme}>
             {  (dif>=-2) &&
-          <Button color= "neutral" size="medium" variant="contained"  sx={{bgcolor:"white",color:'#006666',margin:'auto'}}> <Link to={{pathname:'/meeting',state:{roomname:this.props.einfo['url']}}}  style={{ textDecoration: 'none', color:"#006666"}}>Join Meeting</Link>
+          <Button color= "neutral" size="medium" variant="contained"  sx={{bgcolor:"white",color:'#006666',margin:'auto'}}> 
+          <Link to={{pathname:'/meeting',state:{roomname:this.props.einfo['url']}}}  style={{ textDecoration: 'none', color:"#006666"}}>Join Meeting</Link>
          </Button>}
           </ThemeProvider>
           </div>
