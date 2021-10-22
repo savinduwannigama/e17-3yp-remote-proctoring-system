@@ -26,7 +26,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import MuiAppBar from '@mui/material/AppBar';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-import StorageIcon from '@mui/icons-material/Storage';
+import StorageIcon from  '@mui/icons-material/DeleteForever';
 import FileUploadIcon from '@mui/icons-material/UploadFile';
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -323,7 +323,7 @@ export default function PrimarySearchAppBar(props) {
             </ListItem>
             
             <Divider sx={{height:'1px', backgroundColor: 'white'}}/>
-            <ListItem button key="Update database" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/admin/addexam')}>
+            <ListItem button key="Update database" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/admin/adddata')}>
               <ListItemIcon sx={{ color: 'white' }}>
                 <FileUploadIcon/>
               </ListItemIcon>
@@ -331,7 +331,7 @@ export default function PrimarySearchAppBar(props) {
             </ListItem>
 
             <Divider sx={{height:'1px', backgroundColor: 'white'}} />
-            <ListItem button key="Remove from Database" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/admin/database')}>
+            <ListItem button key="Remove from Database" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/admin/removedata')}>
               <ListItemIcon sx={{ color: 'white' }}>
                 <StorageIcon/>
               </ListItemIcon>
