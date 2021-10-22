@@ -19,6 +19,7 @@ import AdminSettings from './components/Admin/AdminSettings';
 import Addexam from './components/Admin/Addexam'
 import Database from './components/Admin/Database';
 import AdminHelp from './components/Admin/AdminHelp';
+import RouteProtection from './components/RouteProtection'
 function App() {
   return (
     <div className="App">
@@ -34,24 +35,24 @@ function App() {
           <Route path="/adminreg" exact>
             <Adminregister/>
           </Route>
-          <Route path="/admin/home" exact>
-            <Adminhome/>
-          </Route>
-         <Route path='/admin/addexam' exact>
-            <Addexam/>
-          </Route>
+          <RouteProtection path="/admin/home" exact component={Adminhome} user="admin">
+           
+          </RouteProtection>
+         <RouteProtection path='/admin/adddata' exact component={Addexam} user="admin">
+            
+          </RouteProtection>
 
-          <Route path='/admin/database' exact>
-            <Database/>
-          </Route>
+          <RouteProtection path='/admin/removedata' exact component={Database} user='admin'>
+          
+          </RouteProtection>
 
-          <Route path="/admin/settings" exact>
-            <AdminSettings/>
-          </Route>
+          <RouteProtection path="/admin/settings" exact component={AdminSettings} user='admin'>
+           
+          </RouteProtection>
 
-          <Route path='/admin/help' exact>
-            <AdminHelp/>
-          </Route>
+          <RouteProtection path='/admin/help' exact component={AdminHelp} user="admin">
+         
+          </RouteProtection>
 
           <Route path="/register" exact>
             <Register />
@@ -62,32 +63,32 @@ function App() {
           <Route path="/signin" exact>
             <Login />
           </Route>
-          <Route path="/home" exact>
-            <Home/>
-          </Route>
-          <Route path="/dashboard" exact>
-            <Dashboard/>
-          </Route>
+          <RouteProtection path="/home" component={Home} user="proctor">
+           
+          </RouteProtection>
+          <RouteProtection path="/dashboard" component={Dashboard} user="proctor">
+            
+          </RouteProtection>
 
-          <Route path="/schedule" exact>
-            <Schedule/>
-          </Route>
-          <Route path="/courses" exact>
-            <Courses/>
-          </Route>
-          <Route path="/courses/:courseId" component={CoursePage} />
+          <RouteProtection path="/schedule" component= {Schedule} user="proctor">
+         
+          </RouteProtection>
+          <RouteProtection path="/courses" exact component={Courses} user="proctor">
+          
+          </RouteProtection>
+          <RouteProtection path="/courses/:courseId" exact component={CoursePage} user="proctor"/>
 
-          <Route path="/settings" exact>
-            <Settings/>
-          </Route>
+          <RouteProtection path="/settings" exact component={Settings} user="proctor">
+           
+          </RouteProtection>
 
-          <Route path="/help" exact>
-            <Help/>
-          </Route>
+          <RouteProtection path="/help" exact component={Help} user="proctor">
+          
+          </RouteProtection>
 
-          <Route path="/meeting" exact>
-            <Meeting/>
-          </Route>
+          <RouteProtection  path="/meeting" exact component={Meeting} user="proctor">
+           
+          </RouteProtection >
         </Switch>
       </Router>
     </div>

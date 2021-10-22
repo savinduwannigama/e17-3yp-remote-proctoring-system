@@ -73,11 +73,11 @@ class Validation extends React.Component {
       const spw0= input["password"];
       const spw1= input["confirm_password"];
       const load = {email:semail,password0:spw0,password1:spw1}
-      console.log(load)
+      //console.log(load)
       //const url = "http://143.244.139.140:5000/api/admin/login"
       //const data =JSON.stringify({"email":input["email"],"password": input["password"]},null,4) 
 
-      console.log(load);
+     // console.log(load);
       
       await axios.post(`${path[0]['path']}${this.props.path}`, {
         email:semail,password0:spw0,password1:spw1

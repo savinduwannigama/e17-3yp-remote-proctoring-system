@@ -64,7 +64,7 @@ function CoursePage({match}) {
             if(t[1]['course'].trim()===courseId){
                 console.log("course found",t[1]['course'])
                 return(
-                    <Card sx={{width: "45%",color:"black",margin:"auto",marginBottom:"40px", backgroundColor:"#00666633",padding:"15px",fontSize:"15px",borderRadius:"32px", display:"inline"}}>
+                    <Card id = {t[1]['course']} sx={{width: "45%",color:"black",margin:"auto",marginBottom:"40px", backgroundColor:"#00666633",padding:"15px",fontSize:"15px",borderRadius:"32px", display:"inline"}}>
             <div className="card-body" >
                 <h2 className="card-title" style={{paddingLeft:'10px'}}>{t[1]['course']}</h2>
                 <Stack>
