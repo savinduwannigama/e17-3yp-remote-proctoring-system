@@ -1,22 +1,23 @@
-import  React,{useState, useEffect} from 'react';
-import { styled,createTheme,ThemeProvider  } from '@mui/material/styles';
-import Avatar from '@mui/material/Avatar';
+import  React,{useState} from 'react';
+import { createTheme,ThemeProvider  } from '@mui/material/styles';
+//import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import EditIcon from '@mui/icons-material/Edit';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { useHistory,Link } from 'react-router-dom';
+//import IconButton from '@mui/material/IconButton';
+//import PhotoCamera from '@mui/icons-material/PhotoCamera';
+//import { useHistory,Link } from 'react-router-dom';
 import axios from "axios";
 import Errorcomp from "./Error"
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import path from '../jsonfiles/path.json'
 import InputAdornment from '@mui/material/InputAdornment';
-const Input = styled('input')({
+
+/*const Input = styled('input')({
     display: 'none',
-  });
+  });*/
 
   const theme = createTheme({
     status: {
@@ -34,16 +35,18 @@ const Input = styled('input')({
 });
 
 export default function ImageAvatars() {
-    const history = useHistory();
-    const [data, setData] = useState('');
+    //const history = useHistory();
+    //const [data, setData] = useState('');
     const [name,setName] = useState(localStorage.getItem("username"));
     const[success,setSuccess]=useState('');
-    const [selected, setselected] = useState('')
+    //const [selected, setselected] = useState('')
     const [fail, setfail] = useState('');
+    const[failmsg, setFailmsg] = useState('')
+    let filetoupload=''
     let img = localStorage.getItem('profileimage') ? localStorage.getItem('profileimage') : '';
    const uploadedImage = React.useRef(img);
    const imageUploader = React.useRef(img); 
-  
+   let formData = new FormData();
 
    /*useEffect(() => {
     axios.get('http://143.244.139.140:5000/api/proctor/proctors/self',
@@ -72,7 +75,32 @@ export default function ImageAvatars() {
         img= localStorage.getItem('profileimage')
       });*/
       const [file] = e.target.files;
-      if (file) {
+      console.log(e.target.files[0])
+      filetoupload = e.target.files[0]
+      console.log("filetoupload",filetoupload)
+      if(filetoupload){
+        const { current } = uploadedImage;
+        current.file = file;
+        formData.append("profile_picture",filetoupload)
+        console.log("inside fileto upload")
+        const reader = new FileReader();
+        //const { current } = uploadedImage;
+        //current.file = file;
+        reader.onload = e => {
+          current.src = e.target.result;
+         
+        };
+        reader.readAsDataURL(file);
+        for (var pair of formData.entries()) {
+          console.log(pair[0]+":"+pair[1])
+       }
+        
+      }
+      else{
+        setfail(1)
+        setFailmsg("An Image file has not been selected")
+      }
+      /*if (file) {
       const reader = new FileReader();
       const { current } = uploadedImage;
       current.file = file;
@@ -83,7 +111,7 @@ export default function ImageAvatars() {
         console.log(img);
       };
       reader.readAsDataURL(file);
-    }
+    }*/
     }
     /*const getBase64 = (file) => {
         return new Promise((resolve,reject) => {
@@ -122,21 +150,65 @@ export default function ImageAvatars() {
             console.log(resp.data)
             localStorage.setItem("username",name)
             setSuccess(1)
-            window.location.reload(false);
+            //window.location.reload(false);
         }
         ).catch(error=>{
             console.log(error.response)
             setfail(1);
+        });
+        //if(filetoupload){
+          console.log("filetoupload",filetoupload)
+          axios.post(`${path[0]['path']}proctor/profilePicture`,formData,
+        {
+          headers: {
+            'Authorization': 'BEARER '+ localStorage.getItem("ptoken"),
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(resp=>{
+         
+          console.log("successfull", resp.data)
+          //update localstorage usin self call
+          axios.get(`${path[0]['path']}proctor/proctors/self`,
+                  { headers: {
+                      'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
+                    }}
+                  ).then(resp => {
+                    const profilepath= resp.data['profile_picture']
+                    const imageurl = `${path[0]['imagepath']}${profilepath}`
+                    //current.src = imageurl
+                    console.log("Response from for self",resp.data);
+                    localStorage.setItem("profileimage",imageurl)
+                    localStorage.setItem("username",resp.data['name']);
+                    sessionStorage.setItem("department",resp.data['department'])
+                   // window.setTimeout(function(){window.location.reload()},3000)
+                  }).catch(error=>{
+                    console.log("Error response",error.response.data["error"])
+                    setfail(1);
+                    console.log(fail);
+                  });
+          
+        }).catch(error=>{
+          setfail(1);
+          setFailmsg("Network error. Please try again in a few minutes")
+          if(error.response){
+            console.log("error caught",error.response.data[0])
+          }
+          else{
+            console.log("error", error.response)
+          }
         })
+      //  }
+        
       
   }
 
   return (
     <Stack direction="column" spacing={4} alignItems="center" sx={{margin:"auto"}}>
-    {success && <div><p style={{color:"#006666"}}>Changes Saved Successfully!</p></div>}
-      
+     
       <ThemeProvider theme={theme}>
       <Box  sx={{ '& > :not(style)': { m: 1, width: '23ch' }, bgcolor: '#00666633',width:"40%",height:"100%",borderRadius:"32px", padding:"5% 8%" }} alignItems="center" >
+      {success && <p style={{color:"#006666"}}>Changes Saved Successfully!</p>}
+    
       <input
 
         src={img}
@@ -160,6 +232,8 @@ export default function ImageAvatars() {
         onClick={() => imageUploader.current.click()}
       >
         <img
+          alt="profile"
+          src = {img}
           ref={uploadedImage}
           style={{
             width: "100%",
@@ -170,7 +244,7 @@ export default function ImageAvatars() {
         />
       </div>
       <p style={{textAlign:"center"}}>Click to change profile picture</p>
-     
+     {fail && <p style={{textAlign:"center", color:"red"}}>{failmsg}</p>}
       <TextField
           color="neutral"
           id="filled-read-only-input"
@@ -231,7 +305,7 @@ export default function ImageAvatars() {
      
       </Box>
       </ThemeProvider>
-      {fail && <Errorcomp/>}
+      {fail && failmsg !=="Network error. Please try again in a few minutes" && failmsg!=="An Image file has not been selected" && <Errorcomp next="/signin" />}
 
     </Stack>
   );

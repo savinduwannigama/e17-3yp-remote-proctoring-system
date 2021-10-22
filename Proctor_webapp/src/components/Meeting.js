@@ -1,6 +1,6 @@
 import React from 'react'
 import JitsiMeetComponent from './JitsiMeet';
-import { useHistory } from 'react-router-dom';
+//import { useHistory } from 'react-router-dom';
 import { useLocation } from "react-router-dom"
 function Meeting(props) {
     const location = useLocation()

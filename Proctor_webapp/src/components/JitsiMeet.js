@@ -64,10 +64,7 @@ class JitsiComponent extends Component {
                 // },
 
             },
-            interfaceConfigOverwrite: {
-                // overwrite interface properties
-                DISABLE_DOMINANT_SPEAKER_INDICATOR: true
-            },
+            
             parentNode: document.querySelector('#jitsi-iframe'),
             
             userInfo: {
@@ -77,7 +74,8 @@ class JitsiComponent extends Component {
                 filmStripOnly: false,
                 SHOW_JITSI_WATERMARK: false,
                 DISABLE_JOIN_LEAVE_NOTIFICATIONS: false,
-                VIDEO_LAYOUT_FIT: 'both'
+                VIDEO_LAYOUT_FIT: 'both',
+                DISABLE_DOMINANT_SPEAKER_INDICATOR: true
 
             },
             
@@ -141,15 +139,15 @@ class JitsiComponent extends Component {
     // custom events
     executeCommand(command) {
         this.api.executeCommand(command);;
-        if(command == 'hangup') {
+        if(command === 'hangup') {
             return this.props.history.push('/home');
         }
 
-        if(command == 'toggleAudio') {
+        if(command === 'toggleAudio') {
             this.setState({ isAudioMuted: !this.state.isAudioMuted });
         }
 
-        if(command == 'toggleVideo') {
+        if(command === 'toggleVideo') {
             this.setState({ isVideoMuted: !this.state.isVideoMuted });
         }
     }
@@ -163,7 +161,7 @@ class JitsiComponent extends Component {
     }
 
     render() {
-        const { isAudioMuted, isVideoMuted } = this.state;
+       // const { isAudioMuted, isVideoMuted } = this.state;
         return (
             <>
             

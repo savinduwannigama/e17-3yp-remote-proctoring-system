@@ -9,6 +9,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import path from '../../jsonfiles/path'
 import axios from "axios";
+import '../../../css/hide.css'
+import Error from '../../Content/Error'
 const theme = createTheme({
     status: {
       danger: '#e53e3e',
@@ -31,7 +33,7 @@ export default function FormDialog(props) {
     setOpen(true);
   };*/
   const [fail, setfail] = useState('');
-    
+  const [failmsg,setMsg]=useState('')
   const [proctors,setProctors]=useState('');
   const [students,setStudents] = useState('');
   const [courses,setCourses] = useState('');
@@ -70,13 +72,18 @@ export default function FormDialog(props) {
     
     else{
         setError('')
-        axios.delete(`${path[0]['path']}admin/${props.user}s/single/${props.email}`).then(resp=>{
+        axios.delete(`${path[0]['path']}admin/${props.user}s/single/${props.email}`
+        ,{ headers: {
+          'Authorization': 'BEARER '+ localStorage.getItem("atoken")
+        }}
+               
+        ).then(resp=>{
             console.log("response after deleting",resp.data)
             setSuc(1)
             axios.get(`${path[0]['path']}admin/${props.user}s/all`
-            /*,{ headers: {
-               'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
-             }}*/
+            ,{ headers: {
+              'Authorization': 'BEARER '+ localStorage.getItem("atoken")
+            }}
            ).then(resp => {
              
              
@@ -101,15 +108,32 @@ export default function FormDialog(props) {
              //localStorage.setItem("username",resp.data['name']);
              //sessionStorage.setItem("department",resp.data['department'])
            }).catch(error=>{
-             console.log("Error response",error.response)
-             setfail(1);
-             console.log(fail);
+            if(typeof error.response.data["message"]!=='undefined'){
+              console.log("Error response",error.response.data["message"])
+              setMsg(error.response.data["message"])
+            }
+            else{
+              console.log(error)
+              setMsg(error.response)
+            }
+            setfail(1);
+            
            });
            
 
         }).catch(error=>{
-            console.log("error occurred", error)
-            setSuc('')
+          if(typeof error.response.data["message"]!=='undefined'){
+            console.log("Error response",error.response.data["message"])
+            setMsg(error.response.data['message'])
+          }
+          else{
+            console.log(error)
+            setMsg(error.response)
+          }
+          setfail(1);
+          setSuc('')
+         
+            
         })
     }
 
@@ -183,6 +207,7 @@ else if(suc===1 && props.user==='exam'){
            
           />
           </ThemeProvider>
+          {fail && failmsg!=='' && !(failmsg.includes('token')||(failmsg.includes('Token'))) && <p className = "#hideMe"style={{color:"red"}}>{failmsg}</p>}
         </DialogContent>
         <DialogActions>
         <ThemeProvider theme={theme}>  
@@ -191,6 +216,8 @@ else if(suc===1 && props.user==='exam'){
           </ThemeProvider>
         </DialogActions>
       </Dialog>
+      {fail && (failmsg.includes("token") || failmsg.includes("Token"))&& <Error next="/adminsignin"/>}
+        
     </div>
   );
 }

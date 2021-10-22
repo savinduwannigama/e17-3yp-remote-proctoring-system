@@ -10,7 +10,7 @@ import path from './jsonfiles/path.json'
 import Validation from './Validation'
 const Register = () => {
     const history = useHistory();
-    const[name,setName] = useState("");
+   // const[name,setName] = useState("");
     const[email,setEmail]= useState("");
     const[pwd,setPwd]=useState("");
     const[cpwd,setCpwd] = useState("");
@@ -52,7 +52,7 @@ const Register = () => {
         });
     }
     const failureHandle = (response) => {
-      setName("Authorization Unsuccessfull!");
+     // setName("Authorization Unsuccessfull!");
     }
     return (
       <div className="Main">
