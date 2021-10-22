@@ -104,7 +104,7 @@ export default function PrimarySearchAppBar(props) {
   //stuff added to store details
   const rememberMe = localStorage.getItem('arememberMe') === 'true';
   const user = localStorage.getItem('adminuser') ;
- // const username = localStorage.getItem('ausername') ? localStorage.getItem('ausername') : '';
+  const username = localStorage.getItem('adminusername') ? localStorage.getItem('adminusername') : '';
   const img = localStorage.getItem('aprofileimage') ? localStorage.getItem('aprofileimage') : '';
   const history = useHistory();
 
@@ -144,6 +144,7 @@ export default function PrimarySearchAppBar(props) {
     localStorage.removeItem("Students")
     localStorage.removeItem("Admincourses")
     localStorage.removeItem("Adminexams")
+    localStorage.removeItem("adminrole")
     history.push('/');
   }
   const gotoSettings=()=>{
@@ -269,7 +270,7 @@ export default function PrimarySearchAppBar(props) {
               color="inherit"
             >
               <Avatar src={img} />
-              <div style={{paddingLeft:"10px",  fontSize:"15px",fontFamily:"Sansita"}}>{user}</div>
+              <div style={{paddingLeft:"10px",  fontSize:"15px",fontFamily:"Sansita"}}>{username}</div>
               
             </IconButton>
           </Box>
@@ -322,19 +323,19 @@ export default function PrimarySearchAppBar(props) {
             </ListItem>
             
             <Divider sx={{height:'1px', backgroundColor: 'white'}}/>
-            <ListItem button key="Add Exam" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/admin/addexam')}>
+            <ListItem button key="Update database" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/admin/addexam')}>
               <ListItemIcon sx={{ color: 'white' }}>
                 <FileUploadIcon/>
               </ListItemIcon>
-              <ListItemText primary="Add Exam" />
+              <ListItemText primary="Add Data" />
             </ListItem>
 
             <Divider sx={{height:'1px', backgroundColor: 'white'}} />
-            <ListItem button key="Database" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/admin/database')}>
+            <ListItem button key="Remove from Database" sx={{backgroundColor: '#006666' }} onClick={() => history.push('/admin/database')}>
               <ListItemIcon sx={{ color: 'white' }}>
                 <StorageIcon/>
               </ListItemIcon>
-              <ListItemText primary="Database" />
+              <ListItemText primary="Remove Data" />
             </ListItem>
 
             <Divider sx={{height:'1px', backgroundColor: 'white'}}/>

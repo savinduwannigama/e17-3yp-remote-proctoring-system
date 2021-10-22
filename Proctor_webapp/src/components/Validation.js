@@ -75,7 +75,7 @@ class Validation extends React.Component {
       const load = {email:semail,password0:spw0,password1:spw1}
       console.log(load)
       //const url = "http://143.244.139.140:5000/api/admin/login"
-      const data =JSON.stringify({"email":input["email"],"password": input["password"]},null,4) 
+      //const data =JSON.stringify({"email":input["email"],"password": input["password"]},null,4) 
 
       console.log(load);
       
@@ -88,14 +88,21 @@ class Validation extends React.Component {
           })
           console.log(resp.data);
       }).catch(error => {
-        this.setState({
-          reqfail:1,
-          failure:error.response.data["message"]
-        })
-        console.log(this.state.reqfail)
-        console.log(error.response)
-        console.log(error.response.data["message"])
-
+        if(error.response.data["message"]){
+          this.setState({
+            reqfail:1,
+            failure:error.response.data["message"]
+          })
+          console.log(this.state.reqfail)
+          console.log(error.response)
+          console.log(error.response.data["message"])
+        }
+        else{
+          this.setState({
+            reqfail:1,
+            failure:"Network error"
+          })
+        }
       });
       
        
@@ -207,7 +214,9 @@ class Validation extends React.Component {
               autoComplete="off"
               onSubmit={this.handleSubmit}
         >
-          {this.state.reqfail && this.state.failure!=='Admin has already been registered' && this.state.failure!=='Proctor has already been registered' && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please register using an authorized email</p></div>}
+           {this.state.reqfail && this.state.failure==="Network error" &&<div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please try again in a few minutes</p></div>}
+        
+          {this.state.reqfail && this.state.failure!=="Network error"&& this.state.failure!=='Admin has already been registered' && this.state.failure!=='Proctor has already been registered' && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please register using an authorized email</p></div>}
           {this.state.reqfail && this.state.failure==='Admin has already been registered' && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please <Link to={this.props.next}> sign in</Link> using your authorized email</p></div>}
           {this.state.reqfail && this.state.failure==='Proctor has already been registered' && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please <Link to={this.props.next}> sign in</Link> using your authorized email</p></div>}
          

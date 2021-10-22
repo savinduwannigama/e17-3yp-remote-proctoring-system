@@ -28,14 +28,14 @@ const theme = createTheme({
   },
 });
 function Showcourses() {
-  const [reqfail,setReqfail]=useState('')
-  const [failure,setFail] = useState('')
+  //const [reqfail,setReqfail]=useState('')
+  //const [failure,setFail] = useState('')
   const [suc,setSuc]=useState('')
   const [open, setOpen] = useState(false);
   const [email,setEmail] = useState('')
   const [name,setName] = useState('')
-  const [items, setItems] = useState({email:"", name:""});
-  const [errors,setErrors] = useState({email:'',name:''})
+  //const [items, setItems] = useState({email:"", name:""});
+  //const [errors,setErrors] = useState({email:'',name:''})
   /*const handleChange=(event)=>{
    /* let input = [...items];
     input[event.target.name]=event.target.value;
@@ -68,15 +68,15 @@ const handlesuccess=()=>{
      setOpen(false);
  }
  let courses = localStorage.getItem('Admincourses')? localStorage.getItem("Admincourses"):''
- let cour = ''
+ //let cour = ''
  courses =courses?  JSON.parse(courses):''
  return (
         <div style={{textAlign:"center", fontSize:"15px"}}>
              {suc && <div  style={{textAlign:"center",color:"#006666"}}>Course Deleted successfully!</div>}
-
+             <br/><br/>
           <div style={{width:"50%", display: 'flex',margin:"auto"}}>
          
-         <Accordion style={{display:"block",marginLeft: "auto",  marginRight: "auto"}}>
+         <Accordion style={{display:"block",marginLeft: "auto",  marginRight: "auto" , background:"#00666633", width:"70%"}}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
             >
@@ -84,7 +84,7 @@ const handlesuccess=()=>{
             Courses already added to the system : Total ({courses.length})
            </AccordionSummary>
             {courses.length!==0  && <AccordionDetails>
-              {cour = courses.map(c=>{
+              {courses.map(c=>{
                   return(
                     <Accordion id = {c['shortname']}>
                       <AccordionSummary
@@ -124,7 +124,7 @@ const handlesuccess=()=>{
           </Accordion>
           <Confirm open={open} name={name} close={handleClose} email={email} success={handlesuccess} user="course" label="Course code" title="Name"/>
           </div>
-          
+          <br/><br/><br/>
           <hr style={{background:"#006666",height:"5px"}}/>
 
       

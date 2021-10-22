@@ -14,7 +14,7 @@ import { createTheme,ThemeProvider } from '@mui/material/styles';
 import {Link} from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
-import JitsiMeetComponent from './JitsiMeet';
+//import JitsiMeetComponent from './JitsiMeet';
 const theme = createTheme({
   
   palette: {
@@ -27,15 +27,15 @@ const theme = createTheme({
 });
 
 class Modal extends React.Component{
-  constructor(props){
+  /*constructor(props){
     super(props);
-  }
+  }*/
   
   render(){
     const minute = 1000 * 60;
     const hour = minute * 60;
-    const day = hour * 24;
-    const year = day * 365;
+    //const day = hour * 24;
+    //const year = day * 365;
     //previous start time this.props.einfo['start'].toString()
     const starttime = this.props.einfo['start']? this.props.einfo['start'].toString().replace("+0530 (India Standard Time)",''):'';
     const utctime = starttime? new Date(starttime).toUTCString():''
@@ -75,7 +75,8 @@ class Modal extends React.Component{
          <div className ="closebtn">
           <ThemeProvider theme={theme}>
             {  (dif>=-2) &&
-          <Button color= "neutral" size="medium" variant="contained"  sx={{bgcolor:"white",color:'#006666',margin:'auto'}}> <Link to={{pathname:'/meeting',state:{roomname:this.props.einfo['url']}}}  style={{ textDecoration: 'none', color:"#006666"}}>Join Meeting</Link>
+          <Button color= "neutral" size="medium" variant="contained"  sx={{bgcolor:"white",color:'#006666',margin:'auto'}}> 
+          <Link to={{pathname:'/meeting',state:{roomname:this.props.einfo['url']}}}  style={{ textDecoration: 'none', color:"#006666"}}>Join Meeting</Link>
          </Button>}
           </ThemeProvider>
           </div>

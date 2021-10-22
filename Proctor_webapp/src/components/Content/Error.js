@@ -15,9 +15,9 @@ export default function AlertDialogSlide(props) {
   const history = useHistory();
   const [open, setOpen] = React.useState(true);
 
-  const handleClickOpen = () => {
+  /*const handleClickOpen = () => {
     setOpen(true);
-  };
+  };*/
 
   const handleClose = () => {
     const rememberMe = localStorage.getItem('prememberMe') === 'true';
@@ -30,7 +30,8 @@ export default function AlertDialogSlide(props) {
     localStorage.removeItem("chief_invig courses")
     localStorage.removeItem("invig courses")
     localStorage.removeItem("examinations")
-    history.push('/signin')
+    localStorage.removeItem("profileimage")
+    history.push(props.next)
 
   };
 

@@ -1,25 +1,17 @@
 import  React,{useState} from 'react';
 import { createTheme,ThemeProvider  } from '@mui/material/styles';
-//import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import EditIcon from '@mui/icons-material/Edit';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import Button from '@mui/material/Button';
-//import IconButton from '@mui/material/IconButton';
-//import PhotoCamera from '@mui/icons-material/PhotoCamera';
-//import { useHistory,Link } from 'react-router-dom';
 import axios from "axios";
-import Errorcomp from "./Error"
+import Errorcomp from "../../Content/Error"
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import path from '../jsonfiles/path.json'
+import path from '../../jsonfiles/path.json'
 import InputAdornment from '@mui/material/InputAdornment';
-
-/*const Input = styled('input')({
-    display: 'none',
-  });*/
-
-  const theme = createTheme({
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+const theme = createTheme({
     status: {
       danger: '#e53e3e',
     },
@@ -34,17 +26,18 @@ import InputAdornment from '@mui/material/InputAdornment';
     },
 });
 
-export default function ImageAvatars() {
-    //const history = useHistory();
-    //const [data, setData] = useState('');
-    const [name,setName] = useState(localStorage.getItem("username"));
+export default function Updateprofile() {
+    
+    const [name,setName] = useState(localStorage.getItem("adminusername"));
     const[success,setSuccess]=useState('');
-    //const [selected, setselected] = useState('')
+   
     const [fail, setfail] = useState('');
     const[failmsg, setFailmsg] = useState('')
     let filetoupload=''
-    let img = localStorage.getItem('profileimage') ? localStorage.getItem('profileimage') : '';
-   const uploadedImage = React.useRef(img);
+    let img = localStorage.getItem('aprofileimage') ? localStorage.getItem('aprofileimage') : '';
+     const uploadedImage = React.useRef(img);
+     console.log("uploaded image", uploadedImage)
+  
    const imageUploader = React.useRef(img); 
    let formData = new FormData();
 
@@ -81,6 +74,9 @@ export default function ImageAvatars() {
       if(filetoupload){
         const { current } = uploadedImage;
         current.file = file;
+        
+        
+        
         formData.append("profile_picture",filetoupload)
         console.log("inside fileto upload")
         const reader = new FileReader();
@@ -139,16 +135,19 @@ export default function ImageAvatars() {
     }
     const handleClick=()=>{
         console.log("inside click",name)
-        const email = localStorage.getItem("user")
-        axios.put(`${path[0]['path']}proctor/proctors/self`,
-        {name: name,email:email},
+        const email = localStorage.getItem("adminuser")
+        const role = localStorage.getItem("adminrole")
+        axios.put(`${path[0]['path']}admin/admins/self`,
+        {"name": name,
+        "email": email,
+        "role":role},
         { headers: {
-            'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
+            'Authorization': 'BEARER '+ localStorage.getItem("atoken")
          }},
 
         ).then(resp=>{
             console.log(resp.data)
-            localStorage.setItem("username",name)
+            localStorage.setItem("adminusername",name)
             setSuccess(1)
             //window.location.reload(false);
         }
@@ -158,28 +157,27 @@ export default function ImageAvatars() {
         });
         if(filetoupload){
           console.log("filetoupload",filetoupload)
-          axios.post(`${path[0]['path']}proctor/profilePicture`,formData,
+          axios.post(`${path[0]['path']}admin/profilePicture`,formData,
         {
           headers: {
-            'Authorization': 'BEARER '+ localStorage.getItem("ptoken"),
+            'Authorization': 'BEARER '+ localStorage.getItem("atoken"),
             'Content-Type': 'multipart/form-data'
           }
         }).then(resp=>{
          
           console.log("successfull", resp.data)
           //update localstorage usin self call
-          axios.get(`${path[0]['path']}proctor/proctors/self`,
+          axios.get(`${path[0]['path']}admin/admins/self`,
                   { headers: {
-                      'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
+                      'Authorization': 'BEARER '+ localStorage.getItem("atoken")
                     }}
                   ).then(resp => {
                     const profilepath= resp.data['profile_picture']
                     const imageurl = `${path[0]['imagepath']}${profilepath}`
                     //current.src = imageurl
                     console.log("Response from for self",resp.data);
-                    localStorage.setItem("profileimage",imageurl)
-                    localStorage.setItem("username",resp.data['name']);
-                    sessionStorage.setItem("department",resp.data['department'])
+                    localStorage.setItem("aprofileimage",imageurl)
+                    localStorage.setItem("adminusername",resp.data['name']);
                     window.setTimeout(function(){window.location.reload()},3500)
                   }).catch(error=>{
                     console.log("Error response",error.response.data["error"])
@@ -207,7 +205,7 @@ export default function ImageAvatars() {
      
       <ThemeProvider theme={theme}>
       <Box  sx={{ '& > :not(style)': { m: 1, width: '23ch' }, bgcolor: '#00666633',width:"40%",height:"100%",borderRadius:"32px", padding:"5% 8%" }} alignItems="center" >
-      {success && <p style={{color:"#006666"}}>Changes Saved Successfully!</p>}
+      {success && <p style={{color:"#006666", textAlign:"center"}}>Changes Saved Successfully!</p>}
     
       <input
 
@@ -231,7 +229,7 @@ export default function ImageAvatars() {
         }}
         onClick={() => imageUploader.current.click()}
       >
-        <img
+       <img
           alt="profile"
           src = {img}
           ref={uploadedImage}
@@ -242,17 +240,20 @@ export default function ImageAvatars() {
             position: "acsolute"
           }}
         />
+       
       </div>
-      <div >
-      <p style={{textAlign:"center", fontSize:"15px"}}>Click the circle to change profile picture</p>
-      {img==='No profile picture' && !success && <p style={{textAlign:"center", fontSize:"15px", color:"red"}}>You currently don't have a profile picture</p>}
-      </div>
+<div >
+<p style={{textAlign:"center", fontSize:"15px"}}>Click the circle to change profile picture </p>
+{img==='No profile picture'&& !success && <p style={{textAlign:"center", fontSize:"15px", color:"red"}}>You currently don't have a profile picture</p>}
+      
+</div>
+     
      {fail && <p style={{textAlign:"center", color:"red"}}>{failmsg}</p>}
       <TextField
           color="neutral"
           id="filled-read-only-input"
           label="Full Name"
-          defaultValue= {localStorage.getItem("username")}
+          defaultValue= {localStorage.getItem("adminusername")}
           onChange={handleChange}
           variant="filled"
           InputProps={{
@@ -270,8 +271,8 @@ export default function ImageAvatars() {
         <TextField
         color="neutral"
           id="filled-read-only-input"
-          label="Department"
-          defaultValue= {sessionStorage.getItem("department")}
+          label="Role"
+          defaultValue= {localStorage.getItem("adminrole")}
           InputProps={{
             readOnly: true,
             endAdornment:(
@@ -287,7 +288,7 @@ export default function ImageAvatars() {
         color="neutral"
           id="filled-read-only-input"
           label="Email Address"
-          defaultValue={localStorage.getItem("user")}
+          defaultValue={localStorage.getItem("adminuser")}
           InputProps={{
             readOnly: true,
             endAdornment:(
@@ -308,7 +309,7 @@ export default function ImageAvatars() {
      
       </Box>
       </ThemeProvider>
-      {fail && failmsg !=="Network error. Please try again in a few minutes" && failmsg!=="An Image file has not been selected" && <Errorcomp next="/signin" />}
+      {fail && failmsg !=="Network error. Please try again in a few minutes" && failmsg!=="An Image file has not been selected" && <Errorcomp next="/adminsignin" />}
 
     </Stack>
   );

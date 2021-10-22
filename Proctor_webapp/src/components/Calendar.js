@@ -5,12 +5,10 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import '../css/Schedule.css'
 //import Overlay from './Modal.js'
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import ReactDOM from "react-dom";
-import { useState } from "react";
+
+//import { useState } from "react";
 import Modal from "./Modal.js"
-const styles = {
+/*const styles = {
   media: {
      height: 0,
      paddingTop: '56.25%' // 16:9
@@ -25,7 +23,7 @@ const styles = {
      color: 'black',
      backgroundColor: 'white'
   }
-}
+}*/
 //const [modal, setModal] = useState(false);
 //const Toggle = () => setModal(!modal);
 export default class Calendar extends Component {
@@ -102,7 +100,7 @@ export default class Calendar extends Component {
     
 }
 
-function handleEventClick(eventInfo) {
+/*function handleEventClick(eventInfo) {
   
     alert(`Exam title: '${eventInfo.event.title}' \nStart time:'${eventInfo.event.start}'\nEnd time:'${eventInfo.event.end}'`)
     return ReactDOM.createPortal(
@@ -130,4 +128,4 @@ function handleEventClick(eventInfo) {
         <i>{eventInfo.event.title}</i>
       </>
     )
-  }
+  }*/

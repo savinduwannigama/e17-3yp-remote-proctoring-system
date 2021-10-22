@@ -1,7 +1,7 @@
 import React,{useState,useEffect } from 'react';
 import ProctorAppBar from './ProctorAppBar';
 import HomeIcon from '@mui/icons-material/Home';
-import { useHistory } from 'react-router-dom';
+//import { useHistory } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Homecontent from './Content/Homecontent';
@@ -13,12 +13,12 @@ import path from './jsonfiles/path.json'
 
 function Home() {
   
-  const history = useHistory();
-  const img = localStorage.getItem('profileimage');
+ // const history = useHistory();
+  //const img = localStorage.getItem('profileimage');
   const [fail, setfail] = useState('');
   const [invig,setinvig]=useState('');
   const [cinvig,setcinvig]=useState('');
-  const[courses,setCourses]=useState('')
+  //const[courses,setCourses]=useState('')
   //console.log(jsonData);
   useEffect(() => {
     axios.get(`${path[0]['path']}proctor/proctors/self`,
@@ -26,11 +26,13 @@ function Home() {
       'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
     }}
   ).then(resp => {
-    
-    
-    console.log("Response from api",resp.data);
+    const profilepath= resp.data['profile_picture']
+    const imageurl = `${path[0]['imagepath']}${profilepath}`
+    console.log("Response from for self",resp.data);
+    localStorage.setItem("profileimage",imageurl)
     localStorage.setItem("username",resp.data['name']);
     sessionStorage.setItem("department",resp.data['department'])
+    localStorage.setItem("most recent exam",resp.data['recentExam'])
   }).catch(error=>{
     console.log("Error response",error.response.data["error"])
     setfail(1);
@@ -70,7 +72,7 @@ function Home() {
     setfail(1);
     console.log(fail);
   });
-  }, []);
+  }, [fail]);
   
   
   const invigjson = JSON.stringify(invig)
@@ -98,7 +100,7 @@ function Home() {
     </Box>
    
     </Container>
-     {fail && <Errorcomp/>}
+     {fail && <Errorcomp next="/signin"/>}
      
     </ProctorAppBar>
     
