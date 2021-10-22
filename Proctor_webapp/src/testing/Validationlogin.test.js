@@ -1,5 +1,5 @@
 import React from "react";
-import {render, fireEvent} from "@testing-library/react";
+import {render, fireEvent,screen, waitFor} from "@testing-library/react";
 import Validatelogin from "../components/Validationlogin";
 
 const mockHistoryPush = jest.fn();
@@ -81,8 +81,8 @@ describe("Test input validations at login page",()=>{
         const pwdError3 = getByText("Password should contain at least one digit");
         expect(pwdError3).toBeInTheDocument();
     });
-    test("Password validation",()=>{
-        const {getByLabelText,getByText} = render(<Validatelogin.WrappedComponent />)
+    test("Password validation",async ()=>{
+        const {getByLabelText,getByText} = render(<Validatelogin.WrappedComponent history={historyMock} next={'/home'} path={'proctor/login'} user={'proctor'} />)
         const emailInputNode = getByLabelText("Email");
         const passwordInput = getByLabelText("Password");
         expect(emailInputNode.value).toMatch("");
@@ -92,7 +92,9 @@ describe("Test input validations at login page",()=>{
         fireEvent.change(passwordInput,{target:{value:"12345678a"}});
         const button = getByText("SIGN IN");
         fireEvent.click(button);
-        
+        const nextpage = await waitFor(() => screen.getByText('Network error'));
+        expect(historyMock.push.mock).toEqual(['/home' ])
+        expect(nextpage).toBeInTheDocument();
       
     });
 
