@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const path = require('path');
 
 // importing the mongoose models ///////////////////////////////////////////////////////////////////////////////
 
