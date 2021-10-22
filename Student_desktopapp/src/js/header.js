@@ -173,9 +173,9 @@ var username = document.getElementById("user_name");
 username.innerHTML = sessionStorage.getItem("name");
 
 
-if (typeof(Storage) !== "undefined" && localStorage.useravatar) {
+if (typeof(Storage) !== "undefined" && sessionStorage.profilepic) {
     var useravatar = document.getElementById("avatar");
-    useravatar.src = localStorage.getItem("useravatar");
+    useravatar.src = sessionStorage.getItem("profilepic");
 }
 
 

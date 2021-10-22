@@ -67,6 +67,11 @@ video::-webkit-media-controls-panel {
     padding: 10px;
 }
 
+.profile img {
+    width: 70px;
+    border-radius: 100%;
+}
+
 .info {
     display: inline-block;
 }
@@ -97,6 +102,56 @@ a {
 
 
 /* avatar*/
+
+#preview-wrap {
+    position: relative;
+    border: 5px solid var(--header-color);
+    border-radius: 100%;
+    width: 200px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#picture {
+    display: none;
+}
+
+#preview-wrap img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 100%;
+    width: 200px;
+    height: 200px;
+}
+
+#preview-wrap label {
+    left: 0;
+    right: 0;
+    bottom: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 20;
+    position: absolute;
+    width: fit-content;
+    height: fit-content;
+}
+
+#camera-icon {
+    width: 40px;
+    height: 40px;
+    background-image: url('../img/icons/camera.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 100%;
+}
+
+#camera-icon:hover {
+    background-color: var(--header-color);
+}
 
 
 /* HIDE RADIO */
