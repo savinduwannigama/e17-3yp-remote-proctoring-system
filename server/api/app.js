@@ -75,9 +75,9 @@ app.use(express.urlencoded({ extended: false }));
 // insert the routes here
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/api/admin', adminsRouter);
-app.use('/api/proctor', proctorsRouter);  // APIs used by the proctor's side UI
-app.use('/api/student', studentsRouter);  // APIs used by the students' side UI
+app.use('/admin', adminsRouter);
+app.use('/proctor', proctorsRouter);  // APIs used by the proctor's side UI
+app.use('/student', studentsRouter);  // APIs used by the students' side UI
 /////////////////////////////////////////////////////////////////////////////////
 
 // catch 404 and forward to error handler
