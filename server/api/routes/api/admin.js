@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const path = require('path');
+
 
 // importing the mongoose models ///////////////////////////////////////////////////////////////////////////////
 
@@ -1062,7 +1064,7 @@ router.post('/exams/mastersheet', protectAdmin, async (req, res) => {
      const mins = record.details[3][3].substr(3, 2); 
      
     
-    const startTime = year+"-"+month+"-"+date+"T"+hours+":"+mins+":00z";
+    const startTime = year+"-"+month+"-"+date+"T"+hours+":"+mins+":00+05:30z";
     // console.log(startTime);
     /////////////////////////////////////////////////
     // const name = record.details[0][2];  // OLD MASTERSHEET
