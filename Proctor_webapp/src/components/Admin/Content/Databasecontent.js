@@ -76,7 +76,7 @@ function getSteps() {
     const [completed, setCompleted] = React.useState({});
     const steps = getSteps();
     
-    const totalSteps = () => {
+   /* const totalSteps = () => {
       return steps.length;
     };
     const completedSteps = () => {
@@ -87,30 +87,30 @@ function getSteps() {
     };
     const allStepsCompleted = () => {
       return completedSteps() === totalSteps();
-    };
-    const handleNext = () => {
+    };*/
+    /*const handleNext = () => {
       const newActiveStep =
         isLastStep() && !allStepsCompleted()
           ? steps.findIndex((step, i) => !(i in completed))
           : activeStep + 1;
       setActiveStep(newActiveStep);
-    };
-    const handleBack = () => {
+    };*/
+    /*const handleBack = () => {
       setActiveStep(prevActiveStep => prevActiveStep - 1);
-    };
+    };*/
     const handleStep = step => () => {
       setActiveStep(step);
     };
-    const handleComplete = () => {
+   /* const handleComplete = () => {
       const newCompleted = completed;
       newCompleted[activeStep] = true;
       setCompleted(newCompleted);
       handleNext();
-    };
-    const handleReset = () => {
+    };*/
+    /*const handleReset = () => {
       setActiveStep(0);
       setCompleted({});
-    };
+    };*/
   return (
       <div>
         <Stepper nonLinear activeStep={activeStep}>

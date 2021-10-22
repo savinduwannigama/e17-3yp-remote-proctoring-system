@@ -55,11 +55,11 @@ function CoursePage({match}) {
         setfail(1);
         console.log(fail);
       });
-    },[])
+    },[duty,fail])
     const firstkey=Object.keys(data)[0]
     console.log("Values inside data",data[firstkey])
     if(data[firstkey]){
-        let stud=''
+        //let stud=''
         const trail= data[firstkey].map(t => {
             if(t[1]['course'].trim()===courseId){
                 console.log("course found",t[1]['course'])
@@ -84,7 +84,7 @@ function CoursePage({match}) {
                         Students assigned to the room : Total ({t[0]['room_students'].length})
                             </AccordionSummary>
                             <AccordionDetails>
-                            {stud = t[0]['room_students'].map(d=>{
+                            { t[0]['room_students'].map(d=>{
                                 return(
                                     <Typography>
                                    <p> {d['regNo']}
@@ -126,6 +126,11 @@ function CoursePage({match}) {
         </Card>
                 )
             }
+            //if something happens remove this else block.
+            else{
+                return null
+            }
+           
         })
         return (
             <div style={{color:"black"}}>
@@ -139,7 +144,7 @@ function CoursePage({match}) {
                         </Grid>
                         
                 </Box>
-                {fail && <Errorcomp/>}
+                {fail && <Errorcomp next="/signin"/>}
                 </ProctorAppBar>
             </div>
         )
@@ -149,7 +154,7 @@ function CoursePage({match}) {
           <div style={{textAlign:"center"}}>
               <ProctorAppBar item={courseId} icon = {<CourseIcon/>}> 
             <Loader/>
-            {fail && <Errorcomp/>}
+            {fail && <Errorcomp next="/signin"/>}
             </ProctorAppBar>
     
           </div>

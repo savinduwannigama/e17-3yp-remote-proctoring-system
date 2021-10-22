@@ -73,7 +73,7 @@ function Dashcontent() {
             setfail(1);
          }
         
-        })},[])
+        })},[duty,name])
    //var items = JSON.parse(localStorage.getItem("examinations"));
     //console.log("exams stored in local",items)
     console.log("api data",data)
@@ -84,7 +84,7 @@ function Dashcontent() {
             var item=data[0]
             console.log("room name in each",item[i][0]["room_name"])
         }*/
-        let stud=''
+        //let stud=''
         const trail= data[firstkey].map(t => {
           //console.log(t.exam_room);
           //const disconstud = []
@@ -109,7 +109,7 @@ function Dashcontent() {
                       <Item>Duration: {t[1]['duration']} </Item>
                       <Item>Room name: {t[0]["room_name"]}</Item>
              
-                      <Item>Disconnected Students:{stud = t[0]['room_students'].map(d=>{
+                      <Item>Disconnected Students:{ t[0]['room_students'].map(d=>{
                 
                 if(Object.keys(d['disconnections']).length !== 0 ){
                     console.log("students in room", d);
@@ -122,7 +122,9 @@ function Dashcontent() {
                         </div>
                     )
                 }
-                
+                else{
+                  return null
+                }
                 
             })}</Item>
                <br/>
@@ -145,6 +147,9 @@ function Dashcontent() {
            
             </Card>
           )
+          }
+          else{
+            return null
           }
           
         })
@@ -174,7 +179,7 @@ function Dashcontent() {
         return(
             <div style={{textAlign:"center"}}>
               No recently accessed courses
-              {fail && <Errorcomp/>}
+              {fail && <Errorcomp next="/signin"/>}
       
             </div>
           )

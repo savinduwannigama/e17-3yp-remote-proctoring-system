@@ -9,25 +9,25 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function Addcourse() {
-  const [reqfail,setReqfail]=useState('')
-  const [failure,setFail] = useState('')
+  //const [reqfail,setReqfail]=useState('')
+  //const [failure,setFail] = useState('')
   const [suc,setSuc]=useState('')
  
   let exams = localStorage.getItem('Adminexams')? localStorage.getItem("Adminexams"):''
-  let ex = ''
+  //let ex = ''
   
   exams =exams?  JSON.parse(exams):''
   return (
         <div style={{textAlign:"center", fontSize:"15px"}}>
           <div style={{width:"50%", display: 'flex',margin:"auto"}}>
-         <Accordion style={{display:"block",marginLeft: "auto",  marginRight: "auto"}}>
+         <Accordion style={{display:"block",marginLeft: "auto",  marginRight: "auto", background:"#00666633"}}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
             >
             Exams already added to the system : Total ({exams.length})
             </AccordionSummary>
             {exams.length!==0 && <AccordionDetails>
-              {ex = exams.map(e=>{
+              {exams.map(e=>{
                   return(
                     <Accordion>
                       <AccordionSummary

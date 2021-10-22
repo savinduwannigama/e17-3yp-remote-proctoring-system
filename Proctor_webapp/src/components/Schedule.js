@@ -24,7 +24,7 @@ function Schedule() {
          setfail(1);
          console.log(fail);
           
-    })},[]);
+    })},[fail]);
     if(data.all_exams){
         console.log("data received",data.all_exams)
         console.log("values in each key 0,1,2,3",Object.values(data.all_exams))
@@ -49,7 +49,7 @@ function Schedule() {
             <div className="calendar" >
             <Calendar events= {jsondata}/>
             </div>
-            {fail && <Errorcomp/>}
+            {fail && <Errorcomp next="/signin"/>}
            </ProctorAppBar>
            
         </div>

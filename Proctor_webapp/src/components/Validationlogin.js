@@ -121,13 +121,23 @@ class Validationlogin extends React.Component {
           console.log(resp.data);
           localStorage.setItem(this.props.user==='proctor'? "ptoken":"atoken",resp.data["token"] )
         }).catch(error => {
-        this.setState({
-          reqfail:1,
-          failure:error.response.data["message"]
-        })
-        console.log(this.state.reqfail)
-        console.log(error.response)
-        console.log(error.response.data["message"])
+          if(error.response){
+            this.setState({
+              reqfail:1,
+              failure:error.response.data["message"]
+            })
+            console.log(this.state.reqfail)
+            console.log(error.response)
+            console.log(error.response.data["message"])
+          }
+          else{
+            console.log(error)
+            this.setState({
+              reqfail:1,
+              failure:"Network error"
+            })
+          }
+       
 
         });
         
@@ -247,7 +257,9 @@ class Validationlogin extends React.Component {
               autoComplete="off"
               onSubmit={this.handleSubmit}
         >
-           {this.state.reqfail && this.state.failure!=='Invalid credentials' &&<div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please Sign in using an authorized email</p></div>}
+          {this.state.reqfail && this.state.failure==="Network error" &&<div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please try again in a few minutes</p></div>}
+           
+           {this.state.reqfail && this.state.failure!=="Network error" && this.state.failure!=='Invalid credentials' &&<div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Please Sign in using an authorized email</p></div>}
            {this.state.reqfail && this.state.failure==='Invalid credentials'  && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{this.state.failure}<br/>Email or Password is incorrect</p></div>}
         
       
