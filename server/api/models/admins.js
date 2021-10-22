@@ -7,7 +7,8 @@ const adminsSchema = new mongoose.Schema({
     email: {type: String, required: true, unique: true},  // student names and emails are required
     password: {type: String, default: '', select: false},
     isRegistered: {type: Boolean, default: false},
-    role: {type: String, required: true}
+    role: {type: String, required: true},
+    profile_picture: {type: String, default: 'No profile picture'}
 
 }, {collection: 'admins'})
 

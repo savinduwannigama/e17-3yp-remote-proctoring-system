@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const path = require('path');
+
 
 // importing the mongoose models ///////////////////////////////////////////////////////////////////////////////
 
@@ -15,6 +17,9 @@ const recordings = require('../../models/recordings');  // importing the mongoos
 const { protectStudent } = require('../../middleware/studentAuth');
 const { token } = require('morgan');
 const router = express.Router();
+
+// requiring the middleware to upload profile pictures
+const upload = require('./../../middleware/uploadProfPic');
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // router.post('/register', (req, res) => {  // DUMMY  
@@ -165,6 +170,35 @@ router.post('/login', (req, res) => {
     // }
 
 });
+
+
+// API call to upload profile picture
+router.post('/profilePicture', protectStudent, (req, res) => {
+    upload(req, res, (err) => {
+        if(err) {
+            console.log('Error occured when calling the upload function');
+            return res.status(400).json({status: 'failure', message: 'Error occured when trying to upload image', error: String(err)});  
+        }
+        else {
+            if(req.file == undefined) {
+                return res.status(400).json({status: 'failure', message: 'File object undefined. Please upload an image'}); 
+            }
+            const extens = path.extname(req.file.originalname);  // extension of the uploaded file
+            if(extens != '.png' && extens != '.jpeg' && extens != '.jpg') {
+                return res.status(400).json({status: 'failure', message: 'Invalid file extension. Please upload an image with extension .jpeg/.jpg/.png'}); 
+            }
+            req.student.profile_picture = '/profile_pictures/' + req.file.filename;
+            req.student.save()
+            .then(() => {
+                // console.log(req.file);
+                res.json({status: 'success', message: 'Uploaded profile picture', createdEntry: req.file});
+            })
+            .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying the update the user s profile_picture field', error: String(err)}))
+        }
+    });
+});
+
+
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////

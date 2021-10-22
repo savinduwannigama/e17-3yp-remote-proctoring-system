@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const path = require('path');
+
 
 // importing the mongoose models ///////////////////////////////////////////////////////////////////////////////
 
@@ -27,7 +29,8 @@ const { protectAdmin } = require('../../middleware/adminAuth');
 
 const router = express.Router();
 
-
+// requiring the middleware to upload profile pictures
+const upload = require('./../../middleware/uploadProfPic');
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -182,6 +185,32 @@ router.post('/login', (req, res) => {
 
 });
 
+// API call to upload profile picture
+router.post('/profilePicture', protectAdmin, (req, res) => {
+    upload(req, res, (err) => {
+        if(err) {
+            console.log('Error occured when calling the upload function');
+            return res.status(400).json({status: 'failure', message: 'Error occured when trying to upload image', error: String(err)});  
+        }
+        else {
+            if(req.file == undefined) {
+                return res.status(400).json({status: 'failure', message: 'File object undefined. Please upload an image'}); 
+            }
+            const extens = path.extname(req.file.originalname);  // extension of the uploaded file
+            if(extens != '.png' && extens != '.jpeg' && extens != '.jpg') {
+                return res.status(400).json({status: 'failure', message: 'Invalid file extension. Please upload an image with extension .jpeg/.jpg/.png'}); 
+            }
+            req.admin.profile_picture = '/profile_pictures/' + req.file.filename;
+            req.admin.save()
+            .then(() => {
+                // console.log(req.file);
+                res.json({status: 'success', message: 'Uploaded profile picture', createdEntry: req.file});
+            })
+            .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying the update the user s profile_picture field', error: String(err)}))
+        }
+    })
+});
+
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -191,11 +220,15 @@ router.post('/login', (req, res) => {
  * API calls to the admins collection
  */
 // add new admin to the database
-router.post('/admins/single', (req, res) => {
+router.post('/admins/single', protectAdmin, (req, res) => {
     // method to add a new entry to the user relation in the database
     /**
      * write code to add student to the database
      */
+    // not authorizing if the call is not done by a super-admin
+    if(req.admin.role != 'super-admin') {
+        return res.status(401).json({status: 'failure', message: 'Your admin role is not authorized to add new admins'});
+    }    
 
     const record = req.body;
     // console.log('Request body: ' + record);
@@ -220,7 +253,7 @@ router.post('/admins/single', (req, res) => {
 });
 
 // reading all administrators
-router.get('/admins/all', (req, res) => {
+router.get('/admins/all', protectAdmin, (req, res) => {
     const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
@@ -248,8 +281,8 @@ router.get('/admins/self', protectAdmin, (req, res) => {
 
 // updating self info
 // front end has to send all the fields of the new entry (both updated and non updated fields)
-router.put('/admins/self/:id', (req, res) => {
-    admins.findById(req.params.id)
+router.put('/admins/self', protectAdmin, (req, res) => {
+    admins.findById(req.admin.id)
     .then(admin => {
         admin.name = req.body.name;
         admin.email = req.body.email;
@@ -265,7 +298,11 @@ router.put('/admins/self/:id', (req, res) => {
 // updating info of another admin
 // sends the email of the the updated admin as a request parameter
 // front end has to send all the fields of the new entry (both updated and non updated fields)
-router.put('/admins/single/:email', (req, res) => {
+router.put('/admins/single/:email',  protectAdmin, (req, res) => {
+    // not authorizing if the call is not done by a super-admin
+    if(req.admin.role != 'super-admin') {
+        return res.status(401).json({status: 'failure', message: 'Your admin role is not authorized to edit other admins'});
+    }   
     admins.findOne({email: req.params.email})
     .then(admin => {
         admin.name = req.body.name;
@@ -282,7 +319,11 @@ router.put('/admins/single/:email', (req, res) => {
 // deleting an admin
 // only the super-admin can call this
 // finds an admin by email and deletes
-router.delete('/admins/single/:email', (req, res) => {
+router.delete('/admins/single/:email', protectAdmin, (req, res) => {
+    // not authorizing if the call is not done by a super-admin
+    if(req.admin.role != 'super-admin') {
+        return res.status(401).json({status: 'failure', message: 'Your admin role is not authorized to delete other admins'});
+    }  
     admins.findOneAndDelete({email: req.params.email})
     .then(deleted => {
         if(deleted == null)
@@ -313,7 +354,7 @@ router.delete('/admins/single/:email', (req, res) => {
  */
 
 // add new student to the database
-router.post('/students/single', (req, res) => {
+router.post('/students/single', protectAdmin, (req, res) => {
     // method to add a new entry to the user relation in the database
     /**
      * write code to add student to the database
@@ -344,9 +385,11 @@ router.post('/students/single', (req, res) => {
 
 // add multiple stuedents from a sheet 
 // receiving object => {"uploaded file": "students", "details": [[], [], [start], ..., [end]]}
-router.post('/students/multiple', async (req, res, next) => {
+router.post('/students/multiple', protectAdmin, async (req, res, next) => {
     const record = req.body;
-    console.log('Request body: ' + record);
+    // console.log('Request body: ' + record);
+    if(record.uploaded_file != 'students')
+        return res.status(400).json({status: 'failure', message: 'Please upload the correct sheet to add students'});
     // console.log(record.details[0][0]);
     const createdEntry = [];
 
@@ -384,8 +427,8 @@ router.post('/students/multiple', async (req, res, next) => {
                     if(failItr == 0) {
                         res.json({status: 'success', message: 'Added ' + succItr + ' students', createdEntry})
                     }
-                    else {
-                        res.json({status: 'failure', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
+                    else {  // if it comes here, there's atleast one successful addition
+                        res.json({status: 'success', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
                     }
                 }
             })
@@ -394,11 +437,14 @@ router.post('/students/multiple', async (req, res, next) => {
                 console.log("Error occured: " + err);
                 failItr += 1;
                 if((succItr + failItr + emptyLines) >= totalItr) {
-                    if(failItr == 0) {
+                    if(failItr == 0) {  // no failures
                         res.json({status: 'success', message: 'Added ' + succItr + ' students', createdEntry})
                     }
-                    else {
-                        res.json({status: 'failure', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
+                    else if (succItr != 0){  // both failures and succeses
+                        res.json({status: 'success', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
+                    }
+                    else {  // no successes, all failures
+                        res.json({status: 'failure', message: 'All entered students are duplicate entries'})
                     }
                 }
 
@@ -408,11 +454,14 @@ router.post('/students/multiple', async (req, res, next) => {
             emptyLines += 1;
             // console.log({emptyline: 'yes', num: record.details[i][0], succItr, failItr, emptyLines});
             if((succItr + failItr + emptyLines) >= totalItr) {
-                if(failItr == 0) {
+                if(failItr == 0) {  // no failures
                     res.json({status: 'success', message: 'Added ' + succItr + ' students', createdEntry})
                 }
-                else {
-                    res.json({status: 'failure', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
+                else if (succItr != 0){  // both failures and succeses
+                    res.json({status: 'success', message: 'Added ' + succItr + ' students, failed to add ' + failItr + ' students.', createdEntry})
+                }
+                else {  // no successes, all failures
+                    res.json({status: 'failure', message: 'All entered students are duplicate entries'})
                 }
             }
         }
@@ -425,7 +474,7 @@ router.post('/students/multiple', async (req, res, next) => {
 });
 
 // call to read all students
-router.get('/students/all', (req, res) => {
+router.get('/students/all', protectAdmin, (req, res) => {
     const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
@@ -440,7 +489,7 @@ router.get('/students/all', (req, res) => {
 // updating info of a single student
 // sends the email of the the updated student as a request parameter
 // front end has to send all the fields of the new entry (both updated and non updated fields)
-router.put('/students/single/:email', (req, res) => {
+router.put('/students/single/:email', protectAdmin, (req, res) => {
     students.findOne({email: req.params.email})
     .then(student => {
         student.name = req.body.name;
@@ -458,7 +507,7 @@ router.put('/students/single/:email', (req, res) => {
 
 // deleting a single student
 // sends the email of the the updated student as a request parameter
-router.delete('/students/single/:email', (req, res) => {
+router.delete('/students/single/:email', protectAdmin, (req, res) => {
     students.findOneAndDelete({email: req.params.email})
     .then(deleted => {
         if(deleted == null)
@@ -471,7 +520,7 @@ router.delete('/students/single/:email', (req, res) => {
 
 // deleting all students
 // only the super-admin can call this
-router.delete('/students/all', (req, res) => {
+router.delete('/students/all', protectAdmin, (req, res) => {
     students.find()
     .then(result => {
         students.deleteMany({})  // expected to delete all the students
@@ -491,8 +540,11 @@ router.delete('/students/all', (req, res) => {
 
 // add multiple proctors from a sheet 
 // receiving object => {"uploaded_file": "students", "details": [[], [], [start], ..., [end]]}
-router.post('/proctors/multiple', (req, res, next) => {
+router.post('/proctors/multiple', protectAdmin, (req, res, next) => {
     const record = req.body;
+    // checking if the uploaded mastersheet is the correct one
+    if(record.uploaded_file != 'proctors')
+        return res.status(400).json({status: 'failure', message: 'Please upload the correct sheet to add proctors'});
     // console.log('Request body: ' + record);
     // console.log(record.details[0][0]);
     const createdEntry = [];
@@ -540,11 +592,14 @@ router.post('/proctors/multiple', (req, res, next) => {
                 console.log("Error occured: " + err);
                 failItr += 1;
                 if((succItr + failItr + emptyLines) >= totalItr) {
-                    if(failItr == 0) {
+                    if(failItr == 0) {  // no failures
                         res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
                     }
-                    else {
-                        res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                    else if (succItr != 0){  // both failures and succeses
+                        res.json({status: 'success', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                    }
+                    else {  // no successes, all failures
+                        res.json({status: 'failure', message: 'All entered proctors are duplicate entries'})
                     }
                 }
             });  
@@ -553,12 +608,15 @@ router.post('/proctors/multiple', (req, res, next) => {
             emptyLines += 1;
             // console.log({emptyline: 'yes', num: record.details[i][0], succItr, failItr, emptyLines});
             if((succItr + failItr + emptyLines) >= totalItr) {
-                if(failItr == 0) {
-                    res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
-                }
-                else {
-                    res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
-                }
+                    if(failItr == 0) {  // no failures
+                        res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
+                    }
+                    else if (succItr != 0){  // both failures and succeses
+                        res.json({status: 'success', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                    }
+                    else {  // no successes, all failures
+                        res.json({status: 'failure', message: 'All entered proctors are duplicate entries'})
+                    }
             }
         }
         // // console.log({succItr, failItr});
@@ -580,7 +638,7 @@ router.post('/proctors/multiple', (req, res, next) => {
 
 
 // add a new proctor to the database
-router.post('/proctors/single', (req, res) => {
+router.post('/proctors/single', protectAdmin, (req, res) => {
     // method to add a new entry to the user relation in the database
     /**
      * write code to add student to the database
@@ -610,7 +668,7 @@ router.post('/proctors/single', (req, res) => {
 });
 
 // call to read all proctors
-router.get('/proctors/all', (req, res) => {
+router.get('/proctors/all', protectAdmin, (req, res) => {
     const req_body = req.body;
     console.log('Request body: ' + req_body);
 
@@ -625,7 +683,7 @@ router.get('/proctors/all', (req, res) => {
 // updating info of a single proctor
 // sends the email of the the updated proctor as a request parameter
 // front end has to send all the fields of the new entry (both updated and non updated fields)
-router.put('/proctors/single/:email', (req, res) => {
+router.put('/proctors/single/:email', protectAdmin, (req, res) => {
     proctors.findOne({email: req.params.email})
     .then(proctor => {
         proctor.name = req.body.name;
@@ -640,7 +698,7 @@ router.put('/proctors/single/:email', (req, res) => {
 
 // deleting a single proctor
 // sends the email of the the updated proctor as a request parameter
-router.delete('/proctors/single/:email', (req, res) => {
+router.delete('/proctors/single/:email', protectAdmin, (req, res) => {
     proctors.findOneAndDelete({email: req.params.email})
     .then(deleted => {
         if(deleted == null)
@@ -653,7 +711,7 @@ router.delete('/proctors/single/:email', (req, res) => {
 
 // deleting all proctors
 // only the super-admin can call this
-router.delete('/proctors/all', (req, res) => {
+router.delete('/proctors/all', protectAdmin, (req, res) => {
     proctors.find()
     .then(result => {
         proctors.deleteMany({})  // expected to delete all the proctors
@@ -670,7 +728,7 @@ router.delete('/proctors/all', (req, res) => {
  * API calls to the courses collection
  */
 // add 1 new course to the database
-router.post('/courses/single', (req, res) => {
+router.post('/courses/single', protectAdmin, (req, res) => {
     // method to add a new entry to the user relation in the database
     /**
      * write code to add student to the database
@@ -702,8 +760,13 @@ router.post('/courses/single', (req, res) => {
 
 // add multiple courses from a mpasswordastersheet 
 // receiving object => {"uploaded file": "courses", "details": [[], [start], [], ..., [end]]}
-router.post('/courses/mastersheet', async (req, res) => {
+router.post('/courses/mastersheet', protectAdmin, async (req, res) => {
     const record = req.body;
+
+    // checking if the uploaded mastersheet is the correct one
+    if(record.uploaded_file != 'courses')
+        return res.status(400).json({status: 'failure', message: 'Please upload the correct sheet to add courses'});
+
     // console.log('Request body: ' + record);
     var createdEntry = [];
     // var errorOccured = false;
@@ -760,11 +823,14 @@ router.post('/courses/mastersheet', async (req, res) => {
                 // errorOccured = true;
                 failItr += 1;
                 if((succItr + failItr + emptyLines) >= totalItr) {
-                    if(failItr == 0) {
+                    if(failItr == 0) {  // no failures
                         res.json({status: 'success', message: 'Added ' + succItr + ' courses', createdEntry})
                     }
-                    else {
-                        res.json({status: 'failure', message: 'Added ' + succItr + ' courses, failed to add ' + failItr + ' courses.', createdEntry})
+                    else if (succItr != 0){  // both failures and succeses
+                        res.json({status: 'success', message: 'Added ' + succItr + ' courses, failed to add ' + failItr + ' courses.', createdEntry})
+                    }
+                    else {  // no successes, all failures
+                        res.json({status: 'failure', message: 'All entered courses are duplicate entries'})
                     }
                 }
                 // next();
@@ -774,11 +840,14 @@ router.post('/courses/mastersheet', async (req, res) => {
             emptyLines += 1;
             // console.log({emptyline: 'yes', num: record.details[i][0], succItr, failItr, emptyLines});
             if((succItr + failItr + emptyLines) >= totalItr) {
-                if(failItr == 0) {
-                    res.json({status: 'success', message: 'Added ' + succItr + ' proctors', createdEntry})
+                if(failItr == 0) {  // no failures
+                    res.json({status: 'success', message: 'Added ' + succItr + ' courses', createdEntry})
                 }
-                else {
-                    res.json({status: 'failure', message: 'Added ' + succItr + ' proctors, failed to add ' + failItr + ' proctors.', createdEntry})
+                else if (succItr != 0){  // both failures and succeses
+                    res.json({status: 'success', message: 'Added ' + succItr + ' courses, failed to add ' + failItr + ' courses.', createdEntry})
+                }
+                else {  // no successes, all failures
+                    res.json({status: 'failure', message: 'All entered courses are duplicate entries'})
                 }
             }
         }
@@ -792,7 +861,7 @@ router.post('/courses/mastersheet', async (req, res) => {
 });
 
 // call to read all courses
-router.get('/courses/all', (req, res) => {
+router.get('/courses/all', protectAdmin, (req, res) => {
     // const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
@@ -808,7 +877,7 @@ router.get('/courses/all', (req, res) => {
 // updating info of a single course
 // sends the shortname of the the updated course as a request parameter
 // front end has to send all the fields of the new entry (both updated and non updated fields)
-router.put('/courses/single/:shortname', (req, res) => {
+router.put('/courses/single/:shortname', protectAdmin, (req, res) => {
     courses.findOne({shortname: req.params.shortname})
     .then(course => {
         course.name = req.body.shortname;
@@ -828,7 +897,7 @@ router.put('/courses/single/:shortname', (req, res) => {
 
 // deleting a single course
 // sends the shortname of the the updated course as a request parameter
-router.delete('/courses/single/:shortname', (req, res) => {
+router.delete('/courses/single/:shortname', protectAdmin, (req, res) => {
     courses.findOne({shortname: req.params.shortname})
     .then(result => {
         if (result == null) {
@@ -855,7 +924,7 @@ router.delete('/courses/single/:shortname', (req, res) => {
 
 // deleting all courses
 // only the super-admin can call this
-router.delete('/courses/all', (req, res) => {
+router.delete('/courses/all', protectAdmin, (req, res) => {
     // checks whether there's atleast one exam --> if so cannot delete all courses
     exams.findOne()  
     .then(result => {
@@ -886,7 +955,7 @@ router.delete('/courses/all', (req, res) => {
  * API calls to the devices collection
  */
 // add a new device to the database
-router.post('/devices/single', (req, res) => {
+router.post('/devices/single', protectAdmin, (req, res) => {
     // method to add a new entry to the user relation in the database
     /**
      * write code to add device to the database
@@ -916,7 +985,7 @@ router.post('/devices/single', (req, res) => {
 });
 
 // call to read all devices
-router.get('/devices/all', (req, res) => {
+router.get('/devices/all', protectAdmin, (req, res) => {
     const req_body = req.body;
     console.log('Request body: ' + req_body);
 
@@ -968,8 +1037,13 @@ router.get('/devices/all', (req, res) => {
 // add an exam from the mastersheet 
 // receiving object => {"uploaded file": "mastersheet", "details": [[], [], [], ..., []]}
 // the course of the exam should exist in the courses collection prior to adding an exam
-router.post('/exams/mastersheet', async (req, res) => {
+router.post('/exams/mastersheet', protectAdmin, async (req, res) => {
     const record = req.body;
+
+    // checking if the uploaded mastersheet is the correct one
+    if(record.uploaded_file != 'mastersheet')
+        return res.status(400).json({status: 'failure', message: 'Please upload the correct sheet to add exams'});
+
     // console.log('Request body: ' + record);
     var distinct_exam_rooms = [];
 
@@ -990,7 +1064,7 @@ router.post('/exams/mastersheet', async (req, res) => {
      const mins = record.details[3][3].substr(3, 2); 
      
     
-    const startTime = year+"-"+month+"-"+date+"T"+hours+":"+mins+":00z";
+    const startTime = year+"-"+month+"-"+date+"T"+hours+":"+mins+":00+05:30z";
     // console.log(startTime);
     /////////////////////////////////////////////////
     // const name = record.details[0][2];  // OLD MASTERSHEET
@@ -1168,7 +1242,7 @@ router.post('/exams/mastersheet', async (req, res) => {
 });
 
 // call to read all exams
-router.get('/exams/all', (req, res) => {
+router.get('/exams/all', protectAdmin, (req, res) => {
     const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
@@ -1182,7 +1256,7 @@ router.get('/exams/all', (req, res) => {
 
 // deleting a single exam
 // sends the shortname of the the updated course as a request parameter
-router.delete('/exams/single/:name', (req, res) => {
+router.delete('/exams/single/:name', protectAdmin, (req, res) => {
     // console.log(req.params.name);
     exams.findOneAndDelete({name: req.params.name})
     .then(deleted => {
@@ -1235,7 +1309,7 @@ router.delete('/exams/single/:name', (req, res) => {
  */
 
 // call to read all exams_rooms
-router.get('/examrooms/all', (req, res) => {
+router.get('/examrooms/all', protectAdmin, (req, res) => {
     const req_body = req.body;
     // console.log('Request body: ' + req_body);
 

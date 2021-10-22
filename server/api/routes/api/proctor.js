@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const path = require('path');
 
 // importing the mongoose models ///////////////////////////////////////////////////////////////////////////////
 
@@ -17,6 +18,9 @@ const exam_rooms = require('../../models/exam_rooms');  // importing the mongoos
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const { protectProctor } = require('../../middleware/proctorAuth');
+
+// requiring the middleware to upload profile pictures
+const upload = require('./../../middleware/uploadProfPic');
 
 const router = express.Router();
 
@@ -164,6 +168,31 @@ router.post('/login', (req, res) => {
 
 });
 
+// API call to upload profile picture
+router.post('/profilePicture', protectProctor, (req, res) => {
+    upload(req, res, (err) => {
+        if(err) {
+            console.log('Error occured when calling the upload function');
+            return res.status(400).json({status: 'failure', message: 'Error occured when trying to upload image', error: String(err)});  
+        }
+        else {
+            if(req.file == undefined) {
+                return res.status(400).json({status: 'failure', message: 'File object undefined. Please upload an image'}); 
+            }
+            const extens = path.extname(req.file.originalname);  // extension of the uploaded file
+            if(extens != '.png' && extens != '.jpeg' && extens != '.jpg') {
+                return res.status(400).json({status: 'failure', message: 'Invalid file extension. Please upload an image with extension .jpeg/.jpg/.png'}); 
+            }
+            req.proctor.profile_picture = '/profile_pictures/' + req.file.filename;
+            req.proctor.save()
+            .then(() => {
+                // console.log(req.file);
+                res.json({status: 'success', message: 'Uploaded profile picture', createdEntry: req.file});
+            })
+            .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying the update the user s profile_picture field', error: String(err)}))
+        }
+    })
+});
 
 
 
@@ -455,7 +484,7 @@ router.get('/exams/invigilator/self', protectProctor, (req, res) => {
 // });
 
 // call to read all courses
-router.get('/courses/all', (req, res) => {
+router.get('/courses/all',  protectProctor, (req, res) => {
     // const req_body = req.body;
     // console.log('Request body: ' + req_body);
 
@@ -680,6 +709,22 @@ router.put('/proctors/self', protectProctor, (req, res) => {
         .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save the updated entry', error: String(err)}));
     })
     .catch(err => res.status(400).json({status: 'failure', message: "Error occured while trying to read self proctor record", error: String(err)}));
+});
+
+// API call to set recentExam of proctor
+// replaces the proctor's previous recentExam
+router.post('/proctors/self/recentExam', protectProctor, (req, res) => {
+    if (req.body.recentExam == undefined) {
+        return res.status(400).json({status: 'failure', message: 'recentExam in request body undefined'})
+    }
+    req.proctor.recentExam = req.body.recentExam;
+    
+    // console.log(req.body.recentExam);
+
+    req.proctor.save()
+    .then(() => res.json({status: 'success', message: 'Added new recentExam', updatedEntry: req.proctor.recentExam}))
+    .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save the updated recentExam', error: String(err)}));
+   
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
