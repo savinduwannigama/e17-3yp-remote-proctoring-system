@@ -25,8 +25,8 @@ function createWindow() {
         width: 800,
         height: 480,
         //minimizable: false,
-        maximizable: false,
-        resizable: false,
+        //maximizable: false,
+        //resizable: false,
         //movable: false,
         icon: "src/img/appicon3_YGz_icon.ico",
 
@@ -34,7 +34,7 @@ function createWindow() {
             nodeIntegration: true,
             contextIsolation: false,
             enableRemoteModule: true,
-            //devTools: true,
+            devTools: true,
             //devTools: false,
         }
     })
@@ -78,10 +78,10 @@ function createWindow() {
     mainWindow.setMenu(null);
 
     // load main page
-    mainWindow.loadFile('src/loginpage.html')
-
+    mainWindow.loadFile('src/loginpage.html');
+    //mainWindow.loadURL('http://localhost:3000')
     // Open the DevTools.
-    //mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 
     // Load pages
     ipc.on('Login', () => { mainWindow.loadFile('src/loginpage.html') })

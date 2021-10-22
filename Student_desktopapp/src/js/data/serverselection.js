@@ -33,7 +33,6 @@ jsonReader("./src/json/user_servers.json", (err, customer) => {
         return;
     }
     var servers = Object.keys(customer)
-    console.log(servers)
     for (var i = 0; i < servers.length; i++) {
         connections.innerHTML += `<div class='item'>
        

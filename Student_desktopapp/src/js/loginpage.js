@@ -53,8 +53,6 @@ function validateEmail(e) {
 
 /************** check user input before login ******************/
 
-
-
 var login = document.getElementById("login");
 
 login.addEventListener('click', function(e) {
@@ -153,7 +151,7 @@ register.addEventListener('click', function(e) {
     var serverIP = localStorage.getItem('serverIP')
     axios({
             method: 'post',
-            url: 'http://' + serverIP + '/api/student/login',
+            url: 'http://' + serverIP + '/api/student/register',
             responseType: 'json',
             data: {
                 "email": regemail.value,
@@ -167,6 +165,7 @@ register.addEventListener('click', function(e) {
         })
         .catch(function(error) {
             if (error.response) {
+                console.log(error.response)
                 regerror.innerHTML = "* " + error.response.data.message;
             } else {
                 regerror.innerHTML = "* " + error
