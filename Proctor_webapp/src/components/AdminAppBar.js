@@ -144,6 +144,7 @@ export default function PrimarySearchAppBar(props) {
     localStorage.removeItem("Students")
     localStorage.removeItem("Admincourses")
     localStorage.removeItem("Adminexams")
+    localStorage.removeItem("adminrole")
     history.push('/');
   }
   const gotoSettings=()=>{
@@ -326,7 +327,7 @@ export default function PrimarySearchAppBar(props) {
               <ListItemIcon sx={{ color: 'white' }}>
                 <FileUploadIcon/>
               </ListItemIcon>
-              <ListItemText primary="Add to database" />
+              <ListItemText primary="Add Data" />
             </ListItem>
 
             <Divider sx={{height:'1px', backgroundColor: 'white'}} />
@@ -334,7 +335,7 @@ export default function PrimarySearchAppBar(props) {
               <ListItemIcon sx={{ color: 'white' }}>
                 <StorageIcon/>
               </ListItemIcon>
-              <ListItemText primary="Remove from Database" />
+              <ListItemText primary="Remove Data" />
             </ListItem>
 
             <Divider sx={{height:'1px', backgroundColor: 'white'}}/>

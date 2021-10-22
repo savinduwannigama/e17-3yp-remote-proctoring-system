@@ -32,6 +32,7 @@ function Home() {
     localStorage.setItem("profileimage",imageurl)
     localStorage.setItem("username",resp.data['name']);
     sessionStorage.setItem("department",resp.data['department'])
+    localStorage.setItem("most recent exam",resp.data['recentExam'])
   }).catch(error=>{
     console.log("Error response",error.response.data["error"])
     setfail(1);

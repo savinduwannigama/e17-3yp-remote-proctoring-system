@@ -1,5 +1,7 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import path from './jsonfiles/path.json'
 class JitsiComponent extends Component {
 
     domain = 'meet.jit.si';
@@ -117,6 +119,17 @@ class JitsiComponent extends Component {
     handleVideoConferenceLeft = () => {
         console.log("handleVideoConferenceLeft");
         localStorage.setItem("most recent exam",this.props.name)
+        axios.post(`${path[0]['path']}proctor/proctors/self/recentExam`,
+        {
+            "recentExam": this.props.name
+        },{ headers: {
+            'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
+          }}
+        ).then(resp=>{
+            console.log("response to recently accessed",resp.data)
+        }).catch(error=>{
+            console.log(error.response)
+        })
         this.props.history.push('/dashboard');
     }
 

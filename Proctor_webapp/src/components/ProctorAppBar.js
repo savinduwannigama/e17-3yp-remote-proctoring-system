@@ -183,6 +183,7 @@ export default function PersistentDrawerLeft(props) {
     localStorage.removeItem("invig courses")
     localStorage.removeItem("examinations")
     localStorage.removeItem("profileimage")
+    localStorage.removeItem("most recent exam")
     history.push('/');
   }
 

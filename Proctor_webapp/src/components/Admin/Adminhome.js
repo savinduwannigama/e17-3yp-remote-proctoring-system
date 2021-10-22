@@ -21,7 +21,14 @@ function Adminhome() {
          'Authorization': 'BEARER '+ localStorage.getItem("atoken")
        }}
      ).then(resp => {
-       
+       let imageurl = 'No profile picture'
+       if(resp.data['profile_picture']!=='No profile picture'){
+        const profilepath= resp.data['profile_picture']
+        imageurl = `${path[0]['imagepath']}${profilepath}`
+       }
+      
+      localStorage.setItem("aprofileimage",imageurl)
+      localStorage.setItem("adminrole", resp.data['role'])
        
        console.log("Self data",resp.data);
        localStorage.setItem("adminusername",resp.data['name']);
