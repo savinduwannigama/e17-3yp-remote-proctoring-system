@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import path from '../../jsonfiles/path'
+import Error from '../../Content/Error'
 const theme = createTheme({
   status: {
     danger: '#e53e3e',
@@ -97,15 +98,17 @@ function Addproctor() {
       axios.post(url,{
         "name": items['name'],
         "email": items['email']
-    }).then(resp=>{
+    },{ headers: {
+      'Authorization': 'BEARER '+ localStorage.getItem("atoken")
+    }}).then(resp=>{
       setReqfail('')
       setFail('')
       //setSuc(1)
       console.log("request successful",resp.data)
       axios.get(`${path[0]['path']}admin/proctors/all`
-            /*,{ headers: {
-               'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
-             }}*/
+      ,{ headers: {
+        'Authorization': 'BEARER '+ localStorage.getItem("atoken")
+      }}
            ).then(resp => {
              
              
@@ -119,14 +122,30 @@ function Addproctor() {
              //localStorage.setItem("username",resp.data['name']);
              //sessionStorage.setItem("department",resp.data['department'])
            }).catch(error=>{
-             console.log("Error response",error.response.data["error"])
+            if(typeof error.response.data["message"]!=='undefined'){
+              console.log("Error response",error.response.data["message"])
+              setFail(error.response.data["message"])
+            }
+            else{
+              console.log(error)
+              setFail(error.response)
+            }
              setFail(1);
              //console.log(ail);
            });
       //localStorage.setItem("proctor_added",1)
     }).catch(error=>{
+      if(typeof error.response.data["message"]!=='undefined'){
+        console.log("Error response",error.response.data["message"])
+        setFail(error.response.data["message"])
+      }
+      else{
+        console.log(error)
+
+        setFail(error.response)
+      }
       setReqfail(1);
-      setFail(error.response.data["message"])
+     
     })
     }
   }
@@ -137,19 +156,19 @@ function Addproctor() {
 }
 
   let proctors = localStorage.getItem('Proctors')? localStorage.getItem("Proctors"):''
-  let proc = ''
+  //let proc = ''
   proctors =proctors?  JSON.parse(proctors):''
   return (
         <div style={{textAlign:"center", fontSize:"15px"}}>
           <div style={{width:"50%", display: 'flex',margin:"auto"}}>
-         <Accordion style={{display:"block",marginLeft: "auto",  marginRight: "auto"}}>
+         <Accordion style={{display:"block",marginLeft: "auto",  marginRight: "auto", background:"#00666633"}}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
             >
             Proctors already added to the system : Total ({proctors.length})
             </AccordionSummary>
             {proctors.length!==0 && <AccordionDetails>
-              {proc = proctors.map(p=>{
+              {proctors.map(p=>{
                   return(
                     <Accordion>
                       <AccordionSummary
@@ -197,7 +216,8 @@ function Addproctor() {
         </Box>
         <hr style={{background:"#006666",height:"5px"}}/>
         To add a single proctors please fill the form below.
-
+        {reqfail && !(failure.includes("token") || failure.includes("Token")) && <p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{failure}<br/>Please check if the proctor already exists in the above list</p>}
+      
         <Box
               component="form"
               sx={{
@@ -207,7 +227,6 @@ function Addproctor() {
               autoComplete="off"
               onSubmit={handleSubmit}
         >
-        {reqfail && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{failure}<br/></p></div>}
         <ThemeProvider theme={theme}>   
             <TextField 
             color="neutral"
@@ -249,8 +268,8 @@ function Addproctor() {
 
         {suc && <p style={{textAlign:"center", fontSize:"15px", color:"#006666"}}>Proctor Added successfully. Please proceed to next step</p>}
 
-
-
+        {reqfail && (failure.includes("token") || failure.includes("Token"))&& <Error next="/adminsignin"/>}
+        
 
 
 

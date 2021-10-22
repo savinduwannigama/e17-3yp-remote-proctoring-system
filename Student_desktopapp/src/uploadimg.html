@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #efefef;
+        }
+        
+        .profile-pic {
+            max-width: 222px;
+            max-height: 222px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+        
+        .file-upload {
+            display: none;
+        }
+        
+        .circle {
+            border-radius: 50%;
+            overflow: hidden;
+            width: 228px;
+            height: 228px;
+            border: 8px solid rgba(255, 255, 255, 0.7);
+            position: absolute;
+            top: 72px;
+            transition: all .3s;
+        }
+        
+        .circle:hover {
+            background-color: #909090;
+            cursor: pointer
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            min-width: 212px;
+            min-height: 212px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <div class="small-12 medium-2 large-2 columns">
+            <div class="circle upload-button">
+                <!-- User Profile Image -->
+                <img class="profile-pic" src="">
+
+                <!-- Default Image -->
+                <!-- <i class="fa fa-user fa-5x"></i> -->
+            </div>
+
+            <input class="file-upload" type="file" accept="image/*" />
+
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+
+
+            var readURL = function(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $('.profile-pic').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+
+            $(".file-upload").on('change', function() {
+                readURL(this);
+            });
+
+            $(".upload-button").on('click', function() {
+                $(".file-upload").click();
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,5 +1,7 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import path from './jsonfiles/path.json'
 class JitsiComponent extends Component {
 
     domain = 'meet.jit.si';
@@ -64,10 +66,7 @@ class JitsiComponent extends Component {
                 // },
 
             },
-            interfaceConfigOverwrite: {
-                // overwrite interface properties
-                DISABLE_DOMINANT_SPEAKER_INDICATOR: true
-            },
+            
             parentNode: document.querySelector('#jitsi-iframe'),
             
             userInfo: {
@@ -77,7 +76,8 @@ class JitsiComponent extends Component {
                 filmStripOnly: false,
                 SHOW_JITSI_WATERMARK: false,
                 DISABLE_JOIN_LEAVE_NOTIFICATIONS: false,
-                VIDEO_LAYOUT_FIT: 'both'
+                VIDEO_LAYOUT_FIT: 'both',
+                DISABLE_DOMINANT_SPEAKER_INDICATOR: true
 
             },
             
@@ -119,6 +119,17 @@ class JitsiComponent extends Component {
     handleVideoConferenceLeft = () => {
         console.log("handleVideoConferenceLeft");
         localStorage.setItem("most recent exam",this.props.name)
+        axios.post(`${path[0]['path']}proctor/proctors/self/recentExam`,
+        {
+            "recentExam": this.props.name
+        },{ headers: {
+            'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
+          }}
+        ).then(resp=>{
+            console.log("response to recently accessed",resp.data)
+        }).catch(error=>{
+            console.log(error.response)
+        })
         this.props.history.push('/dashboard');
     }
 
@@ -141,15 +152,15 @@ class JitsiComponent extends Component {
     // custom events
     executeCommand(command) {
         this.api.executeCommand(command);;
-        if(command == 'hangup') {
+        if(command === 'hangup') {
             return this.props.history.push('/home');
         }
 
-        if(command == 'toggleAudio') {
+        if(command === 'toggleAudio') {
             this.setState({ isAudioMuted: !this.state.isAudioMuted });
         }
 
-        if(command == 'toggleVideo') {
+        if(command === 'toggleVideo') {
             this.setState({ isVideoMuted: !this.state.isVideoMuted });
         }
     }
@@ -163,7 +174,7 @@ class JitsiComponent extends Component {
     }
 
     render() {
-        const { isAudioMuted, isVideoMuted } = this.state;
+       // const { isAudioMuted, isVideoMuted } = this.state;
         return (
             <>
             

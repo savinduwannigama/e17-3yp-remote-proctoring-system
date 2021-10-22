@@ -20,11 +20,11 @@ const Item = styled(Paper)(({ theme }) => ({
 function Renderer ()  {
   const minute = 1000 * 60;
   const hour = minute * 60;
-  const day = hour * 24;
-  const year = day * 365;
+  //const day = hour * 24;
+  //const year = day * 365;
   var exams =[];
   const [data, setData] = useState('');
-  const [inv,setInv]=useState('');
+  //const [inv,setInv]=useState('');
   useEffect(() => {
     axios.get(`${path[0]['path']}proctor/exams/self`,
     { headers: {
@@ -109,6 +109,9 @@ function Renderer ()  {
        
         </Card>
       )}
+      else{
+        return null
+      }
     })
     console.log("exams to be stored",exams)
     const jsonexams= JSON.stringify(exams)

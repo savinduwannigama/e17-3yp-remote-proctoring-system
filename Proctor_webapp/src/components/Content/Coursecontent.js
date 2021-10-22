@@ -2,10 +2,10 @@ import React from 'react'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-import { CardActionArea } from '@mui/material';
-import Loader from "../Content/Loader"
+//import { CardActionArea } from '@mui/material';
+//import Loader from "../Content/Loader"
 import {Link} from 'react-router-dom';
-import ProctorAppBar from '../ProctorAppBar'
+//import ProctorAppBar from '../ProctorAppBar'
 
 function Coursecontent() {
    

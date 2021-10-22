@@ -13,7 +13,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import axios from 'axios';
 import path from '../../jsonfiles/path'
-
+import Error from '../../Content/Error'
 const theme = createTheme({
   status: {
     danger: '#e53e3e',
@@ -116,15 +116,17 @@ function Addstudent() {
         "department": items["department"],
         "device" : items['device']
        
-    }).then(resp=>{
+    } ,{ headers: {
+      'Authorization': 'BEARER '+ localStorage.getItem("atoken")
+    }}).then(resp=>{
       setReqfail('')
       setFail('')
       //setSuc(1)
       console.log("request successful",resp.data)
       axios.get(`${path[0]['path']}admin/students/all`
-      /*,{ headers: {
-         'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
-       }}*/
+      ,{ headers: {
+        'Authorization': 'BEARER '+ localStorage.getItem("atoken")
+      }}
      ).then(resp => {
        
        
@@ -138,14 +140,30 @@ function Addstudent() {
        //localStorage.setItem("username",resp.data['name']);
        //sessionStorage.setItem("department",resp.data['department'])
      }).catch(error=>{
-       console.log("Error response",error.response.data["error"])
-       setFail(1);
+      if(typeof error.response.data["message"]!=='undefined'){
+        console.log("Error response",error.response.data["message"])
+        setFail(error.response.data["message"])
+      }
+      else{
+        console.log(error)
+        setFail(error.response)
+      }
+      setFail(1);
        //console.log(ail);
      });
      
     }).catch(error=>{
+      if(typeof error.response.data["message"]!=='undefined'){
+        console.log("Error response",error.response.data["message"])
+        setFail(error.response.data["message"])
+      }
+      else{
+        console.log(error)
+
+        setFail(error.response)
+      }
       setReqfail(1);
-      setFail(error.response.data["message"])
+     
     })
     }
   }
@@ -156,13 +174,13 @@ function Addstudent() {
 }
 
   let students = localStorage.getItem('Students')? localStorage.getItem("Students"):''
-  let stud = ''
+  //let stud = ''
   students =students?  JSON.parse(students):''
   return (
         <div style={{textAlign:"center", fontSize:"15px"}}>
           <div style={{width:"50%", display: 'flex',margin:"auto"}}>
               
-         <Accordion style={{display:"block",marginLeft: "auto",  marginRight: "auto"}}>
+         <Accordion style={{display:"block",marginLeft: "auto",  marginRight: "auto", background:"#00666633"}}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
             >
@@ -171,7 +189,7 @@ function Addstudent() {
             </AccordionSummary>
 
             {students.length!==0 && <AccordionDetails>
-              {stud = students.map(s=>{
+              {students.map(s=>{
                   return(
                     <Accordion>
                       <AccordionSummary
@@ -219,7 +237,8 @@ function Addstudent() {
         </Box>
         <hr style={{background:"#006666",height:"5px"}}/>
         To add a single student please fill the form below.
-
+        {reqfail && !(failure.includes("token") || failure.includes("Token")) && <p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{failure}<br/>Please check if the student already exists in the above list</p>}
+      
         <Box
               component="form"
               sx={{
@@ -235,8 +254,7 @@ function Addstudent() {
               autoComplete="off"
               onSubmit={handleSubmit}
         >
-        {reqfail && <div><p style={{color:"red",fontSize:"15px",textAlign:"center"}}>{failure}<br/></p></div>}
-        <Stack spacing={2} >
+         <Stack spacing={2} >
         <ThemeProvider theme={theme}>   
             <TextField 
             color="neutral"
@@ -323,7 +341,8 @@ function Addstudent() {
         </Box>
 
         {suc && <p style={{textAlign:"center"}}>Student Added successfully. Please proceed to next step</p>}
-
+        {reqfail && (failure.includes("token") || failure.includes("Token"))&& <Error next="/adminsignin"/>}
+      
 
 
 

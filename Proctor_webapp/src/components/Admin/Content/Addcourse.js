@@ -11,24 +11,24 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
 function Addcourse() {
-  const [reqfail,setReqfail]=useState('')
-  const [failure,setFail] = useState('')
+  //const [reqfail,setReqfail]=useState('')
+  //const [failure,setFail] = useState('')
   const [suc,setSuc]=useState('')
  
   let courses = localStorage.getItem('Admincourses')? localStorage.getItem("Admincourses"):''
-  let cour = ''
+ // let cour = ''
   courses =courses?  JSON.parse(courses):''
   return (
         <div style={{textAlign:"center", fontSize:"15px"}}>
           <div style={{width:"50%", display: 'flex',margin:"auto"}}>
-         <Accordion style={{display:"block",marginLeft: "auto",  marginRight: "auto"}}>
+         <Accordion style={{display:"block",marginLeft: "auto",  marginRight: "auto", background:"#00666633",width:"70%"}}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
             >
             Courses already added to the system : Total ({courses.length})
             </AccordionSummary>
             {courses.length!==0 && <AccordionDetails>
-              {cour = courses.map(c=>{
+              {courses.map(c=>{
                   return(
                     <Accordion>
                       <AccordionSummary

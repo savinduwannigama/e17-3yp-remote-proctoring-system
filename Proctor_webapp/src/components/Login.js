@@ -3,7 +3,7 @@ import '../css/login.css';
 import GoogleLogin from 'react-google-login';
 import { useHistory,Link } from 'react-router-dom';
 import Loginbtn from './Loginbtn';
-import image from './homevect.png';
+
 import Divider from '@mui/material/Divider';
 import logo from '../appicon3.png'
 import axios from 'axios';

@@ -121,21 +121,21 @@ document.querySelector('#close').addEventListener('click', async() => {
 
 
 /************ change avatar image ******************/
-const img = document.getElementById("cards");
+// const img = document.getElementById("cards");
 const def = document.getElementById("defavatar");
 
-img.addEventListener('click', function(event) {
-    var isImg = event.target.nodeName === 'IMG';
-    if (isImg) {
-        def.src = event.target.src;
-    }
+// img.addEventListener('click', function(event) {
+//     var isImg = event.target.nodeName === 'IMG';
+//     if (isImg) {
+//         def.src = event.target.src;
+//     }
 
-});
+// });
 
-document.getElementById("changeavtr").addEventListener("click", () => {
-    localStorage.setItem("useravatar", def.src);
-    closenRefresh();
-})
+// document.getElementById("changeavtr").addEventListener("click", () => {
+//     localStorage.setItem("useravatar", def.src);
+//     closenRefresh();
+// })
 
 
 /********* toggle dark/light mode *************/
@@ -233,14 +233,95 @@ document.getElementById("entername").addEventListener("click", () => {
             .catch(function(error) {
                 if (error.response) {
                     console.log(error.response.message);
-
+                    if (error.response.data.error = "TokenExpiredError: jwt expired") {
+                        ipc.send('timeOut');
+                    }
                 };
-                if (error.response.data.error = "TokenExpiredError: jwt expired") {
-                    ipc.send('timeOut');
-                }
+
             });
 
     }
     closenRefresh();
 
 })
+
+picture.onchange = evt => {
+    const [file] = picture.files
+    if (file) {
+        preview.src = URL.createObjectURL(file)
+        profilepic.src = URL.createObjectURL(file)
+    }
+}
+
+uploadpicture.onsubmit = async(e) => {
+    e.preventDefault();
+    var body = new FormData(uploadpicture)
+    var send = new FormData()
+    send.append('profile_picture', body.get('picture'))
+    console.log(send)
+    console.log(body)
+    axios({
+            method: 'post',
+            url: 'http://' + serverIP + '/api/student/profilePicture',
+            contentType: 'multipart/form-data',
+            responseType: 'json',
+            headers: {
+                'Authorization': "BEARER " + sessionStorage.getItem('token'),
+            },
+            data: send,
+        })
+        .then((response) => {
+            console.log(response);
+            updateProfile();
+        })
+        .catch(function(error) {
+            if (error.response) {
+                console.log(error.response.message);
+                if (error.response.data.error = "TokenExpiredError: jwt expired") {
+                    ipc.send('timeOut');
+                } else {
+                    alert(error.response.data.error)
+                }
+
+            } else {
+                alert(error)
+            };
+
+        });
+};
+
+function updateProfile() {
+    var serverIP = localStorage.getItem('serverIP')
+    axios({
+            method: 'get',
+            url: 'http://' + serverIP + '/api/student/students/self',
+            responseType: 'json',
+            headers: {
+                'Authorization': "BEARER " + sessionStorage.getItem('token'),
+            }
+
+        })
+        .then((response) => {
+            sessionStorage.setItem('name', response.data.name);
+            sessionStorage.setItem('regNo', response.data.regNo);
+            sessionStorage.setItem('department', response.data.department);
+            sessionStorage.setItem('device', response.data.device);
+            sessionStorage.setItem('profilepic', response.data.profile_picture);
+            closenRefresh();
+
+        })
+        .catch(function(error) {
+            if (error.response) {
+                console.log(error.response.message);
+                if (error.response.data.error = "TokenExpiredError: jwt expired") {
+                    ipc.send('timeOut');
+                } else {
+                    alert(error.response.data.error)
+                }
+
+            } else {
+                alert(error)
+            };
+
+        });
+}

@@ -7,6 +7,8 @@ import Stack from '@mui/material/Stack';
 import axios from 'axios';
 import Papa from "papaparse";
 import serverpath from '../components/jsonfiles/path.json'
+import Error from './Content/Error'
+
 const Input = styled('input')({
   display: 'none',
 });
@@ -56,39 +58,43 @@ export default class Adminbtn extends React.Component {
   fileSelectedHandler = event => {
     
     /*console.log(event.target.files);*/
-    this.setState({
-      selectedFile: event.target.files[0],
-      FileName: this.upload+event.target.files[0].name? this.upload+event.target.files[0].name:"No File Selected"
-    })
+    if(event.target.files[0]){
+      this.setState({
+        selectedFile: event.target.files[0],
+        
+        FileName:  this.upload+event.target.files[0].name
+      })
+    }
+    
     
   }
   setLocal=()=>{
     if(this.user==='exams'){
       console.log(this.state.exams)
-      const jsonExams = JSON .stringify(this.state.exams);
+      const jsonExams = JSON.stringify(this.state.exams);
       localStorage.setItem("Adminexams",jsonExams)
-      window. location. reload(false);
+      window.location.reload(false);
     }
     else if(this.user === 'courses'){
       console.log(this.state.courses)
-      const jsonCourses = JSON .stringify(this.state.courses);
+      const jsonCourses = JSON.stringify(this.state.courses);
       localStorage.setItem("Admincourses",jsonCourses)
-      window. location. reload(false);
+      window.location.reload(false);
  
     }
 
     else if(this.user === 'students'){
       console.log(this.state.students)
-      const jsonStudents = JSON .stringify(this.state.students);
+      const jsonStudents = JSON.stringify(this.state.students);
       localStorage.setItem("Students",jsonStudents)
-      window. location. reload(false);
+      window.location.reload(false);
  
     }
     else if(this.user === 'proctors'){
       console.log(this.state.proctors)
-      const jsonProctors = JSON .stringify(this.state.proctors);
+      const jsonProctors = JSON.stringify(this.state.proctors);
       localStorage.setItem("Proctors",jsonProctors)
-      window. location. reload(false);
+      window.location.reload(false);
  
     }
   }
@@ -102,7 +108,7 @@ export default class Adminbtn extends React.Component {
 
     axios.post(url, value,{
       headers: {
-        // Overwrite Axios's automatically set Content-Type
+        'Authorization': 'BEARER '+ localStorage.getItem("atoken"),
         'Content-Type': 'application/json'
       }
       }, {
@@ -122,9 +128,9 @@ export default class Adminbtn extends React.Component {
           message: resp.data["message"]
         })
         axios.get(`${serverpath[0]['path']}admin/${this.user}/all`
-        /*,{ headers: {
-           'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
-         }}*/
+        ,{ headers: {
+          'Authorization': 'BEARER '+ localStorage.getItem("atoken")
+        }}
        ).then(resp => {
          
          
@@ -159,8 +165,23 @@ export default class Adminbtn extends React.Component {
          //localStorage.setItem("username",resp.data['name']);
          //sessionStorage.setItem("department",resp.data['department'])
        }).catch(error=>{
-         console.log("Error response",error.response.data["error"])
-       //setfail(1);
+        if(typeof error.response.data["message"]!=='undefined'){
+          console.log("Error response",error.response.data["message"])
+         
+          this.setState({
+            isError:true,
+            message: error.response.data["message"]
+          })
+        }
+        else{
+          console.log(error)
+          this.setState({
+            isError:true,
+            message: error.response
+          })
+        }
+         
+         //setfail(1);
          //console.log(fail);
        });
 
@@ -168,11 +189,25 @@ export default class Adminbtn extends React.Component {
       
       console.log(resp.data);
     }).catch(error => {
-      console.log(error);
-      this.setState({
-        isError:true,
-        message: error["message"]
-      })
+      if(typeof error.response.data["message"]!=='undefined'){
+        let errormsg =''
+        console.log("Error response",error.response.data['message'])
+        if(error.response.data['error'].includes('following')){
+         errormsg = ": Duplicate entries"
+        }
+        
+        this.setState({
+          isError:true,
+          message: error.response.data["message"] +errormsg
+        })
+      }
+      else{
+        console.log(error)
+        this.setState({
+          isError:true,
+          message: error.response
+        })
+      }
       
     })
   }
@@ -181,7 +216,7 @@ export default class Adminbtn extends React.Component {
   fileUploadHandler = ()=>{
     console.log(this.state.FileName);
     const fd = new FormData();
-    const name = this.id;
+   //if something happens uncomment this const name = this.id;
     //Add the path dynamically by appending this.id
     
     if(this.state.FileName!=="No File Selected"){
@@ -270,11 +305,11 @@ export default class Adminbtn extends React.Component {
           </ThemeProvider>
       </label>
       </Stack>
-      {this.state.isError && <p style={{color:"red"}}>Error occurred while uploading. {this.state.message}</p>}
-      {this.state.message ==="Please select a file to upload" && <p style={{color:"red"}}>{this.state.message}</p>}
-      {this.state.message !=='' && !this.state.isError && this.id!=='mastersheet' && <p style={{color:"green"}}>{this.state.message}. Please Proceed to next step</p>}
-      {this.state.message !=='' && !this.state.isError && this.id==='mastersheet' && <p style={{color:"green"}}>{this.state.message}. To add another exam start from step 1</p>}
-     
+      {this.state.isError && !(this.state.message.includes('token')|| this.state.message.includes('Token')) && <p style={{color:"red"}}>Error occurred while uploading. {this.state.message}</p>}
+      {!(this.state.message.includes('token')|| this.state.message.includes('Token')) && this.state.message ==="Please select a file to upload" && <p style={{color:"red"}}>{this.state.message}</p>}
+      {this.state.message !=='' && !this.state.isError && this.id!=='mastersheet' && !(this.state.message.includes('token')|| this.state.message.includes('Token')) && <p style={{color:"green"}}>{this.state.message}. Please Proceed to next step</p>}
+      {this.state.message !=='' && !this.state.isError && this.id==='mastersheet' && !(this.state.message.includes('token')|| this.state.message.includes('Token')) && <p style={{color:"green"}}>{this.state.message}. To add another exam start from step 1</p>}
+     {(this.state.message.includes('token')|| this.state.message.includes('Token')) && <Error next="/adminsignin"/>}
       </>
     );
   }

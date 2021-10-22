@@ -1,11 +1,11 @@
 import React,{useState}  from 'react'
 import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
+//import Stack from '@mui/material/Stack';
 import Confirm from './Confirm'
 import DeleteIcon from '@mui/icons-material/Delete';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Adminbtn from '../../Adminbtn'
-import Box from '@mui/material/Box';
+//import ButtonGroup from '@mui/material/ButtonGroup';
+//import Adminbtn from '../../Adminbtn'
+//import Box from '@mui/material/Box';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -30,14 +30,14 @@ const theme = createTheme({
   },
 });
 function Showproctor() {
-  const [reqfail,setReqfail]=useState('')
-  const [failure,setFail] = useState('')
+ // const [reqfail,setReqfail]=useState('')
+ // const [failure,setFail] = useState('')
   const [suc,setSuc]=useState('')
   const [open, setOpen] = useState(false);
   const [email,setEmail] = useState('')
   const [name,setName] = useState('')
-  const [items, setItems] = useState({email:"", name:""});
-  const [errors,setErrors] = useState({email:'',name:''})
+  //const [items, setItems] = useState({email:"", name:""});
+  //const [errors,setErrors] = useState({email:'',name:''})
   /*const handleChange=(event)=>{
    /* let input = [...items];
     input[event.target.name]=event.target.value;
@@ -70,16 +70,16 @@ const handlesuccess=()=>{
      setOpen(false);
  }
   let proctors = localStorage.getItem('Proctors')? localStorage.getItem("Proctors"):''
-  let proc = ''
+  //let proc = ''
   proctors =proctors?  JSON.parse(proctors):''
   return (
         <div style={{textAlign:"center", fontSize:"15px"}}>
-          
+           <br/><br/>
              {suc && <div  style={{textAlign:"center",color:"#006666"}}>Proctor Deleted successfully!</div>}
 
           <div style={{width:"50%", display: 'flex',margin:"auto"}}>
-         
-         <Accordion style={{display:"block",marginLeft: "auto",  marginRight: "auto"}}>
+        
+         <Accordion style={{display:"block",marginLeft: "auto",  marginRight: "auto", background:"#00666633"}}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
             >
@@ -87,7 +87,7 @@ const handlesuccess=()=>{
             Proctors already added to the system : Total ({proctors.length})
             </AccordionSummary>
             {proctors.length!==0 && <AccordionDetails>
-              {proc = proctors.map(p=>{
+              {proctors.map(p=>{
                   return(
                     <Accordion id = {p['name']}>
                       <AccordionSummary
@@ -125,7 +125,7 @@ const handlesuccess=()=>{
           </Accordion>
           <Confirm open={open} name={name} close={handleClose} email={email} success={handlesuccess} user="proctor" label="Email Address" title="Name"/>
           </div>
-          
+          <br/><br/><br/>
           <hr style={{background:"#006666",height:"5px"}}/>
 
       
