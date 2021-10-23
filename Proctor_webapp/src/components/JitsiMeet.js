@@ -93,7 +93,8 @@ class JitsiComponent extends Component {
             videoConferenceJoined: this.handleVideoConferenceJoined,
             videoConferenceLeft: this.handleVideoConferenceLeft,
             audioMuteStatusChanged: this.handleMuteStatus,
-            videoMuteStatusChanged: this.handleVideoStatus
+            videoMuteStatusChanged: this.handleVideoStatus,
+            
         });
     }
 
@@ -174,6 +175,7 @@ class JitsiComponent extends Component {
     }
 
     render() {
+        console.log(this.getParticipants())
        // const { isAudioMuted, isVideoMuted } = this.state;
         return (
             <>

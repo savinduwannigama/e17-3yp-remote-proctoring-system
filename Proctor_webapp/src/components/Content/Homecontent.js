@@ -15,6 +15,10 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: 'left',
   color: "black",
+  width:"90%",
+ 
+  fontFamily:"Sansita",
+  fontSize:"15px"
 }));
 
 function Renderer ()  {
@@ -86,8 +90,8 @@ function Renderer ()  {
       return(
         
         <Card sx={{width: "45%",color:"black",margin:"auto",marginBottom:"40px", backgroundColor:"#00666633",padding:"15px",fontSize:"15px",borderRadius:"32px", display:"inline"}}>
-            <div className="card-body" >
-                <h4 className="card-title">{t['exam_name']}</h4>
+            <div className="card-body" style={{paddingLeft:"40px"}}>
+                <h3 className="card-title" style={{textAlign:"center"}}>{t['exam_name']}</h3>
                 <Stack>
                   <Item> Course: {t['course_shortname']}</Item>
                   <Item> Duty: {t['duty']}</Item>
@@ -95,10 +99,10 @@ function Renderer ()  {
                   <Item>Duration: {t['exam_duration']} </Item>
                   <Item>Room name: {t["exam_room_name"]}</Item>
                   {difinhours<=502 && 
-                     <Item sx={{textAlign:"center"}}><Link to={{pathname:'/meeting',state:{roomname: roomname}}} className="nav-link" >Join Examination</Link> </Item>
+                     <Item sx={{textAlign:"center", fontSize:"18px",fontWeight:"bold"}}><Link to={{pathname:'/meeting',state:{roomname: roomname}}} className="nav-link" >Join Examination</Link> </Item>
                   }
                   {difinhours>502 && 
-                    <Item sx={{textAlign:"center"}}>The link will be available 2 hours before the exam</Item>
+                    <Item sx={{textAlign:"center",color:'#006666', fontWeight:"bold"}}>The link will be available 2 hours before the exam</Item>
                  
                   
                   }

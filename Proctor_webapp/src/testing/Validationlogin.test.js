@@ -1,9 +1,6 @@
 import React from "react";
-import {render, fireEvent, screen} from "@testing-library/react";
+import {render, fireEvent,screen, waitFor} from "@testing-library/react";
 import Validatelogin from "../components/Validationlogin";
-import { shallow, mount, configure} from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-configure({adapter: new Adapter()});
 
 const mockHistoryPush = jest.fn();
 
@@ -15,7 +12,7 @@ jest.mock('react-router-dom', () => ({
 }));
 const historyMock = { push: jest.fn() };
 
-describe("login",()=>{
+describe("Test input validations at login page",()=>{
     test("load the login form",()=>{
         const component = render(<Validatelogin.WrappedComponent/>);
         
@@ -33,7 +30,7 @@ describe("login",()=>{
         expect(emailError).toBeInTheDocument();
         expect(passwordError).toBeInTheDocument();
     });
-    test("Email input should not accept email address without @ and correct format",()=>{
+    test("Email input should not accept email address without correct format",()=>{
         const {getByLabelText,getByText} = render(<Validatelogin.WrappedComponent/>);
         const emailInputNode = getByLabelText("Email");
         const button = getByText("SIGN IN");
@@ -84,23 +81,21 @@ describe("login",()=>{
         const pwdError3 = getByText("Password should contain at least one digit");
         expect(pwdError3).toBeInTheDocument();
     });
-    /*test("Password validation",()=>{
-        const {getByLabelText,getByText} = render(<Validatelogin.WrappedComponent />)//history={historyMock} next={'/home'} path={'proctor/login'} user={'proctor'}/>);
-        
+    test("Password validation",async ()=>{
+        const {getByLabelText,getByText} = render(<Validatelogin.WrappedComponent history={historyMock} next={'/home'} path={'proctor/login'} user={'proctor'} />)
         const emailInputNode = getByLabelText("Email");
         const passwordInput = getByLabelText("Password");
         expect(emailInputNode.value).toMatch("");
         expect(passwordInput.value).toMatch("");
 
         fireEvent.change(emailInputNode,{target:{value:"proctor1@eng.pdn.ac.lk"}});
-        fireEvent.change(passwordInput,{target:{value:"123456789a"}});
+        fireEvent.change(passwordInput,{target:{value:"12345678a"}});
         const button = getByText("SIGN IN");
         fireEvent.click(button);
-        
-        await screen.findByText("Invalid credentials");
-        //expect(pwdError).toBeInTheDocument();
-        //expect(historyMock.push.mock.calls[0]).toEqual(['/home' ]);
-        //expect(mockHistoryPush).toHaveBeenCalledWith('/home');
-    });*/
+        const nextpage = await waitFor(() => screen.getByText('Network error'));
+        expect(historyMock.push.mock).toEqual(['/home' ])
+        expect(nextpage).toBeInTheDocument();
+      
+    });
 
 })
