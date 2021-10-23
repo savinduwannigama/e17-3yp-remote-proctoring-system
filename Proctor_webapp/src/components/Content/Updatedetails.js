@@ -174,13 +174,13 @@ export default function ImageAvatars() {
                     }}
                   ).then(resp => {
                     const profilepath= resp.data['profile_picture']
-                    const imageurl = `${path[0]['retreiving']}${profilepath}`
+                    const imageurl = `${path[0]['imagepath']}${profilepath}`
                     //current.src = imageurl
                     console.log("Response from for self",resp.data);
                     localStorage.setItem("profileimage",imageurl)
                     localStorage.setItem("username",resp.data['name']);
                     sessionStorage.setItem("department",resp.data['department'])
-                    window.setTimeout(function(){window.location.reload()},3500)
+                    window.setTimeout(function(){window.location.reload()},1500)
                   }).catch(error=>{
                     console.log("Error response",error.response.data["error"])
                     setfail(1);
