@@ -6,7 +6,7 @@ var path = require('path');
 
 // set storage engine to store admin/proctor/student profile pictures
 const storage = multer.diskStorage({
-    destination: './public/profile_pictures',
+    destination: path.join(__dirname, '../public/profile_pictures'),  // '../public/profile_pictures',
     filename: function(req, file, cb){
       crypto.randomBytes(16, (err, buf) => {
         if(err) {

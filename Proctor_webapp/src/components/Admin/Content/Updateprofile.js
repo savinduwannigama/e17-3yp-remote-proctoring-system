@@ -178,7 +178,7 @@ export default function Updateprofile() {
                     console.log("Response from for self",resp.data);
                     localStorage.setItem("aprofileimage",imageurl)
                     localStorage.setItem("adminusername",resp.data['name']);
-                    window.setTimeout(function(){window.location.reload()},3500)
+                    window.setTimeout(function(){window.location.reload()},1500)
                   }).catch(error=>{
                     console.log("Error response",error.response.data["error"])
                     setfail(1);

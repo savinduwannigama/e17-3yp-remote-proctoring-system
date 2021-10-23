@@ -180,7 +180,7 @@ export default function ImageAvatars() {
                     localStorage.setItem("profileimage",imageurl)
                     localStorage.setItem("username",resp.data['name']);
                     sessionStorage.setItem("department",resp.data['department'])
-                    window.setTimeout(function(){window.location.reload()},3500)
+                    window.setTimeout(function(){window.location.reload()},1500)
                   }).catch(error=>{
                     console.log("Error response",error.response.data["error"])
                     setfail(1);
