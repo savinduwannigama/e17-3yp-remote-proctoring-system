@@ -4,7 +4,7 @@ function getExam() {
     var serverIP = localStorage.getItem('serverIP')
     axios({
             method: 'get',
-            url: 'http://' + serverIP + '/api/student/exams/self',
+            url: 'https://' + serverIP + '/api/student/exams/self',
             responseType: 'json',
             headers: {
                 'Authorization': "BEARER " + sessionStorage.getItem('token'),
@@ -19,11 +19,13 @@ function getExam() {
         .catch(function(error) {
             if (error.response) {
                 console.log(error.response)
-                if (error.response.data.error = "TokenExpiredError: jwt expired") {
+                if (error.response.data.error == "TokenExpiredError: jwt expired") {
                     ipc.send('timeOut');
                 }
 
-            };
+            } else {
+                alert(error)
+            }
 
         });
 
@@ -33,7 +35,7 @@ function nextExam(array) {
     var nextexam, exam, examIndex = -1;
     if (array.length == 0) {
         sessionStorage.setItem('nextExamAt', '-1');
-        sessionStorage.sertItem('nextExam', 'no exam')
+        sessionStorage.setItem('nextExam', 'no exam')
         ipc.send('home')
         return
     }
@@ -50,7 +52,7 @@ function nextExam(array) {
 
     if (examIndex == -1) {
         sessionStorage.setItem('nextExamAt', '-1');
-        sessionStorage.sertItem('nextExam', 'no exam')
+        sessionStorage.setItem('nextExam', 'no exam')
         ipc.send('home')
         return
     }

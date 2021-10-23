@@ -49,7 +49,7 @@ for (var i = 0; i < btncount; i += 1) {
 if (typeof(Storage) !== "undefined" && localStorage.disconnections) {
     axios({
             method: 'put',
-            url: 'http://' + serverIP + '/api/student/exam_rooms/disconnections',
+            url: 'https://' + serverIP + '/api/student/exam_rooms/disconnections',
             responseType: 'json',
             headers: {
                 'Authorization': "BEARER " + sessionStorage.getItem('token'),
@@ -65,7 +65,7 @@ if (typeof(Storage) !== "undefined" && localStorage.disconnections) {
         .catch(function(error) {
             if (error.response) {
                 console.log(error.response)
-                if (error.response.data.error = "TokenExpiredError: jwt expired") {
+                if (error.response.data.error == "TokenExpiredError: jwt expired") {
                     ipc.send('timeOut');
                 }
 
@@ -172,12 +172,10 @@ window.addEventListener("load", function() {
 var username = document.getElementById("user_name");
 username.innerHTML = sessionStorage.getItem("name");
 
-
-if (typeof(Storage) !== "undefined" && sessionStorage.profilepic) {
-    var useravatar = document.getElementById("avatar");
+var useravatar = document.getElementById("avatar");
+if (typeof(Storage) !== "undefined" && sessionStorage.profilepic && navigator.onLine) {
     useravatar.src = sessionStorage.getItem("profilepic");
 }
-
 
 /******************* set dark/light mode ************************/
 

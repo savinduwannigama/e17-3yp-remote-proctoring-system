@@ -24,17 +24,17 @@ function createWindow() {
     const mainWindow = new BrowserWindow({
         width: 800,
         height: 480,
-        //minimizable: false,
-        //maximizable: false,
-        //resizable: false,
-        //movable: false,
-        icon: "src/img/appicon3_YGz_icon.ico",
+        minimizable: false,
+        maximizable: false,
+        resizable: false,
+        movable: false,
+        icon: path.join(__dirname, "src/img/appicon.ico"),
 
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
             enableRemoteModule: true,
-            devTools: true,
+            //devTools: true,
             //devTools: false,
         }
     })
@@ -48,7 +48,7 @@ function createWindow() {
             noLink: true,
             title: 'Confirm',
             message: 'Are you sure you want to exit?',
-            icon: 'src/img/appicon3_YGz_icon.ico'
+            icon: path.join(__dirname, "src/img/appicon.ico"),
 
 
         });
@@ -66,7 +66,7 @@ function createWindow() {
             noLink: true,
             message: 'The session has timed out. Do you want log in again?',
             buttons: ["Log in", "Cancel"],
-            icon: 'src/img/appicon3_YGz_icon.ico'
+            icon: path.join(__dirname, "src/img/appicon.ico"),
         })
         if (confirm.response === 0) {
             mainWindow.loadFile('src/loginpage.html')
@@ -79,9 +79,9 @@ function createWindow() {
 
     // load main page
     mainWindow.loadFile('src/loginpage.html');
-    //mainWindow.loadURL('http://localhost:3000')
+    // mainWindow.loadURL('https://connexa.space/')
     // Open the DevTools.
-    mainWindow.webContents.openDevTools()
+    //mainWindow.webContents.openDevTools()
 
     // Load pages
     ipc.on('Login', () => { mainWindow.loadFile('src/loginpage.html') })

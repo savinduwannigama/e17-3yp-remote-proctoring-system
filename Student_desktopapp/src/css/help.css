@@ -38,5 +38,9 @@
     margin-top: 3px;
     padding-bottom: 10px;
     padding-top: 3px;
-    padding-left: 30px;
+    padding-left: 10px;
+}
+
+.collapse-body li {
+    padding-left: 0px;
 }

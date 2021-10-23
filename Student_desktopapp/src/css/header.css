@@ -13,7 +13,7 @@ html,
     --popup-bg-color: rgba(0, 0, 0, 0.7);
     --left-arrow: url("../img/icons/left-arrow.png");
     --list-menu: url("../img/icons/list.png");
-    --background-tile: url('../img/icons/tile_background.png')
+    /* --background-tile: url('../img/icons/tile_background.png') */
 }
 
 [data-theme=dark] {
@@ -24,7 +24,7 @@ html,
     --main-color2: rgba(86, 81, 160, 0.58);
     --sub-color: rgba(18, 229, 233, 0.22);
     --popup-bg-color: rgba(255, 254, 254, 0.7);
-    --background-tile: url('../img/icons/tile_background (1).png')
+    /* --background-tile: url('../img/icons/tile_background (1).png') */
 }
 
 body {
@@ -408,7 +408,9 @@ main {
     pointer-events: none;
     user-select: none;
     width: 50px;
-    border-radius: 50%;
+    height: 50px;
+    border-radius: 100%;
+    top: 15px;
     position: fixed;
     /*overflow: hidden;*/
     display: inline-block;
@@ -676,7 +678,7 @@ hr {
     transition: all 5s ease-in-out;
     overflow-x: hidden;
     overflow-y: auto;
-    font-family: Arial, Helvetica, sans-serif;
+    /* font-family: Arial, Helvetica, sans-serif; */
 }
 
 .popup h4 {
