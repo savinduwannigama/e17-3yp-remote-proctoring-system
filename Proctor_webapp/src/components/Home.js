@@ -27,7 +27,7 @@ function Home() {
     }}
   ).then(resp => {
     const profilepath= resp.data['profile_picture']
-    const imageurl = `${path[0]['imagepath']}${profilepath}`
+    const imageurl = `${path[0]['retreiving']}${profilepath}`
     console.log("Response from for self",resp.data);
     localStorage.setItem("profileimage",imageurl)
     localStorage.setItem("username",resp.data['name']);
