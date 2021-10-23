@@ -12,12 +12,16 @@ import Loader from "../Content/Loader"
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import Errorcomp from './Error'
 import path from '../jsonfiles/path.json'
+import { fontSize } from '@mui/system';
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
+  margin:"2px",
   padding: theme.spacing(1),
+  width:"90%",
   textAlign: 'left',
   color: "black",
-  fontFamily:"Sansita"
+  fontFamily:"Sansita",
+  fontSize:"15px"
 }));
 const theme = createTheme({
   
@@ -103,11 +107,11 @@ function Dashcontent() {
             const roomname = t[0]["room_name"];
             console.log(roomname)
             return(
-                <Card sx={{width: "45%", color:"black",margin:"auto",marginBottom:"40px", backgroundColor:"#00666633",padding:"15px",fontSize:"15px",borderRadius:"32px", display:"inline"}}>
-                    <div className="card-body" >
-                        <h2 style={{textAlign:"center"}}>Most recently conducted examination</h2>
+                <Card sx={{width: "50%", color:"black",margin:"auto",marginTop:"20px", backgroundColor:"#00666633",paddingLeft:"10px",fontSize:"20px",borderRadius:"32px", display:"inline"}}>
+                    <div className="card-body" style={{paddingLeft:"40px"}} >
+                        <h3 style={{textAlign:"center"}}>Most recently conducted examination</h3>
                     <h4 style={{textAlign:"center"}} className="card-title">{t[0]['exam']}</h4>
-                    <Stack >
+                    <Stack sx={{margin:"auto"}}>
                       <Item> Course: {t[1]['course']}</Item>
                       <Item> Duty: {duty}</Item>
                       <Item> Start time: {utctime}</Item>
@@ -147,28 +151,80 @@ function Dashcontent() {
              
                      
                     </Stack>
-                     
+                     <br/><br/>
                 </div>
            
             </Card>
           )
           }
-          else{
-            return null
-          }
+         /* else{
+            return (<div>Another div</div>)
+          }*/
+          
           
         })
+        const test= data[firstkey].map(t=>{
+          return(
+            <div>
+                  <h3>{t[0]['exam']}</h3>
+              {
+                t[0]['room_students'].map(d=>{
+           
+                  if(Object.keys(d['disconnections']).length !== 0 ){
+                    console.log("students in room", d);
+                    //disconnections.push({regNo:d['regNo'],disconnections:d['disconnections']})
+                
+                    return(
+                        <div style={{fontFamily:"Sansita"}}>
+                      
+                        <p style={{color:"black"}}><ul><li>Registration Number: {d['regNo']}</li></ul></p>
+                        <p  style={{paddingLeft:"10%"}}>Disconnections: {d['disconnections'].map(dis=><p style={{paddingLeft:"10%",color:"red"}}>{dis}</p>)}</p>
+                    
+                       
+                        </div>
+                    )
+                }
+                
+                
+              })
+              }
+                  <Stack>
+                        <ThemeProvider theme={theme}>
+                    <Button color= "neutral" size="medium" variant="contained" sx={{width:"50%", margin:"auto"}} > 
+                        <Link to={{pathname:t[0]['recordedStudentVideosAt']}} target="_blank"  style={{ textDecoration: 'none', color:"white"}}>
+                        Check the recordings
+                        </Link>
+                     </Button>
+                     
+                    </ThemeProvider>
+                    </Stack>
+
+            <hr/>
+            </div>
+
+          )
+          
+         
+        })
         return(
-          <Box sx={{ flexGrow:1 }}>
-              <br/><br/>
+        
+              <Grid item xs key={1}>
+                <br/><br/>
           <Grid container rowSpacing={6} >
             
               {trail}
+              <br/> <br/>
+              <Card id="disconnections" sx={{width:"40%", color:"black",marginBottom:"40px", backgroundColor:"#00666633",paddingLeft:"15px",paddingTop:"10px",fontSize:"15px",borderRadius:"32px", display:"inline",margin:"15px"}}>
                
+              <h2 style={{textAlign:"center"}}>Logs of all the disconnections of previous examinations</h2>
+               {test}
+               </Card>
             </Grid>
             {fail && <Errorcomp/>}
+            </Grid>
+           
     
-        </Box>
+      
         )
       }
     else if(duty!=='' && name!==''){

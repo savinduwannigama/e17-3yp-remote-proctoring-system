@@ -22,10 +22,14 @@ import CourseIcon from '@mui/icons-material/School';
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(2),
+    margin:"2px",
     textAlign: 'left',
     color: "black",
     fontFamily:'Sansita',
-    fontSize:'15px'
+    fontSize:'15px',
+    width:"90%"
+ 
+    
   }));
 function CoursePage({match}) {
     const [fail, setfail] = useState('');
@@ -65,8 +69,8 @@ function CoursePage({match}) {
                 console.log("course found",t[1]['course'])
                 return(
                     <Card id = {t[1]['course']} sx={{width: "45%",color:"black",margin:"auto",marginBottom:"40px", backgroundColor:"#00666633",padding:"15px",fontSize:"15px",borderRadius:"32px", display:"inline"}}>
-            <div className="card-body" >
-                <h2 className="card-title" style={{paddingLeft:'10px'}}>{t[1]['course']}</h2>
+            <div className="card-body" style={{paddingLeft:"40px"}} >
+                <h2 className="card-title" style={{ textAlign:"center"}}>{t[1]['course']}</h2>
                 <Stack>
                   <Item>  Course coordinator: {t[1]['course_coordinator']}</Item>
                   <Item>  Exam: {t[0]['exam']}</Item>
@@ -75,7 +79,7 @@ function CoursePage({match}) {
                   <Item>   Duty: {duty}</Item>
                   <Item>{notduty}: {t[0][notduty]} </Item>
                  
-                        <Accordion>
+                        <Accordion sx={{ width:"90%",borderRadius:"5px",paddingLeft:"3px",margin:"2px"}}>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1a-content"
@@ -86,7 +90,7 @@ function CoursePage({match}) {
                             <AccordionDetails>
                             { t[0]['room_students'].map(d=>{
                                 return(
-                                    <Typography>
+                                    <Typography sx={{fontFamily:"Sansita"}}>
                                    <p> {d['regNo']}
                                     {d['disconnections'].length !== 0 && 
                                     <div style={{color:"red", display:"inline"}}> : Disconnected {d['disconnections'].length} times during the exam
