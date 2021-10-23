@@ -1,3 +1,7 @@
+body {
+    background-image: url('../img/icons/tile_background\ \(1\).png')
+}
+
 #download:disabled {
     background-color: rgb(185, 183, 183);
 }
