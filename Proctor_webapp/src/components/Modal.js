@@ -69,17 +69,17 @@ class Modal extends React.Component{
           
           {this.props.einfo['end'].toString()&& <p>End : {this.props.einfo['end'].toString()}</p>}
           {this.props.einfo['url'].toString()&& <p>Exam room :{this.props.einfo['url']}</p>}
-           
-           {dif<-2 && <p style = {{color:"yellow"}}>Exam has been already completed</p>}       
-         
-         <div className ="closebtn">
+          <div className ="closebtn">
           <ThemeProvider theme={theme}>
-            {  (dif>=-2) &&
+            {  (dif/hour>=-30) &&
           <Button color= "neutral" size="medium" variant="contained"  sx={{bgcolor:"white",color:'#006666',margin:'auto'}}> 
           <Link to={{pathname:'/meeting',state:{roomname:this.props.einfo['url']}}}  style={{ textDecoration: 'none', color:"#006666"}}>Join Meeting</Link>
          </Button>}
           </ThemeProvider>
           </div>
+           {dif/hour<-30 && <p style = {{color:"yellow"}}>Exam has been already completed</p>}       
+         
+        
           </CardContent>
           </Card>
           
