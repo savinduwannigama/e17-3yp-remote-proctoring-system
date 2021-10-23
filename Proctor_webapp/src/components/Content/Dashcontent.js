@@ -17,6 +17,7 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: 'left',
   color: "black",
+  fontFamily:"Sansita"
 }));
 const theme = createTheme({
   
@@ -55,6 +56,7 @@ function Dashcontent() {
     }
     
     useEffect(() => {
+      if(duty){
         axios.get(`${path[0]['path']}proctor/exams/${duty}/self`,
         { headers: {
            'Authorization': 'BEARER '+ localStorage.getItem("ptoken")
@@ -73,7 +75,10 @@ function Dashcontent() {
             setfail(1);
          }
         
-        })},[duty,name])
+        })
+
+      }
+        },[duty,name])
    //var items = JSON.parse(localStorage.getItem("examinations"));
     //console.log("exams stored in local",items)
     console.log("api data",data)
@@ -89,10 +94,10 @@ function Dashcontent() {
           //console.log(t.exam_room);
           //const disconstud = []
           if(t[0]['exam'].trim()===recent){
-            let disconnections=[]
+           // let disconnections=[]
             
-            disconnections= JSON.stringify(disconnections);
-            console.log("disconnected students",disconnections)
+           // disconnections= JSON.stringify(disconnections);
+            //console.log("disconnected students",disconnections)
             const starttime = t[1]['startTime'];
             const utctime = new Date(starttime).toUTCString()
             const roomname = t[0]["room_name"];
@@ -102,22 +107,22 @@ function Dashcontent() {
                     <div className="card-body" >
                         <h2 style={{textAlign:"center"}}>Most recently conducted examination</h2>
                     <h4 style={{textAlign:"center"}} className="card-title">{t[0]['exam']}</h4>
-                    <Stack>
+                    <Stack >
                       <Item> Course: {t[1]['course']}</Item>
                       <Item> Duty: {duty}</Item>
                       <Item> Start time: {utctime}</Item>
                       <Item>Duration: {t[1]['duration']} </Item>
                       <Item>Room name: {t[0]["room_name"]}</Item>
              
-                      <Item>Disconnected Students:{ t[0]['room_students'].map(d=>{
+                      <Item style={{color:"red"}}>Disconnected Students:{ t[0]['room_students'].map(d=>{
                 
                 if(Object.keys(d['disconnections']).length !== 0 ){
                     console.log("students in room", d);
                     //disconnections.push({regNo:d['regNo'],disconnections:d['disconnections']})
                 
                     return(
-                        <div>
-                        <p><ul><li>Registration Number: {d['regNo']}</li></ul></p>
+                        <div style={{fontFamily:"Sansita"}}>
+                        <p style={{color:"black"}}><ul><li>Registration Number: {d['regNo']}</li></ul></p>
                         <p  style={{paddingLeft:"10%"}}>Disconnections: {d['disconnections'].map(dis=><p style={{paddingLeft:"10%"}}>{dis}</p>)}</p>
                         </div>
                     )
@@ -166,7 +171,7 @@ function Dashcontent() {
         </Box>
         )
       }
-      else if(duty!=='' && name!==''){
+    else if(duty!=='' && name!==''){
         return(
           <div style={{textAlign:"center"}}>
             <Loader/>
@@ -175,7 +180,7 @@ function Dashcontent() {
           </div>
         )
       }
-      else{
+    else{
         return(
             <div style={{textAlign:"center"}}>
               No recently accessed courses
