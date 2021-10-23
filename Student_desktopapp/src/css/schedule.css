@@ -16,6 +16,10 @@
     border-radius: 0px 5px 5px 0px;
 }
 
+#msg {
+    font-size: 12px;
+}
+
 #display-name {
     width: 200px;
     border: 2px solid rgb(40, 192, 73);
