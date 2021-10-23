@@ -85,7 +85,7 @@ login.addEventListener('click', function(e) {
 
     axios({
             method: 'post',
-            url: 'http://' + serverIP + '/api/student/login',
+            url: 'https://' + serverIP + '/api/student/login',
             responseType: 'json',
             data: {
                 "email": logemail.value,
@@ -151,7 +151,7 @@ register.addEventListener('click', function(e) {
     var serverIP = localStorage.getItem('serverIP')
     axios({
             method: 'post',
-            url: 'http://' + serverIP + '/api/student/register',
+            url: 'https://' + serverIP + '/api/student/register',
             responseType: 'json',
             data: {
                 "email": regemail.value,
