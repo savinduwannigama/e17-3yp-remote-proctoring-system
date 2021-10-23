@@ -10,7 +10,7 @@ var btn, btncount
 if (navigator.onLine) {
     axios({
             method: 'get',
-            url: 'http://' + serverIP + '/api/student/courses/self',
+            url: 'https://' + serverIP + '/api/student/courses/self',
             responseType: 'json',
             headers: {
                 'Authorization': "BEARER " + sessionStorage.getItem('token'),
@@ -26,7 +26,7 @@ if (navigator.onLine) {
         .catch(function(error) {
             if (error.response) {
                 console.log(error.response)
-                if (error.response.data.error = "TokenExpiredError: jwt expired") {
+                if (error.response.data.error == "TokenExpiredError: jwt expired") {
                     ipc.send('timeOut');
                 }
             };

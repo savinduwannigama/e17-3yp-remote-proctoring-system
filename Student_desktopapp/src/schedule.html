@@ -56,7 +56,7 @@
     <nav class="menu" tabindex="0">
         <div class="smartphone-menu-trigger"></div>
         <header class="avatar">
-            <img id="avatar" class="online" src="img/avatar/user.png" />
+            <img id="avatar" class="online" src="img/avatar/user.png" onerror="this.src='img/avatar/user.png'" />
             <h2 id="user_name">USER</h2>
         </header>
         <ul id="list">
@@ -115,6 +115,7 @@
             </table>
             <br>
             <div class="center">
+                <p id='msg'></p>
                 <input id='display-name' placeholder='enter your name to join'>
                 <button class="btn btn-green waves-effect waves-light" name='joinexam' id='join-exam' onclick="joinExam()">Join</button>
                 <button class="btn btn-default waves-effect waves-light" name='close' onclick="closePopup()">Close</button>
