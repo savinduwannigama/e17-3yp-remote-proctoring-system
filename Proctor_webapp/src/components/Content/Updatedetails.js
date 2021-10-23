@@ -1,6 +1,6 @@
 import  React,{useState} from 'react';
 import { createTheme,ThemeProvider  } from '@mui/material/styles';
-//import Avatar from '@mui/material/Avatar';
+import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import EditIcon from '@mui/icons-material/Edit';
 import EditOffIcon from '@mui/icons-material/EditOff';
@@ -234,6 +234,7 @@ export default function ImageAvatars() {
         <img
           alt="profile"
           src = {img}
+          
           ref={uploadedImage}
           style={{
             width: "100%",
