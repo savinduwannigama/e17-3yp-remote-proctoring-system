@@ -167,14 +167,14 @@ export default class Adminbtn extends React.Component {
        }).catch(error=>{
         if(typeof error.response.data["message"]!=='undefined'){
           console.log("Error response",error.response.data["message"])
-         
+          console.log("error data", error.response.data)
           this.setState({
             isError:true,
             message: error.response.data["message"]
           })
         }
         else{
-          console.log(error)
+          console.log(error.repsonse)
           this.setState({
             isError:true,
             message: error.response
@@ -192,8 +192,9 @@ export default class Adminbtn extends React.Component {
       if(typeof error.response.data["message"]!=='undefined'){
         let errormsg =''
         console.log("Error response",error.response.data['message'])
-        if(error.response.data['error'].includes('following')){
-         errormsg = ": Duplicate entries"
+        console.log("error data", error.response.data)
+        if(error.response.data['message'].includes('Following')){
+         errormsg = error.response.data['error']
         }
         
         this.setState({
