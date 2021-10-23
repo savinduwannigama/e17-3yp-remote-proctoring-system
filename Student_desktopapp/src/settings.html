@@ -50,7 +50,7 @@
     <nav class="menu" tabindex="0">
         <div class="smartphone-menu-trigger"></div>
         <header class="avatar">
-            <img id="avatar" class="online" src="img/avatar/user.png" />
+            <img id="avatar" class="online" src="img/avatar/user.png" onerror="this.src='img/avatar/user.png'" />
             <h2 id="user_name">USER</h2>
         </header>
         <ul id="list">
@@ -76,7 +76,7 @@
             </div>
         </div>
         <div class="profile">
-            <img id='profilepic' src="img/avatar/user.png" />
+            <img id='profilepic' src="img/avatar/user.png" onerror="this.src='img/avatar/user.png'" />
         </div>
         <div class='info'>
             <p id='username'>Name</p>
@@ -178,7 +178,7 @@
                       <div id='camera-icon'></div>
                     </label>
 
-                    <img src="img/avatar/user.png" id='preview' />
+                    <img src="img/avatar/user.png" id='preview' onerror="this.src='img/avatar/user.png'" />
                 </div>
                 <input class="file-upload" id='picture' name='picture' type="file" accept="image/*" />
                 <div class='center'>

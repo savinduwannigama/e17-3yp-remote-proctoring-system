@@ -39,7 +39,7 @@ const options = {
     },
     configOverwrite: {
         startWithAudioMuted: false,
-        startWithVideoMuted: true,
+        startWithVideoMuted: false,
         enableWelcomePage: false,
         prejoinPageEnabled: false,
         //startSilent: true,
@@ -47,7 +47,7 @@ const options = {
         toolbarButtons: ['camera', 'chat',
             'microphone', 'raisehand'
         ],
-        //disabledSounds: ['NOISY_AUDIO_INPUT_SOUND', 'PARTICIPANT_JOINED_SOUND', 'PARTICIPANT_LEFT_SOUND']
+        disabledSounds: ['NOISY_AUDIO_INPUT_SOUND', 'PARTICIPANT_JOINED_SOUND', 'PARTICIPANT_LEFT_SOUND']
 
     },
     interfaceConfigOverwrite: {
@@ -95,7 +95,6 @@ downloadButton.addEventListener('click', () => {
     api.dispose();
     mediaRecorder.resume();
     stopRecording();
-
     downloadButton.style.display = 'none';
     examdetails['endTime'] = date.format(new Date(), 'DD MMM YYYY HH-mm-ss');
 

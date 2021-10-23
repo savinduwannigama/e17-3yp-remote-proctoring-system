@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/help.css">
     <link rel="stylesheet" href="css/components/default-button.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
     <script defer src="js/header.js"></script>
     <script defer src="js/help.js"></script>
@@ -52,7 +53,7 @@
     <nav class="menu" tabindex="0">
         <div class="smartphone-menu-trigger"></div>
         <header class="avatar">
-            <img id="avatar" class="online" src="img/avatar/user.png" />
+            <img id="avatar" class="online" src="img/avatar/user.png" onerror="this.src='img/avatar/user.png'" />
             <h2 id="user_name">USER</h2>
         </header>
         <ul id="list">
@@ -71,20 +72,27 @@
 
     <div class="body">
         <div class='collapse'>
-            <div class='collapse-title waves-effect waves-light'>&#127909 How to upload saved videos?</div>
-            <div class='collapse-body'>Go to 'Upload Videos' tab on the menu and click aiyooooo click krl blnnaa.... eeta psse ena pop up window eken upload krnna. okath ahanna deyakda???</div>
+            <div class='collapse-title waves-effect waves-light'> How to upload saved videos?</div>
+            <div class='collapse-body'>
+                <ol>
+                    <li>Go to 'Upload videos' tab on the menu</li>
+                    <li>Click on the video you want to upload</li>
+                    <li>Video will be uploaded automatically. This may take some time. </li>
+                    <li>Video will be deleted after uploading is done</li>
+                </ol>
+            </div>
         </div>
         <div class='collapse'>
-            <div class='collapse-title waves-effect waves-light'>&#128266 How to adjust sound and brightness?</div>
+            <div class='collapse-title waves-effect waves-light'> How to adjust sound and brightness?</div>
             <div class='collapse-body'>This application doesn't support that feature plesase change system sound and brightness</div>
         </div>
         <div class='collapse'>
-            <div class='collapse-title waves-effect waves-light'>&#128267 Low battery power?</div>
-            <div class='collapse-body'>You can replace the backup battery with a power bank</div>
+            <div class='collapse-title waves-effect waves-light'> Low battery power?</div>
+            <div class='collapse-body'>Incase of an immergency, you can replace the backup battery with a power bank</div>
         </div>
         <div class='collapse'>
-            <div class='collapse-title waves-effect waves-light'>&#10067 Didn't find what you were looking for?</div>
-            <div class='collapse-body'>Contact us <br>connexa.info@gmail.com</div>
+            <div class='collapse-title waves-effect waves-light'> Didn't find what you were looking for?</div>
+            <div class='collapse-body'>Contact us <br> &#128231 connexa.info@gmail.com</div>
         </div>
     </div>
 

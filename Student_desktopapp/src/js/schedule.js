@@ -4,6 +4,7 @@ var popup = document.getElementById("popup");
 var span = popup.getElementsByTagName('span');
 var preloader = document.querySelector('.preloader');
 var joinbtn = document.getElementById('join-exam');
+var msg = document.getElementById('msg');
 
 var timenow;
 var examArray = [];
@@ -12,7 +13,7 @@ var eventArray = [];
 if (navigator.onLine) {
     axios({
             method: 'get',
-            url: 'http://' + serverIP + '/api/student/exams/self',
+            url: 'https://' + serverIP + '/api/student/exams/self',
             responseType: 'json',
             headers: {
                 'Authorization': "BEARER " + sessionStorage.getItem('token'),
@@ -30,7 +31,7 @@ if (navigator.onLine) {
         .catch(function(error) {
             if (error.response) {
                 console.log(error.response)
-                if (error.response.data.error = "TokenExpiredError: jwt expired") {
+                if (error.response.data.error == "TokenExpiredError: jwt expired") {
                     ipc.send('timeOut');
                 }
 
@@ -63,9 +64,13 @@ function createEvents() {
             timenow = new Date();
 
             if (info.event.start - now > 3600000 * 24 * 30) {
-                joinbtn.disabled = true
+                displayName.style.display = 'none';
+                joinbtn.style.display = 'none';
+                msg.innerHTML = "Link will be displayed one hour before the exam"
             } else {
-                joinbtn.disabled = false
+                displayName.style.display = '';
+                joinbtn.style.display = '';
+                msg.innerHTML = ""
             }
             showevent.click()
 
