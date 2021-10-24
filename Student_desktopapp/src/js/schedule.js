@@ -21,6 +21,7 @@ if (navigator.onLine) {
 
         })
         .then((response) => {
+            console.log(response.data);
             examArray = response.data
             preloader.style.visibility = 'hidden'
             addEvents(examArray);
@@ -91,9 +92,9 @@ function addEvents(array) {
         timenow = new Date();
         var examtime = new Date(array[i][1].startTime.split('Z')[0])
         console.log(examtime)
-        if (examtime > timenow) {
-            eventArray.push({ title: array[i][0].exam, start: array[i][1].startTime.split('Z')[0], id: i, allDay: false });
-        }
+            //if (examtime > timenow) {
+        eventArray.push({ title: array[i][0].exam, start: array[i][1].startTime.split('Z')[0], id: i, allDay: false });
+        //}
     }
     createEvents();
 }
