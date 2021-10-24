@@ -226,9 +226,9 @@ router.post('/admins/single', protectAdmin, (req, res) => {
      * write code to add student to the database
      */
     // not authorizing if the call is not done by a super-admin
-    if(req.admin.role != 'super-admin') {
-        return res.status(401).json({status: 'failure', message: 'Your admin role is not authorized to add new admins'});
-    }    
+    // if(req.admin.role != 'super-admin') {
+    //     return res.status(401).json({status: 'failure', message: 'Your admin role is not authorized to add new admins'});
+    // }    
 
     const record = req.body;
     // console.log('Request body: ' + record);
@@ -240,7 +240,7 @@ router.post('/admins/single', protectAdmin, (req, res) => {
     newAdmin.save()
     .then(() => {
         res.json({status: 'success', message: 'Addded new admin to the database', createdEntry: newAdmin});
-        console.log('Created new admin entry: ' + newAdmin);
+        // console.log('Created new admin entry: ' + newAdmin);
     })
     .catch(err => res.status(400).json({status: 'failure', message: "Following error occured while trying to create a new admin entry", error: String(err)}));
     
@@ -369,7 +369,7 @@ router.post('/students/single', protectAdmin, (req, res) => {
     // saves the new student
     newStudent.save()
     .then(() => {
-        console.log('Created new student entry: ' + newStudent);
+        // console.log('Created new student entry: ' + newStudent);
         res.json({status: 'success', message: 'Addded new student to the database', createdEntry: newStudent});
     })
     .catch(err => res.status(400).json({status: 'failure', message: 'Error occured while trying to save new student', error: String(err)}));
@@ -670,7 +670,7 @@ router.post('/proctors/single', protectAdmin, (req, res) => {
 // call to read all proctors
 router.get('/proctors/all', protectAdmin, (req, res) => {
     const req_body = req.body;
-    console.log('Request body: ' + req_body);
+    // console.log('Request body: ' + req_body);
 
     // const records = await admins.find(req_body);
     // console.log('Sending response: ' + records);
@@ -880,10 +880,10 @@ router.get('/courses/all', protectAdmin, (req, res) => {
 router.put('/courses/single/:shortname', protectAdmin, (req, res) => {
     courses.findOne({shortname: req.params.shortname})
     .then(course => {
-        course.name = req.body.shortname;
-        course.regNo = req.body.fullname;
-        course.email = req.body.department;
-        course.department = req.body.coordinator;
+        course.shortname = req.body.shortname;
+        course.fullname = req.body.fullname;
+        course.department = req.body.department;
+        course.coordinator = req.body.coordinator;
         course.lecturers = req.body.lecturers;  // this will be an array
         course.students = req.body.students;  // this will be an array
         // hasExam field cannot be edited by the admin
@@ -987,7 +987,7 @@ router.post('/devices/single', protectAdmin, (req, res) => {
 // call to read all devices
 router.get('/devices/all', protectAdmin, (req, res) => {
     const req_body = req.body;
-    console.log('Request body: ' + req_body);
+    // console.log('Request body: ' + req_body);
 
     // const records = await admins.find(req_body);
     // console.log('Sending response: ' + records);

@@ -222,7 +222,7 @@ router.get('/students/self', protectStudent, (req, res) => {
 
 // API call to update self info
 router.put('/students/self', protectStudent, (req, res) => {
-    console.log(req.body.name);
+    // console.log(req.body.name);
     students.findById(req.student.id)
     .then(student => {  // can use req.student to optimize
         student.name = req.body.name;
