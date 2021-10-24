@@ -27,7 +27,11 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
-
+    <style>
+        section {
+            padding-bottom: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -56,6 +60,7 @@
                                 <ul>
                                     <li><a href="#student">Students' UI</a></li>
                                     <li><a href="#proctor">Proctors' UI</a></li>
+                                    <li><a href="#admin">Administrators' UI</a></li>
                                 </ul>
                             </li>
                             <li><a href="phase3.html">Backend Implementation</a></li>
@@ -98,30 +103,33 @@
 
                 <div class="row">
                     <div class="col-lg-6 order-1 order-lg-2 align-self-lg-center" data-aos="zoom-in" data-aos-delay="100">
-                        <div class="gallery-item" style="border-radius: 30px">
+                        <!-- <div class="gallery-item" style="border-radius: 30px">
                             <a href="assets/img/students_desktopapp/student.gif" class="gallery-lightbox" data-gall="gallery-item">
                                 <img src="assets/img/students_desktopapp/student.gif" alt="" class="img-fluid">
                             </a>
-                        </div>
+                        </div> -->
+                        <video width="100%" controls>
+                            <source src="assets/img/UI videos/student.mp4" type="video/mp4">
+                           
+                            Your browser does not support HTML video.
+                        </video>
                     </div>
                     <div class="col-lg-6 pt-4  " style="margin: auto;">
                         <p class="fst-italic">
-                            The student can create an account in the platform by registering to the service.
+                            The student can create an account in the platform by registering to the service. Once the students email is verified. He/she can log into the system where it will be directed to the home page. Within the desktop application, the student can do the following
+                            tasks,
+                            <br>
                             <ul>
-                                <li>The registering process will go through a verification step where an email will be sent with a verification code to the user</li>
-                                <li>Once the student verifies the account by entering the 6 digit code, he/she can log into the system where it will be directed to the home page. </li>
-                                <li>Within the desktop application, the student can do the following tasks,</li>
-                                <br>
-                                <ul>
-                                    <li>See the remaining time for the next exam</li>
-                                    <li>Test the camera, microphone and speaker before an exam</li>
-                                    <li>Connect to an examination room </li>
-                                    <li>In the examination room, student can see the proctor/(s), see warning messages and chat/talk with the proctor </li>
-                                    <li>See the examination schedule</li>
-                                    <li>See the courses the student is currently registered to</li>
-                                </ul>
-                                <br>
+                                <li>See the remaining time for the next exam</li>
+                                <li>Test the camera, microphone and speaker before an exam</li>
+                                <li>See the examination schedule</li>
+                                <li>See the course details</li>
+                                <li>Connect to an examination room </li>
+                                <li>In the examination room, student can see the proctor/(s) and chat/talk with the proctor </li>
+                                <li>See the courses the student is currently registered to</li>
                             </ul>
+                            <br>
+
                         </p>
 
 
@@ -129,21 +137,59 @@
                 </div>
 
             </div>
-
-            <div class="col-lg-6 " data-aos="zoom-in" style="display:block;margin-left: auto;margin-right: auto;">
-                <h3 style="text-align: center;">Want to try out our demonstration yourself?</h3>
-                <p class="fst-italic" style="text-align: center;"> Note : Since the backend is not implemented yet, you can enter any verification code for demonstration purposes.</p>
-                <div class="iframe-container" style="display:block;margin-left: auto;margin-right: auto;">
-
-                    <iframe class="responsive-iframe" src="https://framer.com/embed/Student-s-UI--euRdAekmYiS6NILvvT0B/Ah33nNjeB?highlights=0" allowfullscreen></iframe>
-
-                </div>
-            </div>
         </section>
 
 
     </section>
 
+
+    <!--=================Proctor UI==========================-->
+    <section id="admin" class="gallery">
+
+        <div class="container" data-aos="fade-up">
+            <div class="section-title">
+                <h2>User Interfaces</h2>
+                <p>Admins' Portal</p>
+            </div>
+        </div>
+        <section id="admin-ui-des" class="about">
+            <div class="container" data-aos="fade-up">
+
+                <div class="row">
+                    <div class="col-lg-6 order-1 order-lg-2 align-self-lg-center" data-aos="zoom-in" data-aos-delay="100">
+                        <!-- <div class="gallery-item" style="border-radius: 15px">
+                            <a href="assets/img/proctors_browserapp/proctorui.gif" class="gallery-lightbox" data-gall="gallery-item">
+                                <img src="assets/img/proctors_browserapp/proctorui.gif" alt="" class="img-fluid">
+                            </a>
+                        </div> -->
+                        <video width="100%" controls>
+                            <source src="assets/img/UI videos/admin.mp4" type="video/mp4">
+                           
+                            Your browser does not support HTML video.
+                        </video>
+                    </div>
+                    <div class="col-lg-6 pt-4  " style="margin: auto;">
+                        <p class="fst-italic">
+                            The admins account is created when the server is hosted. Admin can do following tasks,
+                            <br>
+                            <ul>
+                                <li>Add the proctors to the system</li>
+                                <li>Add students to the system </li>
+                                <li>Add courses to the system</li>
+                                <li>Delete above added data</li>
+                                <li>Add exam schedule to the system (Mastersheet)</li>
+                            </ul>
+                            <br>
+
+                        </p>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </section>
     <!--=================Proctor UI==========================-->
     <section id="proctor" class="gallery">
 
@@ -158,30 +204,32 @@
 
                 <div class="row">
                     <div class="col-lg-6 order-1 order-lg-2 align-self-lg-center" data-aos="zoom-in" data-aos-delay="100">
-                        <div class="gallery-item" style="border-radius: 15px">
+                        <!-- <div class="gallery-item" style="border-radius: 15px">
                             <a href="assets/img/proctors_browserapp/proctorui.gif" class="gallery-lightbox" data-gall="gallery-item">
                                 <img src="assets/img/proctors_browserapp/proctorui.gif" alt="" class="img-fluid">
                             </a>
-                        </div>
+                        </div> -->
+                        <video width="100%" controls>
+                            <source src="assets/img/UI videos/proctor.mp4" type="video/mp4">
+                           
+                            Your browser does not support HTML video.
+                        </video>
                     </div>
                     <div class="col-lg-6 pt-4  " style="margin: auto;">
                         <p class="fst-italic">
-                            The proctor can create an account in the platform by registering to the service.
+                            The proctor can create an account in the platform by registering to the service. Once the proctors account is verified, he/she can log into the system where it will be directed to the home page. Within the browser application, the proctor can do the following
+                            tasks,
+                            <br>
                             <ul>
-                                <li>The registering process will go through a verification step where an email will be sent with a verification code to the user</li>
-                                <li>Once the proctor verifies the account, he/she can log into the system where it will be directed to the home page. </li>
-                                <li>Within the browser application, the proctor can do the following tasks,</li>
-                                <br>
-                                <ul>
-                                    <li>Schedule examinations with appropriate meeting link</li>
-                                    <li>Check the examination schedule and edit them if necessary</li>
-                                    <li>Connect to an examination room </li>
-                                    <li>In the examination room, the proctor can examine the students closely, detect unauthorized behaviors, send broadcast messages and talk to students directly</li>
-                                    <li>Check the summary of the recent examinations proctored in the dashboard</li>
-                                    <li>Keep track of the relevant courses and details about their examinations</li>
-                                </ul>
-                                <br>
+                                <li>Check the examination schedule</li>
+                                <li>Connect to an examination room </li>
+                                <li>In the examination room, the proctor can examine the students closely, detect unauthorized behaviors, send broadcast messages and talk to students directly</li>
+                                <li>Check the summary of the recent examinations proctored in the dashboard</li>
+                                <li>Check the disconnections of the students</li>
+                                <li>Get the link to the saved videos of students</li>
                             </ul>
+                            <br>
+
                         </p>
 
 
@@ -189,20 +237,11 @@
                 </div>
 
             </div>
-
-            <div class="col-lg-8 " data-aos="zoom-in" style="display:block;margin-left: auto;margin-right: auto;">
-                <h3 style="text-align: center;">Want to try out our demonstration yourself?</h3>
-                <p class="fst-italic"> Note : Since the backend is not implemented yet, you can enter any verification code for demonstration purposes.</p>
-                <div class="iframe-container" style="display:block;margin-left: auto;margin-right: auto;">
-
-                    <iframe class="responsive-iframe" src="https://framer.com/embed/Proctor-s-UI--lbKYx9z8XOeXTbqX18aI/hNyVUPG7y?highlights=0" allowfullscreen></iframe>
-
-                </div>
-            </div>
         </section>
 
 
     </section>
+
 
     <!--=================End Of The Sections ==========================-->
 
