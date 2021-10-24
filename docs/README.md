@@ -41,7 +41,7 @@ However it could be challenging to manage these factors in an online environment
 ##### ***REMOTE PROCTORING DEVICE***
 We have come up with a single device which integrates the hardware and software components needed to conduct an examination in the currently implemented system, which will provide a seamless process for the proctors and students involved in an examination.
 
-![Prototype](./assets/img/prototype.gif)
+![Prototype](./assets/img/prototype2.gif)
 
 
 [//]: # (## Solution Architecture High level diagram + description)
