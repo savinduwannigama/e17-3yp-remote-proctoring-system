@@ -4,6 +4,8 @@ const app = require('../app');
 
 var auth = {};
 
+///////
+
 // before each request, create a user and log them in
 // beforeEach(async () => {
 //     // const hashedPassword = await bcrypt.hash("secret", 1);
