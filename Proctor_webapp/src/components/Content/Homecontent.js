@@ -86,7 +86,7 @@ function Renderer ()  {
       const utctime = new Date(starttime).toUTCString()
       const roomname = t["exam_room_name"];
       console.log(roomname)
-      if(difinhours>= -120){
+      if(difinhours>= -10){
       return(
         
         <Card sx={{width: "45%",color:"black",margin:"auto",marginBottom:"40px", backgroundColor:"#00666633",padding:"15px",fontSize:"15px",borderRadius:"32px", display:"inline"}}>
@@ -98,10 +98,10 @@ function Renderer ()  {
                   <Item> Start time: {utctime}</Item>
                   <Item>Duration: {t['exam_duration']} </Item>
                   <Item>Room name: {t["exam_room_name"]}</Item>
-                  {difinhours<=502 && 
+                  {difinhours>= -10 && difinhours<=400 && 
                      <Item sx={{textAlign:"center", fontSize:"18px",fontWeight:"bold"}}><Link to={{pathname:'/meeting',state:{roomname: roomname}}} className="nav-link" >Join Examination</Link> </Item>
                   }
-                  {difinhours>502 && 
+                  {difinhours>400 && 
                     <Item sx={{textAlign:"center",color:'#006666', fontWeight:"bold"}}>The link will be available 2 hours before the exam</Item>
                  
                   
