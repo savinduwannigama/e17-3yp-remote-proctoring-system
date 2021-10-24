@@ -7,7 +7,6 @@ const { dialog } = require('electron')
 const { google } = require('googleapis');
 const fs = require('fs');
 
-
 // Google drive api credentials
 const CLIENT_ID = '1030032301297-iu6nhih0fg4p7temv1b653egltob6n6r.apps.googleusercontent.com';
 const CLIENT_SECRET = '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';
@@ -27,18 +26,19 @@ function createWindow() {
         minimizable: false,
         maximizable: false,
         resizable: false,
-        movable: false,
+        //movable: false,
         icon: path.join(__dirname, "src/img/appicon.ico"),
 
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
             enableRemoteModule: true,
-            //devTools: true,
+            devTools: true,
             //devTools: false,
         }
     })
     mainWindow.setAlwaysOnTop(true, 'screen');
+    createFiles();
 
     // Main window close confirmation messege
     mainWindow.on('close', function(e) {
@@ -81,7 +81,7 @@ function createWindow() {
     mainWindow.loadFile('src/loginpage.html');
     // mainWindow.loadURL('https://connexa.space/')
     // Open the DevTools.
-    //mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 
     // Load pages
     ipc.on('Login', () => { mainWindow.loadFile('src/loginpage.html') })
@@ -171,4 +171,32 @@ async function uploadFile(event, file, folderpath) {
             errormsg: error.message,
         })
     }
+}
+
+//create required files if not exists
+function createFiles() {
+    const src = 'src'
+    const folder1 = "src/recordedVideo";
+    const folder2 = "src/json";
+    const file = "src/json/user_servers.json"
+
+    if (!fs.existsSync(src)) { //check if folder already exists
+        fs.mkdirSync(src); //creating folder
+    }
+
+    if (!fs.existsSync(folder1)) { //check if folder already exists
+        fs.mkdirSync(folder1); //creating folder
+    }
+    if (!fs.existsSync(folder2)) { //check if folder already exists
+        fs.mkdirSync(folder2); //creating folder
+    }
+    // Check if the file exists in the current directory.
+    fs.access(file, fs.constants.F_OK, (err) => {
+        if (err) {
+            fs.writeFile(file, '{}', function(err) {
+                if (err) throw err;
+                console.log('File is created successfully.');
+            })
+        }
+    });
 }
