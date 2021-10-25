@@ -7,10 +7,6 @@ repository-name: e17-3yp-remote-proctoring-system
 title: Remote Proctoring System
 ---
 
-[comment]: # "This is the standard layout for the project, but you can clean this and use your own template"
-[comment]: # ( [Testing](#testing))
-[comment]: # ( [Detailed budget](#detailed-budget))
-[comment]: # ([Conclusion](#conclusion))
 # REMOTE PROCTORING SYSTEM
 
 ---
@@ -41,36 +37,21 @@ However it could be challenging to manage these factors in an online environment
 ##### ***REMOTE PROCTORING DEVICE***
 We have come up with a single device which integrates the hardware and software components needed to conduct an examination in the currently implemented system, which will provide a seamless process for the proctors and students involved in an examination.
 
-![Prototype](./assets/img/prototype2.gif)
 
 
 [//]: # (## Solution Architecture High level diagram + description)
 
 ## BASIC FEATURES
 
+#### ***STUDENT'S UI***
+
+#### ***ADMINS'S UI***
+
 #### ***PROCTOR'S UI***
 
-|Get video/audio feed from multiple students |  Detect power failures from student’s side | Notify students about examinations|
-|:-------------------------:|:-------------------------:|:-------------------------:|
-|<img src="./assets/img/features/videoconference.png" width="200"/> | <img src="./assets/img/features/disconnetion.jpg" width="225" /> |<img src="./assets/img/features/notification.png" width="200" />|
-
-
-
-|One-on-one interaction with students |   Unauthorized activity detection|
-|:-------------------------:|:-------------------------:|
-|<img src="./assets/img/features/video-chat.png" width="200" />| <img src="./assets/img/features/unauthorized.png" width="200" />|
 
 #### ***REMOTE DEVICE***
 
-|Capture the video stream of the candidate’s environment |  Mountable on a table | Can directly talk only with the proctor|
-|:-------------------------:|:-------------------------:|:-------------------------:
-|<img src="./assets/img/features/streaming.png" width="200"/> | <img src="./assets/img/features/tripod.png" width="225" /> |<img src="./assets/img/features/call-forwarding.png" width="200" />
-
-
-
-|See the remaining time of the exam |Locally record the video stream locally incase of connection issues and upload later | Separate power supply unit to supply power incase of a power failure|
-|:-------------------------:|:-------------------------:|:-------------------------:|
-|<img src="./assets/img/features/chronometer.png" width="200" />| <img src="./assets/img/features/cloud-database.png" width="200" />| <img src="./assets/img/features/power-bank.png" width="200" />|
 
 ## SYSTEM OVERVIEW
 
