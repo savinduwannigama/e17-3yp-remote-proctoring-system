@@ -1,5 +1,6 @@
 var fs = require('fs');
-var files = fs.readdirSync('src/recordedVideo');
+var filepath = localStorage.getItem("documentPath") + "/Connexa/recordedVideo/"
+var files = fs.readdirSync(filepath);
 var list = document.getElementById('saved-files');
 
 const errorMsg = document.getElementById('errorMsg');
@@ -24,7 +25,7 @@ var btncount = btn.length;
 for (var i = 0; i < btncount; i += 1) {
     btn[i].onclick = function() {
         var video = document.getElementById(this.id);
-        fs.stat('src/recordedVideo/' + video.innerHTML, (err, stats) => {
+        fs.stat(filepath + video.innerHTML, (err, stats) => {
             console.log(stats)
             data[0].innerHTML = video.innerHTML;
             data[1].innerHTML = stats.birthtime;
@@ -83,7 +84,7 @@ function upload() {
             errorMsg.innerHTML = "Video Uploaded Successfully";
             uploadStatus.src = 'img/icons/success.png'
 
-            fs.unlink('src/recordedVideo/' + filename, function(err) {
+            fs.unlink(filepath + filename, function(err) {
                 console.log(err);
 
             });
