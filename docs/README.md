@@ -45,9 +45,21 @@ We have come up with a single device which integrates the hardware and software 
 
 #### ***STUDENT'S UI***
 
+
+https://user-images.githubusercontent.com/73728629/138657209-e3aa86d8-219f-4451-be80-c847ba2975cf.mp4
+
+
 #### ***ADMINS'S UI***
 
+
+https://user-images.githubusercontent.com/73728629/138657246-2625ba8d-5e1f-4238-82a9-e8800e614950.mp4
+
+
 #### ***PROCTOR'S UI***
+
+
+https://user-images.githubusercontent.com/73728629/138657261-dceedda0-a32f-422b-b10a-5e754c3209f1.mp4
+
 
 
 #### ***REMOTE DEVICE***
