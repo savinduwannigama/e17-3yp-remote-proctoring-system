@@ -56,6 +56,7 @@ video::-webkit-media-controls-panel {
     background-color: var(--sub-color);
     margin: 15px;
     border-radius: 15px;
+    border: 2px solid var(--sub-color)!important;
 }
 
 .body p {
@@ -102,6 +103,7 @@ video::-webkit-media-controls-panel {
     cursor: pointer;
     color: var(--font-color);
     background-color: var(--sub-color);
+    border-bottom: 2px solid var(--sub-color)!important;
 }
 
 .link:before {

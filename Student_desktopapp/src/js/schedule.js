@@ -21,7 +21,6 @@ if (navigator.onLine) {
 
         })
         .then((response) => {
-            console.log(response.data);
             examArray = response.data
             preloader.style.visibility = 'hidden'
             addEvents(examArray);
@@ -64,7 +63,7 @@ function createEvents() {
             sessionStorage.setItem('videoPath', examArray[id][0].recordedStudentVideosAt)
             timenow = new Date();
 
-            if (info.event.start - now > 3600000 * 24 * 30) {
+            if (info.event.start - now > 3600 * 1000 * 1 * 1) {
                 displayName.style.display = 'none';
                 joinbtn.style.display = 'none';
                 msg.innerHTML = "Link will be displayed one hour before the exam"
@@ -90,11 +89,13 @@ function createEvents() {
 function addEvents(array) {
     for (var i = 0; i < array.length; i++) {
         timenow = new Date();
+        timenow = timenow.getTime() - 1 * 3600 * 1000
         var examtime = new Date(array[i][1].startTime.split('Z')[0])
+        examtime = examtime.getTime()
         console.log(examtime)
-            //if (examtime > timenow) {
-        eventArray.push({ title: array[i][0].exam, start: array[i][1].startTime.split('Z')[0], id: i, allDay: false });
-        //}
+        if (examtime > timenow) {
+            eventArray.push({ title: array[i][0].exam, start: array[i][1].startTime.split('Z')[0], id: i, allDay: false });
+        }
     }
     createEvents();
 }

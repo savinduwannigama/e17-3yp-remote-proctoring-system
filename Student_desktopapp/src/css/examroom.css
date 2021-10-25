@@ -1,5 +1,6 @@
 body {
-    background-image: url('../img/icons/tile_background\ \(1\).png')
+    /* background-image: url('../img/icons/tile_background\ \(1\).png') */
+    background-color: rgb(153, 152, 152);
 }
 
 #download:disabled {

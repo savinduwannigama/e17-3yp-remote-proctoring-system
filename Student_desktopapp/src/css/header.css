@@ -5,6 +5,7 @@
 html,
 :root {
     --font-color: #002829;
+    --title-color: #26a8aa;
     --bg-color: white;
     --header-color: #26a8aa;
     --main-color1: rgba(85, 158, 221, 0.74);
@@ -13,17 +14,20 @@ html,
     --popup-bg-color: rgba(0, 0, 0, 0.7);
     --left-arrow: url("../img/icons/left-arrow.png");
     --list-menu: url("../img/icons/list.png");
+    --time-color: rgb(99, 99, 99);
     /* --background-tile: url('../img/icons/tile_background.png') */
 }
 
 [data-theme=dark] {
+    --title-color: rgb(33, 128, 141);
     --font-color: white;
     --bg-color: #002829;
-    --header-color: #1a6061;
+    --header-color: #0b3e3f;
     --main-color1: rgba(67, 121, 168, 0.74);
     --main-color2: rgba(86, 81, 160, 0.58);
-    --sub-color: rgba(18, 229, 233, 0.22);
+    --sub-color: rgba(38, 168, 170, 0.22);
     --popup-bg-color: rgba(255, 254, 254, 0.7);
+    --time-color: rgb(148, 148, 148);
     /* --background-tile: url('../img/icons/tile_background (1).png') */
 }
 
@@ -191,7 +195,7 @@ mark {
     display: table-cell;
     border-radius: 40px;
     letter-spacing: 1.25px;
-    background-color: rgba(38, 168, 170, 0.22);
+    background-color: var(--sub-color);
     /*border: 15px solid var(--bg-color);*/
 }
 
@@ -682,9 +686,9 @@ hr {
 }
 
 .popup h4 {
-    color: var(--header-color);
+    color: var(--title-color);
     font-weight: bold;
-    margin: 0 0 2px 2px;
+    margin: 2px 2px 10px 2px;
 }
 
 #popup table {
