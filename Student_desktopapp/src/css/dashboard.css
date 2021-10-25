@@ -4,6 +4,7 @@
     text-align: left;
     padding: 20px;
     width: 50%;
+    border: 2px solid var(--sub-color)!important;
 }
 
 .exams ul {
@@ -22,7 +23,7 @@
 }
 
 #recent-exams span {
-    color: rgb(99, 99, 99);
+    color: var(--time-color);
     padding: 5px;
 }
 
@@ -46,6 +47,7 @@
     text-align: left;
     padding: 20px;
     width: 50%;
+    border: 2px solid var(--sub-color)!important;
 }
 
 #sec-title-box p {

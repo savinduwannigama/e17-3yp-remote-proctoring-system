@@ -8,6 +8,7 @@ var add = document.getElementById('add')
 var cancle = document.getElementById('cancle')
 var serverSelectionbtn = document.getElementById('server-connection')
 var displayName = document.getElementById('display-server');
+var documentpath;
 var delItem;
 var selected;
 
@@ -25,40 +26,49 @@ serverSelectionbtn.addEventListener('click', () => {
     serverSelection.style.display = 'block'
 })
 
-
 const fs = require("fs");
-jsonReader("./src/json/user_servers.json", (err, customer) => {
-    if (err) {
-        console.log("Error reading file:", err);
-        return;
-    }
-    var servers = Object.keys(customer)
-    for (var i = 0; i < servers.length; i++) {
-        connections.innerHTML += `<div class='item'>
-       
-        <p class='serverinfo btn'>${servers[i]}</p>
-        <button class="delete"><i class='bi bi-trash-fill'></i></button>
-        <span>${customer[servers[i]]}</span>
-        </div>`;
-    }
-    delItem = document.querySelectorAll('.delete');
-    for (var i = 0; i < delItem.length; i++) {
-        delItem[i].onclick = function() {
-            this.parentNode.remove();
-            deleteItem(this.parentNode.childNodes[1].innerHTML);
-        }
-    }
 
-    selected = document.querySelectorAll('.serverinfo');
-    for (var i = 0; i < selected.length; i++) {
-        selected[i].onclick = function() {
-            localStorage.setItem('serverName', this.parentNode.childNodes[1].innerHTML);
-            localStorage.setItem('serverIP', this.parentNode.childNodes[5].innerHTML);
-            change();
-        }
-    }
+ipc.send("getDocumentPath")
 
-});
+ipc.on("documentPath", async(event, { documentPath }) => {
+    console.log(documentPath);
+    documentpath = documentPath
+    localStorage.setItem("documentPath", documentpath)
+    jsonReader(documentPath + "/Connexa/json/user_servers.json", (err, customer) => {
+        if (err) {
+            console.log("Error reading file:", err);
+            return;
+        }
+        var servers = Object.keys(customer)
+        for (var i = 0; i < servers.length; i++) {
+            connections.innerHTML += `<div class='item'>
+           
+            <p class='serverinfo btn'>${servers[i]}</p>
+            <button class="delete"><i class='bi bi-trash-fill'></i></button>
+            <span>${customer[servers[i]]}</span>
+            </div>`;
+        }
+        delItem = document.querySelectorAll('.delete');
+        for (var i = 0; i < delItem.length; i++) {
+            delItem[i].onclick = function() {
+                this.parentNode.remove();
+                deleteItem(this.parentNode.childNodes[1].innerHTML);
+            }
+        }
+
+        selected = document.querySelectorAll('.serverinfo');
+        for (var i = 0; i < selected.length; i++) {
+            selected[i].onclick = function() {
+                localStorage.setItem('serverName', this.parentNode.childNodes[1].innerHTML);
+                localStorage.setItem('serverIP', this.parentNode.childNodes[5].innerHTML);
+                change();
+            }
+        }
+
+    });
+})
+
+
 
 var serverdiv = document.getElementById("server-selection")
 
@@ -127,13 +137,13 @@ add.addEventListener('click', () => {
 
 
 function addItem(key, value) {
-    jsonReader("./src/json/user_servers.json", (err, customer) => {
+    jsonReader(documentpath + "/Connexa/json/user_servers.json", (err, customer) => {
         if (err) {
             console.log("Error reading file:", err);
             return;
         }
         customer[key] = value;
-        fs.writeFile("./src/json/user_servers.json", JSON.stringify(customer), err => {
+        fs.writeFile(documentpath + "/Connexa/json/user_servers.json", JSON.stringify(customer), err => {
             if (err) console.log("Error writing file:", err);
         });
     });
@@ -141,13 +151,13 @@ function addItem(key, value) {
 
 
 function deleteItem(key) {
-    jsonReader("./src/json/user_servers.json", (err, customer) => {
+    jsonReader(documentpath + "/Connexa/json/user_servers.json", (err, customer) => {
         if (err) {
             console.log("Error reading file:", err);
             return;
         }
         delete customer[key];
-        fs.writeFile("./src/json/user_servers.json", JSON.stringify(customer), err => {
+        fs.writeFile(documentpath + "/Connexa/json/user_servers.json", JSON.stringify(customer), err => {
             if (err) console.log("Error writing file:", err);
         });
     });

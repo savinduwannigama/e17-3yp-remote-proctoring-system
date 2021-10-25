@@ -32,7 +32,7 @@ const domain = 'meet.jit.si';
 const options = {
     roomName: roomName,
     width: 800,
-    height: 440,
+    height: 445,
     userInfo: {
         email: userEmail,
         displayName: displayName,
@@ -42,18 +42,17 @@ const options = {
         startWithVideoMuted: false,
         enableWelcomePage: false,
         prejoinPageEnabled: false,
-        enableNoisyMicDetection: false,
         //startSilent: true,
         //startAudioMuted: 2,
         toolbarButtons: ['camera', 'chat',
             'microphone', 'raisehand'
         ],
-        notifications: [],
+        notifications: ['toolbar.talkWhileMutedPopup', 'notify.mutedTitle'],
         disabledSounds: ['NOISY_AUDIO_INPUT_SOUND', 'PARTICIPANT_JOINED_SOUND', 'PARTICIPANT_LEFT_SOUND']
 
     },
     interfaceConfigOverwrite: {
-        TILE_VIEW_MAX_COLUMNS: 2,
+        // TILE_VIEW_MAX_COLUMNS: 2,
         DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
         APP_NAME: 'Connexa',
         DEFAULT_LOGO_URL: '',
@@ -70,7 +69,7 @@ const options = {
 let mediaRecorder;
 let recordedBlobs;
 
-const errorMsgElement = document.querySelector('span#errorMsg');
+const errorMsgElement = document.querySelector('p#errorMsg');
 const downloadButton = document.querySelector('button#download');
 
 
@@ -98,6 +97,7 @@ downloadButton.addEventListener('click', () => {
     mediaRecorder.resume();
     stopRecording();
     downloadButton.style.display = 'none';
+    errorMsgElement.innerHTML = "Please wait..."
     examdetails['endTime'] = date.format(new Date(), 'DD MMM YYYY HH-mm-ss');
 
 

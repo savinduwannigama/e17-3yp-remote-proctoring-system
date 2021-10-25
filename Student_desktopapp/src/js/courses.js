@@ -85,7 +85,7 @@ function findCourse() {
     ul = document.getElementById("cards");
     li = ul.getElementsByTagName('li');
 
-    if (!b) return;
+    //if (!b) return;
     // Loop through all list items, and hide those who don't match the search query
     for (i = 0; i < li.length; i++) {
         name = li[i].getElementsByTagName("p")[1];

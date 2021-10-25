@@ -10,7 +10,7 @@
     list-style: none;
     color: var(--font-color);
     padding: 2rem;
-    border-radius: 5px;
+    border-radius: 10px;
     text-align: center;
     text-transform: uppercase;
     cursor: pointer;
@@ -22,6 +22,7 @@
     margin: 20px;
     padding: 20px;
     min-height: 50px;
+    border: 2px solid var(--sub-color)!important;
 }
 
 .sortBtn {
